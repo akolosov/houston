@@ -1,0 +1,29 @@
+<h3>Известные решения <%= (params[:problem_id]? "для проблемы \""+Problem.find(params[:problem_id]).name+"\" "+(params[:server_id]? "для сервера\""+Server.find(params[:server_id]).name+"\"" : "") : "")%></h3>
+
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Имя</th>
+    <th>Описание</th>
+    <th>Проблема</th>
+    <th>Команда</th>
+    <th class="<%= ( (@current_user.has_role? :admin) ? 'span3' : 'span1' ) %>"></th>
+  </tr>
+
+<% @solutions.each do |solution| %>
+  <tr>
+    <td><%= solution.name %></td>
+    <td><%= solution.description %></td>
+    <td><%= link_to solution.problem.name, solutions_by_problem_path(solution.problem) %></td>
+    <td><%= solution.command.name %></td>
+    <td>
+      <div class="btn-group">
+        <%= link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution %>
+        <%= link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+
+<%= link_to 'Новое решение', (params[:problem_id]? solution_for_problem_path(Problem.find(params[:problem_id])) : new_solution_path), :class => 'btn btn-mini' if can? :manage, Solution  %>

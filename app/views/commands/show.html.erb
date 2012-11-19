@@ -1,0 +1,29 @@
+<p>
+  <b>Name:</b>
+  <%= @command.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @command.description %>
+</p>
+
+<p>
+  <b>Command:</b>
+  <%= @command.command %>
+</p>
+
+<p>
+  <b>With params:</b>
+  <%= @command.with_params %>
+</p>
+
+<p>
+  <b>Confirm:</b>
+  <%= @command.confirm %>
+</p>
+
+<div class='btn-group'>
+  <%= link_to 'Назад', commands_path, :class => 'btn btn-mini' if can? :read, @command  %>
+  <%= link_to 'Изменить', edit_command_path(@command), :class => 'btn btn-mini' if can? :manage, @command  %>
+</div>

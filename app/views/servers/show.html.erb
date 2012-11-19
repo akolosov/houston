@@ -1,0 +1,29 @@
+<p>
+  <b>Name:</b>
+  <%= @server.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @server.description %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @server.location %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @server.address %>
+</p>
+
+<p>
+  <b>Username:</b>
+  <%= @server.username %>
+</p>
+
+<div class='btn-group'>
+  <%= link_to 'Назад', servers_path, :class => 'btn btn-mini' if can? :read, @server  %>
+  <%= link_to 'Изменить', edit_server_path(@server), :class => 'btn btn-mini' if can? :manage, @server  %>
+</div>
