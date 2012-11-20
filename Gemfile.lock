@@ -173,7 +173,6 @@ DEPENDENCIES
   cancan
   coffee-rails
   erb2haml
-  haml
   haml-rails
   jquery-rails
   less-rails

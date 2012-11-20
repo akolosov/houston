@@ -22,8 +22,6 @@ gem 'rb-readline'
 
 gem 'simple_form'
 
-gem 'haml'
-
 gem 'haml-rails'
 
 group :assets do
