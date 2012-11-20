@@ -47,10 +47,6 @@ class SolutionsController < ApplicationController
   def new
     @solution = Solution.new
 
-    if (params[:problem_id]) 
-      @solution.problem = Problem.find(params[:problem_id])
-    end
-   
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @solution }

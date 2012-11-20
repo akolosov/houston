@@ -18,6 +18,8 @@ Houston::Application.routes.draw do
 
   resources :solutions
 
+  resources :problem_solutions
+
   resources :welcome do
     member do
       get 'denied'
@@ -31,24 +33,24 @@ Houston::Application.routes.draw do
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
 
-  match 'servers/:server_id/commands' => 'server_commands#index', :as => :commands_by_server
-  match 'servers/:server_id/problems' => 'server_problems#index', :as => :problems_by_server
-  match 'servers/:server_id/add_problem' => 'server_problems#new', :as => :problem_for_server
-  match 'servers/:server_id/edit_problem/:id' => 'server_problems#edit', :as => :edit_problem_for_server
-  match 'servers/:server_id/add_command' => 'server_commands#new', :as => :command_for_server
-  match 'servers/:server_id/edit_command/:id' => 'server_commands#edit', :as => :edit_command_for_server
-  match 'servers/:server_id/problems/:problem_id/solutions' => 'solutions#index', :as => :solutions_for_problem_by_server
-  match 'servers/:server_id/problems/:problem_id/solutions/:id/run' => 'solutions#run', :as => :run_problem_solution
-  match 'servers/:server_id/problems/:id/run' => 'problems#run', :as => :run_problem_solutions_for_server
-  match 'servers/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
+  match 'server/:server_id/commands' => 'server_commands#index', :as => :commands_by_server
+  match 'server/:server_id/problems' => 'server_problems#index', :as => :problems_by_server
+  match 'server/:server_id/add_problem' => 'server_problems#new', :as => :problem_for_server
+  match 'server/:server_id/edit_problem/:id' => 'server_problems#edit', :as => :edit_problem_for_server
+  match 'server/:server_id/add_command' => 'server_commands#new', :as => :command_for_server
+  match 'server/:server_id/edit_command/:id' => 'server_commands#edit', :as => :edit_command_for_server
+  match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_for_problem_by_server
+  match 'server/:server_id/problem/:problem_id/solution/:id/run' => 'problem_solutions#run', :as => :run_problem_solution
+  match 'server/:server_id/problem/:id/run' => 'problems#run', :as => :run_problem_solutions_for_server
+  match 'server/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
 
-  match 'commands/:id/run' => 'commands#run', :as => :run_command
-  match 'solutions/:id/run' => 'solutions#run', :as => :run_solution
-  match 'problems/:problem_id/solutions/:id/run' => 'solutions#run', :as => :run_solution_for_problem
-  match 'problems/:id/run' => 'problems#run', :as => :run_problem_solutions
+  match 'command/:id/run' => 'commands#run', :as => :run_command
+  match 'solution/:id/run' => 'problem_solutions#run', :as => :run_solution
+  match 'problem/:problem_id/solution/:id/run' => 'problem_solutions#run', :as => :run_solution_for_problem
+  match 'problem/:id/run' => 'problems#run', :as => :run_problem_solutions
 
-  match 'problems/:problem_id/solutions' => 'solutions#index', :as => :solutions_by_problem
-  match 'problems/:problem_id/add_solution' => 'solutions#new', :as => :solution_for_problem
+  match 'problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_by_problem
+  match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

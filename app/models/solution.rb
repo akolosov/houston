@@ -1,12 +1,14 @@
 class Solution < ActiveRecord::Base
   resourcify
 
-  belongs_to :problem
   belongs_to :command
 
-  attr_accessible :problem_id, :command_id, :problem, :command, :description, :name
+  has_many :problem_solutions
+  has_many :problems, :through => :problem_solutions
 
-  validates :problem, :presence => true
+  attr_accessible :command_id, :command, :description, :name
+
+  validates :name, :description, :presence => true
 
   def servers
   end

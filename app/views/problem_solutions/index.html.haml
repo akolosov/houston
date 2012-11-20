@@ -1,0 +1,23 @@
+%h1 Listing problem_solutions
+
+%table
+  %tr
+    %th Problem
+    %th Solution
+    %th Params
+    %th
+    %th
+    %th
+
+  - @problem_solutions.each do |problem_solution|
+    %tr
+      %td= problem_solution.problem
+      %td= problem_solution.solution
+      %td= problem_solution.params
+      %td= link_to 'Show', problem_solution
+      %td= link_to 'Edit', edit_problem_solution_path(problem_solution)
+      %td= link_to 'Destroy', problem_solution, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Problem solution', new_problem_solution_path

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121119100134) do
+ActiveRecord::Schema.define(:version => 20121120173651) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(:version => 20121119100134) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "problem_solutions", :force => true do |t|
+    t.integer  "problem_id"
+    t.integer  "solution_id"
+    t.string   "params"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "problem_solutions", ["problem_id"], :name => "index_problem_solutions_on_problem_id"
+  add_index "problem_solutions", ["solution_id"], :name => "index_problem_solutions_on_solution_id"
 
   create_table "problems", :force => true do |t|
     t.string   "name"
@@ -106,14 +117,12 @@ ActiveRecord::Schema.define(:version => 20121119100134) do
   create_table "solutions", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "problem_id"
     t.integer  "command_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
   add_index "solutions", ["command_id"], :name => "index_solutions_on_command_id"
-  add_index "solutions", ["problem_id"], :name => "index_solutions_on_problem_id"
 
   create_table "users", :force => true do |t|
     t.string   "username",                                       :null => false

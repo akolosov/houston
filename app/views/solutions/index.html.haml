@@ -4,14 +4,12 @@
   %tr
     %th Имя
     %th Описание
-    %th Проблема
     %th Команда
     %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
   - @solutions.each do |solution|
     %tr
       %td= solution.name
       %td= solution.description
-      %td= link_to solution.problem.name, solutions_by_problem_path(solution.problem)
       %td= solution.command.name
       %td
         .btn-group

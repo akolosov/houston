@@ -10,6 +10,9 @@ class Problem < ActiveRecord::Base
   has_many :server_problems
   has_many :servers, :through => :server_problems
 
+  has_many :problem_solutions
+  has_many :solutions, :through => :problem_solutions
+
   def commands
   end
 end

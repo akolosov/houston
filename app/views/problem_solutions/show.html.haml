@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Problem:
+  = @problem_solution.problem
+%p
+  %b Solution:
+  = @problem_solution.solution
+%p
+  %b Params:
+  = @problem_solution.params
+
+= link_to 'Edit', edit_problem_solution_path(@problem_solution)
+\|
+= link_to 'Back', problem_solutions_path
