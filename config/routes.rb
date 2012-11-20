@@ -40,7 +40,7 @@ Houston::Application.routes.draw do
   match 'servers/:server_id/problems/:problem_id/solutions' => 'solutions#index', :as => :solutions_for_problem_by_server
   match 'servers/:server_id/problems/:problem_id/solutions/:id/run' => 'solutions#run', :as => :run_problem_solution
   match 'servers/:server_id/problems/:id/run' => 'problems#run', :as => :run_problem_solutions_for_server
-  match 'servers/:server_id/run/:id' => 'server_commands#run', :as => :run_command_on_server
+  match 'servers/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
 
   match 'commands/:id/run' => 'commands#run', :as => :run_command
   match 'solutions/:id/run' => 'solutions#run', :as => :run_solution

@@ -4,7 +4,7 @@ class ProblemsController < ApplicationController
 
   load_and_authorize_resource
   
-   # GET /solutions/run
+  # GET /solutions/run
   # GET /solutions/run.json
   def run
     @problem = Problem.find(params[:id])

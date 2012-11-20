@@ -6,7 +6,7 @@
     %th Команда
     %th Требуются параметры
     %th Требуется подтверждение
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span2' : 'span0' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
   - @commands.each do |command|
     %tr
       %td= command.name
@@ -18,4 +18,5 @@
         .btn-group
           = link_to 'Изменить', edit_command_path(command), :class => 'btn btn-mini' if can? :manage, command
           = link_to 'Удалить', command, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, command
+          = link_to 'Выполнить', run_command_path(command), :class => 'btn btn-mini' if can? :read, command
 = link_to 'Новая команда', new_command_path, :class => 'btn btn-mini' if can? :manage, Command

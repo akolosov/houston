@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :prepare_for_mobile
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] =  "Недостаточно прав доступа! Попробуйте авторизоваться!" #exception.message
+    flash[:error] =  "Недостаточно прав доступа!" #exception.message
     if !current_user
       redirect_to login_url
     else

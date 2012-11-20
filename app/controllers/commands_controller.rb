@@ -7,9 +7,10 @@ class CommandsController < ApplicationController
   # GET /commands/run
   # GET /commands/run.json
   def run
-    if (params[:command_id]) 
-      if (params[:server_id]) 
-      end
+    @command = Command.find(params[:id])
+
+    if (params[:server_id]) 
+      @server = Server.find(params[:server_id])
     end
   end
 
