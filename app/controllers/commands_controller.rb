@@ -4,6 +4,15 @@ class CommandsController < ApplicationController
 
   load_and_authorize_resource
 
+  # GET /commands/run
+  # GET /commands/run.json
+  def run
+    if (params[:command_id]) 
+      if (params[:server_id]) 
+      end
+    end
+  end
+
   # GET /commands
   # GET /commands.json
   def index

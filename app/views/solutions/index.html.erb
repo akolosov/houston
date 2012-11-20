@@ -19,6 +19,7 @@
       <div class="btn-group">
         <%= link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution %>
         <%= link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution %>
+        <%= link_to 'Решить', run_solution_path((params[:server_id] ? Server.find(params[:server_id]) : Server.first), solution.problem, solution), :class => 'btn btn-mini' if can? :read, solution %>
       </div>
     </td>
   </tr>

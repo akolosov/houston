@@ -4,6 +4,17 @@ class SolutionsController < ApplicationController
 
   load_and_authorize_resource
 
+  # GET /solutions/run
+  # GET /solutions/run.json
+  def run
+    if (params[:solution_id]) 
+      if (params[:problem_id]) 
+      end
+      if (params[:server_id]) 
+      end
+    end
+  end
+
   # GET /solutions
   # GET /solutions.json
   def index

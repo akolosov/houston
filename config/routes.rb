@@ -36,6 +36,10 @@ Houston::Application.routes.draw do
   match 'servers/:server_id/add_problem' => 'server_problems#new', :as => :problem_for_server
   match 'servers/:server_id/add_command' => 'server_commands#new', :as => :command_for_server
   match 'servers/:server_id/problems/:problem_id/solutions' => 'solutions#index', :as => :solutions_for_problem_by_server
+  match 'servers/:server_id/problems/:problem_id/solutions/:solution_id/run' => 'solutions#run', :as => :run_solution
+  match 'servers/:server_id/commands/:command_id/run' => 'commands#run', :as => :run_command_on_server
+
+  match 'commands/:command_id/run' => 'commands#run', :as => :run_command
 
   match 'problems/:problem_id/solutions' => 'solutions#index', :as => :solutions_by_problem
   match 'problems/:problem_id/add_solution' => 'solutions#new', :as => :solution_for_problem

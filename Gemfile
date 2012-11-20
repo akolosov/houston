@@ -26,11 +26,12 @@ group :assets do
   gem 'therubyracer'
   gem 'uglifier'
   gem 'less-rails'
+  gem 'haml-rails'
   gem 'coffee-rails'
 end
 
 group :development, :test do
-  gem "test-unit"
+  gem "erb2haml"
   gem "rspec"
   gem 'rspec-rails'
 end

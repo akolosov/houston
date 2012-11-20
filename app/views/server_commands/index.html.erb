@@ -17,6 +17,11 @@
       <div class="btn-group">
         <%= link_to 'Изменить', edit_server_command_path(server_command), :class => 'btn btn-mini' if can? :manage, server_command %>
         <%= link_to 'Удалить', server_command, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, server_command %>
+        <% if (params[:server_id]) %>
+          <%= link_to 'Выполнить', run_command_on_server_path(server_command.server, server_command.command), :class => 'btn btn-mini' if can? :read, server_command %>
+        <% else %>
+          <%= link_to 'Выполнить', run_command_path(server_command.command), :class => 'btn btn-mini' if can? :read, server_command %>
+        <% end %>
       </div>
     </td>
   </tr>
