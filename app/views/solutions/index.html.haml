@@ -17,5 +17,6 @@
         .btn-group
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
           = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
-          = link_to 'Решить', run_solution_path((params[:server_id] ? Server.find(params[:server_id]) : Server.first), solution.problem, solution), :class => 'btn btn-mini' if can? :read, solution
+          - if solution.command
+            = link_to 'Решить', (params[:server_id] ? run_problem_solution_path(Server.find(params[:server_id]), solution.problem, solution) : (params[:problem_id] ? run_solution_for_problem_path(solution.problem, solution) : run_solution_path(solution))), :class => 'btn btn-mini' if can? :read, solution
 = link_to 'Новое решение', (params[:problem_id]? solution_for_problem_path(Problem.find(params[:problem_id])) : new_solution_path), :class => 'btn btn-mini' if can? :manage, Solution

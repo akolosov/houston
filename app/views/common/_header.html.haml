@@ -14,7 +14,7 @@
           .btn-group.pull-right{:style => "margin: 8px !important; "}
             = link_to glyph(:user)+" Профиль", edit_user_path(current_user), :class => "btn btn-small"
             = link_to glyph(:off)+" Выход", :logout, :class => "btn btn-small"
-          %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 5px; margin-bottom: -5px; "}
+          %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 6px; margin-bottom: -5px; "}
             .input-append
               %input.span2.search-query{:name => "query", :type => "text", :value => params[:query]}/
               %button.btn{:type => "submit"} Поиск

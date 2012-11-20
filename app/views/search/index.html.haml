@@ -20,8 +20,7 @@
           = link_to 'Команды ('+server.commands.count.to_s+')', commands_by_server_path(server), :class => 'btn btn-mini' if can? :manage, server
           = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, server
-%br/
-%br/
+%hr
 - if (@current_user.has_role? :admin)
   %h3 Список команд
   %table.table.table-striped.table-bordered.table-condensed
@@ -43,8 +42,7 @@
           .btn-group
             = link_to 'Изменить', edit_command_path(command), :class => 'btn btn-mini' if can? :manage, command
             = link_to 'Удалить', command, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, command
-  %br/
-  %br/
+  %hr
 %h3 Известные проблемы
 %table.table.table-striped.table-bordered.table-condensed
   %tr
@@ -60,8 +58,7 @@
           = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
           = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
           = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
-%br/
-%br/
+%hr
 %h3 Известные решения
 %table.table.table-striped.table-bordered.table-condensed
   %tr
@@ -80,3 +77,5 @@
         .btn-group
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
           = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
+          - if solution.command
+            = link_to 'Решить', run_solution_path(solution), :class => 'btn btn-mini' if can? :read, solution

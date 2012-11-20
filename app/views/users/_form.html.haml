@@ -2,11 +2,11 @@
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :username, :input_html => { :class => 'form-input' }
+    = f.input :username, :label => "Имя", :input_html => { :class => 'form-input' }
     = f.input :email, :input_html => { :class => 'form-input' }
-    = f.input :password, :input_html => { :class => 'form-input' }
-    = f.input :password_confirmation, :input_html => { :class => 'form-input' }
-    = f.association :roles, :input_html => { :class => 'form-input' } if current_user.has_role? :admin
+    = f.input :password, :label => "Пароль", :input_html => { :class => 'form-input' }
+    = f.input :password_confirmation, :label => "Подтверждение", :input_html => { :class => 'form-input' }
+    = f.association :roles, :label => "Роли", :input_html => { :class => 'form-input' } if current_user.has_role? :admin
   .form-actions
     = f.submit @button_title, :class => "btn"
     = link_to 'Отмена', users_path, :class => 'btn'

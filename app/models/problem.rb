@@ -7,4 +7,7 @@ class Problem < ActiveRecord::Base
 
   has_many :server_problems
   has_many :servers, :through => :server_problems
+
+  def commands
+  end
 end

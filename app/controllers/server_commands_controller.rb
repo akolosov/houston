@@ -4,6 +4,12 @@ class ServerCommandsController < ApplicationController
 
   load_and_authorize_resource
 
+  # GET /server_commands/run
+  # GET /server_commands/run.json
+  def run
+    @server_command = ServerCommand.find(params[:id])
+  end
+
   # GET /server_commands
   # GET /server_commands.json
   def index

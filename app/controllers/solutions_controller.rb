@@ -1,5 +1,7 @@
 # encoding: utf-8
 class SolutionsController < ApplicationController
+  helper_method :run_command
+
   skip_before_filter :require_login
 
   load_and_authorize_resource
@@ -7,11 +9,10 @@ class SolutionsController < ApplicationController
   # GET /solutions/run
   # GET /solutions/run.json
   def run
-    if (params[:solution_id]) 
-      if (params[:problem_id]) 
-      end
-      if (params[:server_id]) 
-      end
+    @solution = Solution.find(params[:id])
+
+    if (params[:server_id]) 
+      @server = Server.find(params[:server_id])
     end
   end
 

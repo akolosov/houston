@@ -1,0 +1,19 @@
+:css
+  div.controls select {
+    width: 98%;
+  }
+
+= simple_form_for @solution, :html => { :method => 'get', :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= "Выполнить решение \""+@solution.name+"\" для проблемы \""+@solution.problem.name+"\" "+(@server ? "на сервере \""+@server.name+"\"" : "")
+  .form-inputs
+    - if !@server
+      = f.input :servers, :label => "Сервер" do
+        = f.select :servers, Server.where("id in (select server_id from server_problems where problem_id = #{@solution.problem_id})").map { |s| [s.name+" ("+s.address+")", s.id] }, :include_blank => false
+
+    - if @solution.command.with_params
+      = f.input :params, :label => "Параметры", :input_html => { :class => 'form-input' }
+
+  .form-actions
+    = f.submit "Выполнить команду", :class => "btn"
+    = link_to 'Отмена', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : solutions_path), :class => "btn"

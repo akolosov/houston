@@ -3,7 +3,7 @@
   %tr
     %th Имя
     %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )}
   - @problems.each do |problem|
     %tr
       %td= problem.name
@@ -13,4 +13,5 @@
           = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
           = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
           = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
+          = link_to 'Решить ('+problem.solutions.count.to_s+')', run_problem_solutions_path(problem), :class => 'btn btn-mini' if can? :read, problem
 = link_to 'Новая проблема', new_problem_path, :class => 'btn btn-mini' if can? :manage, Problem
