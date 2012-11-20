@@ -1,0 +1,9 @@
+%p
+  %b Server:
+  = @server_problem.server.name
+%p
+  %b Problem:
+  = @server_problem.problem.name
+.btn-group
+  = link_to 'Назад', server_problems_path, :class => 'btn btn-mini' if can? :read, @server_problem
+  = link_to 'Изменить', edit_server_problem_path(@server_problem), :class => 'btn btn-mini' if can? :manage, @server_problem

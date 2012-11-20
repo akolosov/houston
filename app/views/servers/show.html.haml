@@ -1,0 +1,18 @@
+%p
+  %b Name:
+  = @server.name
+%p
+  %b Description:
+  = @server.description
+%p
+  %b Location:
+  = @server.location
+%p
+  %b Address:
+  = @server.address
+%p
+  %b Username:
+  = @server.username
+.btn-group
+  = link_to 'Назад', servers_path, :class => 'btn btn-mini' if can? :read, @server
+  = link_to 'Изменить', edit_server_path(@server), :class => 'btn btn-mini' if can? :manage, @server

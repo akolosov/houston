@@ -1,0 +1,23 @@
+%h3 Список серверов
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Имя
+    %th Описание
+    %th Местоположение
+    %th IP-адрес/DNS-имя
+    %th Пользователь
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )}
+  - @servers.each do |server|
+    %tr
+      %td= server.name
+      %td= server.description
+      %td= server.location
+      %td= server.address
+      %td= server.username
+      %td
+        .btn-group
+          = link_to 'Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
+          = link_to 'Команды ('+server.commands.count.to_s+')', commands_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
+          = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
+          = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, server
+= link_to 'Новый сервер', new_server_path, :class => 'btn btn-mini' if can? :manage, Server

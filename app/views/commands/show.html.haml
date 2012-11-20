@@ -1,0 +1,18 @@
+%p
+  %b Name:
+  = @command.name
+%p
+  %b Description:
+  = @command.description
+%p
+  %b Command:
+  = @command.command
+%p
+  %b With params:
+  = @command.with_params
+%p
+  %b Confirm:
+  = @command.confirm
+.btn-group
+  = link_to 'Назад', commands_path, :class => 'btn btn-mini' if can? :read, @command
+  = link_to 'Изменить', edit_command_path(@command), :class => 'btn btn-mini' if can? :manage, @command

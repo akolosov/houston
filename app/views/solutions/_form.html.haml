@@ -1,0 +1,11 @@
+= simple_form_for @solution, :html => { :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    = f.association :problem, :input_html => { :class => 'form-input' }
+    = f.input :name, :input_html => { :class => 'form-input' }
+    = f.input :description, :input_html => { :class => 'form-input' }
+    = f.association :command, :input_html => { :class => 'form-input' }
+  .form-actions
+    = f.submit @button_title, :class => "btn"
+    = link_to 'Отмена', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : solutions_path), :class => "btn"

@@ -1,0 +1,12 @@
+= simple_form_for @server, :html => { :class => 'form-horizontal form' }  do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    = f.input :name, :input_html => { :class => 'form-input' }
+    = f.input :description, :input_html => { :class => 'form-input' }
+    = f.input :location, :input_html => { :class => 'form-input' }
+    = f.input :address, :input_html => { :class => 'form-input' }
+    = f.input :username, :input_html => { :class => 'form-input' }
+  .form-actions
+    = f.submit @button_title, :class => "btn"
+    = link_to 'Отмена', servers_path, :class => "btn"

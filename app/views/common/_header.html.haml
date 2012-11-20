@@ -1,0 +1,22 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.brand{:href => "/", :rel => "tooltip", :title => "У нас проблема!"} Хьюстон
+      .nav-collapse
+        %ul.nav
+      / /.nav-collapse
+      %p.navbar-text
+        - if current_user
+          .btn-group.pull-right{:style => "margin: 8px !important; "}
+            = link_to glyph(:user)+" Профиль", edit_user_path(current_user), :class => "btn btn-small"
+            = link_to glyph(:off)+" Выход", :logout, :class => "btn btn-small"
+          %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 5px; margin-bottom: -5px; "}
+            .input-append
+              %input.span2.search-query{:name => "query", :type => "text", :value => params[:query]}/
+              %button.btn{:type => "submit"} Поиск
+        - else
+          = link_to glyph(:lock)+'Вход', :login, :class => "btn btn-mini"

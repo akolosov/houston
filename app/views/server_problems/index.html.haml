@@ -1,0 +1,18 @@
+%h3
+  Известные проблемы #{(params[:server_id]? "для сервера\""+Server.find(params[:server_id]).name+"\"" : "")}
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Сервер
+    %th Проблема
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+  - @server_problems.each do |server_problem|
+    %tr
+      %td= server_problem.server.name
+      %td= server_problem.problem.name
+      %td
+        .btn-group
+          = link_to 'Изменить', edit_server_problem_path(server_problem), :class => 'btn btn-mini' if can? :manage, server_problem
+          = link_to 'Удалить', server_problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, server_problem
+          = link_to 'Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), :class => 'btn btn-mini' if can? :read, server_problem
+%br/
+= link_to 'Новая проблема для сервера', (params[:server_id] ? problem_for_server_path(Server.find(params[:server_id])) : new_server_problem_path), :class => 'btn btn-mini' if can? :manage, ServerProblem

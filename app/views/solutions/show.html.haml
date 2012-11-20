@@ -1,0 +1,15 @@
+%p
+  %b Name:
+  = @solution.name
+%p
+  %b Description:
+  = @solution.description
+%p
+  %b Problem:
+  = @solution.problem
+%p
+  %b Command:
+  = @solution.command
+.btn-group
+  = link_to 'Назад', solutions_path, :class => 'btn btn-mini' if can? :read, @solution
+  = link_to 'Изменить', edit_solution_path(@solution), :class => 'btn btn-mini' if can? :manage, @solution

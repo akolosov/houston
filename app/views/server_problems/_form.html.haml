@@ -1,0 +1,9 @@
+= simple_form_for @server_problem, :html => { :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    = f.association :server, :input_html => { :class => 'form-input' }
+    = f.association :problem, :input_html => { :class => 'form-input' }
+  .form-actions
+    = f.submit @button_title, :class => "btn"
+    = link_to 'Отмена', server_problems_path, :class => "btn"

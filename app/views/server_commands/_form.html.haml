@@ -1,0 +1,10 @@
+= simple_form_for @server_command, :html => { :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    = f.association :server, :input_html => { :class => 'form-input' }
+    = f.association :command, :input_html => { :class => 'form-input' }
+    = f.input :params, :input_html => { :class => 'form-input' }
+  .form-actions
+    = f.submit @button_title, :class => "btn"
+    = link_to 'Отмена', (params[:server_id]? command_for_server_path(Server.find(params[:server_id])) : server_commands_path), :class => 'btn'
