@@ -24,11 +24,13 @@ gem 'simple_form'
 
 gem 'haml-rails'
 
+gem 'less-rails'
+
+gem 'coffee-rails'
+
 group :assets do
   gem 'therubyracer'
   gem 'uglifier'
-  gem 'less-rails'
-  gem 'coffee-rails'
 end
 
 group :development, :test do
