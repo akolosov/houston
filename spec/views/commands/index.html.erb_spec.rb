@@ -7,16 +7,12 @@ describe "commands/index" do
         :name => "Name",
         :description => "MyText",
         :command => "Command",
-        :params => "Params",
-        :with_params => false,
         :confirm => false
       ),
       stub_model(Command,
         :name => "Name",
         :description => "MyText",
         :command => "Command",
-        :params => "Params",
-        :with_params => false,
         :confirm => false
       )
     ])
@@ -28,8 +24,6 @@ describe "commands/index" do
     assert_select "tr>td", :text => "Name".to_s, :count => 2
     assert_select "tr>td", :text => "MyText".to_s, :count => 2
     assert_select "tr>td", :text => "Command".to_s, :count => 2
-    assert_select "tr>td", :text => "Params".to_s, :count => 2
-    assert_select "tr>td", :text => false.to_s, :count => 2
     assert_select "tr>td", :text => false.to_s, :count => 2
   end
 end

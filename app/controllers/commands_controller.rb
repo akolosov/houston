@@ -4,6 +4,12 @@ class CommandsController < ApplicationController
 
   load_and_authorize_resource
 
+  # GET /commands/execute
+  def execute
+    @command = Command.find(params[:command][:id])
+    @server = Server.find(params[:command][:server_id])
+  end
+
   # GET /commands/run
   # GET /commands/run.json
   def run
@@ -11,7 +17,19 @@ class CommandsController < ApplicationController
 
     if (params[:server_id]) 
       @server = Server.find(params[:server_id])
+      if ServerCommand.command_for_server(@command, @server)
+        @params = ServerCommand.command_for_server(@command, @server).params
+      else
+        @params = ""
+      end
+    else
+      if ServerCommand.one_command(@command)
+        @params = ServerCommand.one_command(@command).params
+      else
+        @params = ""
+      end
     end
+
   end
 
   # GET /commands

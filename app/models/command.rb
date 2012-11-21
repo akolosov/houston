@@ -1,13 +1,12 @@
 class Command < ActiveRecord::Base
   resourcify
 
-  attr_accessible :command, :confirm, :description, :name, :with_params
+  attr_accessible :command, :confirm, :description, :name, :params, :server_id
 
   has_many :server_commands
   has_many :servers, :through => :server_commands
 
-  def params
-  end
+  attr :params, :server_id
 
   def self.commands_for_problem(problem)
     where("id in (select command_id from server_commands where server_id in (select server_id from server_problems where problem_id = #{problem.id}))")

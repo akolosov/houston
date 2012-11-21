@@ -4,7 +4,6 @@ class CreateCommands < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.string :command
-      t.boolean :with_params
       t.boolean :confirm
 
       t.timestamps

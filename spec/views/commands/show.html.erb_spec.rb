@@ -6,8 +6,6 @@ describe "commands/show" do
       :name => "Name",
       :description => "MyText",
       :command => "Command",
-      :params => "Params",
-      :with_params => false,
       :confirm => false
     ))
   end
@@ -18,8 +16,6 @@ describe "commands/show" do
     rendered.should match(/Name/)
     rendered.should match(/MyText/)
     rendered.should match(/Command/)
-    rendered.should match(/Params/)
-    rendered.should match(/false/)
     rendered.should match(/false/)
   end
 end

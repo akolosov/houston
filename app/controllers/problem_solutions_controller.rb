@@ -2,9 +2,15 @@ class ProblemSolutionsController < ApplicationController
   skip_before_filter :require_login
 
   load_and_authorize_resource
+
+  # GET /problem_solutions/execute
+  def execute
+    @problem_solution = ProblemSolution.find(params[:problem_solution][:id])
+    @command = Command.find(params[:problem_solution][:command_id])
+    @server = Server.find(params[:problem_solution][:server_id])
+  end
   
-  # GET /problems/run
-  # GET /problems/run.json
+  # GET /problem_solutions/run
   def run
     if (params[:id])
       @problem_solution = ProblemSolution.find(params[:id])
@@ -22,6 +28,17 @@ class ProblemSolutionsController < ApplicationController
 
     if (params[:server_id]) 
       @server = Server.find(params[:server_id])
+      if ServerCommand.command_for_server(@problem_solution.solution.command, @server)
+        @params = ServerCommand.command_for_server(@problem_solution.solution.command, @server).params
+      else
+        @params = ""
+      end
+    else
+      if ServerCommand.one_command(@problem_solution.solution.command)
+        @params = ServerCommand.one_command(@problem_solution.solution.command).params
+      else
+        @params = ""
+      end
     end
   end
 

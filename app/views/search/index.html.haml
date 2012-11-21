@@ -6,7 +6,7 @@
     %th Местоположение
     %th IP-адрес/DNS-имя
     %th Пользователь
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )}
   - @servers.each do |server|
     %tr
       %td= server.name
@@ -17,7 +17,7 @@
       %td
         .btn-group
           = link_to 'Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
-          = link_to 'Команды ('+server.commands.count.to_s+')', commands_by_server_path(server), :class => 'btn btn-mini' if can? :manage, server
+          = link_to 'Команды ('+server.commands.count.to_s+')', commands_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, server
 %hr
@@ -28,20 +28,19 @@
       %th Имя
       %th Описание
       %th Команда
-      %th Требуются параметры
       %th Требуется подтверждение
-      %th{:class => ( (@current_user.has_role? :admin) ? 'span2' : 'span0' )}
+      %th
     - @commands.each do |command|
       %tr
         %td= command.name
         %td= command.description
         %td= command.command
-        %td= command.with_params
         %td= command.confirm
         %td
           .btn-group
             = link_to 'Изменить', edit_command_path(command), :class => 'btn btn-mini' if can? :manage, command
             = link_to 'Удалить', command, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, command
+            = link_to 'Выполнить', run_command_path(command), :class => 'btn btn-mini' if can? :read, command
   %hr
 %h3 Известные проблемы
 %table.table.table-striped.table-bordered.table-condensed
@@ -64,14 +63,12 @@
   %tr
     %th Имя
     %th Описание
-    %th Проблема
     %th Команда
     %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
   - @solutions.each do |solution|
     %tr
       %td= solution.name
       %td= solution.description
-      %td= link_to solution.problem.name, solutions_by_problem_path(solution.problem)
       %td= solution.command.name
       %td
         .btn-group

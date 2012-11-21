@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121120173651) do
+ActiveRecord::Schema.define(:version => 20121121092341) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20121120173651) do
     t.string   "name"
     t.text     "description"
     t.string   "command"
-    t.boolean  "with_params"
     t.boolean  "confirm"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -102,6 +101,7 @@ ActiveRecord::Schema.define(:version => 20121120173651) do
     t.string   "username"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "port"
   end
 
   create_table "sessions", :force => true do |t|

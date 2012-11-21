@@ -52,6 +52,9 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_by_problem
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem
 
+  match 'solution/:id/execute' => 'problem_solutions#execute', :as => :execute_solution
+  match 'command/:id/execute' => 'commands#execute', :as => :execute_command
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

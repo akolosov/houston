@@ -4,7 +4,6 @@
     %th Имя
     %th Описание
     %th Команда
-    %th Требуются параметры
     %th Требуется подтверждение
     %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
   - @commands.each do |command|
@@ -12,7 +11,6 @@
       %td= command.name
       %td= command.description
       %td= command.command
-      %td= command.with_params
       %td= command.confirm
       %td
         .btn-group

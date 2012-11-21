@@ -2,17 +2,18 @@
   div.controls select {
     width: 98%;
   }
-
-= simple_form_for @command, :html => { :method => 'get', :class => 'form-horizontal form' } do |f|
+= simple_form_for @command, :url => execute_command_path(@command), :html => { :class => 'form-horizontal form' } do |f|
   .form-header
     %h3= "Выполнить команду \""+@command.name+"\" "+(@server ? "на сервере \""+@server.name+"\"" : "")
   .form-inputs
+    = f.hidden_field :id
     - if !@server
-      = f.input :servers, :label => "Сервер" do
-        = f.select :servers, Server.servers_for_command(@command).map { |s| [s.name+" ("+s.address+")", s.id] }, :include_blank => false
+      = f.input :server_id, :label => "Сервер" do
+        = f.select :server_id, Server.servers_for_command(@command).map { |s| [s.name+" ("+s.address+")", s.id] }, :include_blank => false
+    - else
+      = f.hidden_field :server_id, :value => "#{@server.id}"
 
-    - if @command.with_params
-      = f.input :params, :label => "Параметры", :input_html => { :class => 'form-input' }
+    = f.input :params, :label => "Параметры", :input_html => { :class => 'form-input', :value => "#{@params}" }
 
   .form-actions
     = f.submit "Выполнить команду", :class => "btn"
