@@ -19,11 +19,11 @@ class Solution < ActiveRecord::Base
   end
 
   def self.solutions_for_problem(problem)
-    where("id in (select olution_id from problem_solutions where problem_id = #{problem.id})")
+    where("id in (select solution_id from problem_solutions where problem_id = #{problem.id})")
   end
 
   def self.solution_for_problem(problem)
-    where("id in (select olution_id from problem_solutions where problem_id = #{problem.id})").first
+    where("id in (select solution_id from problem_solutions where problem_id = #{problem.id})").first
   end
 
   def servers
