@@ -40,14 +40,14 @@ Houston::Application.routes.draw do
   match 'server/:server_id/add_command' => 'server_commands#new', :as => :command_for_server
   match 'server/:server_id/edit_command/:id' => 'server_commands#edit', :as => :edit_command_for_server
   match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_for_problem_by_server
-  match 'server/:server_id/problem/:problem_id/solution/:id/run' => 'problem_solutions#run', :as => :run_problem_solution
-  match 'server/:server_id/problem/:id/run' => 'problems#run', :as => :run_problem_solutions_for_server
-  match 'server/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
 
+  match 'server/:server_id/problem/:problem_id/solution/:solution_id/run' => 'problem_solutions#run', :as => :run_problem_solution
+  match 'server/:server_id/problem/:problem_id/run' => 'problem_solutions#run', :as => :run_problem_solutions_for_server
+  match 'server/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
   match 'command/:id/run' => 'commands#run', :as => :run_command
-  match 'solution/:id/run' => 'problem_solutions#run', :as => :run_solution
-  match 'problem/:problem_id/solution/:id/run' => 'problem_solutions#run', :as => :run_solution_for_problem
-  match 'problem/:id/run' => 'problems#run', :as => :run_problem_solutions
+  match 'solution/:solution_id/run' => 'problem_solutions#run', :as => :run_solution
+  match 'problem/:problem_id/solution/:solution_id/run' => 'problem_solutions#run', :as => :run_solution_for_problem
+  match 'problem/:problem_id/run' => 'problem_solutions#run', :as => :run_problem_solutions
 
   match 'problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_by_problem
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem

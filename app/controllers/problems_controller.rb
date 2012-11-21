@@ -3,16 +3,6 @@ class ProblemsController < ApplicationController
   skip_before_filter :require_login
 
   load_and_authorize_resource
-  
-  # GET /solutions/run
-  # GET /solutions/run.json
-  def run
-    @problem = Problem.find(params[:id])
-
-    if (params[:server_id]) 
-      @server = Server.find(params[:server_id])
-    end
-  end
 
   # GET /problems
   # GET /problems.json

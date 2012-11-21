@@ -1,23 +1,20 @@
-%h1 Listing problem_solutions
+%h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )
 
-%table
+%table.table.table-striped.table-bordered.table-condensed
   %tr
-    %th Problem
-    %th Solution
-    %th Params
-    %th
-    %th
-    %th
+    %th Проблема
+    %th Решение
+    %th Параметры
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
 
   - @problem_solutions.each do |problem_solution|
     %tr
-      %td= problem_solution.problem
-      %td= problem_solution.solution
+      %td= problem_solution.problem.name
+      %td= problem_solution.solution.name
       %td= problem_solution.params
-      %td= link_to 'Show', problem_solution
-      %td= link_to 'Edit', edit_problem_solution_path(problem_solution)
-      %td= link_to 'Destroy', problem_solution, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Problem solution', new_problem_solution_path
+      %td
+        .btn-group
+          = link_to 'Изменить', edit_problem_solution_path(problem_solution), :class => 'btn btn-mini' if can? :manage, problem_solution
+          = link_to 'Удалить', problem_solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem_solution
+          = link_to 'Решить', (params[:problem_id] ? run_solution_for_problem_path(problem_solution.problem, problem_solution.solution) : run_solution_path(problem_solution.solution)), :class => 'btn btn-mini' if can? :destroy, problem_solution
+= link_to 'New Problem solution', new_problem_solution_path, :class => 'btn btn-mini' if can? :manage, ProblemSolution

@@ -1,19 +1,10 @@
-= form_for @problem_solution do |f|
-  - if @problem_solution.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@problem_solution.errors.count, "error")} prohibited this problem_solution from being saved:"
-      %ul
-        - @problem_solution.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :problem
-    = f.text_field :problem
-  .field
-    = f.label :solution
-    = f.text_field :solution
-  .field
-    = f.label :params
-    = f.text_field :params
-  .actions
-    = f.submit 'Save'
+= simple_form_for @problem_solution, :html => { :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    = f.association :problem, :include_blank => false, :label => "Проблема", :input_html => { :class => 'form-input' }
+    = f.association :solution, :include_blank => false, :label => "Решение", :input_html => { :class => 'form-input' }
+    = f.input :params, :label => "Решение", :input_html => { :class => 'form-input' }
+  .form-actions
+    = f.submit @button_title, :class => "btn"
+    = link_to 'Отмена', problem_solutions_path, :class => "btn"

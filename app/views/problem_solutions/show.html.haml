@@ -1,11 +1,9 @@
-%p#notice= notice
-
 %p
   %b Problem:
-  = @problem_solution.problem
+  = @problem_solution.problem.name
 %p
   %b Solution:
-  = @problem_solution.solution
+  = @problem_solution.solution.name
 %p
   %b Params:
   = @problem_solution.params

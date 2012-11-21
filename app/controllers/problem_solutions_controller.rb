@@ -1,4 +1,30 @@
 class ProblemSolutionsController < ApplicationController
+  skip_before_filter :require_login
+
+  load_and_authorize_resource
+  
+  # GET /problems/run
+  # GET /problems/run.json
+  def run
+    if (params[:id])
+      @problem_solution = ProblemSolution.find(params[:id])
+    end
+
+    if (params[:problem_id]) 
+      @problem_solutions = ProblemSolution.find_all_by_problem_id(params[:problem_id])
+      @problem_solution = @problem_solutions.first
+    end
+
+    if (params[:solution_id]) 
+      @problem_solutions = ProblemSolution.find_all_by_solution_id(params[:solution_id])
+      @problem_solution = @problem_solutions.first
+    end
+
+    if (params[:server_id]) 
+      @server = Server.find(params[:server_id])
+    end
+  end
+
   # GET /problem_solutions
   # GET /problem_solutions.json
   def index

@@ -1,0 +1,28 @@
+:css
+  div.controls select {
+    width: 98%;
+  }
+= simple_form_for @problem_solution, :html => { :method => 'get', :class => 'form-horizontal form' } do |f|
+  .form-header
+    %h3= "Выполнить решение проблемы \""+@problem_solution.problem.name+"\" "+(@server ? "на сервере \""+@server.name+"\"" : "")
+  .form-inputs
+    - if !@server
+      = f.input :servers, :label => "Сервер" do
+        = f.select :servers, Server.servers_for_problem(@problem_solution.problem).map { |s| [s.name+" ("+s.address+")", s.id] }, :include_blank => false
+
+    = f.input :commands, :label => "Команда" do
+      - if !@server
+        = f.select :commands, Command.commands_for_problem(@problem_solution.problem).map { |s| [s.name+" ("+s.command+")", s.id] }, :include_blank => false
+      - else 
+        = f.select :commands, Command.commands_for_server_and_problem(@server, @problem_solution.problem).map { |s| [s.name+" ("+s.command+")", s.id] }, :include_blank => false
+
+    - if !@server
+      - if Command.command_for_problem(@problem_solution.problem).with_params
+        = f.input :params, :label => "Параметры", :input_html => { :class => 'form-input' }
+    - else
+      - if Command.command_for_server_and_problem(@server, @problem_solution.problem).with_params
+        = f.input :params, :label => "Параметры", :input_html => { :class => 'form-input' }
+
+  .form-actions
+    = f.submit "Выполнить команду", :class => "btn"
+    = link_to 'Отмена', problem_solutions_path, :class => "btn"

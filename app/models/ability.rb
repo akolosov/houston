@@ -14,12 +14,11 @@ class Ability
       can :read, Command
       can :run,  Command
       can :read, ServerCommand
-      can :run,  ServerCommand
       can :read, ServerProblem
       can :read, Problem
-      can :run,  Problem
       can :read, Solution
-      can :run,  Solution
+      can :read, ProblemSolution
+      can :run, ProblemSolution
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.

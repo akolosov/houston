@@ -10,6 +10,22 @@ class Solution < ActiveRecord::Base
 
   validates :name, :description, :presence => true
 
+  def self.solutions_with_command(command)
+    where("command_id = #{command.id}")
+  end
+
+  def self.solution_with_command(command)
+    where("command_id = #{command.id}").first
+  end
+
+  def self.solutions_for_problem(problem)
+    where("id in (select olution_id from problem_solutions where problem_id = #{problem.id})")
+  end
+
+  def self.solution_for_problem(problem)
+    where("id in (select olution_id from problem_solutions where problem_id = #{problem.id})").first
+  end
+
   def servers
   end
 
