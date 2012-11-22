@@ -1,1 +1,2 @@
-%h3= "rsh -p "+@server.port+" "+@server.username+"@"+@server.address+" "+@command.command+" "+params[:problem_solution][:params]
+%h3 Выполните следующую команду
+%pre= "rsh -p "+@server.port+" "+@server.username+"@"+@server.address+" sudo "+@command.command+" "+params[:problem_solution][:params]

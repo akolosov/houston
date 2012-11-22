@@ -28,6 +28,8 @@ gem 'less-rails'
 
 gem 'coffee-rails'
 
+gem 'will_paginate'
+
 group :assets do
   gem 'therubyracer'
   gem 'uglifier'
