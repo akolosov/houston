@@ -1,9 +1,5 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
-  audit(:create) { |model, user, action| "Пользователь \"#{model.name}\" создан, пользователем #{user.display_name}" }
-  audit(:update) { |model, user, action| "Пользователь \"#{model.name}\" изменен, пользователем #{user.display_name}" }
-  audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил пользователя \"#{model.name}\"" }
-
   rolify
 
   attr_accessible :username, :email, :password, :password_confirmation, :providers_attributes

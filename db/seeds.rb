@@ -21,6 +21,8 @@ else
   user.save
   user.add_role :manager
 
+  Auditor::User.current_user = admin
+
   server1 = Server.create(:name => 'Server #1', :description => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.',
             :location => 'Server Room', :address => '192.168.1.1', :username => 'user')
   server1.save
