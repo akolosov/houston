@@ -2,8 +2,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :prepare_for_mobile
-  before_filter :set_current_user
+  before_filter :require_login, :except => [:not_authenticated, :set_current_user, :prepare_for_mobile, :mobile_device?]
+
+  before_filter :prepare_for_mobile, :set_current_user
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] =  "Недостаточно прав доступа!" #exception.message
@@ -13,10 +14,6 @@ class ApplicationController < ActionController::Base
       redirect_to root_url
     end
   end
-
-  before_filter :require_login, :except => [:not_authenticated]
-
-  helper_method :current_users_list
 
   protected
 
