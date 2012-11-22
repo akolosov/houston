@@ -1,4 +1,9 @@
+# encoding: utf-8
 class ServerCommand < ActiveRecord::Base
+  audit(:create) { |model, user, action| "Команда \"#{model.command.name}\" для сервера \"#{model.server.name}\" создана, пользователь: #{user.display_name}" }
+  audit(:update) { |model, user, action| "Команда \"#{model.command.name}\" для сервера \"#{model.server.name}\" изменена, пользователь: #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "#{user.display_name} удалил команду \"#{model.command.name}\" для сервера \"#{model.server.name}\" " }
+
   resourcify
 
   belongs_to :server

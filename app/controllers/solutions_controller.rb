@@ -53,7 +53,7 @@ class SolutionsController < ApplicationController
 
     respond_to do |format|
       if @solution.save
-        format.html { redirect_to (@solution.problem ? solutions_by_problem_path(@solution.problem) : solutions_path), notice: 'Решение успешно создано.' }
+        format.html { redirect_to :solutions, notice: 'Решение успешно создано.' }
         format.json { render json: @solution, status: :created, location: @solution }
       else
         format.html { render action: "new" }
@@ -69,7 +69,7 @@ class SolutionsController < ApplicationController
 
     respond_to do |format|
       if @solution.update_attributes(params[:solution])
-        format.html { redirect_to (@solution.problem ? solutions_by_problem_path(@solution.problem) : solutions_path), notice: 'Решение успешно обновлено.' }
+        format.html { redirect_to :solutions, notice: 'Решение успешно обновлено.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

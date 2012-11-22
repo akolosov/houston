@@ -14,7 +14,7 @@
       %td= problem_solution.params
       %td
         .btn-group
-          = link_to 'Изменить', edit_problem_solution_path(problem_solution), :class => 'btn btn-mini' if can? :manage, problem_solution
+          = link_to 'Изменить', edit_solution_for_problem_path(problem_solution.problem, problem_solution), :class => 'btn btn-mini' if can? :manage, problem_solution
           = link_to 'Удалить', problem_solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem_solution
           = link_to 'Решить', (params[:problem_id] ? run_solution_for_problem_path(problem_solution.problem, problem_solution.solution) : run_solution_path(problem_solution.solution)), :class => 'btn btn-mini' if can? :destroy, problem_solution
 = link_to 'New Problem solution', new_problem_solution_path, :class => 'btn btn-mini' if can? :manage, ProblemSolution

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ProblemSolutionsController < ApplicationController
   skip_before_filter :require_login
 
@@ -45,7 +46,11 @@ class ProblemSolutionsController < ApplicationController
   # GET /problem_solutions
   # GET /problem_solutions.json
   def index
-    @problem_solutions = ProblemSolution.all
+    if (params[:problem_id]) 
+      @problem_solutions = ProblemSolution.find_all_by_problem_id(params[:problem_id])
+    else
+      @problem_solutions = ProblemSolution.accessible_by(current_ability)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -87,7 +92,7 @@ class ProblemSolutionsController < ApplicationController
 
     respond_to do |format|
       if @problem_solution.save
-        format.html { redirect_to @problem_solution, notice: 'Problem solution was successfully created.' }
+        format.html { redirect_to (@problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions), notice: 'Решение проблемы успешно создано.' }
         format.json { render json: @problem_solution, status: :created, location: @problem_solution }
       else
         format.html { render action: "new" }
@@ -103,7 +108,7 @@ class ProblemSolutionsController < ApplicationController
 
     respond_to do |format|
       if @problem_solution.update_attributes(params[:problem_solution])
-        format.html { redirect_to @problem_solution, notice: 'Problem solution was successfully updated.' }
+        format.html { redirect_to (@problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions), notice: 'Решение проблемы успешно обновлено.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

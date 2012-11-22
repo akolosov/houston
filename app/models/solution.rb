@@ -1,4 +1,9 @@
+# encoding: utf-8
 class Solution < ActiveRecord::Base
+  audit(:create) { |model, user, action| "Решение \"#{model.name}\" создано, пользователь: #{user.display_name}" }
+  audit(:update) { |model, user, action| "Решение \"#{model.name}\" изменено, пользователь: #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "#{user.display_name} удалил решение \"#{model.name}\"" }
+
   resourcify
 
   belongs_to :command
@@ -26,9 +31,4 @@ class Solution < ActiveRecord::Base
     where("id in (select solution_id from problem_solutions where problem_id = #{problem.id})").first
   end
 
-  def servers
-  end
-
-  def params
-  end
 end

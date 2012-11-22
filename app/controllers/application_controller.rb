@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :prepare_for_mobile
+  before_filter :set_current_user
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] =  "Недостаточно прав доступа!" #exception.message
@@ -24,6 +25,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_current_user
+    Auditor::User.current_user = @current_user
+  end
 
   def mobile_device?
     if session[:mobile_param]

@@ -12,7 +12,7 @@ gem 'cancan'
 
 gem 'rolify'
 
-gem 'audited-activerecord'
+gem 'auditor'
 
 gem 'jquery-rails'
 

@@ -77,7 +77,7 @@ class CommandsController < ApplicationController
 
     respond_to do |format|
       if @command.save
-        format.html { redirect_to @command, notice: 'Команда успешно создана.' }
+        format.html { redirect_to :commands, notice: 'Команда успешно создана.' }
         format.json { render json: @command, status: :created, location: @command }
       else
         format.html { render action: "new" }
@@ -93,7 +93,7 @@ class CommandsController < ApplicationController
 
     respond_to do |format|
       if @command.update_attributes(params[:command])
-        format.html { redirect_to @command, notice: 'Команда успешно обновлена.' }
+        format.html { redirect_to :commands, notice: 'Команда успешно обновлена.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

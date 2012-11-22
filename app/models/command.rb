@@ -1,4 +1,9 @@
+# encoding: utf-8
 class Command < ActiveRecord::Base
+  audit(:create) { |model, user, action| "Команда \"#{model.name}\" создана, пользователь: #{user.display_name}" }
+  audit(:update) { |model, user, action| "Команда \"#{model.name}\" изменена, пользователь: #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "#{user.display_name} удалил команду \"#{model.name}\"" }
+
   resourcify
 
   attr_accessible :command, :confirm, :description, :name, :params, :server_id

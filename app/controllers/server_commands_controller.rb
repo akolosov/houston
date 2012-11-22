@@ -57,7 +57,7 @@ class ServerCommandsController < ApplicationController
 
     respond_to do |format|
       if @server_command.save
-        format.html { redirect_to (@server_command.server ? commands_by_server_path(@server_command.server) : @server_command), notice: 'Команда для сервера успешно создана.' }
+        format.html { redirect_to (@server_command.server ? commands_by_server_path(@server_command.server) : :server_commands), notice: 'Команда для сервера успешно создана.' }
         format.json { render json: @server_command, status: :created, location: @server_command }
       else
         format.html { render action: "new" }
@@ -73,7 +73,7 @@ class ServerCommandsController < ApplicationController
 
     respond_to do |format|
       if @server_command.update_attributes(params[:server_command])
-        format.html { redirect_to (@server_command.server ? commands_by_server_path(@server_command.server) : @server_command), notice: 'Команда для сервера успешно обновлена.' }
+        format.html { redirect_to (@server_command.server ? commands_by_server_path(@server_command.server) : :server_commands), notice: 'Команда для сервера успешно обновлена.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
