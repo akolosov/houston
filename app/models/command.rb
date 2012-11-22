@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Command < ActiveRecord::Base
-  audit(:create) { |model, user, action| "Команда \"#{model.name}\" создана, пользователь: #{user.display_name}" }
-  audit(:update) { |model, user, action| "Команда \"#{model.name}\" изменена, пользователь: #{user.display_name}" }
-  audit(:destroy) { |model, user, action| "#{user.display_name} удалил команду \"#{model.name}\"" }
+  audit(:create)  { |model, user, action| "Команда \"#{model.name}\" создана пользователем #{user.display_name}" }
+  audit(:update)  { |model, user, action| "Команда \"#{model.name}\" изменена, пользователем #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил команду \"#{model.name}\"" }
 
   resourcify
 

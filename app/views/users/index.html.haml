@@ -5,7 +5,7 @@
     %th E-mail
     %th Дата регистрации
     %th Роль
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span2' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span2' )} Действия
   - @users.each do |user|
     %tr
       %td= link_to user.username, user

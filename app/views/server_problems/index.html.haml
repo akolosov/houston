@@ -4,7 +4,7 @@
   %tr
     %th Сервер
     %th Проблема
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )} Действия
   - @server_problems.each do |server_problem|
     %tr
       %td= server_problem.server.name

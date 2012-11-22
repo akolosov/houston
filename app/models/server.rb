@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Server < ActiveRecord::Base
-  audit(:create) { |model, user, action| "Сервер \"#{model.name}\" создан, пользователь: #{user.display_name}" }
-  audit(:update) { |model, user, action| "Сервер \"#{model.name}\" изменен, пользователь: #{user.display_name}" }
-  audit(:destroy) { |model, user, action| "#{user.display_name} удалил сервер \"#{model.name}\", пользователь: #{user.display_name}" }
+  audit(:create) { |model, user, action| "Сервер \"#{model.name}\" создан пользователем #{user.display_name}" }
+  audit(:update) { |model, user, action| "Сервер \"#{model.name}\" изменен пользователем #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил сервер \"#{model.name}\", пользователь: #{user.display_name}" }
 
   resourcify
 

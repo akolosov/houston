@@ -4,9 +4,13 @@ Houston::Application.routes.draw do
 
   get "search/index"
 
+  get "audit/index", :as => :audit
+
   resources :commands
 
   resources :search
+
+  resources :audit
 
   resources :servers
 
@@ -55,6 +59,7 @@ Houston::Application.routes.draw do
 
   match 'solution/:id/execute' => 'problem_solutions#execute', :as => :execute_solution
   match 'command/:id/execute' => 'commands#execute', :as => :execute_command
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

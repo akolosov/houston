@@ -5,7 +5,7 @@
     %th Описание
     %th Команда
     %th Требуется подтверждение
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @commands.each do |command|
     %tr
       %td= command.name

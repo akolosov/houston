@@ -6,7 +6,7 @@
     %th Местоположение
     %th IP-адрес/DNS-имя
     %th Пользователь
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )} Действия
   - @servers.each do |server|
     %tr
       %td= server.name
@@ -29,7 +29,7 @@
       %th Описание
       %th Команда
       %th Требуется подтверждение
-      %th
+      %th Действия
     - @commands.each do |command|
       %tr
         %td= command.name
@@ -47,7 +47,7 @@
   %tr
     %th Имя
     %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @problems.each do |problem|
     %tr
       %td= problem.name
@@ -64,7 +64,7 @@
     %th Имя
     %th Описание
     %th Команда
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @solutions.each do |solution|
     %tr
       %td= solution.name

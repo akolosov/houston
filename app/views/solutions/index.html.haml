@@ -5,7 +5,7 @@
     %th Имя
     %th Описание
     %th Команда
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )}
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @solutions.each do |solution|
     %tr
       %td= solution.name

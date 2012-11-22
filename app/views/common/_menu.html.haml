@@ -2,6 +2,7 @@
   %ul.nav.nav-list
     %li.nav-header Центр управления
     %li.nav-item= link_to "Пользователи", users_path if current_user.has_role? :admin
+    %li.nav-item= link_to "Журнал аудита", audit_path if current_user.has_role? :admin
     %li.nav-item= link_to "Сервера", servers_path
     %li.nav-item= link_to "Комманды", commands_path
     %li.nav-item= link_to "Проблемы", problems_path
