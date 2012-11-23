@@ -93,12 +93,9 @@ ActiveRecord::Schema.define(:version => 20121122054853) do
   create_table "solutions", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "command_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
-
-  add_index "solutions", ["command_id"], :name => "index_solutions_on_command_id"
 
   create_table "users", :force => true do |t|
     t.string   "username",                                       :null => false
