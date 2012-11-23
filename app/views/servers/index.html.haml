@@ -1,23 +1,24 @@
-%h3 Список серверов
+%h3 Список оборудования
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
     %th Описание
     %th Местоположение
-    %th IP-адрес/DNS-имя
-    %th Пользователь
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )} Действия
+    - if @current_user.has_role? :admin
+      %th IP-адрес/DNS-имя
+      %th Пользователь
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @servers.each do |server|
     %tr
       %td= server.name
       %td= server.description
       %td= server.location
-      %td= server.address+':'+server.port
-      %td= server.username
+      - if @current_user.has_role? :admin
+        %td= server.address+':'+server.port
+        %td= server.username
       %td
         .btn-group
           = link_to 'Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
-          = link_to 'Команды ('+server.commands.count.to_s+')', commands_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, server
-= link_to 'Новый сервер', new_server_path, :class => 'btn btn-mini' if can? :manage, Server
+= link_to 'Новое оборудование', new_server_path, :class => 'btn btn-mini' if can? :manage, Server

@@ -1,20 +1,23 @@
-%h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )
+:css
+  .form-inputs {
+    margin: 30px;
+  }
 
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Проблема
-    %th Решение
-    %th Параметры
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
-
-  - @problem_solutions.each do |problem_solution|
-    %tr
-      %td= problem_solution.problem.name
-      %td= problem_solution.solution.name
-      %td= problem_solution.params
-      %td
-        .btn-group
+%h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : "" )
+.flickr_pagination
+  =will_paginate @problem_solutions
+- @problem_solutions.each do |problem_solution|
+  .form
+    .form-header
+      %h3= problem_solution.solution.name
+      - if @current_user.has_role? :admin
+        .btn-group.pull-right
           = link_to 'Изменить', edit_solution_for_problem_path(problem_solution.problem, problem_solution), :class => 'btn btn-mini' if can? :manage, problem_solution
           = link_to 'Удалить', problem_solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem_solution
-          = link_to 'Решить', (params[:problem_id] ? run_solution_for_problem_path(problem_solution.problem, problem_solution.solution) : run_solution_path(problem_solution.solution)), :class => 'btn btn-mini' if can? :destroy, problem_solution
-= link_to 'New Problem solution', new_problem_solution_path, :class => 'btn btn-mini' if can? :manage, ProblemSolution
+    .form-inputs
+      = problem_solution.solution.description
+  %br
+  %br
+.flickr_pagination
+  =will_paginate @problem_solutions
+= link_to 'Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), :class => 'btn btn-mini' if can? :manage, ProblemSolution

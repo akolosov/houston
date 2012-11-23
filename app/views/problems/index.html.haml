@@ -1,17 +1,23 @@
+:css
+  .form-inputs {
+    margin: 30px;
+  }
+
 %h3 Известные проблемы
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Имя
-    %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span4' : 'span2' )} Действия
-  - @problems.each do |problem|
-    %tr
-      %td= problem.name
-      %td= problem.description
-      %td
-        .btn-group
-          = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
-          = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
-          = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
-          = link_to 'Решить ('+problem.solutions.count.to_s+')', run_problem_solutions_path(problem), :class => 'btn btn-mini' if can? :read, problem
+.flickr_pagination
+  =will_paginate @problems
+- @problems.each do |problem|
+  .form
+    .form-header
+      %h3= problem.name
+      .btn-group.pull-right
+        = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
+        = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
+        = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
+    .form-inputs
+      = problem.description
+  %br
+  %br
+.flickr_pagination
+  =will_paginate @problems
 = link_to 'Новая проблема', new_problem_path, :class => 'btn btn-mini' if can? :manage, Problem

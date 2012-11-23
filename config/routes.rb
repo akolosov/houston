@@ -6,15 +6,11 @@ Houston::Application.routes.draw do
 
   get "audit/index", :as => :audit
 
-  resources :commands
-
   resources :search
 
   resources :audit
 
   resources :servers
-
-  resources :server_commands
 
   resources :server_problems
 
@@ -41,25 +37,11 @@ Houston::Application.routes.draw do
   match 'server/:server_id/problems' => 'server_problems#index', :as => :problems_by_server
   match 'server/:server_id/add_problem' => 'server_problems#new', :as => :problem_for_server
   match 'server/:server_id/edit_problem/:id' => 'server_problems#edit', :as => :edit_problem_for_server
-  match 'server/:server_id/add_command' => 'server_commands#new', :as => :command_for_server
-  match 'server/:server_id/edit_command/:id' => 'server_commands#edit', :as => :edit_command_for_server
   match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_for_problem_by_server
-
-  match 'server/:server_id/problem/:problem_id/solution/:solution_id/run' => 'problem_solutions#run', :as => :run_problem_solution
-  match 'server/:server_id/problem/:problem_id/run' => 'problem_solutions#run', :as => :run_problem_solutions_for_server
-  match 'server/:server_id/run/:id' => 'commands#run', :as => :run_command_on_server
-  match 'command/:id/run' => 'commands#run', :as => :run_command
-  match 'solution/:solution_id/run' => 'problem_solutions#run', :as => :run_solution
-  match 'problem/:problem_id/solution/:solution_id/run' => 'problem_solutions#run', :as => :run_solution_for_problem
-  match 'problem/:problem_id/run' => 'problem_solutions#run', :as => :run_problem_solutions
 
   match 'problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_by_problem
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', :as => :edit_solution_for_problem
-
-  match 'solution/:id/execute' => 'problem_solutions#execute', :as => :execute_solution
-  match 'command/:id/execute' => 'commands#execute', :as => :execute_command
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

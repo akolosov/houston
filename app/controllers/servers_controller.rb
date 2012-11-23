@@ -49,7 +49,7 @@ class ServersController < ApplicationController
 
     respond_to do |format|
       if @server.save
-        format.html { redirect_to :servers, notice: 'Сервер успешно создан.' }
+        format.html { redirect_to :servers, notice: 'Оборудование успешно создано.' }
         format.json { render json: @server, status: :created, location: @server }
       else
         format.html { render action: "new" }
@@ -65,7 +65,7 @@ class ServersController < ApplicationController
 
     respond_to do |format|
       if @server.update_attributes(params[:server])
-        format.html { redirect_to :servers, notice: 'Сервер успешно обновлен.' }
+        format.html { redirect_to :servers, notice: 'Оборудование успешно обновлено.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

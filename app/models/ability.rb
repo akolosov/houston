@@ -11,14 +11,10 @@ class Ability
     elsif user.has_role? :manager
       can :manage, User, :id => user.id
       can :read, Server
-      can :read, Command
-      can :run,  Command
-      can :read, ServerCommand
       can :read, ServerProblem
       can :read, Problem
       can :read, Solution
       can :read, ProblemSolution
-      can :run, ProblemSolution
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.

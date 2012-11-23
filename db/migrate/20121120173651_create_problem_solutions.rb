@@ -3,7 +3,6 @@ class CreateProblemSolutions < ActiveRecord::Migration
     create_table :problem_solutions do |t|
       t.references :problem
       t.references :solution
-      t.string :params
 
       t.timestamps
     end

@@ -4,52 +4,13 @@ class ProblemSolutionsController < ApplicationController
 
   load_and_authorize_resource
 
-  # GET /problem_solutions/execute
-  def execute
-    @problem_solution = ProblemSolution.find(params[:problem_solution][:id])
-    @command = Command.find(params[:problem_solution][:command_id])
-    @server = Server.find(params[:problem_solution][:server_id])
-  end
-  
-  # GET /problem_solutions/run
-  def run
-    if (params[:id])
-      @problem_solution = ProblemSolution.find(params[:id])
-    end
-
-    if (params[:problem_id]) 
-      @problem_solutions = ProblemSolution.find_all_by_problem_id(params[:problem_id])
-      @problem_solution = @problem_solutions.first
-    end
-
-    if (params[:solution_id]) 
-      @problem_solutions = ProblemSolution.find_all_by_solution_id(params[:solution_id])
-      @problem_solution = @problem_solutions.first
-    end
-
-    if (params[:server_id]) 
-      @server = Server.find(params[:server_id])
-      if ServerCommand.command_for_server(@problem_solution.solution.command, @server)
-        @params = ServerCommand.command_for_server(@problem_solution.solution.command, @server).params
-      else
-        @params = ""
-      end
-    else
-      if ServerCommand.one_command(@problem_solution.solution.command)
-        @params = ServerCommand.one_command(@problem_solution.solution.command).params
-      else
-        @params = ""
-      end
-    end
-  end
-
   # GET /problem_solutions
   # GET /problem_solutions.json
   def index
     if (params[:problem_id]) 
-      @problem_solutions = ProblemSolution.find_all_by_problem_id(params[:problem_id])
+      @problem_solutions = ProblemSolution.paginate(:page => params[:page], :per_page => 5).find_all_by_problem_id(params[:problem_id])
     else
-      @problem_solutions = ProblemSolution.accessible_by(current_ability)
+      @problem_solutions = ProblemSolution.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5)
     end
 
     respond_to do |format|
@@ -73,6 +34,10 @@ class ProblemSolutionsController < ApplicationController
   # GET /problem_solutions/new.json
   def new
     @problem_solution = ProblemSolution.new
+
+    if (params[:problem_id]) 
+      @problem_solution.problem = Problem.find(params[:problem_id])
+    end
 
     respond_to do |format|
       format.html # new.html.erb

@@ -4,6 +4,7 @@
 %p
   %b Description:
   = @problem.description
+
 .btn-group
   = link_to 'Назад', problems_path, :class => 'btn btn-mini' if can? :read, @problem
   = link_to 'Изменить', edit_problem_path(@problem), :class => 'btn btn-mini' if can? :manage, @problem

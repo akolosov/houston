@@ -1,20 +1,24 @@
+:css
+  .form-inputs {
+    margin: 30px;
+  }
+
 %h3
-  Известные решения #{(params[:problem_id]? "для проблемы \""+Problem.find(params[:problem_id]).name+"\" "+(params[:server_id]? "для сервера\""+Server.find(params[:server_id]).name+"\"" : "") : "")}
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Имя
-    %th Описание
-    %th Команда
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
-  - @solutions.each do |solution|
-    %tr
-      %td= solution.name
-      %td= solution.description
-      %td= solution.command.name
-      %td
-        .btn-group
+  Известные решения #{(params[:problem_id]? "для проблемы \""+Problem.find(params[:problem_id]).name+"\" "+(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : "") : "")}
+.flickr_pagination
+  =will_paginate @solutions
+- @solutions.each do |solution|
+  .form
+    .form-header
+      %h3= solution.name
+      - if @current_user.has_role? :admin
+        .btn-group.pull-right
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
           = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
-          - if solution.command
-            = link_to 'Решить', (params[:server_id] ? run_problem_solution_path(Server.find(params[:server_id]), solution.problem, solution) : (params[:problem_id] ? run_solution_for_problem_path(solution.problem, solution) : run_solution_path(solution))), :class => 'btn btn-mini' if can? :read, solution
+    .form-inputs
+      = solution.description
+  %br
+  %br
+.flickr_pagination
+  =will_paginate @solutions
 = link_to 'Новое решение', (params[:problem_id]? solution_for_problem_path(Problem.find(params[:problem_id])) : new_solution_path), :class => 'btn btn-mini' if can? :manage, Solution

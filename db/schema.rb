@@ -31,19 +31,9 @@ ActiveRecord::Schema.define(:version => 20121122054853) do
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
-  create_table "commands", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "command"
-    t.boolean  "confirm"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
   create_table "problem_solutions", :force => true do |t|
     t.integer  "problem_id"
     t.integer  "solution_id"
-    t.string   "params"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -68,17 +58,6 @@ ActiveRecord::Schema.define(:version => 20121122054853) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
-
-  create_table "server_commands", :force => true do |t|
-    t.integer  "server_id"
-    t.integer  "command_id"
-    t.string   "params"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "server_commands", ["command_id"], :name => "index_server_commands_on_command_id"
-  add_index "server_commands", ["server_id"], :name => "index_server_commands_on_server_id"
 
   create_table "server_problems", :force => true do |t|
     t.integer  "server_id"

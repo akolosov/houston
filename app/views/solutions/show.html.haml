@@ -4,9 +4,6 @@
 %p
   %b Description:
   = @solution.description
-%p
-  %b Command:
-  = @solution.command
 
 .btn-group
   = link_to 'Назад', solutions_path, :class => 'btn btn-mini' if can? :read, @solution

@@ -8,9 +8,9 @@ class SolutionsController < ApplicationController
   # GET /solutions.json
   def index
     if (params[:problem_id]) 
-      @solutions = Solution.find_all_by_problem_id(params[:problem_id])
+      @solutions = Solution.paginate(:page => params[:page], :per_page => 5).find_all_by_problem_id(params[:problem_id])
     else
-      @solutions = Solution.accessible_by(current_ability)
+      @solutions = Solution.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5)
     end
 
     respond_to do |format|
