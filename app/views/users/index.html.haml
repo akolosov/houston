@@ -19,4 +19,4 @@
             = render user
           = link_to 'Изменить', edit_user_path(user), :class => 'btn btn-mini' if can? :update, User
           = link_to("Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user
-= link_to 'Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, Command
+= link_to 'Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, User
