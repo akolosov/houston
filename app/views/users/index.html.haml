@@ -8,7 +8,7 @@
     %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span2' )} Действия
   - @users.each do |user|
     %tr
-      %td= link_to user.username, user
+      %td= user.username
       %td= user.email
       %td= user.created_at.to_date
       %td= user.roles.first.name.titleize unless user.roles.first.nil?
@@ -17,6 +17,6 @@
           - if current_user.has_role? :admin
             %a.btn.btn-mini{"data-toggle" => "modal", :href => "#role-options-#{user.id}"} Роль
             = render user
-          = link_to 'Изменить', edit_user_path(user), :class => 'btn btn-mini' if can? :update, User
-          = link_to("Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user
+          = link_to 'Изменить', edit_user_path(user), :class => 'btn btn-mini' if can? :update, user
+          = link_to("Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini') unless (user == current_user) && (can? :destroy, user)
 = link_to 'Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, User
