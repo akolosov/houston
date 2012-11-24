@@ -14,7 +14,7 @@
       %td= server.description
       %td= server.location
       - if @current_user.has_role? :admin
-        %td= server.address+':'+server.port
+        %td= server.address.split(',').join(':'+server.port+', ')+':'+server.port
         %td= server.username
       %td
         .btn-group
