@@ -37,6 +37,4 @@ end
 
 group :development, :test do
   gem "erb2haml"
-  gem "rspec"
-  gem 'rspec-rails'
 end
