@@ -30,6 +30,8 @@ gem 'coffee-rails'
 
 gem 'will_paginate'
 
+gem 'rdiscount'
+
 group :assets do
   gem 'therubyracer'
   gem 'uglifier'

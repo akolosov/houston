@@ -16,7 +16,7 @@
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
           = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
     .form-inputs
-      = solution.description
+      = raw RDiscount.new(solution.description).to_html
   %br
   %br
 .flickr_pagination

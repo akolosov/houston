@@ -16,7 +16,7 @@
         = link_to 'Удалить', server_problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, server_problem
         = link_to 'Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), :class => 'btn btn-mini' if can? :read, server_problem
     .form-inputs
-      = server_problem.problem.description
+      = raw RDiscount.new(server_problem.problem.description).to_html
   %br
   %br
 .flickr_pagination
