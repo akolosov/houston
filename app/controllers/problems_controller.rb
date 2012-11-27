@@ -7,7 +7,7 @@ class ProblemsController < ApplicationController
   # GET /problems
   # GET /problems.json
   def index
-    @problems = Problem.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5)
+    @problems = Problem.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
