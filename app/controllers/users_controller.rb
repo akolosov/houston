@@ -47,7 +47,6 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-    @user.roles = 'user'
 
     respond_to do |format|
       if @user.save
