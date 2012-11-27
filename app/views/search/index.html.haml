@@ -10,7 +10,7 @@
   - @servers.each do |server|
     %tr
       %td= server.name
-      %td= server.description
+      %td= raw RDiscount.new(server.description).to_html
       %td= server.location
       %td= server.address+":"+server.port
       %td= server.username
@@ -29,7 +29,7 @@
   - @problems.each do |problem|
     %tr
       %td= problem.name
-      %td= problem.description
+      %td= raw RDiscount.new(problem.description).to_html
       %td
         .btn-group
           = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
@@ -45,7 +45,7 @@
   - @solutions.each do |solution|
     %tr
       %td= solution.name
-      %td= solution.description
+      %td= raw RDiscount.new(solution.description).to_html
       %td
         .btn-group
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
