@@ -10,6 +10,8 @@ class Server < ActiveRecord::Base
 
   attr_accessible :address, :description, :location, :name, :username, :port
 
+  validates :name, :description, :presence => true
+
   has_many :server_problems
   has_many :problems, :through => :server_problems
 

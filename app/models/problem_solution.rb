@@ -7,8 +7,7 @@ class ProblemSolution < ActiveRecord::Base
   belongs_to :problem
   belongs_to :solution
 
-  validates :problem, :presence => true
-  validates :solution, :presence => true
+  validates :solution, :problem, :presence => true
 
   attr_accessible :problem_id, :solution_id, :problem, :solution
 
