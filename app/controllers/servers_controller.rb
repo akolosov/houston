@@ -7,7 +7,7 @@ class ServersController < ApplicationController
   # GET /servers
   # GET /servers.json
   def index
-    @servers = Server.accessible_by(current_ability)
+    @servers = Server.accessible_by(current_ability).sort_by{ | server | server.problems.count }.reverse
 
     respond_to do |format|
       format.html # index.html.erb
