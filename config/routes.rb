@@ -20,6 +20,8 @@ Houston::Application.routes.draw do
 
   resources :problem_solutions
 
+  resources :documents
+
   resources :welcome do
     member do
       get 'denied'

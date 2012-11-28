@@ -50,3 +50,19 @@
         .btn-group
           = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
           = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
+%hr
+%h3 Книга рецептов
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Имя
+    %th Описание
+    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+  - @documents.each do |document|
+    %tr
+      %td= document.title
+      %td= raw RDiscount.new(document.body.slice(0, 300)+link_to('...', document, :class => 'btn btn-mini')).to_html
+      %td
+        .btn-group
+          = link_to glyph(:play)+' Читать', document, :class => 'btn btn-mini' if can? :read, document
+          = link_to 'Изменить', edit_document_path(document), :class => 'btn btn-mini' if can? :manage, document
+          = link_to 'Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, document
