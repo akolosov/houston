@@ -17,6 +17,7 @@
           %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 6px; margin-bottom: -5px; "}
             .input-append
               %input.span2.search-query{:name => "query", :type => "text", :value => params[:query]}/
-              %button.btn{:type => "submit"} Поиск
+              %button.btn{:type => "submit"}
+                = glyph(:search)+" Поиск"
         - else
           = link_to glyph(:lock)+'Вход', :login, :class => "btn btn-mini"

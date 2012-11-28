@@ -24,15 +24,13 @@ gem 'simple_form'
 
 gem 'haml-rails'
 
-gem 'less-rails'
-
-gem 'coffee-rails'
-
 gem 'will_paginate'
 
 gem 'rdiscount'
 
 group :assets do
+  gem 'less-rails'
+  gem 'coffee-rails'
   gem 'therubyracer'
   gem 'uglifier'
 end
