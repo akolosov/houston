@@ -86,10 +86,12 @@ class ProblemSolutionsController < ApplicationController
   # DELETE /problem_solutions/1.json
   def destroy
     @problem_solution = ProblemSolution.find(params[:id])
+    @problem = @problem_solution.problem
+
     @problem_solution.destroy
 
     respond_to do |format|
-      format.html { redirect_to problem_solutions_url }
+      format.html { redirect_to (@problem ? solutions_by_problem_path(@problem) : problem_solutions_url) }
       format.json { head :no_content }
     end
   end
