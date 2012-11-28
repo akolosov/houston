@@ -5,8 +5,8 @@
 
 %h3
   Известные проблемы #{(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : "")}
-.flickr_pagination
-  =will_paginate @server_problems
+.apple_pagination
+  =will_paginate @server_problems, :previous_label => '←', :next_label => '→'
 - @server_problems.each do |server_problem|
   .form
     .form-header
@@ -19,6 +19,7 @@
       = raw RDiscount.new(server_problem.problem.description).to_html
   %br
   %br
-.flickr_pagination
-  =will_paginate @server_problems
+.apple_pagination
+  =will_paginate @server_problems, :previous_label => '←', :next_label => '→'
 = link_to 'Новая проблема для оборудования', (params[:server_id] ? problem_for_server_path(Server.find(params[:server_id])) : new_server_problem_path), :class => 'btn btn-mini' if can? :manage, ServerProblem
+%br

@@ -4,8 +4,8 @@
   }
 
 %h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : "" )
-.flickr_pagination
-  =will_paginate @problem_solutions
+.apple_pagination
+  =will_paginate @problem_solutions, :previous_label => '←', :next_label => '→'
 - @problem_solutions.each do |problem_solution|
   .form
     .form-header
@@ -18,6 +18,7 @@
       = raw RDiscount.new(problem_solution.solution.description).to_html
   %br
   %br
-.flickr_pagination
-  =will_paginate @problem_solutions
+.apple_pagination
+  =will_paginate @problem_solutions, :previous_label => '←', :next_label => '→'
 = link_to 'Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), :class => 'btn btn-mini' if can? :manage, ProblemSolution
+%br

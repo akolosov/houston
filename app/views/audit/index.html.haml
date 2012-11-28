@@ -1,6 +1,6 @@
 %h3 Журнал аудита
-.flickr_pagination
-  =will_paginate @audits
+.apple_pagination
+  =will_paginate @audits, :previous_label => '←', :next_label => '→'
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Пользователь
@@ -18,5 +18,5 @@
       %td= audit.audited_changes
       %td= audit.comment
       %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
-.flickr_pagination
-  =will_paginate @audits
+.apple_pagination
+  =will_paginate @audits, :previous_label => '←', :next_label => '→'
