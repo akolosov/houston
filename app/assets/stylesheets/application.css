@@ -64,3 +64,8 @@ p.footer, p.footer a {
 .nav-item {
 	padding-left: 10px;
 }
+
+.btn-group, .pull-right {
+	padding-top: 3px;
+	padding-right: 3px;
+}
