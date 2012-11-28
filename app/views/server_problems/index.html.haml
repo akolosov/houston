@@ -12,14 +12,14 @@
     .form-header
       %h3= server_problem.problem.name
       .btn-group.pull-right
-        = link_to 'Изменить', edit_problem_for_server_path(server_problem.server, server_problem), :class => 'btn btn-mini' if can? :manage, server_problem
-        = link_to 'Удалить', server_problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, server_problem
-        = link_to 'Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), :class => 'btn btn-mini' if can? :read, server_problem
+        = link_to glyph(:pencil)+' Изменить', edit_problem_for_server_path(server_problem.server, server_problem), :class => 'btn btn-mini' if can? :manage, server_problem
+        = link_to glyph(:trash)+' Удалить', server_problem, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, server_problem
+        = link_to glyph(:tint)+' Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), :class => 'btn btn-mini btn-success' if can? :read, server_problem
     .form-inputs
       = raw RDiscount.new(server_problem.problem.description).to_html
   %br
   %br
 .apple_pagination
   =will_paginate @server_problems, :previous_label => '←', :next_label => '→'
-= link_to 'Новая проблема для оборудования', (params[:server_id] ? problem_for_server_path(Server.find(params[:server_id])) : new_server_problem_path), :class => 'btn btn-mini' if can? :manage, ServerProblem
+= link_to glyph(:plus)+' Новая проблема для оборудования', (params[:server_id] ? problem_for_server_path(Server.find(params[:server_id])) : new_server_problem_path), :class => 'btn btn-mini' if can? :manage, ServerProblem
 %br

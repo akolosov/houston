@@ -13,13 +13,14 @@
       %h3= solution.name
       - if @current_user.has_role? :admin
         .btn-group.pull-right
-          = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
-          = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
+          = link_to glyph(:pencil)+' Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
+          = link_to glyph(:trash)+' Удалить', solution, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :manage, solution
     .form-inputs
       = raw RDiscount.new(solution.description).to_html
   %br
   %br
 .apple_pagination
   =will_paginate @solutions, :previous_label => '←', :next_label => '→'
-= link_to 'Новое решение', (params[:problem_id]? solution_for_problem_path(Problem.find(params[:problem_id])) : new_solution_path), :class => 'btn btn-mini' if can? :manage, Solution
+= link_to glyph(:plus)+' Новое решение', (params[:problem_id]? solution_for_problem_path(Problem.find(params[:problem_id])) : new_solution_path), :class => 'btn btn-mini' if can? :manage, Solution
+%br
 %br

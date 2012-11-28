@@ -15,8 +15,11 @@
       %td
         .btn-group
           - if current_user.has_role? :admin
-            %a.btn.btn-mini{"data-toggle" => "modal", :href => "#role-options-#{user.id}"} Роль
+            %a.btn.btn-mini{"data-toggle" => "modal", :href => "#role-options-#{user.id}"}
+              = glyph(:user)+" Роль"
             = render user
-          = link_to 'Изменить', edit_user_path(user), :class => 'btn btn-mini' if can? :update, user
-          = link_to("Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini') unless (user == current_user) && (can? :destroy, user)
-= link_to 'Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, User
+          = link_to glyph(:pencil)+" Изменить", edit_user_path(user), :class => 'btn btn-mini' if can? :update, user
+          = link_to(glyph(:trash)+" Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini btn-danger') unless (user == current_user) && (can? :destroy, user)
+= link_to glyph(:plus)+' Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, User
+%br
+%br

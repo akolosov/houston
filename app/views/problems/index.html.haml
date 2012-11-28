@@ -11,14 +11,15 @@
     .form-header
       %h3= problem.name
       .btn-group.pull-right
-        = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
-        = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
-        = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
+        = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
+        = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, problem
+        = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini btn-success' if can? :read, problem
     .form-inputs
       = raw RDiscount.new(problem.description).to_html
   %br
   %br
 .apple_pagination
   =will_paginate @problems, :previous_label => '←', :next_label => '→'
-= link_to 'Новая проблема', new_problem_path, :class => 'btn btn-mini' if can? :manage, Problem
+= link_to glyph(:plus)+' Новая проблема', new_problem_path, :class => 'btn btn-mini' if can? :manage, Problem
+%br
 %br
