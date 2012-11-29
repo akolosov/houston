@@ -1,9 +1,10 @@
 .well.sidebar-nav
   %ul.nav.nav-list
-    %li.nav-header Центр управления
+    %li.nav-header Центр решения проблем
     %li.nav-item= link_to glyph(:user)+" Пользователи", users_path if current_user.has_role? :admin
     %li.nav-item= link_to glyph(:list)+" Журнал аудита", audit_path if current_user.has_role? :admin
     %li.nav-item= link_to glyph(:hdd)+" Оборудование", servers_path
     %li.nav-item= link_to glyph(:fire)+" Проблемы", problems_path
-    %li.nav-item= link_to glyph(:tint)+" Решения", solutions_path
+    %li.nav-item= link_to glyph(:tint)+" Решения", solutions_path if current_user.has_role? :admin
+    %li.nav-header Центр поиска решений
     %li.nav-item= link_to glyph(:book)+" Книга рецептов", documents_path
