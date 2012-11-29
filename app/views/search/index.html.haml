@@ -66,3 +66,23 @@
           = link_to glyph(:play)+' Читать', document, :class => 'btn btn-mini' if can? :read, document
           = link_to 'Изменить', edit_document_path(document), :class => 'btn btn-mini' if can? :manage, document
           = link_to 'Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, document
+- if @current_user.has_role? :admin
+  %hr
+  %h3 Журнал аудита
+  %table.table.table-striped.table-bordered.table-condensed
+    %tr
+      %th Пользователь
+      %th Объект
+      %th Действие
+      %th Изменения
+      %th Комментарий
+      %th Дата и время
+
+    - @audits.each do |audit|
+      %tr
+        %td= audit.user.name
+        %td= audit.auditable_type
+        %td= audit.action
+        %td= audit.audited_changes
+        %td= audit.comment
+        %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
