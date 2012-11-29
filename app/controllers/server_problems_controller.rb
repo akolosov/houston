@@ -21,17 +21,6 @@ class ServerProblemsController < ApplicationController
     end
   end
 
-  # GET /server_problems/1
-  # GET /server_problems/1.json
-  def show
-    @server_problem = ServerProblem.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @server_problem }
-    end
-  end
-
   # GET /server_problems/new
   # GET /server_problems/new.json
   def new

@@ -10,15 +10,15 @@ Houston::Application.routes.draw do
 
   resources :audit
 
-  resources :servers
+  resources :servers, :except => :show
 
-  resources :server_problems
+  resources :server_problems, :except => :show
 
-  resources :problems
+  resources :problems, :except => :show
 
-  resources :solutions
+  resources :solutions, :except => :show
 
-  resources :problem_solutions
+  resources :problem_solutions, :except => :show
 
   resources :documents
 
