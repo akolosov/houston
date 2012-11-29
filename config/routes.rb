@@ -44,6 +44,8 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', :as => :edit_solution_for_problem
 
+  match 'documents/:id/move' => 'documents#move', :as => :move_document_to_solution
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

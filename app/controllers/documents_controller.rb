@@ -50,7 +50,7 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.save
-        format.html { redirect_to @document, notice: 'Страница удачно создана.' }
+        format.html { redirect_to @document, notice: 'Рецепт удачно создан.' }
         format.json { render json: @document, status: :created, location: @document }
       else
         format.html { render action: "new" }
@@ -66,7 +66,7 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.update_attributes(params[:document])
-        format.html { redirect_to @document, notice: 'Страница удачно обновлена.' }
+        format.html { redirect_to @document, notice: 'Рецепт удачно обновлен.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -86,4 +86,23 @@ class DocumentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # PUT /documents/1/move
+  # PUT /documents/1/move.json
+  def move
+    @document = Document.find(params[:id])
+    @solution = Solution.create(:name => @document.title, :description => @document.body)
+
+    respond_to do |format|
+      if @solution.save
+        @document.destroy
+        format.html { redirect_to solutions_path, notice: 'Рецепт удачно перенесен в решения.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "move" }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end

@@ -1,7 +1,12 @@
+# encoding: utf-8
 class Document < ActiveRecord::Base
+  audit(:create) { |model, user, action| "Рецепт \"#{model.title}\" создан пользователем #{user.display_name}" }
+  audit(:update) { |model, user, action| "Рецепт \"#{model.title}\" изменен пользователем #{user.display_name}" }
+  audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил рецепт \"#{model.title}\"" }
+
   belongs_to :user
 
-  attr_accessible :body, :title, :user_id
+  attr_accessible :body, :title, :user, :user_id
   
   validates :title, :body, :presence => true
 end
