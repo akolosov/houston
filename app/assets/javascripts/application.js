@@ -6,5 +6,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require mousetrap
 //= require twitter/bootstrap
 //= require_tree .

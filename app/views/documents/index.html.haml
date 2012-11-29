@@ -24,6 +24,6 @@
   %br
 .apple_pagination
   =will_paginate @documents, :previous_label => '←', :next_label => '→'
-= link_to glyph(:plus)+' Новый рецепт', new_document_path, :class => 'btn btn-mini' if can? :create, Document
+= link_to glyph(:plus)+' Новый рецепт', new_document_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :create, Document
 %br
 %br

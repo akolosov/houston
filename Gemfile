@@ -30,6 +30,8 @@ gem 'rdiscount'
 
 gem 'less-rails'
 
+gem 'mousetrap-rails'
+
 group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'

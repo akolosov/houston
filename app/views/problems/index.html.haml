@@ -20,6 +20,6 @@
   %br
 .apple_pagination
   =will_paginate @problems, :previous_label => '←', :next_label => '→'
-= link_to glyph(:plus)+' Новая проблема', new_problem_path, :class => 'btn btn-mini' if can? :manage, Problem
+= link_to glyph(:plus)+' Новая проблема', new_problem_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, Problem
 %br
 %br

@@ -20,5 +20,5 @@
   %br
 .apple_pagination
   =will_paginate @problem_solutions, :previous_label => '←', :next_label => '→'
-= link_to glyph(:plus)+' Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), :class => 'btn btn-mini' if can? :manage, ProblemSolution
+= link_to glyph(:plus)+' Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, ProblemSolution
 %br

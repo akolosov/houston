@@ -20,6 +20,6 @@
             = render user
           = link_to glyph(:pencil)+" Изменить", edit_user_path(user), :class => 'btn btn-mini' if can? :update, user
           = link_to(glyph(:trash)+" Удалить", user_path(user), :data => { :confirm => "Вы уверены?" }, :method => :delete, :class => 'btn btn-mini btn-danger') unless (user == current_user) && (can? :destroy, user)
-= link_to glyph(:plus)+' Новый пользователь', new_user_path, :class => 'btn btn-mini' if can? :manage, User
+= link_to glyph(:plus)+' Новый пользователь', new_user_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, User
 %br
 %br

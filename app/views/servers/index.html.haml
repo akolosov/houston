@@ -21,6 +21,6 @@
           = link_to glyph(:pencil)+' Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
           = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
           = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, server
-= link_to glyph(:plus)+' Новое оборудование', new_server_path, :class => 'btn btn-mini' if can? :manage, Server
+= link_to glyph(:plus)+' Новое оборудование', new_server_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, Server
 %br
 %br
