@@ -16,7 +16,7 @@
             = link_to glyph(:off)+" Выход", :logout, :class => "btn btn-small"
           %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 6px; margin-bottom: -5px; "}
             .input-append
-              %input.span2.search-query{:name => "query", :type => "text", :value => params[:query]}/
+              %input.span2.search-query{:name => "query", :type => "text", :value => params[:query], :data => { :keybinding => 'f' }}/
               %button.btn{:type => "submit"}
                 = glyph(:search)+" Поиск"
         - else
