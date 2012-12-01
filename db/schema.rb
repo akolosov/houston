@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128150304) do
+ActiveRecord::Schema.define(:version => 20121201132023) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20121128150304) do
     t.integer  "failed_logins_count",             :default => 0
     t.datetime "lock_expires_at"
     t.string   "session"
+    t.string   "realname"
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"

@@ -1,3 +1,4 @@
+# encoding: utf-8
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -9,15 +10,15 @@
 Role.create([ { :name => 'admin' }, { :name => 'manager' } ], :without_protection => true)
 
 if Rails.env.production?
-  admin = User.create :username => 'hunter', :email => 'alexey.kolosov@gmail.com', :password => 'admin', :password_confirmation => 'admin'
+  admin = User.create :username => 'hunter', :email => 'alexey.kolosov@gmail.com', :password => 'admin', :password_confirmation => 'admin', :realname => 'Алексей Колосов'
   admin.save
   admin.add_role :admin
 else
-  admin = User.create :username => 'admin', :email => 'admin@test.com', :password => 'admin', :password_confirmation => 'admin'
+  admin = User.create :username => 'admin', :email => 'admin@test.com', :password => 'admin', :password_confirmation => 'admin', :realname => 'Admin Admin'
   admin.save
   admin.add_role :admin
 
-  user = User.create :username => 'manager', :email => 'manager@test.com', :password => 'manager', :password_confirmation => 'manager'
+  user = User.create :username => 'manager', :email => 'manager@test.com', :password => 'manager', :password_confirmation => 'manager', :realname => 'Manager Manager'
   user.save
   user.add_role :manager
 

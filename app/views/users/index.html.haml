@@ -2,14 +2,14 @@
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
-    %th E-mail
+    %th Логин/E-mail
     %th Дата регистрации
     %th Роль
     %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span2' )} Действия
   - @users.each do |user|
     %tr
-      %td= user.username
-      %td= user.email
+      %td= user.realname
+      %td= user.username+' ('+user.email+')'
       %td= user.created_at.to_date
       %td= user.roles.first.name.titleize unless user.roles.first.nil?
       %td

@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   rolify
 
-  attr_accessible :username, :email, :password, :password_confirmation, :providers_attributes
+  attr_accessible :username, :email, :password, :password_confirmation, :realname
 
   alias_attribute :name, :username
 
@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :message => "Пароли не совпадают", :if => :password
 
   def display_name
-    self.username+" ("+self.email+")"
+    self.realname+" ("+self.email+")"
   end
 
 end
