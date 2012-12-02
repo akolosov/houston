@@ -9,3 +9,9 @@
     %li.nav-item= link_to glyph(:leaf)+" Метки", tags_path, :data => { :keybinding => 'l' } if current_user.has_role? :admin
     %li.nav-header Центр поиска решений
     %li.nav-item= link_to glyph(:book)+" Книга рецептов", documents_path, :data => { :keybinding => 'b' }
+
+.well.sidebar-nav
+  %ul.nav.nav-list
+    %li.nav-header Ключевые метки
+    - Tag.all.each do |tag|
+      %li.nav-item= link_to glyph(:leaf)+" "+tag.name, problems_by_tag_path(tag)
