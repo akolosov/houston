@@ -1,0 +1,16 @@
+%h3 Метки
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Name
+    %th.span2
+
+  - @tags.each do |tag|
+    %tr
+      %td= tag.name
+      %td
+        .btn-group
+          = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), :class => 'btn btn-mini' if can? :manage, tag
+          = link_to glyph(:trash)+' Удалить', tag, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, tag
+= link_to glyph(:plus)+' Новая метка', new_tag_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, Tag
+%br
+%br

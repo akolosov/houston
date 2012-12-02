@@ -18,8 +18,9 @@
     .form-inputs
       = raw RDiscount.new(problem.description).to_html
       %br
-      - problem.tags.each do |tag|
-        = link_to '['+tag.name+'] ', problems_by_tag_path(tag), :class => 'btn btn-mini'
+      - if problem.tags
+        - problem.tags.each do |tag|
+          = link_to '['+tag.name+'] ', problems_by_tag_path(tag), :class => 'btn btn-mini'
   %br
   %br
 
