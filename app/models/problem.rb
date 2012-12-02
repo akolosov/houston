@@ -6,7 +6,7 @@ class Problem < ActiveRecord::Base
 
   resourcify
 
-  attr_accessible :description, :name
+  attr_accessible :description, :name, :tags
 
   validates :name, :description, :presence => true
 
@@ -15,5 +15,12 @@ class Problem < ActiveRecord::Base
 
   has_many :problem_solutions
   has_many :solutions, :through => :problem_solutions
+
+  has_many :problem_tags
+  has_many :tags, :through => :problem_tags
+
+  def self.problems_by_tag(tag)
+    where("id in (select problem_id from problem_tags where tag_id = #{tag.id})")
+  end
 
 end

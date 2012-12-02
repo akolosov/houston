@@ -6,6 +6,7 @@
 %h3 Известные проблемы
 .apple_pagination
   =will_paginate @problems, :previous_label => '←', :next_label => '→'
+
 - @problems.each do |problem|
   .form
     .form-header
@@ -16,8 +17,12 @@
         = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini btn-success' if can? :read, problem
     .form-inputs
       = raw RDiscount.new(problem.description).to_html
+      %br
+      - problem.tags.each do |tag|
+        = link_to '['+tag.name+'] ', problems_by_tag_path(tag), :class => 'btn btn-mini'
   %br
   %br
+
 .apple_pagination
   =will_paginate @problems, :previous_label => '←', :next_label => '→'
 = link_to glyph(:plus)+' Новая проблема', new_problem_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, Problem

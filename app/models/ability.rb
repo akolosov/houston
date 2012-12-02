@@ -16,6 +16,8 @@ class Ability
       can :read, Solution
       can :read, ProblemSolution
       can :read, Document
+      can :read, Tag
+      can :read, ProblemTag
       can :update, Document, :user_id => user.id
       can :create, Document
     end
