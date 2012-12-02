@@ -6,6 +6,9 @@ class Tag < ActiveRecord::Base
 
   resourcify
 
+  has_many :problem_tags, :dependent => :destroy
+  has_many :problems, :through => :problem_tags, :dependent => :destroy
+
   attr_accessible :name
 
   validates :name, :presence => true

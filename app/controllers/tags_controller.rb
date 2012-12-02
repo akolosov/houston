@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.accessible_by(current_ability)
+    @tags = Tag.accessible_by(current_ability).sort_by{ | tag | tag.problems.count }.reverse
 
     respond_to do |format|
       format.html # index.html.erb
