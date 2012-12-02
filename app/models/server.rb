@@ -12,8 +12,8 @@ class Server < ActiveRecord::Base
 
   validates :name, :description, :presence => true
 
-  has_many :server_problems
-  has_many :problems, :through => :server_problems
+  has_many :server_problems, :dependent => :destroy
+  has_many :problems, :through => :server_problems, :dependent => :destroy
 
   def default_values
     self.port ||= '22'

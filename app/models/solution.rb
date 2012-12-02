@@ -6,8 +6,8 @@ class Solution < ActiveRecord::Base
 
   resourcify
 
-  has_many :problem_solutions
-  has_many :problems, :through => :problem_solutions
+  has_many :problem_solutions, :dependent => :destroy
+  has_many :problems, :through => :problem_solutions, :dependent => :destroy
 
   attr_accessible :description, :name
 

@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   authenticates_with_sorcery!
 
-  has_many :documents
+  has_many :documents, :dependent => :destroy
 
   validates_length_of :password, :minimum => 3, :message => "Пароль должен быть длиннее 3 символов", :if => :password
 
