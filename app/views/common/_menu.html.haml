@@ -14,4 +14,4 @@
   %ul.nav.nav-list
     %li.nav-header Ключевые метки
     - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
-      %li.nav-item= link_to glyph(:leaf)+" "+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
+      %li.nav-item= link_to glyph(:leaf)+" "+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag), :class => 'tag'+(tag.problems.count >= 10 ? '9' : tag.problems.count.to_s)
