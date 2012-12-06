@@ -6,7 +6,7 @@
     %th Местоположение
     %th IP-адрес/DNS-имя
     %th Пользователь
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+    %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @servers.each do |server|
     %tr
       %td= server.name
@@ -16,56 +16,56 @@
       %td= server.username
       %td
         .btn-group
-          = link_to 'Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
-          = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
-          = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini' if can? :destroy, server
+          = link_to 'Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :manage, server
+          = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
+          = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :destroy, server
 %hr
 %h3 Известные проблемы
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
     %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+    %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @problems.each do |problem|
     %tr
       %td= problem.name
       %td= raw RDiscount.new(problem.description).to_html
       %td
         .btn-group
-          = link_to 'Изменить', edit_problem_path(problem), :class => 'btn btn-mini' if can? :manage, problem
-          = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :destroy, problem
-          = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), :class => 'btn btn-mini' if can? :read, problem
+          = link_to 'Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
+          = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' if can? :destroy, problem
+          = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini' if can? :read, problem
 %hr
 %h3 Известные решения
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
     %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span2' : 'span1' )} Действия
+    %th{class: ( (@current_user.has_role? :admin) ? 'span2' : 'span1' )} Действия
   - @solutions.each do |solution|
     %tr
       %td= solution.name
       %td= raw RDiscount.new(solution.description).to_html
       %td
         .btn-group
-          = link_to 'Изменить', edit_solution_path(solution), :class => 'btn btn-mini' if can? :manage, solution
-          = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, solution
+          = link_to 'Изменить', edit_solution_path(solution), class: 'btn btn-mini' if can? :manage, solution
+          = link_to 'Удалить', solution, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' if can? :manage, solution
 %hr
 %h3 Книга рецептов
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
     %th Описание
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+    %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @documents.each do |document|
     %tr
       %td= document.title
-      %td= raw RDiscount.new(document.body.slice(0, 300)+link_to('...', document, :class => 'btn btn-mini')).to_html
+      %td= raw RDiscount.new(document.body.slice(0, 300)+link_to('...', document, class: 'btn btn-mini')).to_html
       %td
         .btn-group
-          = link_to glyph(:play)+' Читать', document, :class => 'btn btn-mini' if can? :read, document
-          = link_to 'Изменить', edit_document_path(document), :class => 'btn btn-mini' if can? :manage, document
-          = link_to 'Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' if can? :manage, document
+          = link_to glyph(:play)+' Читать', document, class: 'btn btn-mini' if can? :read, document
+          = link_to 'Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :manage, document
+          = link_to 'Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' if can? :manage, document
 - if @current_user.has_role? :admin
   %hr
   %h3 Журнал аудита

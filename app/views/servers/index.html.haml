@@ -7,7 +7,7 @@
     - if @current_user.has_role? :admin
       %th IP-адрес/DNS-имя
       %th Пользователь
-    %th{:class => ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+    %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @servers.each do |server|
     %tr
       %td= server.name
@@ -18,9 +18,9 @@
         %td= server.username
       %td
         .btn-group
-          = link_to glyph(:pencil)+' Изменить', edit_server_path(server), :class => 'btn btn-mini' if can? :manage, server
-          = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), :class => 'btn btn-mini' if can? :read, server
-          = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, server
-= link_to glyph(:plus)+' Новое оборудование', new_server_path, :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, Server
+          = link_to glyph(:pencil)+' Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :manage, server
+          = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
+          = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, server
+= link_to glyph(:plus)+' Новое оборудование', new_server_path, class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :manage, Server
 %br
 %br

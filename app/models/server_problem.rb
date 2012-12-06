@@ -9,5 +9,5 @@ class ServerProblem < ActiveRecord::Base
   belongs_to :server
   belongs_to :problem
 
-  validates :server, :problem, :presence => true
+  validates :server, :problem, presence: true
 end

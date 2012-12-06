@@ -8,9 +8,9 @@ class ProblemSolutionsController < ApplicationController
   # GET /problem_solutions.json
   def index
     if (params[:problem_id]) 
-      @problem_solutions = ProblemSolution.paginate(:page => params[:page], :per_page => 5).order('updated_at ASC').find_all_by_problem_id(params[:problem_id])
+      @problem_solutions = ProblemSolution.paginate(page: params[:page], per_page: 5).order('updated_at ASC').find_all_by_problem_id(params[:problem_id])
     else
-      @problem_solutions = ProblemSolution.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5).order('updated_at DESC')
+      @problem_solutions = ProblemSolution.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
     end
 
     respond_to do |format|

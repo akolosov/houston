@@ -5,19 +5,19 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand{:href => "/", :rel => "tooltip", :title => "У нас проблема!"} Хьюстон
+      %a.brand{href: "/", rel: "tooltip", title: "У нас проблема!"} Хьюстон
       .nav-collapse
         %ul.nav
       / /.nav-collapse
       %p.navbar-text
         - if current_user
-          .btn-group.pull-right{:style => "margin: 8px !important; "}
-            = link_to glyph(:user)+" Профиль", edit_user_path(current_user), :class => "btn btn-small"
-            = link_to glyph(:off)+" Выход", :logout, :class => "btn btn-small"
-          %form.form-search.pull-right{:action => "/search/", :style => "margin-top: 6px; margin-bottom: -5px; "}
+          .btn-group.pull-right{style: "margin: 8px !important; "}
+            = link_to glyph(:user)+" Профиль", edit_user_path(current_user), class: "btn btn-small"
+            = link_to glyph(:off)+" Выход", :logout, class: "btn btn-small"
+          %form.form-search.pull-right{action: "/search/", style: "margin-top: 6px; margin-bottom: -5px; "}
             .input-append
-              %input.span2.search-query{:name => "query", :type => "text", :value => params[:query], :data => { :keybinding => 'f' }}/
-              %button.btn{:type => "submit"}
+              %input.span2.search-query{name: "query", type: "text", value: params[:query], data: { keybinding: 'f' }}/
+              %button.btn{type: "submit"}
                 = glyph(:search)+" Поиск"
         - else
-          = link_to glyph(:lock)+'Вход', :login, :class => "btn btn-mini"
+          = link_to glyph(:lock)+'Вход', :login, class: "btn btn-mini"

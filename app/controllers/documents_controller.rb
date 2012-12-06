@@ -7,7 +7,7 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-    @documents = Document.accessible_by(current_ability).paginate(:page => params[:page], :per_page => 5).order('updated_at DESC')
+    @documents = Document.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -91,7 +91,7 @@ class DocumentsController < ApplicationController
   # PUT /documents/1/move.json
   def move
     @document = Document.find(params[:id])
-    @solution = Solution.create(:name => @document.title, :description => @document.body)
+    @solution = Solution.create(name: @document.title, description: @document.body)
 
     respond_to do |format|
       if @solution.save

@@ -1,28 +1,28 @@
 Houston::Application.routes.draw do
 
-  root :to => 'welcome#index'
+  root to: 'welcome#index'
 
   get "search/index"
 
-  get "audit/index", :as => :audit
+  get "audit/index", as: :audit
 
   resources :search
 
   resources :audit
 
-  resources :servers, :except => :show
+  resources :servers, except: :show
 
-  resources :server_problems, :except => :show
+  resources :server_problems, except: :show
 
-  resources :problems, :except => :show
+  resources :problems, except: :show
 
-  resources :solutions, :except => :show
+  resources :solutions, except: :show
 
-  resources :problem_solutions, :except => :show
+  resources :problem_solutions, except: :show
 
   resources :documents
 
-  resources :tags, :except => :show
+  resources :tags, except: :show
 
   resources :welcome do
     member do
@@ -34,20 +34,20 @@ Houston::Application.routes.draw do
 
   resources :user_sessions
 
-  match 'login' => 'user_sessions#new', :as => :login
-  match 'logout' => 'user_sessions#destroy', :as => :logout
+  match 'login' => 'user_sessions#new', as: :login
+  match 'logout' => 'user_sessions#destroy', as: :logout
 
-  match 'server/:server_id/problems' => 'server_problems#index', :as => :problems_by_server
-  match 'server/:server_id/add_problem' => 'server_problems#new', :as => :problem_for_server
-  match 'server/:server_id/edit_problem/:id' => 'server_problems#edit', :as => :edit_problem_for_server
-  match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_for_problem_by_server
+  match 'server/:server_id/problems' => 'server_problems#index', as: :problems_by_server
+  match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server
+  match 'server/:server_id/edit_problem/:id' => 'server_problems#edit', as: :edit_problem_for_server
+  match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', as: :solutions_for_problem_by_server
 
-  match 'problem/:problem_id/solutions' => 'problem_solutions#index', :as => :solutions_by_problem
-  match 'problem/:problem_id/add_solution' => 'problem_solutions#new', :as => :solution_for_problem
-  match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', :as => :edit_solution_for_problem
-  match 'problems/:tag_id' => 'problems#index', :as => :problems_by_tag
+  match 'problem/:problem_id/solutions' => 'problem_solutions#index', as: :solutions_by_problem
+  match 'problem/:problem_id/add_solution' => 'problem_solutions#new', as: :solution_for_problem
+  match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', as: :edit_solution_for_problem
+  match 'problems/:tag_id' => 'problems#index', as: :problems_by_tag
 
-  match 'documents/:id/move' => 'documents#move', :as => :move_document_to_solution
+  match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -57,8 +57,8 @@ Houston::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+  #   match 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # This route can be invoked with purchase_url(id: product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
@@ -85,7 +85,7 @@ Houston::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get 'recent', :on => :collection
+  #       get 'recent', on: :collection
   #     end
   #   end
 
@@ -98,7 +98,7 @@ Houston::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  # root to: "welcome#index"
 
   # See how all your routes lay out with "rake routes"
 

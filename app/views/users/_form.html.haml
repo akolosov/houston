@@ -1,13 +1,13 @@
-= simple_form_for @user, :html => { :class => 'form-horizontal form' } do |f|
+= simple_form_for @user, html: { class: 'form-horizontal form' } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :realname, :label => "Имя", :input_html => { :class => 'form-input' }
-    = f.input :username, :label => "Логин", :input_html => { :class => 'form-input' }
-    = f.input :email, :input_html => { :class => 'form-input' }
-    = f.input :password, :label => "Пароль", :input_html => { :class => 'form-input' }
-    = f.input :password_confirmation, :label => "Подтверждение", :input_html => { :class => 'form-input' }
-    = f.association :roles, :label => "Роли", :input_html => { :class => 'form-input' } if current_user.has_role? :admin
+    = f.input :realname, label: "Имя", input_html: { class: 'form-input' }
+    = f.input :username, label: "Логин", input_html: { class: 'form-input' }
+    = f.input :email, input_html: { class: 'form-input' }
+    = f.input :password, label: "Пароль", input_html: { class: 'form-input' }
+    = f.input :password_confirmation, label: "Подтверждение", input_html: { class: 'form-input' }
+    = f.association :roles, label: "Роли", input_html: { class: 'form-input' } if current_user.has_role? :admin
   .form-actions
-    = f.submit @button_title, :class => "btn"
-    = link_to 'Отмена', users_path, :class => 'btn'
+    = f.submit @button_title, class: "btn"
+    = link_to 'Отмена', users_path, class: 'btn'

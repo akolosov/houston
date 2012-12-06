@@ -2,7 +2,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :require_login, :except => [:not_authenticated, :set_current_user, :prepare_for_mobile, :mobile_device?]
+  before_filter :require_login, except: [:not_authenticated, :set_current_user, :prepare_for_mobile, :mobile_device?]
 
   before_filter :prepare_for_mobile, :set_current_user
 
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def not_authenticated
-    redirect_to login_path, :alert => "Для начала осуществите вход в ЦУП!"
+    redirect_to login_path, alert: "Для начала осуществите вход в ЦУП!"
   end
 
   private

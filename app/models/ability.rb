@@ -9,7 +9,7 @@ class Ability
     if user.has_role? :admin
       can :manage, :all
     elsif user.has_role? :manager
-      can :manage, User, :id => user.id
+      can :manage, User, id: user.id
       can :read, Server
       can :read, ServerProblem
       can :read, Problem
@@ -18,7 +18,7 @@ class Ability
       can :read, Document
       can :read, Tag
       can :read, ProblemTag
-      can :update, Document, :user_id => user.id
+      can :update, Document, user_id: user.id
       can :create, Document
     end
 
@@ -32,7 +32,7 @@ class Ability
     # The third argument is an optional hash of conditions to further filter the objects.
     # For example, here the user can only update published articles.
     #
-    #   can :update, Article, :published => true
+    #   can :update, Article, published: true
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end

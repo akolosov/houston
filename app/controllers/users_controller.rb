@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      format.xml  { render xml: @users }
     end
   end
 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @user }
+      format.xml  { render xml: @user }
     end
   end
 
@@ -39,11 +39,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(:users, :notice => 'Пользователь успешно создан.') }
-        format.xml { render :xml => @user, :status => :created, :location => @user }
+        format.html { redirect_to(:users, notice: 'Пользователь успешно создан.') }
+        format.xml { render xml: @user, status: :created, location: @user }
       else
-        format.html { render :action => "new" }
-        format.xml { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,11 +55,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to(:users, :notice => 'Пользователь успешно обновлен.') }
+        format.html { redirect_to(:users, notice: 'Пользователь успешно обновлен.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
   def activate
     if @user = User.load_from_activation_token(params[:id])
       @user.activate!
-      redirect_to(login_path, :notice => 'Пользователь успешно активирован.')
+      redirect_to(login_path, notice: 'Пользователь успешно активирован.')
     else
       not_authenticated
     end

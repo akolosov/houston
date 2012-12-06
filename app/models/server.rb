@@ -10,10 +10,10 @@ class Server < ActiveRecord::Base
 
   attr_accessible :address, :description, :location, :name, :username, :port
 
-  validates :name, :description, :presence => true
+  validates :name, :description, presence: true
 
-  has_many :server_problems, :dependent => :destroy
-  has_many :problems, :through => :server_problems, :dependent => :destroy
+  has_many :server_problems, dependent: :destroy
+  has_many :problems, through: :server_problems, dependent: :destroy
 
   def default_values
     self.port ||= '22'

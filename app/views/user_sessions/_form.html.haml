@@ -15,13 +15,13 @@
     background-image: linear-gradient(top, #555555 0%, #111111 100%);
   }
 #loginbox
-  = form_tag user_sessions_path, :method => :post, :class => 'form-vertical' do
+  = form_tag user_sessions_path, method: :post, class: 'form-vertical' do
     .input-prepend
       %span.add-on= glyph(:user)
-      = text_field_tag :email, nil, :placeholder => 'Имя пользователя или Почта'
+      = text_field_tag :email, nil, placeholder: 'Имя пользователя или Почта'
     .input-prepend
       %span.add-on
         = glyph(:lock)
-      = password_field_tag :password, nil, :placeholder => 'Пароль'
+      = password_field_tag :password, nil, placeholder: 'Пароль'
     .form-actions
-      = submit_tag "Вход", :class => 'btn btn-inverse'
+      = submit_tag "Вход", class: 'btn btn-inverse'

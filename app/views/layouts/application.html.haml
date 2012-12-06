@@ -1,40 +1,40 @@
 !!!
-%html{:lang => "en"}
+%html{lang: "en"}
   %head
-    %meta{:charset => "utf-8"}/
+    %meta{charset: "utf-8"}/
     %title Хьюстон, у нас проблема!
-    %meta{:content => "", :name => "description"}/
-    %meta{:content => "", :name => "author"}/
+    %meta{content: "", name: "description"}/
+    %meta{content: "", name: "author"}/
     /[if lt IE 9]
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     / Styles
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "application", media: "all"
     = csrf_meta_tag
     / Icons
     = favicon_link_tag "/favicon.ico?1"
-    %link{:href => "favicon.ico", :rel => "shortcut icon"}/
-    %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
-    %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
-    %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
+    %link{href: "favicon.ico", rel: "shortcut icon"}/
+    %link{href: "images/apple-touch-icon.png", rel: "apple-touch-icon"}/
+    %link{href: "images/apple-touch-icon-72x72.png", rel: "apple-touch-icon", sizes: "72x72"}/
+    %link{href: "images/apple-touch-icon-114x114.png", rel: "apple-touch-icon", sizes: "114x114"}/
   %body
     - if current_user
-      = render :partial => 'common/header'
+      = render partial: 'common/header'
     .container-fluid
       .row-fluid
         - if current_user
           .span2
-            = render :partial => 'common/menu'
+            = render partial: 'common/menu'
           .span10
-            = render :partial => 'common/flashes'
+            = render partial: 'common/flashes'
             = yield
         - else
           .span12
-            = render :partial => 'common/flashes'
+            = render partial: 'common/flashes'
             = yield
       / /.row-fluid
     / /.fluid-container
     / Footer
-    = render :partial => 'common/footer'
+    = render partial: 'common/footer'
     / Javascript
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag :application

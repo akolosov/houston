@@ -8,5 +8,5 @@ class Document < ActiveRecord::Base
 
   attr_accessible :body, :title, :user, :user_id
   
-  validates :title, :body, :presence => true
+  validates :title, :body, presence: true
 end

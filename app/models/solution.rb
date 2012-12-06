@@ -6,12 +6,12 @@ class Solution < ActiveRecord::Base
 
   resourcify
 
-  has_many :problem_solutions, :dependent => :destroy
-  has_many :problems, :through => :problem_solutions, :dependent => :destroy
+  has_many :problem_solutions, dependent: :destroy
+  has_many :problems, through: :problem_solutions, dependent: :destroy
 
   attr_accessible :description, :name
 
-  validates :name, :description, :presence => true
+  validates :name, :description, presence: true
 
   def self.solutions_for_problem(problem)
     where("id in (select solution_id from problem_solutions where problem_id = #{problem.id})")

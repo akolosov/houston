@@ -2,9 +2,9 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.9'
 
-gem "bcrypt-ruby", :require => "bcrypt"
+gem "bcrypt-ruby", require: "bcrypt"
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3-ruby', require: 'sqlite3'
 
 gem 'sorcery'
 

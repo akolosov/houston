@@ -1,8 +1,8 @@
-= simple_form_for @tag, :html => { :class => 'form-horizontal form' } do |f|
+= simple_form_for @tag, html: { class: 'form-horizontal form' } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :name, :label => "Имя", :input_html => { :class => 'form-input' }
+    = f.input :name, label: "Имя", input_html: { class: 'form-input' }
   .form-actions
-    = f.submit @button_title, :class => "btn"
-    = link_to 'Отмена', tags_path, :class => 'btn'
+    = f.submit @button_title, class: "btn"
+    = link_to 'Отмена', tags_path, class: 'btn'

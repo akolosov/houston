@@ -5,21 +5,21 @@
 
 %h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : "" )
 .apple_pagination
-  =will_paginate @problem_solutions, :previous_label => '←', :next_label => '→'
+  =will_paginate @problem_solutions, previous_label: '←', next_label: '→'
 - @problem_solutions.each do |problem_solution|
   .form
     .form-header
       %h3= problem_solution.solution.name
       - if @current_user.has_role? :admin
         .btn-group.pull-right
-          = link_to glyph(:pencil)+' Изменить', edit_solution_for_problem_path(problem_solution.problem, problem_solution), :class => 'btn btn-mini' if can? :manage, problem_solution
-          = link_to glyph(:trash)+' Удалить', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-mini btn-danger' if can? :destroy, problem_solution
+          = link_to glyph(:pencil)+' Изменить', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini' if can? :manage, problem_solution
+          = link_to glyph(:trash)+' Удалить', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem_solution
     .form-inputs
       = raw RDiscount.new(problem_solution.solution.description).to_html
   %br
   %br
 .apple_pagination
-  =will_paginate @problem_solutions, :previous_label => '←', :next_label => '→'
-= link_to glyph(:plus)+' Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), :class => 'btn btn-mini', :data => { :keybinding => 'ins' } if can? :manage, ProblemSolution
+  =will_paginate @problem_solutions, previous_label: '←', next_label: '→'
+= link_to glyph(:plus)+' Новое решение проблемы', (params[:problem_id] ? solution_for_problem_path(Problem.find(params[:problem_id])) : new_problem_solution_path), class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :manage, ProblemSolution
 %br
 %br
