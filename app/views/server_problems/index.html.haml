@@ -12,8 +12,18 @@
     .form-header
       %h3= server_problem.problem.name
       .btn-group.pull-right
-        = link_to glyph(:pencil)+' Изменить', edit_problem_for_server_path(server_problem.server, server_problem), class: 'btn btn-mini' if can? :manage, server_problem
-        = link_to glyph(:trash)+' Удалить', server_problem, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, server_problem
+        - if can? :manage, server_problem
+          = link_to glyph(:pencil)+' Изменить проблему для сервера', edit_problem_for_server_path(server_problem.server, server_problem), class: 'btn btn-mini'
+          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to glyph(:hdd)+' Изменить сервер', edit_server_path(server_problem.server)
+            %li
+              = link_to glyph(:fire)+' Изменить проблему', edit_problem_path(server_problem.problem)
+            %li.divider
+            %li
+              = link_to glyph(:trash)+' Удалить проблему для сервера', server_problem, method: :delete, data: { confirm: 'Вы уверены?' }
         = link_to glyph(:tint)+' Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), class: 'btn btn-mini btn-success' if can? :read, server_problem
     .form-inputs
       = raw RDiscount.new(server_problem.problem.description).to_html

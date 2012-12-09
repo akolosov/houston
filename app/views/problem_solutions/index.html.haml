@@ -12,8 +12,17 @@
       %h3= problem_solution.solution.name
       - if @current_user.has_role? :admin
         .btn-group.pull-right
-          = link_to glyph(:pencil)+' Изменить', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini' if can? :manage, problem_solution
-          = link_to glyph(:trash)+' Удалить', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem_solution
+          = link_to glyph(:pencil)+' Изменить решение проблемы', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini'
+          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to glyph(:tint)+' Изменить решение', edit_solution_path(problem_solution.solution)
+            %li
+              = link_to glyph(:fire)+' Изменить проблему', edit_problem_path(problem_solution.problem)
+            %li.divider
+            %li
+              = link_to glyph(:trash)+' Удалить решение проблемы', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }
     .form-inputs
       = raw RDiscount.new(problem_solution.solution.description).to_html
   %br
