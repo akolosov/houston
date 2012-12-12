@@ -10,11 +10,11 @@
 - @solutions.each do |solution|
   .form
     .form-header
-      %h3= solution.name
       - if @current_user.has_role? :admin
-        .btn-group.pull-right
+        .btn-group.pull-right.top10.right10
           = link_to glyph(:pencil)+' Изменить', edit_solution_path(solution), class: 'btn btn-mini' if can? :manage, solution
           = link_to glyph(:trash)+' Удалить', solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :manage, solution
+      %h3= solution.name
     .form-inputs
       = raw RDiscount.new(solution.description).to_html
   %br

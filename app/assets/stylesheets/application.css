@@ -22,6 +22,14 @@ p.footer, p.footer a {
 	width: 98%;
 }
 
+.top10 {
+  margin-top: 10px;
+}
+
+.right10 {
+  margin-right: 10px;
+}
+
 .form {
 	margin: 0;
 	padding: 0;

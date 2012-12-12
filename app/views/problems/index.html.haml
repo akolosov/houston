@@ -10,17 +10,18 @@
 - @problems.each do |problem|
   .form
     .form-header
-      %h3= problem.name
-      .btn-group.pull-right
+      .btn-group.pull-right.top10.right10
         = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
         = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem
         = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
+      %h3= problem.name
     .form-inputs
       = raw RDiscount.new(problem.description).to_html
-      %br
+    .form-actions
       - if problem.tags
-        - problem.tags.each do |tag|
-          = link_to '['+tag.name+'] ', problems_by_tag_path(tag), class: 'btn btn-mini'
+        .pull-right
+          - problem.tags.each do |tag|
+            = link_to '['+tag.name+'] ', problems_by_tag_path(tag), class: 'btn btn-mini'
   %br
   %br
 

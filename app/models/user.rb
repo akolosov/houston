@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
 
   has_many :documents, dependent: :destroy
 
+  has_many :incedents, dependent: :destroy, foreign_key: "initiator_id"
+
   validates_length_of :password, minimum: 3, message: "Пароль должен быть длиннее 3 символов", if: :password
 
   validates_confirmation_of :password, message: "Пароли не совпадают", if: :password

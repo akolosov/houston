@@ -17,12 +17,11 @@
             %span.caret
           %ul.dropdown-menu
             %li
-              = link_to glyph(:tint)+' Изменить решение', edit_solution_path(problem_solution.solution)
+              = link_to glyph(:tint)+' Изменить решение', edit_solution_path(problem_solution.solution), class: 'btn btn-mini'
             %li
-              = link_to glyph(:fire)+' Изменить проблему', edit_problem_path(problem_solution.problem)
-            %li.divider
+              = link_to glyph(:fire)+' Изменить проблему', edit_problem_path(problem_solution.problem), class: 'btn btn-mini'
             %li
-              = link_to glyph(:trash)+' Удалить решение проблемы', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }
+              = link_to glyph(:trash)+' Удалить решение проблемы', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger'
     .form-inputs
       = raw RDiscount.new(problem_solution.solution.description).to_html
   %br

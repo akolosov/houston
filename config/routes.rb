@@ -1,5 +1,6 @@
 Houston::Application.routes.draw do
 
+
   root to: 'welcome#index'
 
   get "search/index"
@@ -24,6 +25,8 @@ Houston::Application.routes.draw do
 
   resources :tags, except: :show
 
+  resources :incedents
+
   resources :welcome do
     member do
       get 'denied'
@@ -45,7 +48,9 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/solutions' => 'problem_solutions#index', as: :solutions_by_problem
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', as: :solution_for_problem
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', as: :edit_solution_for_problem
-  match 'problems/:tag_id' => 'problems#index', as: :problems_by_tag
+  match 'problems/tag/:tag_id' => 'problems#index', as: :problems_by_tag
+
+  match 'incedents/tag/:tag_id' => 'incedents#index', as: :incedents_by_tag
 
   match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
 

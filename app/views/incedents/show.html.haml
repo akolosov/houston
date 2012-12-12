@@ -1,0 +1,28 @@
+:css
+  .form-inputs {
+    margin: 30px;
+  }
+
+.form
+  .form-header
+    .btn-group.pull-right.top10.right10
+      = link_to glyph(:eye_open)+' Посмотреть', @incedent, class: 'btn btn-mini' if can? :read, @incedent
+      = link_to glyph(:pencil)+' Изменить', edit_incedent_path(@incedent), class: 'btn btn-mini' if can? :manage, @incedent
+      - if can? :manage, @incedent
+        %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+          %span.caret
+        %ul.dropdown-menu
+          %li
+            = link_to glyph(:trash)+' Удалить', @incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :estroy, @incedent
+    %h3= @incedent.name
+  .form-inputs
+    = raw RDiscount.new(@incedent.description).to_html
+    %br
+    .pull-right
+      = 'Автор: '+@incedent.initiator.realname+' ('+@incedent.initiator.email+')'
+  .form-actions
+    = 'Статус: '+@incedent.status.name+', Приоритет: '+@incedent.priority.name+', Тип: '+@incedent.type.name
+    - if @incedent.tags
+      .pull-right
+        - @incedent.tags.each do |tag|
+          = link_to '['+tag.name+'] ', incedents_by_tag_path(tag), class: 'btn btn-mini'

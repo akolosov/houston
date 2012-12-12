@@ -9,16 +9,22 @@
 - @documents.each do |document|
   .form
     .form-header
-      %h3= document.title
-      .btn-group.pull-right
-        = link_to glyph(:play)+' Читать', document, class: 'btn btn-mini' if can? :read, document
+      .btn-group.pull-right.top10.right10
+        = link_to glyph(:eye_open)+' Читать', document, class: 'btn btn-mini' if can? :read, document
         = link_to glyph(:pencil)+' Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :update, document
-        = link_to glyph(:thumbs_up)+' Утвердить', move_document_to_solution_path(document), class: 'btn btn-mini btn-success' if can? :move, document
-        = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
+        - if can? :manage, document
+          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to glyph(:thumbs_up)+' Утвердить', move_document_to_solution_path(document), class: 'btn btn-mini btn-success' if can? :move, document
+            %li
+              = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
+      %h3= document.title
     .form-inputs
       = raw RDiscount.new(document.body.slice(0, 500)+link_to('...', document, class: 'btn btn-mini')).to_html
       .pull-right
-        = 'Автор: '+document.user.name+' ('+document.user.email+')'
+        = 'Автор: '+document.user.realname+' ('+document.user.email+')'
       %br
   %br
   %br

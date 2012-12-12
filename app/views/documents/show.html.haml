@@ -13,5 +13,5 @@
   .form-inputs
     = raw RDiscount.new(@document.body).to_html
     .pull-right
-      = 'Автор: '+@document.user.name+' ('+@document.user.email+')'
+      = 'Автор: '+@document.user.realname+' ('+@document.user.email+')'
     %br
