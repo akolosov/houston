@@ -10,7 +10,13 @@ class User < ActiveRecord::Base
 
   has_many :documents, dependent: :destroy
 
-  has_many :incedents, dependent: :destroy, foreign_key: "initiator_id"
+  has_many :owned_incedents, dependent: :destroy, foreign_key: "initiator_id"
+
+  has_many :worked_incedents, dependent: :destroy, foreign_key: "worker_id"
+
+  has_many :incedent_actions, dependent: :destroy, foreign_key: "worker_id"
+
+  has_many :comments, dependent: :destroy, foreign_key: "author_id"
 
   validates_length_of :password, minimum: 3, message: "Пароль должен быть длиннее 3 символов", if: :password
 

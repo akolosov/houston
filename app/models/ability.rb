@@ -20,17 +20,38 @@ class Ability
       can :read, ProblemTag
       can :update, Document, user_id: user.id
       can :create, Document
+
       can :read, Incedent
       can :update, Incedent
       can :create, Incedent
+      can :play, Incedent
+      can :pause, Incedent, worker_id: user.id
+      can :stop, Incedent, worker_id: user.id
+      can :replay, Incedent, initiator_id: user.id
+      can :replay, Incedent, worker_id: user.id
+      can :reject, Incedent, worker_id: user.id
+      can :close, Incedent, initiator_id: user.id
+      can :solve, Incedent, initiator_id: user.id
+
     elsif user.has_role? :user
       can :manage, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id
       can :create, Document
+
       can :read, Incedent
       can :update, Incedent, initiator_id: user.id
+      can :play, Incedent, initiator_id: user.id
+      can :play, Incedent, worker_id: user.id
+      can :pause, Incedent, worker_id: user.id
+      can :stop, Incedent, worker_id: user.id
       can :create, Incedent
+      can :replay, Incedent, initiator_id: user.id
+      can :replay, Incedent, worker_id: user.id
+      can :reject, Incedent, worker_id: user.id
+      can :close, Incedent, initiator_id: user.id
+      can :solve, Incedent, initiator_id: user.id
+
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.

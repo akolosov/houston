@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212101357) do
+ActiveRecord::Schema.define(:version => 20121213083720) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -31,6 +31,26 @@ ActiveRecord::Schema.define(:version => 20121212101357) do
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
+  create_table "comments", :force => true do |t|
+    t.integer  "author_id"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "comments", ["author_id"], :name => "index_comments_on_author_id"
+
+  create_table "document_comments", :force => true do |t|
+    t.integer  "document_id"
+    t.integer  "comment_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "document_comments", ["comment_id"], :name => "index_document_comments_on_comment_id"
+  add_index "document_comments", ["document_id"], :name => "index_document_comments_on_document_id"
+
   create_table "documents", :force => true do |t|
     t.string   "title"
     t.text     "body"
@@ -40,6 +60,28 @@ ActiveRecord::Schema.define(:version => 20121212101357) do
   end
 
   add_index "documents", ["user_id"], :name => "index_documents_on_user_id"
+
+  create_table "incedent_actions", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "status_id"
+    t.integer  "worker_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_actions", ["incedent_id"], :name => "index_incedent_actions_on_incedent_id"
+  add_index "incedent_actions", ["status_id"], :name => "index_incedent_actions_on_status_id"
+  add_index "incedent_actions", ["worker_id"], :name => "index_incedent_actions_on_worker_id"
+
+  create_table "incedent_comments", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "comment_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_comments", ["comment_id"], :name => "index_incedent_comments_on_comment_id"
+  add_index "incedent_comments", ["incedent_id"], :name => "index_incedent_comments_on_incedent_id"
 
   create_table "incedent_tags", :force => true do |t|
     t.integer  "tag_id"
@@ -55,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20121212101357) do
     t.string   "name"
     t.text     "description"
     t.integer  "initiator_id"
+    t.integer  "worker_id"
     t.integer  "status_id"
     t.integer  "priority_id"
     t.integer  "type_id"
@@ -66,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20121212101357) do
   add_index "incedents", ["priority_id"], :name => "index_incedents_on_priority_id"
   add_index "incedents", ["status_id"], :name => "index_incedents_on_status_id"
   add_index "incedents", ["type_id"], :name => "index_incedents_on_type_id"
+  add_index "incedents", ["worker_id"], :name => "index_incedents_on_worker_id"
 
   create_table "priorities", :force => true do |t|
     t.string "name"

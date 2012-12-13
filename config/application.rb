@@ -55,5 +55,15 @@ module Houston
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # internal constants
+    config.incedent_created  = 1
+    config.incedent_played   = 2
+    config.incedent_paused   = 3
+    config.incedent_stoped   = 4
+    config.incedent_rejected = 5
+    config.incedent_solved   = 6
+    config.incedent_closed   = 7
+    config.incedent_waited   = 8
   end
 end

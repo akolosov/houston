@@ -19,9 +19,10 @@
       - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
         - if tag.problems.count > 0
           %li.nav-item= link_to glyph(:tag)+" "+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag), class: 'tag'+(tag.problems.count >= 10 ? '9' : tag.problems.count.to_s)
-  .well.sidebar-nav
-    %ul.nav.nav-list
-      %li.nav-header Метки для жалоб
-      - Tag.all.sort_by{ | tag | tag.incedents.count }.reverse.each do |tag|
-        - if tag.incedents.count > 0
-          %li.nav-item= link_to glyph(:tag)+" "+tag.name+' ('+tag.incedents.count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.count >= 10 ? '9' : tag.incedents.count.to_s)
+
+.well.sidebar-nav
+  %ul.nav.nav-list
+    %li.nav-header Метки для жалоб
+    - Tag.all.sort_by{ | tag | tag.incedents.count }.reverse.each do |tag|
+      - if tag.incedents.count > 0
+        %li.nav-item= link_to glyph(:tag)+" "+tag.name+' ('+tag.incedents.count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.count >= 10 ? '9' : tag.incedents.count.to_s)

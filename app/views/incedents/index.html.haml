@@ -13,19 +13,38 @@
     .form-header
       .btn-group.pull-right.top10.right10
         = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
-        = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :manage, incedent
-        - if can? :manage, incedent
-          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
-            %span.caret
-          %ul.dropdown-menu
-            %li
-              = link_to glyph(:trash)+' Удалить', incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :estroy, incedent
+        = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin)) 
+        -if !incedent.is_solved?
+          - if (incedent.worker and incedent.worker = current_user)
+            - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+              = link_to glyph(:pause)+' Приостановить', pause_incedent_path(incedent), class: 'btn btn-mini' if can? :pause, incedent
+            - elsif !incedent.is_rejected? and !incedent.is_closed?
+              = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
+            - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+              = link_to glyph(:stop)+' Остановить', stop_incedent_path(incedent), class: 'btn btn-mini' if can? :stop, incedent
+          - else
+            - if !incedent.is_rejected? and !incedent.is_closed?
+              = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
+          - if !incedent.is_rejected? and !incedent.is_closed?
+            = link_to glyph(:remove)+' Отклонить', reject_incedent_path(incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :reject, incedent
+          - if !incedent.is_closed?
+            = link_to glyph(:ok)+' Закрыть', close_incedent_path(incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :close, incedent
+          - if (incedent.is_rejected? or incedent.is_closed?) and can? :replay, incedent and incedent.has_worker?
+            = link_to glyph(:play)+' Возобновить', play_incedent_path(incedent), class: 'btn btn-mini' if can? :replay, incedent
+          - if (incedent.is_closed? or incedent.is_stoped?) and !incedent.is_solved? and can? :solve, incedent
+            = link_to glyph(:thumbs_up)+' Решено', solve_incedent_path(incedent), class: 'btn btn-mini btn-success' if can? :solve, incedent
+        - elsif current_user.has_role? :admin
+          = link_to glyph(:play)+' Возобновить', play_incedent_path(incedent), class: 'btn btn-mini' if can? :replay, incedent
+        = link_to glyph(:trash)+' Удалить', incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, incedent
       %h3= incedent.name
     .form-inputs
       = raw RDiscount.new(incedent.description).to_html
-      %br
       .pull-right
         = 'Автор: '+incedent.initiator.realname+' ('+incedent.initiator.email+')'
+        - if incedent.worker
+          %br
+          = 'Исполнитель: '+incedent.worker.realname+' ('+incedent.worker.email+')'
+      %br
     .form-actions
       = 'Статус: '+incedent.status.name+', Приоритет: '+incedent.priority.name+', Тип: '+incedent.type.name
       - if incedent.tags

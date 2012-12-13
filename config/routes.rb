@@ -1,6 +1,9 @@
 Houston::Application.routes.draw do
 
 
+  resources :comments
+
+
   root to: 'welcome#index'
 
   get "search/index"
@@ -51,6 +54,13 @@ Houston::Application.routes.draw do
   match 'problems/tag/:tag_id' => 'problems#index', as: :problems_by_tag
 
   match 'incedents/tag/:tag_id' => 'incedents#index', as: :incedents_by_tag
+  match 'incedents/:id/play' => 'incedents#play', as: :play_incedent
+  match 'incedents/:id/replay' => 'incedents#replay', as: :replay_incedent
+  match 'incedents/:id/pause' => 'incedents#pause', as: :pause_incedent
+  match 'incedents/:id/stop' => 'incedents#stop', as: :stop_incedent
+  match 'incedents/:id/reject' => 'incedents#reject', as: :reject_incedent
+  match 'incedents/:id/solve' => 'incedents#solve', as: :solve_incedent
+  match 'incedents/:id/close' => 'incedents#close', as: :close_incedent
 
   match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
 

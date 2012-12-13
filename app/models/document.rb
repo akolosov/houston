@@ -6,6 +6,9 @@ class Document < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :document_comments, dependent: :destroy
+  has_many :comments, through: :document_comments, dependent: :destroy
+
   attr_accessible :body, :title, :user, :user_id
   
   validates :title, :body, presence: true
