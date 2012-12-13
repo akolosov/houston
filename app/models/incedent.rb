@@ -23,7 +23,7 @@ class Incedent < ActiveRecord::Base
   attr_accessible :description, :name, :tags, :tag_ids, :initiator_id, :priority_id, :type_id, :status_id, :worker_id
 
   def has_worker?
-    !self.worker_id.nil?
+    !self.worker.nil?
   end
 
   def is_played?

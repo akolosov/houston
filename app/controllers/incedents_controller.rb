@@ -1,6 +1,6 @@
 # encoding: utf-8
 class IncedentsController < ApplicationController
-  skip_before_filter :require_login
+  before_filter :require_login
 
   load_and_authorize_resource
 
@@ -120,9 +120,7 @@ class IncedentsController < ApplicationController
   def replay
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_played
 
@@ -144,9 +142,7 @@ class IncedentsController < ApplicationController
   def pause
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_paused
 
@@ -168,9 +164,7 @@ class IncedentsController < ApplicationController
   def stop
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_stoped
 
@@ -192,9 +186,7 @@ class IncedentsController < ApplicationController
   def reject
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_rejected
 
@@ -216,9 +208,7 @@ class IncedentsController < ApplicationController
   def solve
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_solved
 
@@ -240,9 +230,7 @@ class IncedentsController < ApplicationController
   def close
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_worker?
-      @incedent.worker = @current_user
-    end
+    @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_closed
 

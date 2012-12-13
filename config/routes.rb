@@ -1,9 +1,5 @@
 Houston::Application.routes.draw do
 
-
-  resources :comments
-
-
   root to: 'welcome#index'
 
   get "search/index"
@@ -29,6 +25,8 @@ Houston::Application.routes.draw do
   resources :tags, except: :show
 
   resources :incedents
+
+  resources :comments, except: [ :show, :edit, :destroy, :update ]
 
   resources :welcome do
     member do
@@ -61,8 +59,10 @@ Houston::Application.routes.draw do
   match 'incedents/:id/reject' => 'incedents#reject', as: :reject_incedent
   match 'incedents/:id/solve' => 'incedents#solve', as: :solve_incedent
   match 'incedents/:id/close' => 'incedents#close', as: :close_incedent
+  match 'incedent/:incedent_id/comments' => 'comments#index', as: :incedent_comments
 
   match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
+  match 'document/:document_id/comments' => 'comments#index', as: :document_comments
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

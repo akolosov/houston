@@ -9,7 +9,7 @@ class Ability
     if user.has_role? :admin
       can :manage, :all
     elsif user.has_role? :manager
-      can :manage, User, id: user.id
+      can :update, User, id: user.id
       can :read, Server
       can :read, ServerProblem
       can :read, Problem
@@ -20,10 +20,11 @@ class Ability
       can :read, ProblemTag
       can :update, Document, user_id: user.id
       can :create, Document
-
+      can :create, Comment
       can :read, Incedent
       can :update, Incedent
       can :create, Incedent
+      can :create, IncedentComment
       can :play, Incedent
       can :pause, Incedent, worker_id: user.id
       can :stop, Incedent, worker_id: user.id
@@ -32,13 +33,13 @@ class Ability
       can :reject, Incedent, worker_id: user.id
       can :close, Incedent, initiator_id: user.id
       can :solve, Incedent, initiator_id: user.id
-
     elsif user.has_role? :user
-      can :manage, User, id: user.id
+      can :update, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id
       can :create, Document
-
+      can :create, Comment
+      can :create, DocumentComment
       can :read, Incedent
       can :update, Incedent, initiator_id: user.id
       can :play, Incedent, initiator_id: user.id
@@ -51,7 +52,6 @@ class Ability
       can :reject, Incedent, worker_id: user.id
       can :close, Incedent, initiator_id: user.id
       can :solve, Incedent, initiator_id: user.id
-
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.

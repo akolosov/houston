@@ -9,8 +9,8 @@
       %li.nav-item= link_to glyph(:tint)+" Решения", solutions_path, data: { keybinding: 's' } if current_user.has_role? :admin
       %li.nav-item= link_to glyph(:tags)+" Метки", tags_path, data: { keybinding: 'l' } if current_user.has_role? :admin
     %li.nav-header Центр поиска решений
-    %li.nav-item= link_to glyph(:tasks)+" Книга жалоб", incedents_path, data: { keybinding: 'i' }
-    %li.nav-item= link_to glyph(:list)+" Книга рецептов", documents_path, data: { keybinding: 'b' }
+    %li.nav-item= link_to glyph(:inbox)+" Книга жалоб", incedents_path, data: { keybinding: 'i' }
+    %li.nav-item= link_to glyph(:book)+" Книга рецептов", documents_path, data: { keybinding: 'b' }
 
 - if current_user.has_role? :admin or current_user.has_role? :manager
   .well.sidebar-nav

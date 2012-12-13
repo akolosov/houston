@@ -15,7 +15,7 @@
         = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
         = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin)) 
         -if !incedent.is_solved?
-          - if (incedent.worker and incedent.worker = current_user)
+          - if (incedent.worker and incedent.worker == current_user)
             - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
               = link_to glyph(:pause)+' Приостановить', pause_incedent_path(incedent), class: 'btn btn-mini' if can? :pause, incedent
             - elsif !incedent.is_rejected? and !incedent.is_closed?
@@ -41,7 +41,7 @@
       = raw RDiscount.new(incedent.description).to_html
       .pull-right
         = 'Автор: '+incedent.initiator.realname+' ('+incedent.initiator.email+')'
-        - if incedent.worker
+        - if incedent.has_worker?
           %br
           = 'Исполнитель: '+incedent.worker.realname+' ('+incedent.worker.email+')'
       %br
@@ -50,7 +50,7 @@
       - if incedent.tags
         .pull-right
           - incedent.tags.each do |tag|
-            = link_to '['+tag.name+'] ', incedents_by_tag_path(tag), class: 'btn btn-mini'
+            = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
   %br
   %br
 .apple_pagination

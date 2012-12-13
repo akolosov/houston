@@ -1,5 +1,6 @@
+# encoding: utf-8
 class AuditController < ApplicationController
-  skip_before_filter :require_login
+  before_filter :require_login
 
   load_and_authorize_resource
 

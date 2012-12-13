@@ -1,5 +1,6 @@
 class DocumentComment < ActiveRecord::Base
   belongs_to :document
   belongs_to :comment
-  # attr_accessible :title, :body
+
+  attr_accessible :document_id, :comment_id
 end
