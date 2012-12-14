@@ -9,9 +9,8 @@
 - @problem_solutions.each do |problem_solution|
   .form
     .form-header
-      %h3= problem_solution.solution.name
       - if @current_user.has_role? :admin
-        .btn-group.pull-right
+        .btn-group.pull-right.top10.right10
           = link_to glyph(:pencil)+' Изменить решение проблемы', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini'
           %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
             %span.caret
@@ -22,6 +21,7 @@
               = link_to glyph(:fire)+' Изменить проблему', edit_problem_path(problem_solution.problem), class: 'btn btn-mini'
             %li
               = link_to glyph(:trash)+' Удалить решение проблемы', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger'
+      %h3= problem_solution.solution.name
     .form-inputs
       = raw RDiscount.new(problem_solution.solution.description).to_html
   %br

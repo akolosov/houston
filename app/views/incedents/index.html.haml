@@ -16,22 +16,22 @@
   .form-inputs
     .control-group
       %label.control-label По статусу:
-      .controls.bnt-group
-        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:status_id]? ' btn-success' : '')
+      .controls
         - Status.all.each do |status|
           = make_status_filter_url(status, params[:type_id], params[:priority_id])
     .control-group
-      %label.string.control-label По приоритету:
-      .controls.bnt-group
-        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:priority_id]? ' btn-success' : '')
+      %label.control-label По приоритету:
+      .controls
         - Priority.all.each do |priority|
           = make_priority_filter_url(priority, params[:status_id], params[:type_id])
     .control-group
-      %label.string.control-label По типу:
-      .controls.bnt-group
-        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:type_id]? ' btn-success' : '')
+      %label.control-label По типу:
+      .controls
         - Type.all.each do |type|
           = make_type_filter_url(type, params[:status_id], params[:priority_id])
+    .control-group
+      = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'
+
 %br
 .apple_pagination
   =will_paginate @audits, previous_label: '←', next_label: '→'

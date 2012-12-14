@@ -1,10 +1,10 @@
 module IncedentsHelper
 
-  def make_status_filter_url(status, priority_id, type_id)
+  def make_status_filter_url(status, type_id, priority_id)
     type = (type_id ? Type.find(type_id) : nil)
     priority = (priority_id ? Priority.find(priority_id) : nil)
 
-    link_to status.name, (type and priority ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+    link_to status.name, ((type and priority) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
                          (type ? incedents_by_status_and_type_path(status, type) :
                          (priority ? incedents_by_status_and_priority_path(status, priority) :
                          incedents_by_status_path(status)))),
@@ -15,7 +15,7 @@ module IncedentsHelper
     type = (type_id ? Type.find(type_id) : nil)
     status = (status_id ? Status.find(status_id) : nil)
 
-    link_to priority.name, (status and type ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+    link_to priority.name, ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
                            (type ? incedents_by_priority_and_type_path(priority, type) :
                            (status ? incedents_by_status_and_priority_path(status, priority) :
                            incedents_by_priority_path(priority)))),
@@ -26,7 +26,7 @@ module IncedentsHelper
     status = (status_id ? Status.find(status_id) : nil)
     priority = (priority_id ? Priority.find(priority_id) : nil)
 
-    link_to type.name, (status and priority ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+    link_to type.name, ((status and priority) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
                        (priority ? incedents_by_priority_and_type_path(priority, type) :
                        (status ? incedents_by_status_and_type_path(status, type) :
                        incedents_by_type_path(type)))),
