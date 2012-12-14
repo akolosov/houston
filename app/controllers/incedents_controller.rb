@@ -8,9 +8,25 @@ class IncedentsController < ApplicationController
   # GET /incedents.json
   def index
     if (params[:tag_id])
-      @incedents = Incedent.incedents_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      @incedents = Incedent.accessible_by(current_ability).incedents_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
     else
-      @incedents = Incedent.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      if (params[:status_id] and params[:type_id] and params[:priority_id]) 
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Status.find(params[:type_id])).incedents_by_priority(Status.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:status_id] and params[:type_id]) 
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Status.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:status_id] and params[:priority_id]) 
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Status.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:type_id] and params[:priority_id]) 
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_type(Status.find(params[:type_id])).incedents_by_priority(Status.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:status_id]) 
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_status(Status.find(params[:status_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:type_id])
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      elsif (params[:priority_id])
+        @incedents = Incedent.accessible_by(current_ability).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      else
+        @incedents = Incedent.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      end
     end
 
     respond_to do |format|

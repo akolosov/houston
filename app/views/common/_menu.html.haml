@@ -1,6 +1,6 @@
-.well.sidebar-nav
-  %ul.nav.nav-list
-    - if current_user.has_role? :admin or current_user.has_role? :manager
+- if current_user.has_role? :admin or current_user.has_role? :manager
+  .well.sidebar-nav
+    %ul.nav.nav-list
       %li.nav-header Центр решения проблем 
       %li.nav-item= link_to glyph(:user)+" Пользователи", users_path, data: { keybinding: 'u' } if current_user.has_role? :admin
       %li.nav-item= link_to glyph(:list)+" Журнал аудита", audit_path, data: { keybinding: 'a' } if current_user.has_role? :admin
@@ -26,6 +26,6 @@
 .well.sidebar-nav
   %ul.nav.nav-list
     %li.nav-header Метки для жалоб
-    - Tag.all.sort_by{ | tag | tag.incedents.count }.reverse.each do |tag|
-      - if tag.incedents.count > 0
-        %li.nav-item= link_to glyph(:tag)+" "+tag.name+' ('+tag.incedents.count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.count >= 10 ? '9' : tag.incedents.count.to_s)
+    - Tag.all.sort_by{ | tag | tag.incedents.accessible_by(current_ability).count }.reverse.each do |tag|
+      - if tag.incedents.accessible_by(current_ability).count > 0
+        %li.nav-item= link_to glyph(:tag)+" "+tag.name+' ('+tag.incedents.accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)

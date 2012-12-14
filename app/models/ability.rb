@@ -24,6 +24,8 @@ class Ability
       can :read, Incedent
       can :update, Incedent
       can :create, Incedent
+      can :create, Comment
+      can :create, DocumentComment
       can :create, IncedentComment
       can :play, Incedent
       can :pause, Incedent, worker_id: user.id
@@ -40,7 +42,9 @@ class Ability
       can :create, Document
       can :create, Comment
       can :create, DocumentComment
-      can :read, Incedent
+      can :create, IncedentComment
+      can :read, Incedent, initiator_id: user.id
+      can :read, Incedent, worker_id: user.id
       can :update, Incedent, initiator_id: user.id
       can :play, Incedent, initiator_id: user.id
       can :play, Incedent, worker_id: user.id

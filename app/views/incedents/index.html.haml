@@ -3,8 +3,36 @@
     margin: 30px;
   }
 
-%h3
-  Текущие жалобы
+  .filter {
+    display: none;
+    z-index: -1;
+  }
+
+.pull-right
+  %i.icon-filter#filter-button{onclick: "$('#filter').show('fast'); $('#filter-button').hide();", title: 'Фильтр'}
+.form.form-horizontal.filter#filter
+  .pull-right
+    %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#filter-button').show();", title: 'Закрыть'}
+  .form-inputs
+    .control-group
+      %label.control-label По статусу:
+      .controls.bnt-group
+        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:status_id]? ' btn-success' : '')
+        - Status.all.each do |status|
+          = make_status_filter_url(status, params[:type_id], params[:priority_id])
+    .control-group
+      %label.string.control-label По приоритету:
+      .controls.bnt-group
+        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:priority_id]? ' btn-success' : '')
+        - Priority.all.each do |priority|
+          = make_priority_filter_url(priority, params[:status_id], params[:type_id])
+    .control-group
+      %label.string.control-label По типу:
+      .controls.bnt-group
+        = link_to "Все", incedents_path, class: 'btn btn-mini'+(!params[:type_id]? ' btn-success' : '')
+        - Type.all.each do |type|
+          = make_type_filter_url(type, params[:status_id], params[:priority_id])
+%br
 .apple_pagination
   =will_paginate @audits, previous_label: '←', next_label: '→'
 
