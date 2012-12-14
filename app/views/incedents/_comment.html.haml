@@ -1,0 +1,11 @@
+= simple_form_for @incedent_comment, url: add_incedent_comment_path(@incedent_comment.incedent), method: :post, html: { class: 'form-horizontal form' } do |f|
+  .form-header
+    %h3 Оставить коментарий
+  .form-inputs
+    = f.input :incedent_id, as: :hidden
+    = f.simple_fields_for :comment do |c|
+      = c.input :author_id, as: :hidden
+      = c.input :title, label: "Тема", input_html: { class: 'form-input' }
+      = c.input :body, label: "Коментарий", input_html: { class: 'form-input' }, as: :text
+  .form-actions
+    = f.submit "Добавить коментарий", class: "btn"

@@ -26,8 +26,6 @@ Houston::Application.routes.draw do
 
   resources :incedents
 
-  resources :comments, except: [ :show, :edit, :destroy, :update ]
-
   resources :welcome do
     member do
       get 'denied'
@@ -59,10 +57,12 @@ Houston::Application.routes.draw do
   match 'incedents/:id/reject' => 'incedents#reject', as: :reject_incedent
   match 'incedents/:id/solve' => 'incedents#solve', as: :solve_incedent
   match 'incedents/:id/close' => 'incedents#close', as: :close_incedent
-  match 'incedent/:incedent_id/comments' => 'comments#index', as: :incedent_comments
+  match 'incedent/:id/comments' => 'incedents#show', as: :incedent_comments
+  match 'incedent/:incedent_id/comment' => 'incedents#comment', as: :add_incedent_comment
 
   match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
-  match 'document/:document_id/comments' => 'comments#index', as: :document_comments
+  match 'document/:id/comments' => 'documents#show', as: :document_comments
+  match 'document/:document_id/comment' => 'documents#comment', as: :add_document_comment
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -79,6 +79,10 @@ p.footer, p.footer a {
 	padding-right: 3px;
 }
 
+.well, .sidebar-nav {
+	padding: 5px !important;
+}
+
 .tag0 { font-size: 0.6em; }
 .tag1 { font-size: 0.7em; }
 .tag2 { font-size: 0.8em; }

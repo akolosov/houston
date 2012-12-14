@@ -24,6 +24,11 @@ class IncedentsController < ApplicationController
   def show
     @incedent = Incedent.find(params[:id])
 
+    @incedent_comment = IncedentComment.new
+    @incedent_comment.comment = Comment.new
+    @incedent_comment.comment.author = @current_user
+    @incedent_comment.incedent = @incedent
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @incedent }
@@ -47,6 +52,22 @@ class IncedentsController < ApplicationController
   # GET /incedents/1/edit
   def edit
     @incedent = Incedent.find(params[:id])
+  end
+
+  # POST /incedent/:id/comment
+  def comment
+    @incedent_comment = IncedentComment.new
+    @incedent_comment.incedent = Incedent.find(params[:incedent_comment][:incedent_id])
+    @incedent_comment.comment = Comment.new(params[:incedent_comment][:comment])
+    @incedent_comment.comment.author = @current_user
+
+    respond_to do |format|
+      if @incedent_comment.save
+        format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
+      else
+        format.html { render action: "show" }
+      end
+    end
   end
 
   # POST /incedents

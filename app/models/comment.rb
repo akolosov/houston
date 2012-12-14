@@ -7,5 +7,5 @@ class Comment < ActiveRecord::Base
   has_many :incedent_comments, dependent: :destroy
   has_many :incedents, through: :incedent_comments, dependent: :destroy
 
-  attr_accessible :body, :title, :author_id
+  attr_accessible :body, :title, :author, :author_id
 end

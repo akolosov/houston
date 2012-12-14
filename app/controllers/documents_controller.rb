@@ -20,6 +20,11 @@ class DocumentsController < ApplicationController
   def show
     @document = Document.find(params[:id])
 
+    @document_comment = DocumentComment.new
+    @document_comment.comment = Comment.new
+    @document_comment.comment.author = @current_user
+    @document_comment.document = @document
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @document }
@@ -41,6 +46,22 @@ class DocumentsController < ApplicationController
   # GET /documents/1/edit
   def edit
     @document = Document.find(params[:id])
+  end
+
+  # POST /document/:id/comment
+  def comment
+    @document_comment = DocumentComment.new
+    @document_comment.document = Document.find(params[:document_comment][:document_id])
+    @document_comment.comment = Comment.new(params[:document_comment][:comment])
+    @document_comment.comment.author = @current_user
+
+    respond_to do |format|
+      if @document_comment.save
+        format.html { redirect_to @document_comment.document, notice: 'Коментарий успешно добавлен.' }
+      else
+        format.html { render action: "show" }
+      end
+    end
   end
 
   # POST /documents

@@ -12,6 +12,7 @@
   .form
     .form-header
       .btn-group.pull-right.top10.right10
+        = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
         = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
         = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin)) 
         -if !incedent.is_solved?
