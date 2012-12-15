@@ -130,8 +130,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/play
-  # GET /incedents/1/play.json
+  # GET /incedent/1/play
+  # GET /incedent/1/play.json
   def play
     @incedent = Incedent.find(params[:id])
 
@@ -152,8 +152,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/replay
-  # GET /incedents/1/replay.json
+  # GET /incedent/1/replay
+  # GET /incedent/1/replay.json
   def replay
     @incedent = Incedent.find(params[:id])
 
@@ -174,8 +174,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/pause
-  # GET /incedents/1/pause.json
+  # GET /incedent/1/pause
+  # GET /incedent/1/pause.json
   def pause
     @incedent = Incedent.find(params[:id])
 
@@ -196,8 +196,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/stop
-  # GET /incedents/1/stop.json
+  # GET /incedent/1/stop
+  # GET /incedent/1/stop.json
   def stop
     @incedent = Incedent.find(params[:id])
 
@@ -218,8 +218,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/reject
-  # GET /incedents/1/reject.json
+  # GET /incedent/1/reject
+  # GET /incedent/1/reject.json
   def reject
     @incedent = Incedent.find(params[:id])
 
@@ -240,8 +240,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/solve
-  # GET /incedents/1/solve.json
+  # GET /incedent/1/solve
+  # GET /incedent/1/solve.json
   def solve
     @incedent = Incedent.find(params[:id])
 
@@ -262,8 +262,8 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/1/close
-  # GET /incedents/1/close.json
+  # GET /incedent/1/close
+  # GET /incedent/1/close.json
   def close
     @incedent = Incedent.find(params[:id])
 

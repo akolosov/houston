@@ -62,17 +62,17 @@ Houston::Application.routes.draw do
   match 'incedents/by_priority/:priority_id' => 'incedents#index', as: :incedents_by_priority
   match 'incedents/by_tag/:tag_id' => 'incedents#index', as: :incedents_by_tag
 
-  match 'incedents/:id/play' => 'incedents#play', as: :play_incedent
-  match 'incedents/:id/replay' => 'incedents#replay', as: :replay_incedent
-  match 'incedents/:id/pause' => 'incedents#pause', as: :pause_incedent
-  match 'incedents/:id/stop' => 'incedents#stop', as: :stop_incedent
-  match 'incedents/:id/reject' => 'incedents#reject', as: :reject_incedent
-  match 'incedents/:id/solve' => 'incedents#solve', as: :solve_incedent
-  match 'incedents/:id/close' => 'incedents#close', as: :close_incedent
+  match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
+  match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent
+  match 'incedent/:id/pause' => 'incedents#pause', as: :pause_incedent
+  match 'incedent/:id/stop' => 'incedents#stop', as: :stop_incedent
+  match 'incedent/:id/reject' => 'incedents#reject', as: :reject_incedent
+  match 'incedent/:id/solve' => 'incedents#solve', as: :solve_incedent
+  match 'incedent/:id/close' => 'incedents#close', as: :close_incedent
   match 'incedent/:id/comments' => 'incedents#show', as: :incedent_comments
   match 'incedent/:incedent_id/comment' => 'incedents#comment', as: :add_incedent_comment
 
-  match 'documents/:id/move' => 'documents#move', as: :move_document_to_solution
+  match 'document/:id/move' => 'documents#move', as: :move_document_to_solution
   match 'document/:id/comments' => 'documents#show', as: :document_comments
   match 'document/:document_id/comment' => 'documents#comment', as: :add_document_comment
 

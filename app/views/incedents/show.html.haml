@@ -39,6 +39,20 @@
         %br
         = 'Исполнитель: '+@incedent.worker.realname+' ('+@incedent.worker.email+')'
     %br
+    %br
+    %br
+    - if @incedent.incedent_actions and (current_user.has_role? :admin)
+      %table.table.table-striped.table-bordered.table-condensed
+        %tr
+          %th Действие      
+          %th Пользователь
+          %th.span4 Дата и время
+        - @incedent.incedent_actions.each do |action|
+          %tr
+            %td= action.status.name
+            %td= action.worker.realname+' ('+action.worker.email+')'
+            %td= action.created_at
+
   .form-actions
     = 'Статус: '+@incedent.status.name+', Приоритет: '+@incedent.priority.name+', Тип: '+@incedent.type.name
     - if @incedent.tags
