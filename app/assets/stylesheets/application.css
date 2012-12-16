@@ -83,6 +83,14 @@ p.footer, p.footer a {
 	padding: 5px !important;
 }
 
+.form-inputs {
+  margin: 30px;
+}
+
+.form-actions {
+  padding: 10px !important;
+}
+
 .tag0 { font-size: 0.6em; }
 .tag1 { font-size: 0.7em; }
 .tag2 { font-size: 0.8em; }

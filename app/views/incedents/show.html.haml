@@ -1,11 +1,14 @@
 :css
-  .form-inputs {
-    margin: 30px;
+  #history {
+    display: none;
   }
 
 .form
   .form-header
     .btn-group.pull-right.top10.right10
+      - if @incedent.incedent_actions and (current_user.has_role? :admin)
+        %a.btn.btn-mini#filter-button{onclick: "$('#history').show('fast');", title: 'История изменений'}
+          = glyph(:tasks)+' История'
       = link_to glyph(:pencil)+' Изменить', edit_incedent_path(@incedent), class: 'btn btn-mini' if can? :update, @incedent and ((!@incedent.is_closed? and !@incedent.is_solved?) or (current_user.has_role? :admin)) 
       -if !@incedent.is_solved?
         - if (@incedent.worker and @incedent.worker == current_user)
@@ -42,16 +45,21 @@
     %br
     %br
     - if @incedent.incedent_actions and (current_user.has_role? :admin)
-      %table.table.table-striped.table-bordered.table-condensed
-        %tr
-          %th Действие      
-          %th Пользователь
-          %th.span4 Дата и время
-        - @incedent.incedent_actions.each do |action|
-          %tr
-            %td= action.status.name
-            %td= action.worker.realname+' ('+action.worker.email+')'
-            %td= action.created_at
+      .form#history
+        .pull-right
+          %i.icon-remove#close-button{onclick: "$('#history').hide('fast');", title: 'Закрыть'}
+        .form-inputs
+          %p История изменений:
+          %table.table.table-striped.table-bordered.table-condensed
+            %tr
+              %th Действие      
+              %th Пользователь
+              %th.span3 Дата и время
+            - @incedent.incedent_actions.each do |action|
+              %tr
+                %td= action.status.name
+                %td= action.worker.realname+' ('+action.worker.email+')'
+                %td= action.created_at.strftime('%d.%m.%Y %H:%M')
 
   .form-actions
     = 'Статус: '+@incedent.status.name+', Приоритет: '+@incedent.priority.name+', Тип: '+@incedent.type.name

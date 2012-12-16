@@ -1,11 +1,4 @@
-:css
-  .form-inputs {
-    margin: 30px;
-  }
-
 %h3 Книга рецептов
-.apple_pagination
-  =will_paginate @documents, previous_label: '←', next_label: '→'
 - @documents.each do |document|
   .form
     .form-header

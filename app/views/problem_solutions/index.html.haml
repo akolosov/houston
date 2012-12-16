@@ -1,11 +1,4 @@
-:css
-  .form-inputs {
-    margin: 30px;
-  }
-
 %h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : "" )
-.apple_pagination
-  =will_paginate @problem_solutions, previous_label: '←', next_label: '→'
 - @problem_solutions.each do |problem_solution|
   .form
     .form-header
