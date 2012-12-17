@@ -1,0 +1,6 @@
+Уважаемый <%= @incedent.initiator.realname %>
+
+Ваша жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
+приостановлена пользователем <%= @incedent.worker.realname %>
+
+Удачи!

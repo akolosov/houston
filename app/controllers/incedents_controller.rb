@@ -81,6 +81,9 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent_comment.save
+
+        IncedentMailer.incedent_commented(@incedent_comment).deliver
+
         format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
       else
         format.html { render action: "show" }
@@ -95,6 +98,9 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
+
+        IncedentMailer.incedent_created(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
         format.json { render json: @incedent, status: :created, location: @incedent }
       else
@@ -145,6 +151,8 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
 
+        IncedentMailer.incedent_played(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно принята в работу.' }
         format.json { head :no_content }
       else
@@ -166,6 +174,8 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
+
+        IncedentMailer.incedent_replayed(@incedent).deliver
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
         format.json { head :no_content }
@@ -189,6 +199,8 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
 
+        IncedentMailer.incedent_paused(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно приостановлена.' }
         format.json { head :no_content }
       else
@@ -210,6 +222,8 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+
+        IncedentMailer.incedent_stoped(@incedent).deliver
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно остановлена.' }
         format.json { head :no_content }
@@ -233,6 +247,8 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
 
+        IncedentMailer.incedent_rejected(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
         format.json { head :no_content }
       else
@@ -255,6 +271,8 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
 
+        IncedentMailer.incedent_solved(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно решена.' }
         format.json { head :no_content }
       else
@@ -276,6 +294,8 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+
+        IncedentMailer.incedent_closed(@incedent).deliver
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
         format.json { head :no_content }

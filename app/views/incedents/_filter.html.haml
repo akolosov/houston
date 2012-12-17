@@ -1,0 +1,27 @@
+.pull-right
+  = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id])
+  %a.btn.btn-mini#filter-button{onclick: "$('#filter').show('fast'); $('#filter-button').hide(); $('#download-button').hide();", title: 'Фильтр'}
+    = glyph(:filter)+' Фильтр'
+%br
+.form.form-horizontal.filter#filter
+  .pull-right
+    %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#filter-button').show(); $('#download-button').show();", title: 'Закрыть'}
+  .form-inputs
+    .control-group
+      %label.control-label По статусу:
+      .controls
+        - Status.all.each do |status|
+          = make_status_filter_url(status, params[:type_id], params[:priority_id])
+    .control-group
+      %label.control-label По приоритету:
+      .controls
+        - Priority.all.each do |priority|
+          = make_priority_filter_url(priority, params[:status_id], params[:type_id])
+    .control-group
+      %label.control-label По типу:
+      .controls
+        - Type.all.each do |type|
+          = make_type_filter_url(type, params[:status_id], params[:priority_id])
+    .control-group
+      = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'
+%br

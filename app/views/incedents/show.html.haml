@@ -42,24 +42,7 @@
         %br
         = 'Исполнитель: '+@incedent.worker.realname+' ('+@incedent.worker.email+')'
     %br
-    %br
-    %br
-    - if @incedent.incedent_actions and (current_user.has_role? :admin)
-      .form#history
-        .pull-right
-          %i.icon-remove#close-button{onclick: "$('#history').hide('fast');", title: 'Закрыть'}
-        .form-inputs
-          %p История изменений:
-          %table.table.table-striped.table-bordered.table-condensed
-            %tr
-              %th Действие      
-              %th Пользователь
-              %th.span3 Дата и время
-            - @incedent.incedent_actions.each do |action|
-              %tr
-                %td= action.status.name
-                %td= action.worker.realname+' ('+action.worker.email+')'
-                %td= action.created_at.strftime('%d.%m.%Y %H:%M')
+    = render 'history' if @incedent.incedent_actions and (current_user.has_role? :admin)
 
   .form-actions
     = 'Статус: '+@incedent.status.name+', Приоритет: '+@incedent.priority.name+', Тип: '+@incedent.type.name
@@ -67,23 +50,6 @@
       .pull-right
         - @incedent.tags.each do |tag|
           = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
-%br
-%br
-- if @incedent.comments
-  %h3 Обсуждение жалобы
-  - @incedent.comments.each do |comment|
-    .form
-      .form-header
-        %h3= comment.title
-      .form-inputs
-        = raw RDiscount.new(comment.body).to_html
-        .pull-right
-          = 'Автор: '+comment.author.realname+' ('+comment.author.email+')'
-        %br
-    %br
-    %br
-%br
-%br
+
+= render 'comments'
 = render 'comment'
-%br
-%br

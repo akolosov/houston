@@ -1,0 +1,15 @@
+%br
+%br
+- if @incedent.comments
+  %h3 Обсуждение жалобы
+  - @incedent.comments.each do |comment|
+    .form
+      .form-header
+        %h3= comment.title
+      .form-inputs
+        = raw RDiscount.new(comment.body).to_html
+        .pull-right
+          = 'Автор: '+comment.author.realname+' ('+comment.author.email+')'
+        %br
+    %br
+    %br
