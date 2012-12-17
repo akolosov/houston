@@ -1,7 +1,7 @@
 Уважаемый <%= (@incedent_comment.incedent.initiator == @incedent_comment.comment.author ? @incedent_comment.incedent.worker.realname : @incedent_comment.incedent.initiator.realname) %>
 
 Жалоба "<%= @incedent_comment.incedent.name %>" от <%= @incedent_comment.incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
-прокоментирована пользователем <%= @incedent_comment.author.realname %>
+прокоментирована пользователем <%= @incedent_comment.comment.author.realname %>
 
 -----------------------------[текст комментария]------------------------------
 <%= @incedent_comment.comment.body %>
