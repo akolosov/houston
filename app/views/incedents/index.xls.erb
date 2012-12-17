@@ -1,33 +1,52 @@
 <?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:o="urn:schemas-microsoft-com:office:office"
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:html="http://www.w3.org/TR/REC-html40">
-  <Worksheet ss:Name="Sheet1">
+  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+    <Author><%= @current_user.realname %></Author>
+    <Version>1.0</Version>
+  </DocumentProperties>
+  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+    <ProtectStructure>False</ProtectStructure>
+    <ProtectWindows>False</ProtectWindows>
+  </ExcelWorkbook>
+  <Styles>
+    <Style ss:ID="s01">
+      <Borders>
+        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+      </Borders>
+    </Style>
+  </Styles>
+  <Worksheet ss:Name="Жалобы">
     <Table>
       <Row>
-        <Cell><Data ss:Type="String">Имя</Data></Cell>
-        <Cell><Data ss:Type="String">Описание</Data></Cell>
-        <Cell><Data ss:Type="String">Тип</Data></Cell>
-        <Cell><Data ss:Type="String">Приоритет</Data></Cell>
-        <Cell><Data ss:Type="String">Статус</Data></Cell>
-        <Cell><Data ss:Type="String">Дата создания</Data></Cell>
-        <Cell><Data ss:Type="String">Дата последнего изменения</Data></Cell>
-        <Cell><Data ss:Type="String">Автор</Data></Cell>
-        <Cell><Data ss:Type="String">Исполнитель</Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Имя</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Описание</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Тип</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Приоритет</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Статус</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Дата создания</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Дата последнего изменения</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Автор</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Исполнитель</B></ss:Data></Cell>
       </Row>
     <% @incedents.each do |incedent| %>
       <Row>
-        <Cell><Data ss:Type="String"><%= incedent.name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.description %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.type.name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.priority.name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.status.name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.created_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.updated_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= incedent.initiator.realname %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= (incedent.worker ? incedent.worker.realname : '') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.name %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.description %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.type.name %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.priority.name %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.status.name %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.created_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.updated_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.initiator.realname %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.worker ? incedent.worker.realname : '') %></Data></Cell>
       </Row>
     <% end %>
     </Table>
