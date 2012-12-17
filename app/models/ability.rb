@@ -22,7 +22,7 @@ class Ability
       can :create, Document
       can :create, Comment
       can :read, Incedent
-      can :update, Incedent
+      can :update, Incedent, initiator_id: user.id
       can :create, Incedent
       can :create, Comment
       can :create, DocumentComment

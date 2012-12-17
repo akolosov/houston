@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Имя</Data></Cell>
+        <Cell><Data ss:Type="String">Описание</Data></Cell>
+        <Cell><Data ss:Type="String">Тип</Data></Cell>
+        <Cell><Data ss:Type="String">Приоритет</Data></Cell>
+        <Cell><Data ss:Type="String">Статус</Data></Cell>
+        <Cell><Data ss:Type="String">Дата создания</Data></Cell>
+        <Cell><Data ss:Type="String">Дата последнего изменения</Data></Cell>
+        <Cell><Data ss:Type="String">Автор</Data></Cell>
+        <Cell><Data ss:Type="String">Исполнитель</Data></Cell>
+      </Row>
+    <% @incedents.each do |incedent| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= incedent.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.description %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.type.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.priority.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.status.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.created_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.updated_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= incedent.initiator.realname %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= (incedent.worker ? incedent.worker.realname : '') %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

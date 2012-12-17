@@ -32,6 +32,8 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @incedents }
+      format.csv { send_data @incedents.to_csv(col_sep: "\t") }
+      format.xls
     end
   end
 

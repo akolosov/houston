@@ -90,4 +90,13 @@ class Incedent < ActiveRecord::Base
     where("priority_id = #{priority.id}")
   end
 
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      csv << column_names
+      all.each do |incedent|
+        csv << incedent.attributes.values_at(*column_names)
+      end
+    end
+  end
+
 end
