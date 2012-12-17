@@ -1,6 +1,6 @@
 # encoding: utf-8
 class IncedentMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "houston@taxinonstop.ru"
 
   def incedent_created(incedent)
     @incedent = incedent
