@@ -21,19 +21,20 @@ class Ability
       can :update, Document, user_id: user.id
       can :create, Document
       can :create, Comment
-      can :read, Incedent
-      can :update, Incedent, initiator_id: user.id
-      can :create, Incedent
       can :create, Comment
       can :create, DocumentComment
       can :create, IncedentComment
+      can :create, Incedent
       can :play, Incedent
+      can :read, Incedent
+      can :update, Incedent, initiator_id: user.id
       can :pause, Incedent, worker_id: user.id
       can :stop, Incedent, worker_id: user.id
       can :replay, Incedent, initiator_id: user.id
       can :replay, Incedent, worker_id: user.id
       can :reject, Incedent, worker_id: user.id
       can :close, Incedent, initiator_id: user.id
+      can :close, Incedent, worker_id: user.id
       can :solve, Incedent, initiator_id: user.id
     elsif user.has_role? :user
       can :update, User, id: user.id
@@ -43,6 +44,7 @@ class Ability
       can :create, Comment
       can :create, DocumentComment
       can :create, IncedentComment
+      can :create, Incedent
       can :read, Incedent, initiator_id: user.id
       can :read, Incedent, worker_id: user.id
       can :update, Incedent, initiator_id: user.id
@@ -50,11 +52,11 @@ class Ability
       can :play, Incedent, worker_id: user.id
       can :pause, Incedent, worker_id: user.id
       can :stop, Incedent, worker_id: user.id
-      can :create, Incedent
       can :replay, Incedent, initiator_id: user.id
       can :replay, Incedent, worker_id: user.id
       can :reject, Incedent, worker_id: user.id
       can :close, Incedent, initiator_id: user.id
+      can :close, Incedent, worker_id: user.id
       can :solve, Incedent, initiator_id: user.id
     end
 

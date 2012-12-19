@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121213083720) do
+ActiveRecord::Schema.define(:version => 20121219062533) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20121213083720) do
     t.integer  "type_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.boolean  "closed"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"

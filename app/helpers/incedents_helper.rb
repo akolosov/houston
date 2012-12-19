@@ -49,7 +49,7 @@ module IncedentsHelper
                          (type ? incedents_by_type_path(type, :xls) :
                          (tag ? incedents_by_tag_path(tag, :xls) :
                          incedents_path(:xls))))))))),
-    class: 'btn btn-mini', id: 'download-button'
+    class: 'btn btn-mini'
   end
 
 end

@@ -8,7 +8,7 @@ class IncedentsController < ApplicationController
   # GET /incedents.json
   def index
     if (params[:tag_id])
-      @incedents = Incedent.accessible_by(current_ability).incedents_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+      @incedents = Incedent.accessible_by(current_ability).incedents_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC and closed DESC')
     else
       if (params[:status_id] and params[:type_id] and params[:priority_id]) 
         @incedents = Incedent.accessible_by(current_ability).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
@@ -170,6 +170,7 @@ class IncedentsController < ApplicationController
     @incedent.worker = @current_user unless @incedent.has_worker?
 
     @incedent.status_id = Houston::Application.config.incedent_played
+    @incedent.closed = false
 
     respond_to do |format|
       if @incedent.save
@@ -264,6 +265,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.find(params[:id])
 
     @incedent.worker = @current_user unless @incedent.has_worker?
+    @incedent.closed = true
 
     @incedent.status_id = Houston::Application.config.incedent_solved
 

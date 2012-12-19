@@ -1,11 +1,10 @@
-.pull-right
+.pull-right.btn-group#buttons
   = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id])
-  %a.btn.btn-mini#filter-button{onclick: "$('#filter').show('fast'); $('#filter-button').hide(); $('#download-button').hide();", title: 'Фильтр'}
+  %a.btn.btn-mini{onclick: "$('#filter').show('fast'); $('#buttons').hide();", title: 'Фильтр'}
     = glyph(:filter)+' Фильтр'
-%br
 .form.form-horizontal.filter#filter
   .pull-right
-    %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#filter-button').show(); $('#download-button').show();", title: 'Закрыть'}
+    %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#buttons').show();", title: 'Закрыть'}
   .form-inputs
     .control-group
       %label.control-label По статусу:
@@ -24,4 +23,3 @@
           = make_type_filter_url(type, params[:status_id], params[:priority_id])
     .control-group
       = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'
-%br

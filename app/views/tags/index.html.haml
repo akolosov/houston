@@ -6,7 +6,10 @@
 
   - @tags.each do |tag|
     %tr
-      %td= link_to tag.name, problems_by_tag_path(tag)
+      %td
+        = tag.name
+        = link_to(' (Проблем: '+tag.problems.count.to_s+')', problems_by_tag_path(tag))
+        = link_to(' (Жалоб: '+tag.incedents.count.to_s+')', incedents_by_tag_path(tag))
       %td
         .btn-group
           = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), class: 'btn btn-mini' if can? :manage, tag

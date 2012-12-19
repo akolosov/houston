@@ -20,7 +20,7 @@ class Incedent < ActiveRecord::Base
 
   has_many :incedent_actions
 
-  attr_accessible :description, :name, :tags, :tag_ids, :initiator_id, :priority_id, :type_id, :status_id, :worker_id
+  attr_accessible :description, :name, :tags, :tag_ids, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :closed
 
   def has_worker?
     !self.worker.nil?
@@ -43,7 +43,7 @@ class Incedent < ActiveRecord::Base
   end
 
   def is_solved?
-    self.status_id == Houston::Application.config.incedent_solved
+    self.status_id == Houston::Application.config.incedent_solved or self.closed
   end
 
   def is_closed?
