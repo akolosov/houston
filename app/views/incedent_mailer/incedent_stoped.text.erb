@@ -3,7 +3,7 @@
 Ваша жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
 остановлена пользователем <%= @incedent.worker.realname %>
 
-Ссылка на жалобу: <%= incedent_path(@incedent) %>
+Ссылка на жалобу: <%= incedent_url(@incedent) %>
 
 С наилучшими пожеланиями
 
