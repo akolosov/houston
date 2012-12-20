@@ -17,12 +17,15 @@
   - @document.comments.each do |comment|
     .form
       .form-header
+        .pull-right.top5.right10
+          = content_tag :strong, 'Автор: '
+          = comment.author.realname
+          %br
+          = content_tag :strong, 'Дата публикации: '
+          = comment.created_at.strftime("%d.%m.%Y в %H:%M")
         %h3= comment.title
       .form-inputs
         = raw RDiscount.new(comment.body).to_html
-        .pull-right
-          = 'Автор: '+comment.author.realname+' ('+comment.author.email+')'
-        %br
     %br
     %br
 %br

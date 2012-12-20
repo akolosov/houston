@@ -30,6 +30,15 @@ p.footer, p.footer a {
   margin-right: 10px;
 }
 
+.top5 {
+  margin-top: 5px;
+}
+
+.right5 {
+  margin-right: 5px;
+}
+
+
 .form {
 	margin: 0;
 	padding: 0;

@@ -40,12 +40,22 @@
       %h3= incedent.name
     .form-inputs
       = raw RDiscount.new(incedent.description).to_html
-      .pull-right
-        = 'Автор: '+incedent.initiator.realname+' ('+incedent.initiator.email+')'
-        - if incedent.has_worker?
+    .container-fluid
+      .row-fluid
+        .span6
+          = content_tag :strong, 'Дата создания: '
+          = incedent.created_at.strftime("%d.%m.%Y в %H:%M")
           %br
-          = 'Исполнитель: '+incedent.worker.realname+' ('+incedent.worker.email+')'
-      %br
+          = content_tag :strong, 'Дата изменений: '
+          = incedent.updated_at.strftime("%d.%m.%Y в %H:%M")
+        .span6
+          .pull-right
+            = content_tag :strong, 'Автор: '
+            = incedent.initiator.realname+' ('+incedent.initiator.email+')'
+            - if incedent.has_worker?
+              %br
+              = content_tag :strong, 'Исполнитель: '
+              = incedent.worker.realname+' ('+incedent.worker.email+')'
     .form-actions
       = 'Статус: '+incedent.status.name+', Приоритет: '+incedent.priority.name+', Тип: '+incedent.type.name
       - if incedent.tags

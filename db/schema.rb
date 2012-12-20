@@ -101,9 +101,9 @@ ActiveRecord::Schema.define(:version => 20121219062533) do
     t.integer  "status_id"
     t.integer  "priority_id"
     t.integer  "type_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.boolean  "closed"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "closed",       :default => false
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"
