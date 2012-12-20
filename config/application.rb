@@ -66,5 +66,8 @@ module Houston
     config.incedent_solved   = 6
     config.incedent_closed   = 7
     config.incedent_waited   = 8
+
+    config.app_name = 'Houston'
+    config.version = '0.1.0'
   end
 end

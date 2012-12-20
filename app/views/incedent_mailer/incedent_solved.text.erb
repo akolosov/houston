@@ -3,4 +3,7 @@
 Жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
 принята как выполненная пользователем <%= @incedent.initiator.realname %>
 
-Удачи!
+С наилучшими пожеланиями
+
+--
+  <%= Houston::Application.config.app_name+' v'+Houston::Application.config.version %>
