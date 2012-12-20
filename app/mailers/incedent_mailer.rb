@@ -53,7 +53,7 @@ class IncedentMailer < ActionMailer::Base
   def incedent_closed(incedent)
     @incedent = incedent
 
-    mail(to: (incedent.worker ? incedent.worker.email : incedent.initiator.email), subject: "Жалоба №#{incedent.id} закрыта")
+    mail(to: incedent.initiator.email, subject: "Жалоба №#{incedent.id} закрыта")
   end
 
 end
