@@ -77,4 +77,5 @@ Houston::Application.configure do
     password:              'DHdqf3',
     authentication:        'plain'
   }
+  config.action_mailer.default_url_options = { host: 'houston.taxinonstop.ru' }
 end
