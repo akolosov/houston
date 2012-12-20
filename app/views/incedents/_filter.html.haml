@@ -1,25 +1,31 @@
 .pull-right.btn-group#buttons
-  = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id])
+  = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id], params[:user_id])
   %a.btn.btn-mini{onclick: "$('#filter').show('fast'); $('#buttons').hide();", title: 'Фильтр'}
     = glyph(:filter)+' Фильтр'
 .form.form-horizontal.filter#filter
   .pull-right
     %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#buttons').show();", title: 'Закрыть'}
   .form-inputs
+    - if current_user.has_role? :admin
+      .control-group
+        %label.control-label По пользователю:
+        .controls
+          - User.all.each do |user|
+            = make_user_filter_url(user, params[:status_id], params[:type_id], params[:priority_id])
     .control-group
       %label.control-label По статусу:
       .controls
         - Status.all.each do |status|
-          = make_status_filter_url(status, params[:type_id], params[:priority_id])
+          = make_status_filter_url(status, params[:type_id], params[:priority_id], params[:user_id])
     .control-group
       %label.control-label По приоритету:
       .controls
         - Priority.all.each do |priority|
-          = make_priority_filter_url(priority, params[:status_id], params[:type_id])
+          = make_priority_filter_url(priority, params[:status_id], params[:type_id], params[:user_id])
     .control-group
       %label.control-label По типу:
       .controls
         - Type.all.each do |type|
-          = make_type_filter_url(type, params[:status_id], params[:priority_id])
+          = make_type_filter_url(type, params[:status_id], params[:priority_id], params[:user_id])
     .control-group
       = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'

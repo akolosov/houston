@@ -49,13 +49,28 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', as: :edit_solution_for_problem
   match 'problems/by_tag/:tag_id' => 'problems#index', as: :problems_by_tag
 
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type_and_user
   match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type
+
+  match 'incedents/by_status/:status_id/and_type/:type_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_type_and_user
   match 'incedents/by_status/:status_id/and_type/:type_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_type
+
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_user
   match 'incedents/by_status/:status_id/and_priority/:priority_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority
+
+  match 'incedents/by_priority/:priority_id/and_type/:type_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_type_and_user
   match 'incedents/by_priority/:priority_id/and_type/:type_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_type
+
+  match 'incedents/by_status/:status_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_user
   match 'incedents/by_status/:status_id(.:format)' => 'incedents#index', as: :incedents_by_status
+
+  match 'incedents/by_type/:type_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_type_and_user
   match 'incedents/by_type/:type_id(.:format)' => 'incedents#index', as: :incedents_by_type
+
+  match 'incedents/by_priority/:priority_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_user
   match 'incedents/by_priority/:priority_id(.:format)' => 'incedents#index', as: :incedents_by_priority
+
+  match 'incedents/by_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_user
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
 
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent

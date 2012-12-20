@@ -90,6 +90,10 @@ class Incedent < ActiveRecord::Base
     where("priority_id = #{priority.id}")
   end
 
+  def self.incedents_by_user(user)
+    where("initiator_id = #{user.id} or worker_id = #{user.id}")
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names
