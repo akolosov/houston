@@ -1,10 +1,22 @@
 Houston
 =======
 
-Центр управления полётами. Центр решения проблем. База знаний. :)
+Центр управления полётами. Центр решения проблем. База знаний. Книга жалоб и предложений. :)
 
+# Настройка (Development)
+    git clone git://github.com/akolosov/houston.git
+    cd houston
+    bundle install
+    rake db:migrate
+    rake db:seed
+    rails s
+    open http://0.0.0.0:3000/
+
+    
+# Вход в систему (Development)
     E-Mail: admin@test.com, Username: admin, ID: 1, Password: admin
     E-Mail: manager@test.com, Username: manager, ID: 2, Password: manager
+    E-Mail: user@test.com, Username: user, ID: 3, Password: user
 
 # License
 
