@@ -6,9 +6,9 @@
 .form
   .form-header
     .btn-group.pull-right.top10.right10
-      - if @incedent.incedent_actions and (current_user.has_role? :admin)
+      - if @incedent.incedent_actions
         %a.btn.btn-mini#filter-button{onclick: "$('#history').show('fast');", title: 'История изменений'}
-          = glyph(:tasks)+' История'
+          = glyph(:tasks)+' История ('+@incedent.incedent_actions.count.to_s+')'
       = link_to glyph(:pencil)+' Изменить', edit_incedent_path(@incedent), class: 'btn btn-mini' if can? :update, @incedent and ((!@incedent.is_closed? and !@incedent.is_solved?) or (current_user.has_role? :admin)) 
       -if !@incedent.is_solved?
         - if (@incedent.worker and @incedent.worker == current_user)
@@ -52,7 +52,7 @@
               %br
               = content_tag :strong, 'Исполнитель: '
               = @incedent.worker.realname+' ('+@incedent.worker.email+')'
-    = render 'history' if @incedent.incedent_actions and (current_user.has_role? :admin)
+    = render 'history' if @incedent.incedent_actions
   .form-actions
     = 'Статус: '+@incedent.status.name+', Приоритет: '+@incedent.priority.name+', Тип: '+@incedent.type.name
     - if @incedent.tags

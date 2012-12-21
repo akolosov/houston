@@ -114,6 +114,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
+        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
 
         IncedentMailer.incedent_created(@incedent).deliver
 
