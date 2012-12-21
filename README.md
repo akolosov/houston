@@ -9,9 +9,10 @@ Houston
     bundle install
     rake db:migrate
     rake db:seed
+
+# Использование (Development)
     rails s
     open http://0.0.0.0:3000/
-
     
 # Вход в систему (Development)
     E-Mail: admin@test.com, Username: admin, ID: 1, Password: admin
