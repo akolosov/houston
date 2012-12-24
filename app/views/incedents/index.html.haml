@@ -7,14 +7,14 @@
   = render 'filter'
 
 - @incedents.each do |incedent|
-  .form
+  .form{class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : ''))))}
     .form-header
       .btn-group.pull-right.top10.right10
         = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
         = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
-        = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin)) 
+        = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin))
         -if !incedent.is_solved?
-          - if (incedent.worker and incedent.worker == current_user)
+          - if (incedent.has_worker? and incedent.worker == current_user)
             - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
               = link_to glyph(:pause)+' Приостановить', pause_incedent_path(incedent), class: 'btn btn-mini' if can? :pause, incedent
             - elsif !incedent.is_rejected? and !incedent.is_closed?
@@ -22,7 +22,7 @@
             - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
               = link_to glyph(:stop)+' Остановить', stop_incedent_path(incedent), class: 'btn btn-mini' if can? :stop, incedent
           - else
-            - if !incedent.is_rejected? and !incedent.is_closed?
+            - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.has_worker?)
               = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
           - if !incedent.is_rejected? and !incedent.is_closed?
             = link_to glyph(:remove)+' Отклонить', reject_incedent_path(incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :reject, incedent

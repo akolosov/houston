@@ -100,6 +100,20 @@ p.footer, p.footer a {
   padding: 10px !important;
 }
 
+.solved {
+    background-color: rgb(223, 240, 216) !important;
+}
+.rejected {
+    background-color: rgb(242, 222, 222) !important;
+}
+.played {
+    background-color: rgb(252, 248, 227) !important;
+}
+
+.closed {
+    background-color: rgb(217, 237, 247) !important;
+}
+
 .tag0 { font-size: 0.6em; }
 .tag1 { font-size: 0.7em; }
 .tag2 { font-size: 0.8em; }
