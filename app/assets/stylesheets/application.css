@@ -114,6 +114,10 @@ p.footer, p.footer a {
     background-color: rgb(217, 237, 247) !important;
 }
 
+.normal {
+    background-color: rgb(255, 255, 255) !important;
+}
+
 .tag0 { font-size: 0.6em; }
 .tag1 { font-size: 0.7em; }
 .tag2 { font-size: 0.8em; }
