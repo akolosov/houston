@@ -26,7 +26,9 @@ gem 'haml-rails'
 
 gem 'will_paginate'
 
-gem 'rdiscount'
+gem 'redcarpet'
+
+gem 'markitup-rails'
 
 gem 'less-rails'
 
@@ -40,4 +42,5 @@ end
 
 group :development, :test do
   gem "erb2haml"
+  gem 'meta_request'
 end

@@ -3,7 +3,7 @@
     %h3= @form_title
   .form-inputs
     = f.input :name, label: "Имя", input_html: { class: 'form-input' }
-    = f.input :description, label: "Описание", input_html: { class: 'form-input' }
+    = f.input :description, label: "Описание", input_html: { class: 'form-input', id: 'server_markdown' }
     = f.input :location, label: "Местонахождение", input_html: { class: 'form-input' }
     = f.input :address, label: "IP-адрес/DNS-имя", input_html: { class: 'form-input' }
     = f.input :port, label: "TCP/UDP порт", input_html: { class: 'form-input' }

@@ -6,4 +6,5 @@ tmp/**/*
 rvm*
 vendor
 .idea
+.project
 preprocess.*

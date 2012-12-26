@@ -5,6 +5,8 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require mousetrap
+ *= require markitup
+ *= require markitup-markdown
  *= require_tree .
 */
 
@@ -116,6 +118,16 @@ p.footer, p.footer a {
 
 .normal {
     background-color: rgb(255, 255, 255) !important;
+}
+
+.markItUp, .markItUpHeader {
+	width: 100% !important;	
+}
+
+.markdown .markItUpEditor {
+	width: 99% !important;
+	padding: 5px !important;	
+	background-image: none !important;
 }
 
 .tag0 { font-size: 0.6em; }

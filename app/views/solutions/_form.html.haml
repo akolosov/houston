@@ -3,7 +3,7 @@
     %h3= @form_title
   .form-inputs
     = f.input :name, label: "Имя", input_html: { class: 'form-input' }
-    = f.input :description, label: "Описание", input_html: { class: 'form-input' }
+    = f.input :description, label: "Описание", input_html: { class: 'form-input', id: 'solution_markdown' }
   .form-actions
     = f.submit @button_title, class: "btn"
     = link_to 'Отмена', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : solutions_path), class: "btn"

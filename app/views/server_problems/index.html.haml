@@ -18,7 +18,7 @@
               = link_to glyph(:trash)+' Удалить проблему для сервера', server_problem, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger'
       %h3= server_problem.problem.name
     .form-inputs
-      = raw RDiscount.new(server_problem.problem.description).to_html
+      = markdown(server_problem.problem.description)
   %br
   %br
 .apple_pagination

@@ -38,7 +38,7 @@
         = link_to glyph(:trash)+' Удалить', incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, incedent
       %h3= incedent.name
     .form-inputs
-      = raw RDiscount.new(incedent.description).to_html
+      = markdown(incedent.description)
     .container-fluid
       .row-fluid
         .span6

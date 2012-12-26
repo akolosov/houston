@@ -6,7 +6,7 @@
       = link_to glyph(:trash)+' Удалить', @document, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @document
     %h3= @document.title
   .form-inputs
-    = raw RDiscount.new(@document.body).to_html
+    = markdown(@document.body)
     .pull-right
       = 'Автор: '+@document.user.realname+' ('+@document.user.email+')'
     %br
@@ -25,7 +25,7 @@
           = comment.created_at.strftime("%d.%m.%Y в %H:%M")
         %h3= comment.title
       .form-inputs
-        = raw RDiscount.new(comment.body).to_html
+        = markdown(comment.body)
     %br
     %br
 %br

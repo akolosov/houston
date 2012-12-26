@@ -9,7 +9,7 @@
           = link_to glyph(:trash)+' Удалить', solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :manage, solution
       %h3= solution.name
     .form-inputs
-      = raw RDiscount.new(solution.description).to_html
+      = markdown(solution.description)
   %br
   %br
 .apple_pagination

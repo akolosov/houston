@@ -16,7 +16,7 @@
               = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
       %h3= document.title
     .form-inputs
-      = raw RDiscount.new(document.body.slice(0, 500)+link_to('...', document, class: 'btn btn-mini')).to_html
+      = markdown(document.body.slice(0, 500)+'...')
       .pull-right
         = 'Автор: '+document.user.realname+' ('+document.user.email+')'
       %br

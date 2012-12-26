@@ -6,6 +6,6 @@
     = f.simple_fields_for :comment do |c|
       = c.input :author_id, as: :hidden
       = c.input :title, label: "Тема", input_html: { class: 'form-input' }
-      = c.input :body, label: "Коментарий", input_html: { class: 'form-input' }, as: :text
+      = c.input :body, label: "Коментарий", input_html: { class: 'form-input', id: 'document_comment_markdown' }, as: :text
   .form-actions
     = f.submit "Добавить коментарий", class: "btn"

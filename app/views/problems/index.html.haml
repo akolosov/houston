@@ -8,7 +8,7 @@
         = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
       %h3= problem.name
     .form-inputs
-      = raw RDiscount.new(problem.description).to_html
+      = markdown(problem.description)
     .form-actions
       - if problem.tags
         .pull-right

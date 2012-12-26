@@ -16,7 +16,7 @@
               = link_to glyph(:trash)+' Удалить решение проблемы', problem_solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger'
       %h3= problem_solution.solution.name
     .form-inputs
-      = raw RDiscount.new(problem_solution.solution.description).to_html
+      = markdown(problem_solution.solution.description)
   %br
   %br
 .apple_pagination

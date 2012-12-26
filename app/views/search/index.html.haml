@@ -11,7 +11,7 @@
     - @servers.each do |server|
       %tr
         %td= server.name
-        %td= raw RDiscount.new(server.description).to_html
+        %td= markdown(server.description)
         %td= server.location
         %td= server.address+":"+server.port
         %td= server.username
@@ -30,7 +30,7 @@
     - @problems.each do |problem|
       %tr
         %td= problem.name
-        %td= raw RDiscount.new(problem.description).to_html
+        %td= markdown(problem.description)
         %td
           .btn-group
             = link_to 'Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
@@ -45,7 +45,7 @@
     - @solutions.each do |solution|
       %tr
         %td= solution.name
-        %td= raw RDiscount.new(solution.description).to_html
+        %td= markdown(solution.description)
   %hr
 %h3 Книга жалоб
 %table.table.table-striped.table-bordered.table-condensed
@@ -57,7 +57,7 @@
   - @incedents.each do |incedent|
     %tr
       %td= incedent.name
-      %td= raw RDiscount.new(incedent.description).to_html
+      %td= markdown(incedent.description)
       %td= incedent.status.name
       %td= link_to glyph(:eye_open)+' Просмотр', incedent, class: 'btn btn-mini' if can? :read, incedent
 %hr
@@ -70,7 +70,7 @@
   - @documents.each do |document|
     %tr
       %td= document.title
-      %td= raw RDiscount.new(document.body.slice(0, 300)+link_to('...', document, class: 'btn btn-mini')).to_html
+      %td= markdown(document.body.slice(0, 300)+'...')
       %td
         .btn-group
           = link_to glyph(:eye_open)+' Читать', document, class: 'btn btn-mini' if can? :read, document

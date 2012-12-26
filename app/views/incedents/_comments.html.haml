@@ -13,6 +13,6 @@
           = comment.created_at.strftime("%d.%m.%Y в %H:%M")
         %h3= comment.title
       .form-inputs
-        = raw RDiscount.new(comment.body).to_html
+        = markdown(comment.body)
     %br
     %br
