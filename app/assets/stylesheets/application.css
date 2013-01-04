@@ -122,12 +122,29 @@ p.footer, p.footer a {
 
 .markItUp, .markItUpHeader {
 	width: 100% !important;	
+	border: none !important;
 }
 
 .markdown .markItUpEditor {
 	width: 99% !important;
+	border: 1px solid #cccccc !important;
 	padding: 5px !important;	
 	background-image: none !important;
+}
+
+.markItUpContainer {
+	border: none !important;
+	background: none !important;
+}
+
+.user-avatar {
+	float: left;
+	margin-top: -4px;
+	margin-left: -10px;
+	margin-right: 10px;
+	width: 48px !important;
+	height: 48px !important;
+	overflow: hidden;
 }
 
 .tag0 { font-size: 0.6em; }

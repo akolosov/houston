@@ -4,6 +4,8 @@
       = link_to glyph(:pencil)+' Изменить', edit_document_path(@document), class: 'btn btn-mini' if can? :update, @document
       = link_to glyph(:thumbs_up)+' Утвердить', move_document_to_solution_path(@document), class: 'btn btn-mini btn-success' if can? :move, @document
       = link_to glyph(:trash)+' Удалить', @document, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @document
+    .pull-left
+      = image_tag gravatar_url(@document.user), class: 'img-polaroid user-avatar'
     %h3= @document.title
   .form-inputs
     = markdown(@document.body)
@@ -23,6 +25,8 @@
           %br
           = content_tag :strong, 'Дата публикации: '
           = comment.created_at.strftime("%d.%m.%Y в %H:%M")
+        .pull-left
+          = image_tag gravatar_url(comment.author), class: 'img-polaroid user-avatar'
         %h3= comment.title
       .form-inputs
         = markdown(comment.body)
