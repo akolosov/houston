@@ -18,4 +18,11 @@ module ApplicationHelper
     Redcarpet::Markdown.new(renderer, options).render(text).html_safe
   end
 
+  def gravatar_url(user)
+    if user.email.present?
+      gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+      "http://gravatar.com/avatar/#{gravatar_id}.png?s=48"
+    end
+  end
+  
 end

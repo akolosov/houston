@@ -32,6 +32,8 @@
       - elsif current_user.has_role? :admin
         = link_to glyph(:play)+' Возобновить', replay_incedent_path(@incedent), class: 'btn btn-mini' if can? :replay, @incedent
       = link_to glyph(:trash)+' Удалить', @incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @incedent
+    .pull-left
+      = image_tag gravatar_url(@incedent.initiator), class: 'img-polaroid user-avatar'
     %h3= @incedent.name
   .form-inputs
     = markdown(@incedent.description)
