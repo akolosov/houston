@@ -1,0 +1,21 @@
+.apple_pagination
+  =will_paginate @problems, previous_label: '←', next_label: '→'
+- @problems.each do |problem|
+  .form
+    .form-header
+      .btn-group.pull-right.top10.right10
+        = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
+        = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem
+        = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
+      %h3= problem.name
+    .form-inputs
+      = markdown(problem.description)
+    .form-actions
+      - if problem.tags
+        .pull-right
+          - problem.tags.each do |tag|
+            = link_to glyph(:tag)+' '+tag.name, problems_by_tag_path(tag), class: 'btn btn-mini'
+  %br
+  %br
+.apple_pagination
+  =will_paginate @problems, previous_label: '←', next_label: '→'
