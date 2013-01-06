@@ -10,7 +10,7 @@ module IncedentsHelper
                            ((status and type) ? incedents_by_status_and_priority_and_type_and_user_path(status, type, user) :
                            ((type and priority) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
                            (status ? incedents_by_status_and_user_path(status, user) :
-                           (type ? incedents_by_type_user_path(type, user) :
+                           (type ? incedents_by_type_and_user_path(type, user) :
                            (priority ? incedents_by_priority_and_user_path(priority, user) :
                            incedents_by_user_path(user))))))),
     class: 'btn btn-mini' + (params[:user_id] == user.id.to_s ? ' btn-success' : '')

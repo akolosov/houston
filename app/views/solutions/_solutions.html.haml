@@ -1,0 +1,16 @@
+.apple_pagination
+  =will_paginate @solutions, previous_label: '←', next_label: '→'
+- @solutions.each do |solution|
+  .form
+    .form-header
+      - if @current_user.has_role? :admin
+        .btn-group.pull-right.top10.right10
+          = link_to glyph(:pencil)+' Изменить', edit_solution_path(solution), class: 'btn btn-mini' if can? :manage, solution
+          = link_to glyph(:trash)+' Удалить', solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :manage, solution
+      %h3= solution.name
+    .form-inputs
+      = markdown(solution.description)
+  %br
+  %br
+.apple_pagination
+  =will_paginate @solutions, previous_label: '←', next_label: '→'
