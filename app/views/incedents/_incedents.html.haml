@@ -1,0 +1,69 @@
+%h3
+  Книга жалоб
+  = render 'filter'
+
+.apple_pagination
+  =will_paginate @audits, previous_label: '←', next_label: '→'
+
+- @incedents.each do |incedent|
+  .form{class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : ''))))}
+    .form-header
+      .btn-group.pull-right.top10.right10
+        = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
+        = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
+        = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin))
+        -if !incedent.is_solved?
+          - if (incedent.has_worker? and incedent.worker == current_user)
+            - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+              = link_to glyph(:pause)+' Приостановить', pause_incedent_path(incedent), class: 'btn btn-mini' if can? :pause, incedent
+            - elsif !incedent.is_rejected? and !incedent.is_closed?
+              = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
+            - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+              = link_to glyph(:stop)+' Остановить', stop_incedent_path(incedent), class: 'btn btn-mini' if can? :stop, incedent
+          - else
+            - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.has_worker?)
+              = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
+          - if !incedent.is_rejected? and !incedent.is_closed?
+            = link_to glyph(:remove)+' Отклонить', reject_incedent_path(incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :reject, incedent
+          - if (incedent.is_rejected? or incedent.is_closed?) and can? :replay, incedent and incedent.has_worker?
+            = link_to glyph(:play)+' Возобновить', replay_incedent_path(incedent), class: 'btn btn-mini' if can? :replay, incedent
+          - if !incedent.is_closed?
+            = link_to glyph(:ok)+' Закрыть', close_incedent_path(incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :close, incedent
+          - if (incedent.is_closed? or incedent.is_stoped?) and can? :solve, incedent
+            = link_to glyph(:thumbs_up)+' Решено', solve_incedent_path(incedent), class: 'btn btn-mini btn-success' if can? :solve, incedent
+        - elsif current_user.has_role? :admin
+          = link_to glyph(:play)+' Возобновить', replay_incedent_path(incedent), class: 'btn btn-mini' if can? :replay, incedent
+        - else
+        = link_to glyph(:trash)+' Удалить', incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, incedent
+      .pull-left
+        = image_tag gravatar_url(incedent.initiator), class: 'img-polaroid user-avatar'
+      %h3= incedent.name
+    .form-inputs
+      = markdown(incedent.description)
+    .container-fluid
+      .row-fluid
+        .span6
+          = content_tag :strong, 'Дата создания: '
+          = incedent.created_at.strftime("%d.%m.%Y в %H:%M")
+          %br
+          = content_tag :strong, 'Дата изменений: '
+          = incedent.updated_at.strftime("%d.%m.%Y в %H:%M")
+        .span6
+          .pull-right
+            = content_tag :strong, 'Автор: '
+            = incedent.initiator.realname+' ('+incedent.initiator.email+')'
+            - if incedent.has_worker?
+              %br
+              = content_tag :strong, 'Исполнитель: '
+              = incedent.worker.realname+' ('+incedent.worker.email+')'
+    .form-actions
+      = 'Статус: '+incedent.status.name+', Приоритет: '+incedent.priority.name+', Тип: '+incedent.type.name
+      - if incedent.tags
+        .pull-right
+          - incedent.tags.each do |tag|
+            = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
+  %br
+  %br
+
+.apple_pagination
+  =will_paginate @audits, previous_label: '←', next_label: '→'
