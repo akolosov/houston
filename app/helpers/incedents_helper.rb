@@ -7,7 +7,7 @@ module IncedentsHelper
     status = (status_id ? Status.find(status_id) : nil)
 
     link_to user.realname, ((type and priority and status) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
-                           ((status and type) ? incedents_by_status_and_priority_and_type_and_user_path(status, type, user) :
+                           ((status and type) ? incedents_by_status_and_type_and_user_path(status, type, user) :
                            ((type and priority) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
                            (status ? incedents_by_status_and_user_path(status, user) :
                            (type ? incedents_by_type_and_user_path(type, user) :
