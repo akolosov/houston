@@ -1,6 +1,10 @@
 %h3
-  Книга жалоб
-  = render 'filter'
+  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+" жалоб"
+  - if params[:action] != 'archive'
+    = render 'filter'
+  - else
+    .pull-right
+      = link_to glyph(:download)+' Скачать', incedents_archive_path(:xls),class: 'btn btn-mini'
 
 .apple_pagination
   =will_paginate @audits, previous_label: '←', next_label: '→'

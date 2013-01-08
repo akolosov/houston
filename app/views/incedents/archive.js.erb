@@ -1,0 +1,6 @@
+$("#incedents").html("<%= escape_javascript(render("incedents")) %>");
+
+<% if (params[:user_id] or params[:status_id] or params[:priority_id] or params[:type_id]) %>
+	$('#filter').show();
+	$('#buttons').hide();
+<% end %>

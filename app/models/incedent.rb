@@ -94,6 +94,10 @@ class Incedent < ActiveRecord::Base
     where("initiator_id = #{user.id} or worker_id = #{user.id}")
   end
 
+  def self.solved_incedents(archive)
+    where('closed = ?', archive)
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names

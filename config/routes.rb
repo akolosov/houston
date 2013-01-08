@@ -6,6 +6,8 @@ Houston::Application.routes.draw do
 
   get "audit/index", as: :audit
 
+  get 'incedents/archive', as: :archive
+
   resources :search
 
   resources :audit
@@ -72,6 +74,8 @@ Houston::Application.routes.draw do
 
   match 'incedents/by_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_user
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
+  
+  match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
 
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
   match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent

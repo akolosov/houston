@@ -24,6 +24,10 @@ p.footer, p.footer a {
 	width: 98%;
 }
 
+.top-30 {
+  margin-top: -30px !important;
+}
+
 .top10 {
   margin-top: 10px;
 }
