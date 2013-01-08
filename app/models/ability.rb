@@ -26,16 +26,18 @@ class Ability
       can :create, IncedentComment
       can :create, Incedent
       can :play, Incedent
-      can :read, Incedent, closed: false
-      can :update, Incedent, initiator_id: user.id, closed: false
-      can :pause, Incedent, worker_id: user.id, closed: false
-      can :stop, Incedent, worker_id: user.id, closed: false
-      can :replay, Incedent, initiator_id: user.id, closed: false
-      can :replay, Incedent, worker_id: user.id, closed: false
-      can :reject, Incedent, worker_id: user.id, closed: false
-      can :close, Incedent, initiator_id: user.id, closed: false
-      can :close, Incedent, worker_id: user.id, closed: false
-      can :solve, Incedent, initiator_id: user.id, closed: false
+      can :read, Incedent
+      can :update, Incedent, initiator_id: user.id
+      can :pause, Incedent, worker_id: user.id
+      can :stop, Incedent, worker_id: user.id
+      can :replay, Incedent, initiator_id: user.id
+      can :replay, Incedent, worker_id: user.id
+      can :reject, Incedent, worker_id: user.id
+      can :close, Incedent, initiator_id: user.id
+      can :close, Incedent, worker_id: user.id
+      can :solve, Incedent, initiator_id: user.id
+      can :archive, Incedent, initiator_id: user.id
+      can :archive, Incedent, worker_id: user.id
     elsif user.has_role? :user
       can :update, User, id: user.id
       can :read, Document
@@ -45,19 +47,21 @@ class Ability
       can :create, DocumentComment
       can :create, IncedentComment
       can :create, Incedent
-      can :read, Incedent, initiator_id: user.id, closed: false
-      can :read, Incedent, worker_id: user.id, closed: false
-      can :update, Incedent, initiator_id: user.id, closed: false
-      can :play, Incedent, initiator_id: user.id, closed: false
-      can :play, Incedent, worker_id: user.id, closed: false
-      can :pause, Incedent, worker_id: user.id, closed: false
-      can :stop, Incedent, worker_id: user.id, closed: false
-      can :replay, Incedent, initiator_id: user.id, closed: false
-      can :replay, Incedent, worker_id: user.id, closed: false
-      can :reject, Incedent, worker_id: user.id, closed: false
-      can :close, Incedent, initiator_id: user.id, closed: false
-      can :close, Incedent, worker_id: user.id, closed: false
-      can :solve, Incedent, initiator_id: user.id, closed: false
+      can :read, Incedent, initiator_id: user.id
+      can :read, Incedent, worker_id: user.id
+      can :update, Incedent, initiator_id: user.id
+      can :play, Incedent, initiator_id: user.id
+      can :play, Incedent, worker_id: user.id
+      can :pause, Incedent, worker_id: user.id
+      can :stop, Incedent, worker_id: user.id
+      can :replay, Incedent, initiator_id: user.id
+      can :replay, Incedent, worker_id: user.id
+      can :reject, Incedent, worker_id: user.id
+      can :close, Incedent, initiator_id: user.id
+      can :close, Incedent, worker_id: user.id
+      can :solve, Incedent, initiator_id: user.id
+      can :archive, Incedent, initiator_id: user.id
+      can :archive, Incedent, worker_id: user.id
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.

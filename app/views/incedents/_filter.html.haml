@@ -7,25 +7,27 @@
     %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#buttons').show();", title: 'Закрыть'}
   .form-inputs
     - if current_user.has_role? :admin
-      .control-group
-        %label.control-label По пользователю:
-        .controls
+      .row-fluid
+        %small.span2 По пользователю:
+        .btn-group.top-30
           - User.all.each do |user|
             = make_user_filter_url(user, params[:status_id], params[:type_id], params[:priority_id])
-    .control-group
-      %label.control-label По статусу:
-      .controls
+    .row-fluid
+      %small.span2 По статусу:
+      .btn-group.top-30
         - Status.all.each do |status|
-          = make_status_filter_url(status, params[:type_id], params[:priority_id], params[:user_id])
-    .control-group
-      %label.control-label По приоритету:
-      .controls
+          - if status.id != Houston::Application.config.incedent_solved and status.id != Houston::Application.config.incedent_waited 
+            = make_status_filter_url(status, params[:type_id], params[:priority_id], params[:user_id])
+    .row-fluid
+      %small.span2 По приоритету:
+      .btn-group.top-30
         - Priority.all.each do |priority|
           = make_priority_filter_url(priority, params[:status_id], params[:type_id], params[:user_id])
-    .control-group
-      %label.control-label По типу:
-      .controls
+    .row-fluid
+      %small.span2 По типу:
+      .btn-group.top-30
         - Type.all.each do |type|
           = make_type_filter_url(type, params[:status_id], params[:priority_id], params[:user_id])
-    .control-group
-      = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'
+    .row-fluid
+      .pull-right.top-30
+        = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'

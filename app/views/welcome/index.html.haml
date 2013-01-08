@@ -5,6 +5,7 @@
         height: 100%;
         overflow:hidden;
     }
+
     body {
         background-color: #444444;
         background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#555555), to(#111111));
@@ -15,26 +16,14 @@
         background-image: linear-gradient(top, #555555 0%, #111111 100%);
     }
 
-  - if Rails.env.production?
-    :css
-      .modal {
-        width: 70%;
-        height: 60%;
-        left: 30%; 
-        top: 15%;
-        background-clip: padding-box;
-        outline: none;
-      }
-  - else
-    :css
-      .modal {
-        width: 70%;
-        height: 60%;
-        left: 30%; 
-        top: 40%;
-        background-clip: padding-box;
-        outline: none;
-      }
+    .modal {
+      width: 70%;
+      height: 60%;
+      left: 30%; 
+      top: 15%;
+      background-clip: padding-box;
+      outline: none;
+    }
 
 - else
   :css
