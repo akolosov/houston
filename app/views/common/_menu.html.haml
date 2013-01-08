@@ -13,6 +13,7 @@
   %ul.nav.nav-list
     %li.nav-header Центр поиска решений
     %li.nav-item= link_to glyph(:inbox)+" Книга жалоб", incedents_path, data: { keybinding: 'i' }
+    %li.nav-item= link_to glyph(:briefcase)+" Архив жалоб", incedents_archive_path, data: { keybinding: 'r' }
     %li.nav-item= link_to glyph(:book)+" Книга рецептов", documents_path, data: { keybinding: 'b' }
 
 - if current_user.has_role? :admin or current_user.has_role? :manager
