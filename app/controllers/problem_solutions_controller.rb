@@ -46,7 +46,7 @@ class ProblemSolutionsController < ApplicationController
 
     respond_to do |format|
       if @problem_solution.save
-        format.html { redirect_to (@problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions), notice: 'Решение проблемы успешно создано.' }
+        format.html { redirect_to @problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions, notice: 'Решение проблемы успешно создано.' }
         format.json { render json: @problem_solution, status: :created, location: @problem_solution }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class ProblemSolutionsController < ApplicationController
 
     respond_to do |format|
       if @problem_solution.update_attributes(params[:problem_solution])
-        format.html { redirect_to (@problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions), notice: 'Решение проблемы успешно обновлено.' }
+        format.html { redirect_to @problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions, notice: 'Решение проблемы успешно обновлено.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -80,7 +80,7 @@ class ProblemSolutionsController < ApplicationController
     @problem_solution.destroy
 
     respond_to do |format|
-      format.html { redirect_to (@problem ? solutions_by_problem_path(@problem) : problem_solutions_url) }
+      format.html { redirect_to @problem ? solutions_by_problem_path(@problem) : problem_solutions_url }
       format.json { head :no_content }
     end
   end
