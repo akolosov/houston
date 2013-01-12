@@ -1,0 +1,21 @@
+:css
+  form {
+    margin: 0;
+  }
+  .modal {
+    width: 30%;
+  }
+  .modal-body {
+    max-height: 100%;
+  }
+
+.modal{id: "incedent-reject-#{incedent.id}", style: "display: none;"}
+  = simple_form_for incedent, url: reject_incedent_path(incedent), method: :post, html: { class: 'form-horizontal form' } do |f|
+    .modal-header
+      %a.close{"data-dismiss" => "modal"} ×
+      %h3 Укажите причину отклонения
+    .modal-body
+      = f.input :reject_reason, label: false, input_html: { class: 'form-input' }, as: :text, class: 'form-modal-input'
+    .modal-footer
+      = f.submit "Отклонить жалобу", class: "btn btn-success"
+      %a.btn{"data-dismiss" => "modal", href: "#"} Отмена

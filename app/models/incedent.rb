@@ -20,7 +20,13 @@ class Incedent < ActiveRecord::Base
 
   has_many :incedent_actions
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :closed
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :closed, :reject_reason, :replay_reason 
+
+  def reject_reason    
+  end
+
+  def replay_reason    
+  end
 
   def has_worker?
     !self.worker.nil?
