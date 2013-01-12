@@ -80,6 +80,10 @@ p.footer, p.footer a {
 	max-height: 100%;
 }
 
+.form-horizontal .controls:first-child,.form-modal-input {
+	margin-left: 0px !important;
+}
+
 .form-actions {
 	margin-top: 20px !important;
 	margin-bottom: 0px !important;
