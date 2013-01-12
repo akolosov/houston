@@ -171,7 +171,7 @@ class IncedentsController < ApplicationController
 
       @incedent_comment = IncedentComment.new
       @incedent_comment.incedent = @incedent
-      @incedent_comment.comment = Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:replay_reason], author: @current_user)
+      @incedent_comment.comment = Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)
       @incedent_comment.save  
   
       respond_to do |format|
@@ -189,7 +189,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, notice: 'Нужно обязательно указать причину возобновления.' }
+        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину возобновления.' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -273,7 +273,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, notice: 'Нужно обязательно указать причину отклонения.' }
+        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину отклонения.' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
