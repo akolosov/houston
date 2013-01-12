@@ -21,8 +21,10 @@
         - else
           - if !@incedent.is_rejected? and !@incedent.is_closed? and !@incedent.has_worker?
             = link_to glyph(:play)+' В работу', play_incedent_path(@incedent), class: 'btn btn-mini' if can? :play, @incedent
-        - if !@incedent.is_rejected? and !@incedent.is_closed?
-          = link_to glyph(:remove)+' Отклонить', reject_incedent_path(@incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :reject, @incedent
+        - if !@incedent.is_rejected? and !@incedent.is_closed? and can? :reject, @incedent
+          %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-reject-#{@incedent.id}"}
+            = glyph(:remove)+" Отклонить"
+          = render partial: 'reject', locals: { incedent: @incedent }
         - if (@incedent.is_rejected? or @incedent.is_closed?) and can? :replay, @incedent and @incedent.has_worker?
           = link_to glyph(:play)+' Возобновить', replay_incedent_path(@incedent), class: 'btn btn-mini' if can? :replay, @incedent
         - if !@incedent.is_closed?

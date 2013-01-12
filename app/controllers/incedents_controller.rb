@@ -161,23 +161,35 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/replay
   # GET /incedent/1/replay.json
   def replay
-    @incedent = Incedent.find(params[:id])
+    if !params[:incedent][:replay_reason].empty? 
+      @incedent = Incedent.find(params[:id])
+  
+      @incedent.worker = @current_user unless @incedent.has_worker?
+  
+      @incedent.status_id = Houston::Application.config.incedent_played
+      @incedent.closed = false
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
-
-    @incedent.status_id = Houston::Application.config.incedent_played
-    @incedent.closed = false
-
-    respond_to do |format|
-      if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
-
-        IncedentMailer.incedent_replayed(@incedent).deliver
-
-        format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "play" }
+      @incedent_comment = IncedentComment.new
+      @incedent_comment.incedent = @incedent
+      @incedent_comment.comment = Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:replay_reason], author: @current_user)
+      @incedent_comment.save  
+  
+      respond_to do |format|
+        if @incedent.save
+          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
+  
+          IncedentMailer.incedent_replayed(@incedent).deliver
+  
+          format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "replay" }
+          format.json { render json: @incedent.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html {  redirect_to :incedents, notice: 'Нужно обязательно указать причину возобновления.' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -201,7 +213,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно приостановлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "play" }
+        format.html { render action: "pause" }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -225,7 +237,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно остановлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "play" }
+        format.html { render action: "stop" }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -234,22 +246,34 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/reject
   # GET /incedent/1/reject.json
   def reject
-    @incedent = Incedent.find(params[:id])
+    if !params[:incedent][:reject_reason].empty? 
+      @incedent = Incedent.find(params[:id])
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
-
-    @incedent.status_id = Houston::Application.config.incedent_rejected
-
-    respond_to do |format|
-      if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
-
-        IncedentMailer.incedent_rejected(@incedent).deliver
-
-        format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "play" }
+      @incedent.worker = @current_user unless @incedent.has_worker?
+  
+      @incedent.status_id = Houston::Application.config.incedent_rejected
+  
+      @incedent_comment = IncedentComment.new
+      @incedent_comment.incedent = @incedent
+      @incedent_comment.comment = Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:reject_reason], author: @current_user)
+      @incedent_comment.save
+  
+      respond_to do |format|
+        if @incedent.save
+          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+  
+          IncedentMailer.incedent_rejected(@incedent).deliver
+  
+          format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "reject" }
+          format.json { render json: @incedent.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html {  redirect_to :incedents, notice: 'Нужно обязательно указать причину отклонения.' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -274,7 +298,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно решена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "play" }
+        format.html { render action: "solve" }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -298,7 +322,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
         format.json { head :no_content }
       else
-        format.html { render action: "play" }
+        format.html { render action: "close" }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
