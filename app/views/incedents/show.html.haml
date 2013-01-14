@@ -29,8 +29,10 @@
           %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-replay-#{@incedent.id}"}
             = glyph(:play)+' Возобновить'
           = render partial: 'replay', locals: { incedent: @incedent }
-        - if !@incedent.is_closed?
-          = link_to glyph(:ok)+' Закрыть', close_incedent_path(@incedent), data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :close, @incedent
+        - if !@incedent.is_closed? and can? :close, @incedent
+          %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-close-#{@incedent.id}"}
+            = glyph(:ok)+' Закрыть'
+          = render partial: 'close', locals: { incedent: @incedent }
         - if (@incedent.is_closed? or @incedent.is_stoped?) and can? :solve, @incedent
           = link_to glyph(:thumbs_up)+' Решено', solve_incedent_path(@incedent), class: 'btn btn-mini btn-success' if can? :solve, @incedent
       - elsif current_user.has_role? :admin
