@@ -1,25 +1,5 @@
 %h1 Listing attaches
-
-%table
-  %tr
-    %th Name
-    %th Description
-    %th Mime
-    %th Size
-    %th
-    %th
-    %th
-
-  - @attaches.each do |attach|
-    %tr
-      %td= attach.name
-      %td= attach.description
-      %td= attach.mime
-      %td= attach.size
-      %td= link_to 'Show', attach
-      %td= link_to 'Edit', edit_attach_path(attach)
-      %td= link_to 'Destroy', attach, method: :delete, data: { confirm: 'Are you sure?' }
-
+= render 'attaches'   
 %br
-
+%br
 = link_to 'New Attach', new_attach_path

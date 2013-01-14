@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121219062533) do
+ActiveRecord::Schema.define(:version => 20130114080831) do
+
+  create_table "attaches", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "mime"
+    t.integer  "size"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -30,6 +39,16 @@ ActiveRecord::Schema.define(:version => 20121219062533) do
   add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
+
+  create_table "comment_attaches", :force => true do |t|
+    t.integer  "comment_id"
+    t.integer  "attach_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "comment_attaches", ["attach_id"], :name => "index_comment_attaches_on_attach_id"
+  add_index "comment_attaches", ["comment_id"], :name => "index_comment_attaches_on_comment_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "author_id"
@@ -72,6 +91,16 @@ ActiveRecord::Schema.define(:version => 20121219062533) do
   add_index "incedent_actions", ["incedent_id"], :name => "index_incedent_actions_on_incedent_id"
   add_index "incedent_actions", ["status_id"], :name => "index_incedent_actions_on_status_id"
   add_index "incedent_actions", ["worker_id"], :name => "index_incedent_actions_on_worker_id"
+
+  create_table "incedent_attaches", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "attach_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_attaches", ["attach_id"], :name => "index_incedent_attaches_on_attach_id"
+  add_index "incedent_attaches", ["incedent_id"], :name => "index_incedent_attaches_on_incedent_id"
 
   create_table "incedent_comments", :force => true do |t|
     t.integer  "incedent_id"
