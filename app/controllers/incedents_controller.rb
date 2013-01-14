@@ -307,22 +307,34 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/close
   # GET /incedent/1/close.json
   def close
-    @incedent = Incedent.find(params[:id])
+    if !params[:incedent][:close_reason].empty? 
+      @incedent = Incedent.find(params[:id])
+  
+      @incedent.worker = @current_user unless @incedent.has_worker?
+  
+      @incedent.status_id = Houston::Application.config.incedent_closed
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
-
-    @incedent.status_id = Houston::Application.config.incedent_closed
-
-    respond_to do |format|
-      if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
-
-        IncedentMailer.incedent_closed(@incedent).deliver
-
-        format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "close" }
+      @incedent_comment = IncedentComment.new
+      @incedent_comment.incedent = @incedent
+      @incedent_comment.comment = Comment.new(title: 'Жалоба закрыта', body: params[:incedent][:close_reason], author: @current_user)
+      @incedent_comment.save
+  
+      respond_to do |format|
+        if @incedent.save
+          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+  
+          IncedentMailer.incedent_closed(@incedent).deliver
+  
+          format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "close" }
+          format.json { render json: @incedent.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину закрытия.' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
