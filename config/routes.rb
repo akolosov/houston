@@ -28,6 +28,8 @@ Houston::Application.routes.draw do
 
   resources :incedents
 
+  resources :attaches
+
   resources :welcome do
     member do
       get 'denied'
