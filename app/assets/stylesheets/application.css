@@ -89,6 +89,12 @@ p.footer, p.footer a {
 	margin-bottom: 0px !important;
 }
 
+.form-footer {
+	background-color: #d5d5d5;
+	border-top: 1px solid #c5c5c5;
+	padding: 5px !important;
+}
+
 .nav-item {
 	padding-left: 10px;
 }

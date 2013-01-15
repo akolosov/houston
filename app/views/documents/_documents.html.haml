@@ -23,6 +23,10 @@
       .pull-right
         = 'Автор: '+document.user.realname+' ('+document.user.email+')'
       %br
+    - if !document.attaches.empty?
+      .form-footer
+        - document.attaches.each do |attach|
+          = link_to_attach_for_document(document, attach)
   %br
   %br
 .apple_pagination

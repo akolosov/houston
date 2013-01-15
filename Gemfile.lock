@@ -34,7 +34,6 @@ GEM
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     cancan (1.6.8)
-    cocaine (0.4.2)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -88,7 +87,6 @@ GEM
     mousetrap-rails (0.0.8)
     multi_json (1.5.0)
     multipart-post (1.1.5)
-    nested_form (0.3.1)
     oauth (0.4.7)
     oauth2 (0.8.0)
       faraday (~> 0.8)
@@ -96,12 +94,6 @@ GEM
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
       rack (~> 1.2)
-    paperclip (3.4.0)
-      activemodel (>= 3.0.0)
-      activerecord (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      cocaine (~> 0.4.0)
-      mime-types
     polyglot (0.3.3)
     rack (1.4.4)
     rack-cache (1.2)
@@ -185,8 +177,6 @@ DEPENDENCIES
   markitup-rails
   meta_request
   mousetrap-rails
-  nested_form
-  paperclip
   rails (= 3.2.11)
   rb-readline
   redcarpet

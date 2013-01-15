@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114080831) do
+ActiveRecord::Schema.define(:version => 20130115060651) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -59,6 +59,16 @@ ActiveRecord::Schema.define(:version => 20130114080831) do
   end
 
   add_index "comments", ["author_id"], :name => "index_comments_on_author_id"
+
+  create_table "document_attaches", :force => true do |t|
+    t.integer  "document_id"
+    t.integer  "attach_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "document_attaches", ["attach_id"], :name => "index_document_attaches_on_attach_id"
+  add_index "document_attaches", ["document_id"], :name => "index_document_attaches_on_document_id"
 
   create_table "document_comments", :force => true do |t|
     t.integer  "document_id"

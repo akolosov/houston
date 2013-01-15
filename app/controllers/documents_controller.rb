@@ -86,6 +86,15 @@ class DocumentsController < ApplicationController
   def update
     @document = Document.find(params[:id])
 
+    if params[:document][:attaches_attributes]
+      params[:document][:attaches_attributes].each do |key, attach|
+        if attach[:file].present?
+          save_document_attach(@document, attach)
+          params[:document][:attaches_attributes].delete key
+        end
+      end
+    end
+
     respond_to do |format|
       if @document.update_attributes(params[:document])
         format.html { redirect_to @document, notice: 'Рецепт удачно обновлен.' }
@@ -126,5 +135,34 @@ class DocumentsController < ApplicationController
       end
     end
   end
+
+  protected
+
+  def save_document_attach(document, attach)
+    @document_attach = DocumentAttach.new
+    @document_attach.document = document
+    
+    uploaded_io = attach[:file]
+
+    if !Dir.exists?(Rails.root.join('public', 'uploads', 'documents', document.id.to_s))
+      Dir.mkdir(Rails.root.join('public', 'uploads', 'documents', document.id.to_s), 0700)
+    end
+
+    File.open(Rails.root.join('public', 'uploads', 'documents', document.id.to_s, uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    @attach = Attach.new
+    @attach.name = uploaded_io.original_filename
+    @attach.description = attach[:description]
+    @attach.mime = uploaded_io.content_type
+    @attach.save
+
+    @document_attach.attach = @attach
+    @document_attach.save
+    
+    @document_attach
+  end
+
 
 end

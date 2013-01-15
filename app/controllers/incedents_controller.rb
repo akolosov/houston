@@ -1,5 +1,5 @@
 # encoding: utf-8
-class IncedentsController < ApplicationController
+class IncedentsController < ApplicationController  
   before_filter :require_login
 
   load_and_authorize_resource
@@ -65,6 +65,7 @@ class IncedentsController < ApplicationController
   # GET /incedents/1/edit
   def edit
     @incedent = Incedent.find(params[:id])
+    @attach = Attach.new
   end
 
   # POST /incedent/:id/comment
@@ -90,7 +91,7 @@ class IncedentsController < ApplicationController
   # POST /incedents.json
   def create
     @incedent = Incedent.new(params[:incedent])
-
+  
     respond_to do |format|
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
@@ -110,6 +111,15 @@ class IncedentsController < ApplicationController
   # PUT /incedents/1.json
   def update
     @incedent = Incedent.find(params[:id])
+    
+    if params[:incedent][:attaches_attributes]
+      params[:incedent][:attaches_attributes].each do |key, attach|
+        if attach[:file].present?
+          save_incedent_attach(@incedent, attach)
+          params[:incedent][:attaches_attributes].delete key
+        end
+      end
+    end
 
     respond_to do |format|
       if @incedent.update_attributes(params[:incedent])
@@ -341,6 +351,32 @@ class IncedentsController < ApplicationController
   end
 
   protected
+
+  def save_incedent_attach(incedent, attach)
+    @incedent_attach = IncedentAttach.new
+    @incedent_attach.incedent = incedent
+    
+    uploaded_io = attach[:file]
+
+    if !Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
+      Dir.mkdir(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s), 0700)
+    end
+
+    File.open(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s, uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    @attach = Attach.new
+    @attach.name = uploaded_io.original_filename
+    @attach.description = attach[:description]
+    @attach.mime = uploaded_io.content_type
+    @attach.save
+
+    @incedent_attach.attach = @attach
+    @incedent_attach.save
+    
+    @incedent_attach
+  end
 
   def get_incedents(archive)
     (params[:tag_id]) ?

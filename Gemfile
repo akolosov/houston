@@ -34,10 +34,6 @@ gem 'less-rails'
 
 gem 'mousetrap-rails'
 
-gem 'nested_form'
-
-gem 'paperclip'
-
 group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'

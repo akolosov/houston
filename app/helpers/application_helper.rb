@@ -25,4 +25,21 @@ module ApplicationHelper
     end
   end
   
+  def add_object_link(name, form, object, partial, where)
+    html = render partial: partial, locals: { f: form}, object: object
+
+    link_to_function name, %{
+      var new_object_id = new Date().getTime() ;
+      var html = jQuery(#{html.to_json}.replace(/XXX/g, new_object_id)).hide();
+      html.appendTo(jQuery("#{where}")).slideDown('slow');
+    }, class: 'btn btn-mini'
+  end
+  
+  def link_to_attach_for_incedent(incedent, attach)
+   link_to glyph(:file)+' '+attach.name, "#{root_url}uploads/incedents/#{incedent.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
+  end
+
+  def link_to_attach_for_document(document, attach)
+   link_to glyph(:file)+' '+attach.name, "#{root_url}uploads/documents/#{document.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
+  end
 end

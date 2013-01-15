@@ -6,11 +6,13 @@ Houston::Application.routes.draw do
 
   get "audit/index", as: :audit
 
+  get "attaches/index", as: :files
+
   get 'incedents/archive', as: :archive
 
   resources :search
 
-  resources :audit
+  resources :audit, only: :index
 
   resources :servers, except: :show
 
@@ -28,7 +30,7 @@ Houston::Application.routes.draw do
 
   resources :incedents
 
-  resources :attaches
+  resources :attaches, only: :index
 
   resources :welcome do
     member do
