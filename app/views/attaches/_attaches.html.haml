@@ -1,0 +1,27 @@
+#attaches
+  .apple_pagination
+    =will_paginate @attaches, previous_label: '←', next_label: '→'
+  %table.table.table-striped.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Имя
+        %th Описание
+        %th Тип
+        %th Размер
+        %th Дата и время
+        %th.span3
+  
+    %tbody
+      - @attaches.each do |attach|
+        %tr
+          %td= attach.name
+          %td= attach.description
+          %td= attach.mime
+          %td= attach.size
+          %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
+          %td
+            = link_to 'Show', attach
+            = link_to 'Edit', edit_attach_path(attach)
+            = link_to 'Destroy', attach, method: :delete, data: { confirm: 'Are you sure?' }
+  .apple_pagination
+    =will_paginate @attaches, previous_label: '←', next_label: '→'

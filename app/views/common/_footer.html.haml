@@ -2,7 +2,7 @@
   .navbar-inner
     .container-fluid
       %p.footer
+        = Houston::Application.config.app_name+' v'+Houston::Application.config.version+'.'
         Copyright &copy;
-        = succeed "," do
-          %a{href: "mailto:alexey.kolosov@gmail.com"} Alexey Kolosov
-        customWork 2012. All rights reserved. (SESSION_ID: #{request.session_options[:id]})
+        %a{href: "mailto:alexey.kolosov@gmail.com"} Alexey Kolosov.
+        All rights reserved. (SESSION_ID: #{request.session_options[:id]})
