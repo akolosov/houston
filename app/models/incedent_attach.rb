@@ -2,7 +2,7 @@ class IncedentAttach < ActiveRecord::Base
   belongs_to :incedent
   belongs_to :attach
 
-  attr_accessible :attach_id, :incedent_id
+  attr_accessible :attach_id, :incedent_id, :incedent, :attach
 
   accepts_nested_attributes_for :incedent, :attach
   
