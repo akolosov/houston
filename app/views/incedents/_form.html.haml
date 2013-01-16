@@ -1,4 +1,4 @@
-= simple_form_for @incedent, html: { class: 'form-horizontal form', multipart: true, id: "incedent" } do |f|
+= simple_form_for @incedent, url: add_incedent_path(), html: { class: 'form-horizontal form', multipart: true, id: "incedent" } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -19,8 +19,8 @@
     = f.association :priority, include_blank: false, label: "Приоритет", input_html: { class: 'form-input' }
     = f.association :type, include_blank: false, label: "Тип", input_html: { class: 'form-input' }
     = f.association :tags, as: :check_boxes, label: "Метки", input_html: { class: 'form-input' }
-    - if @incedent.persisted?
-      #attaches
+    #attaches
+      - if @incedent.persisted?
         = render partial: 'attaches', locals: { incedent: @incedent, f: f }
       = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
   .form-actions

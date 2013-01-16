@@ -114,6 +114,35 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # POST /incedent/add
+  # POST /incedent/add.json
+  def add
+    @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
+  
+    respond_to do |format|
+      if @incedent.save
+
+        if params[:incedent][:attaches_attributes]
+          params[:incedent][:attaches_attributes].each do |key, attach|
+            if attach[:file].present?
+              save_incedent_attach(@incedent, attach)
+            end
+          end
+        end
+
+        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
+
+        IncedentMailer.incedent_created(@incedent).deliver
+
+        format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
+        format.json { render json: @incedent, status: :created, location: @incedent }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @incedent.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /incedents/1
   # PUT /incedents/1.json
   def update
@@ -370,7 +399,7 @@ class IncedentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type, size: File.size(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s, uploaded_io.original_filename)))
     @attach.save
 
     @incedent_attach = IncedentAttach.new(incedent: incedent, attach: @attach)
@@ -389,7 +418,7 @@ class IncedentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type, size: File.size(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename)))
     @attach.save
 
     @comment_attach = CommentAttach.new(comment: comment, attach: @attach)

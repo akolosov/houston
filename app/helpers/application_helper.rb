@@ -36,14 +36,14 @@ module ApplicationHelper
   end
   
   def link_to_attach_for_incedent(incedent, attach)
-   link_to glyph(:file)+' '+attach.name, "#{root_url}uploads/incedents/#{incedent.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
+   link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', "#{root_url}uploads/incedents/#{incedent.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
   end
 
   def link_to_attach_for_document(document, attach)
-   link_to glyph(:file)+' '+attach.name, "#{root_url}uploads/documents/#{document.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
+   link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', "#{root_url}uploads/documents/#{document.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
   end
 
   def link_to_attach_for_comment(comment, attach)
-   link_to glyph(:file)+' '+attach.name, "#{root_url}uploads/comments/#{comment.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
+   link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', "#{root_url}uploads/comments/#{comment.id}/"+attach.name, title: attach.description,  class: 'btn btn-mini'
   end
 end

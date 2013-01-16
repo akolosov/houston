@@ -89,6 +89,31 @@ class DocumentsController < ApplicationController
     end
   end
 
+  # POST /document/add
+  # POST /document/add.json
+  def add
+    @document = Document.new(params[:document].except(:attaches_attributes))
+
+    respond_to do |format|
+      if @document.save
+
+        if params[:document][:attaches_attributes]
+          params[:document][:attaches_attributes].each do |key, attach|
+            if attach[:file].present?
+              save_document_attach(@document, attach)
+            end
+          end
+        end
+
+        format.html { redirect_to @document, notice: 'Рецепт удачно создан.' }
+        format.json { render json: @document, status: :created, location: @document }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /documents/1
   # PUT /documents/1.json
   def update
@@ -157,7 +182,7 @@ class DocumentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type, size: File.size(Rails.root.join('public', 'uploads', 'documents', document.id.to_s, uploaded_io.original_filename)))
     @attach.save
 
     @document_attach = DocumentAttach.new(document: document, attach: @attach)
@@ -175,7 +200,7 @@ class DocumentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type, size: File.size(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename)))
     @attach.save
 
     @comment_attach = CommentAttach.new(comment: comment, attach: @attach)
