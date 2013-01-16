@@ -68,6 +68,6 @@ module Houston
     config.incedent_waited   = 8
 
     config.app_name = 'Houston'
-    config.version = '0.1.5'
+    config.version = '0.1.6'
   end
 end

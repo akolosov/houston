@@ -1,10 +1,14 @@
-= simple_form_for @document, html: { class: 'form-horizontal form' }  do |f|
+= simple_form_for @document, html: { class: 'form-horizontal form', multipart: true }  do |f|
   .form-header
     %h3= @form_title
   .form-inputs
     = f.input :user_id, as: :hidden
     = f.input :title, label: "Заголовок", input_html: { class: 'form-input' }
     = f.input :body, label: "Документ", input_html: { class: 'form-input', id: 'document_markdown' }
+    - if @document.persisted?
+      #attaches
+        = render partial: 'attaches', locals: { document: @document, f: f }
+      = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
   .form-actions
     = f.submit @button_title, class: "btn"
     = link_to 'Отмена', documents_path, class: "btn"

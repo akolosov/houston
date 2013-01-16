@@ -12,6 +12,11 @@
     .pull-right
       = 'Автор: '+@document.user.realname+' ('+@document.user.email+')'
     %br
+  - if !@document.attaches.empty?
+    .form-actions
+      - @document.attaches.each do |attach|
+        = link_to_attach_for_document(@document, attach)
+
 %br
 %br
 - if @document.comments
@@ -30,8 +35,13 @@
         %h3= comment.title
       .form-inputs
         = markdown(comment.body)
+      - if !comment.attaches.empty?
+        .form-actions
+          - comment.attaches.each do |attach|
+            = link_to_attach_for_comment(comment, attach)
     %br
     %br
+
 %br
 %br
 = render 'comment'

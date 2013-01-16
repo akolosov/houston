@@ -9,7 +9,7 @@
         %th Тип
         %th Размер
         %th Дата и время
-        %th.span3
+        %th
   
     %tbody
       - @attaches.each do |attach|
@@ -18,10 +18,8 @@
           %td= attach.description
           %td= attach.mime
           %td= attach.size
-          %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
+          %td= attach.created_at.strftime("%d.%m.%Y %H:%M:%S")
           %td
-            = link_to 'Show', attach
-            = link_to 'Edit', edit_attach_path(attach)
-            = link_to 'Destroy', attach, method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to 'Download', attach
   .apple_pagination
     =will_paginate @attaches, previous_label: '←', next_label: '→'
