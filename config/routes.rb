@@ -24,11 +24,11 @@ Houston::Application.routes.draw do
 
   resources :problem_solutions, except: :show
 
-  resources :documents
+  resources :documents, except: :create
 
   resources :tags, except: :show
 
-  resources :incedents
+  resources :incedents, except: :create
 
   resources :attaches, only: :index
 
@@ -80,6 +80,7 @@ Houston::Application.routes.draw do
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
   
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
+  match 'incedent/add' => 'incedents#add', as: :add_incedent
 
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
   match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent
@@ -94,6 +95,7 @@ Houston::Application.routes.draw do
   match 'document/:id/move' => 'documents#move', as: :move_document_to_solution
   match 'document/:id/comments' => 'documents#show', as: :document_comments
   match 'document/:document_id/comment' => 'documents#comment', as: :add_document_comment
+  match 'document/add' => 'documents#add', as: :add_document
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
