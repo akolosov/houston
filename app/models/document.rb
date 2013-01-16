@@ -9,7 +9,12 @@ class Document < ActiveRecord::Base
   has_many :document_comments, dependent: :destroy
   has_many :comments, through: :document_comments, dependent: :destroy
 
-  attr_accessible :body, :title, :user, :user_id
+  attr_accessible :body, :title, :user, :user_id, :attaches_attributes
   
   validates :title, :body, presence: true
+  
+  has_many :document_attaches, dependent: :destroy
+  has_many :attaches, through: :document_attaches, dependent: :destroy
+
+  accepts_nested_attributes_for :attaches, allow_destroy: true
 end

@@ -16,5 +16,9 @@
         %h3= comment.title
       .form-inputs
         = markdown(comment.body)
+      - if !comment.attaches.empty?
+        .form-actions
+          - comment.attaches.each do |attach|
+            = link_to_attach_for_comment(comment, attach)
     %br
     %br

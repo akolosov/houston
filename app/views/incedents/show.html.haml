@@ -69,6 +69,10 @@
       .pull-right
         - @incedent.tags.each do |tag|
           = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
+  - if !@incedent.attaches.empty?
+    .form-footer
+      - @incedent.attaches.each do |attach|
+        = link_to_attach_for_incedent(@incedent, attach)
 
 = render 'comments'
 = render 'comment'
