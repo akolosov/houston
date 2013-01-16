@@ -72,12 +72,19 @@ class IncedentsController < ApplicationController
   def comment
     @incedent_comment = IncedentComment.new
     @incedent_comment.incedent = Incedent.find(params[:incedent_comment][:incedent_id])
-    @incedent_comment.comment = Comment.new(params[:incedent_comment][:comment])
-    @incedent_comment.comment.author = @current_user
+    @incedent_comment.comment = Comment.new(title: params[:incedent_comment][:comment][:title], body: params[:incedent_comment][:comment][:body], author: @current_user)
 
     respond_to do |format|
       if @incedent_comment.save
 
+        if params[:incedent_comment][:comment][:attaches_attributes]
+          params[:incedent_comment][:comment][:attaches_attributes].each do |key, attach|
+            if attach[:file].present?
+              save_comment_attach(@incedent_comment.comment, attach)
+            end
+          end
+        end
+      
         IncedentMailer.incedent_commented(@incedent_comment).deliver
 
         format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
@@ -353,9 +360,6 @@ class IncedentsController < ApplicationController
   protected
 
   def save_incedent_attach(incedent, attach)
-    @incedent_attach = IncedentAttach.new
-    @incedent_attach.incedent = incedent
-    
     uploaded_io = attach[:file]
 
     if !Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
@@ -366,16 +370,30 @@ class IncedentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new
-    @attach.name = uploaded_io.original_filename
-    @attach.description = attach[:description]
-    @attach.mime = uploaded_io.content_type
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
     @attach.save
 
-    @incedent_attach.attach = @attach
+    @incedent_attach = IncedentAttach.new(incedent: incedent, attach: @attach)
+
     @incedent_attach.save
-    
-    @incedent_attach
+  end
+
+  def save_comment_attach(comment, attach)
+    uploaded_io = attach[:file]
+
+    if !Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
+      Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700)
+    end
+
+    File.open(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach.save
+
+    @comment_attach = CommentAttach.new(comment: comment, attach: @attach)
+    @comment_attach.save
   end
 
   def get_incedents(archive)

@@ -53,11 +53,19 @@ class DocumentsController < ApplicationController
   def comment
     @document_comment = DocumentComment.new
     @document_comment.document = Document.find(params[:document_comment][:document_id])
-    @document_comment.comment = Comment.new(params[:document_comment][:comment])
-    @document_comment.comment.author = @current_user
+    @document_comment.comment = Comment.new(title: params[:document_comment][:comment][:title], body: params[:document_comment][:comment][:body], author: @current_user)
 
     respond_to do |format|
       if @document_comment.save
+
+        if params[:document_comment][:comment][:attaches_attributes]
+          params[:document_comment][:comment][:attaches_attributes].each do |key, attach|
+            if attach[:file].present?
+              save_comment_attach(@document_comment.comment, attach)
+            end
+          end
+        end
+      
         format.html { redirect_to @document_comment.document, notice: 'Коментарий успешно добавлен.' }
       else
         format.html { render action: "show" }
@@ -139,9 +147,6 @@ class DocumentsController < ApplicationController
   protected
 
   def save_document_attach(document, attach)
-    @document_attach = DocumentAttach.new
-    @document_attach.document = document
-    
     uploaded_io = attach[:file]
 
     if !Dir.exists?(Rails.root.join('public', 'uploads', 'documents', document.id.to_s))
@@ -152,16 +157,29 @@ class DocumentsController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    @attach = Attach.new
-    @attach.name = uploaded_io.original_filename
-    @attach.description = attach[:description]
-    @attach.mime = uploaded_io.content_type
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
     @attach.save
 
-    @document_attach.attach = @attach
+    @document_attach = DocumentAttach.new(document: document, attach: @attach)
     @document_attach.save
-    
-    @document_attach
+  end
+
+  def save_comment_attach(comment, attach)
+    uploaded_io = attach[:file]
+
+    if !Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
+      Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700)
+    end
+
+    File.open(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type)
+    @attach.save
+
+    @comment_attach = CommentAttach.new(comment: comment, attach: @attach)
+    @comment_attach.save
   end
 
 
