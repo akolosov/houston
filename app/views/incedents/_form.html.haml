@@ -22,7 +22,7 @@
     #attaches
       - if @incedent.persisted?
         = render partial: 'attaches', locals: { incedent: @incedent, f: f }
-      = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
+    = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
   .form-actions
     = f.submit @button_title, class: "btn"
     = link_to 'Отмена', incedents_path, class: "btn"

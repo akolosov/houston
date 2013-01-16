@@ -8,7 +8,7 @@
     #attaches
       - if @document.persisted?
         = render partial: 'attaches', locals: { document: @document, f: f }
-      = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
+    = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
   .form-actions
     = f.submit @button_title, class: "btn"
     = link_to 'Отмена', documents_path, class: "btn"
