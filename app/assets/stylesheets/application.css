@@ -44,7 +44,6 @@ p.footer, p.footer a {
   margin-right: 5px;
 }
 
-
 .form {
 	margin: 0;
 	padding: 0;
@@ -95,6 +94,10 @@ p.footer, p.footer a {
 	padding: 5px !important;
 }
 
+.form-horizontal .control-group {
+	margin-bottom: 5px !important;
+}
+
 .nav-item {
 	padding-left: 10px;
 }
@@ -109,7 +112,7 @@ p.footer, p.footer a {
 }
 
 .form-inputs {
-  margin: 30px;
+  margin: 10px;
 }
 
 .form-actions {

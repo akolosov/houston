@@ -1,16 +1,19 @@
-- if  !@document.attaches.empty?
-  %p Вложенные файлы:
-  %table.table.table-striped.table-bordered.table-condensed
-    %tr
-      %th Имя      
-      %th Описание
-      %th.span3 Дата и время
-      %th.span1 Удалить
-    = f.simple_fields_for :attaches do |a| 
-      %tr
-        %td= a.object.name
-        %td= a.object.description
-        %td= a.object.created_at
-        %td.center
-          = a.check_box '_destroy'
+- if !@document.attaches.empty?
+  .control-group
+    %label.control-label
+      Вложенные файлы
+    .controls
+      %table.table.table-striped.table-bordered.table-condensed
+        %tr
+          %th Имя      
+          %th Описание
+          %th.span3 Дата и время
+          %th.span1 Удалить
+        = f.simple_fields_for :attaches do |a| 
+          %tr
+            %td= a.object.name
+            %td= a.object.description
+            %td= a.object.created_at
+            %td.center
+              = a.check_box '_destroy'
 

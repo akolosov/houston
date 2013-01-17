@@ -9,5 +9,6 @@
     = f.input :port, label: "TCP/UDP порт", input_html: { class: 'form-input' }
     = f.input :username, label: "Имя пользователя", input_html: { class: 'form-input' }
   .form-actions
-    = f.submit @button_title, class: "btn"
-    = link_to 'Отмена', servers_path, class: "btn"
+    .pull-right.btn-group
+      = f.submit @button_title, class: "btn btn-success"
+      = link_to 'Отмена', servers_path, class: "btn"
