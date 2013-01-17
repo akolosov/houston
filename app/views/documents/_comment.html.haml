@@ -10,4 +10,5 @@
       #attaches
       = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "comment_file", "#attaches")
   .form-actions
-    = f.submit "Добавить коментарий", class: "btn"
+    .pull-right
+      = f.submit "Добавить коментарий", class: "btn btn-success"
