@@ -20,19 +20,20 @@ class Ability
       can :read, ProblemTag
       can :update, Document, user_id: user.id
       can :create, Document
+      can :comment, Document
       can :create, Comment
       can :create, Comment
       can :create, DocumentComment
       can :create, IncedentComment
+      can :add, Document
+      can :add, Incedent
       can :create, Incedent
       can :play, Incedent
       can :read, Incedent
       can :create, Attach
-      can :read, Attach
       can :create, CommentAttach
-      can :read, CommentAttach
       can :create, IncedentAttach
-      can :read, IncedentAttach
+      can :create, DocumentAttach
       can :update, Incedent, initiator_id: user.id
       can :pause, Incedent, worker_id: user.id
       can :stop, Incedent, worker_id: user.id
@@ -44,21 +45,22 @@ class Ability
       can :solve, Incedent, initiator_id: user.id
       can :archive, Incedent, initiator_id: user.id
       can :archive, Incedent, worker_id: user.id
+      can :comment, Incedent, initiator_id: user.id
+      can :comment, Incedent, worker_id: user.id
     elsif user.has_role? :user
       can :update, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id
       can :create, Document
       can :create, Comment
+      can :comment, Document
       can :create, DocumentComment
       can :create, IncedentComment
       can :create, Incedent
       can :create, Attach
-      can :read, Attach
       can :create, CommentAttach
-      can :read, CommentAttach
       can :create, IncedentAttach
-      can :read, IncedentAttach
+      can :create, DocumentAttach
       can :read, Incedent, initiator_id: user.id
       can :read, Incedent, worker_id: user.id
       can :update, Incedent, initiator_id: user.id
@@ -74,6 +76,8 @@ class Ability
       can :solve, Incedent, initiator_id: user.id
       can :archive, Incedent, initiator_id: user.id
       can :archive, Incedent, worker_id: user.id
+      can :comment, Incedent, initiator_id: user.id
+      can :comment, Incedent, worker_id: user.id
     end
 
     # The first argument to `can` is the action you are giving the user permission to do.
