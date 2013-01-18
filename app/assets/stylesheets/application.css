@@ -13,6 +13,11 @@
 body {
 	padding-top: 60px;
 	padding-bottom: 40px;
+	font-family:"Play", sans-serif !important;
+}
+
+input, button {
+	font-family: inherit !important;
 }
 
 p.footer, p.footer a {
@@ -25,23 +30,23 @@ p.footer, p.footer a {
 }
 
 .top-30 {
-  margin-top: -30px !important;
+  	margin-top: -30px !important;
 }
 
 .top10 {
-  margin-top: 10px;
+  	margin-top: 10px;
 }
 
 .right10 {
-  margin-right: 10px;
+  	margin-right: 10px;
 }
 
 .top5 {
-  margin-top: 5px;
+  	margin-top: 5px;
 }
 
 .right5 {
-  margin-right: 5px;
+  	margin-right: 5px;
 }
 
 .form {
@@ -112,11 +117,11 @@ p.footer, p.footer a {
 }
 
 .form-inputs {
-  margin: 10px;
+  	margin: 10px;
 }
 
 .form-actions {
-  padding: 10px !important;
+  	padding: 10px !important;
 }
 
 .solved {
@@ -164,13 +169,46 @@ p.footer, p.footer a {
 	overflow: hidden;
 }
 
-.tag0 { font-size: 0.6em; }
-.tag1 { font-size: 0.7em; }
-.tag2 { font-size: 0.8em; }
-.tag3 { font-size: 0.9em; }
-.tag4 { font-size: 1.0em; }
-.tag5 { font-size: 1.1em; }
-.tag6 { font-size: 1.2em; }
-.tag7 { font-size: 1.3em; }
-.tag8 { font-size: 1.4em; }
-.tag9 { font-size: 1.5em; }
+.btn-success {
+	font-weight: bold !important;
+}
+
+.tag0 {
+	font-size: 0.6em;
+}
+
+.tag1 {
+	font-size: 0.7em;
+}
+
+.tag2 {
+	font-size: 0.8em;
+}
+
+.tag3 {
+	font-size: 0.9em;
+}
+
+.tag4 {
+	font-size: 1.0em;
+}
+
+.tag5 {
+	font-size: 1.1em;
+}
+
+.tag6 {
+	font-size: 1.2em;
+}
+
+.tag7 {
+	font-size: 1.3em;
+}
+
+.tag8 {
+	font-size: 1.4em;
+}
+
+.tag9 {
+	font-size: 1.5em;
+}
