@@ -1,4 +1,4 @@
-= simple_form_for @incedent, url: add_incedent_path(), html: { class: 'form-horizontal form', multipart: true, id: "incedent" } do |f|
+= simple_form_for @incedent, url: (@incedent.id.nil? ? add_incedent_path() : @incedent), html: { class: 'form-horizontal form', multipart: true, id: "incedent" } do |f|
   .form-header
     %h3= @form_title
   .form-inputs

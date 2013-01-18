@@ -20,6 +20,6 @@
           %td= attach.size
           %td= attach.created_at.strftime("%d.%m.%Y %H:%M:%S")
           %td
-            = link_to 'Download', attach
+            = link_to 'Download', attaches_path
   .apple_pagination
     =will_paginate @attaches, previous_label: '←', next_label: '→'

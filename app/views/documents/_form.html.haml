@@ -1,4 +1,4 @@
-= simple_form_for @document, url: add_document_path(), html: { class: 'form-horizontal form', multipart: true }  do |f|
+= simple_form_for @document, url: (@document.id.nil? ? add_document_path() : @document), html: { class: 'form-horizontal form', multipart: true }  do |f|
   .form-header
     %h3= @form_title
   .form-inputs
