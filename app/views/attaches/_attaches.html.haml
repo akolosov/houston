@@ -6,10 +6,10 @@
       %tr
         %th Имя
         %th Описание
-        %th Тип
-        %th Размер
-        %th Дата и время
-        %th
+        %th.span2 Тип
+        %th.span2 Размер
+        %th.span3 Дата и время
+        %th.span2
   
     %tbody
       - @attaches.each do |attach|
@@ -20,6 +20,8 @@
           %td= attach.size
           %td= attach.created_at.strftime("%d.%m.%Y %H:%M:%S")
           %td
-            = link_to 'Download', attaches_path
+            .btn-group
+              = link_to_attach_source(attach)
+              = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
   .apple_pagination
     =will_paginate @attaches, previous_label: '←', next_label: '→'

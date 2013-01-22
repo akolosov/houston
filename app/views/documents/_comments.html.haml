@@ -1,8 +1,8 @@
 %br
 %br
-- if @incedent.comments
-  %h3 Обсуждение жалобы
-  - @incedent.comments.each do |comment|
+- if @document.comments
+  %h3 Обсуждение рецепта
+  - @document.comments.each do |comment|
     .form
       %a{ name: comment.id }
       .form-header

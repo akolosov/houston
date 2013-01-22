@@ -1,3 +1,5 @@
+%br
+%br
 = simple_form_for @document_comment, url: add_document_comment_path(@document_comment.document), method: :post, html: { class: 'form-horizontal form', multipart: true } do |f|
   .form-header
     %h3 Оставить коментарий
@@ -12,3 +14,5 @@
   .form-actions
     .pull-right
       = f.submit "Добавить коментарий", class: "btn btn-success"
+%br
+%br

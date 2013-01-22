@@ -17,33 +17,5 @@
       - @document.attaches.each do |attach|
         = link_to_attach_for_document(@document, attach)
 
-%br
-%br
-- if @document.comments
-  %h3 Обсуждение рецепта
-  - @document.comments.each do |comment|
-    .form
-      .form-header
-        .pull-right.top5.right10
-          = content_tag :strong, 'Автор: '
-          = comment.author.realname
-          %br
-          = content_tag :strong, 'Дата публикации: '
-          = comment.created_at.strftime("%d.%m.%Y в %H:%M")
-        .pull-left
-          = image_tag gravatar_url(comment.author), class: 'img-polaroid user-avatar'
-        %h3= comment.title
-      .form-inputs
-        = markdown(comment.body)
-      - if !comment.attaches.empty?
-        .form-footer
-          - comment.attaches.each do |attach|
-            = link_to_attach_for_comment(comment, attach)
-    %br
-    %br
-
-%br
-%br
+= render 'comments'
 = render 'comment'
-%br
-%br
