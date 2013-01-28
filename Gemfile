@@ -28,7 +28,7 @@ gem 'will_paginate'
 
 gem 'redcarpet'
 
-gem 'markitup-rails'
+gem 'markitup-rails', '0.2.2'
 
 gem 'less-rails'
 
