@@ -11,6 +11,7 @@ module ApplicationHelper
         autolink: true,
         no_intra_emphasis: true,
         fenced_code_blocks: true,
+        tables: true,
         lax_html_blocks: true,
         strikethrough: true,
         superscript: true,
