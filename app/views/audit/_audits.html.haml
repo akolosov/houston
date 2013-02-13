@@ -1,6 +1,6 @@
 #audits
   .apple_pagination
-    =will_paginate @audits, previous_label: '←', next_label: '→'
+    =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
   %table.table.table-striped.table-bordered.table-condensed
     %thead
       %tr
@@ -21,4 +21,4 @@
           %td= audit.comment
           %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
   .apple_pagination
-    =will_paginate @audits, previous_label: '←', next_label: '→'
+    =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
