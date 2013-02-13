@@ -7,7 +7,7 @@
       = link_to glyph(:download)+' Скачать', incedents_archive_path(:xls),class: 'btn btn-mini'
 
 .apple_pagination
-  =will_paginate @audits, previous_label: '←', next_label: '→'
+  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
 
 - @incedents.each do |incedent|
   .form{class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : ''))))}
@@ -82,4 +82,4 @@
   %br
 
 .apple_pagination
-  =will_paginate @audits, previous_label: '←', next_label: '→'
+  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true

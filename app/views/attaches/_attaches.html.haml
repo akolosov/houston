@@ -1,6 +1,6 @@
 #attaches
   .apple_pagination
-    =will_paginate @attaches, previous_label: '←', next_label: '→'
+    =will_paginate @attaches, previous_label: '←', next_label: '→', remote: true
   %table.table.table-striped.table-bordered.table-condensed
     %thead
       %tr
@@ -24,4 +24,4 @@
               = link_to_attach_source(attach)
               = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
   .apple_pagination
-    =will_paginate @attaches, previous_label: '←', next_label: '→'
+    =will_paginate @attaches, previous_label: '←', next_label: '→', remote: true
