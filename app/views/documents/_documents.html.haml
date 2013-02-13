@@ -1,5 +1,5 @@
 .apple_pagination
-  =will_paginate @documents, previous_label: '←', next_label: '→'
+  =will_paginate @documents, previous_label: '←', next_label: '→', remote: true
 - @documents.each do |document|
   .form
     .form-header
@@ -30,4 +30,4 @@
   %br
   %br
 .apple_pagination
-  =will_paginate @documents, previous_label: '←', next_label: '→'
+  =will_paginate @documents, previous_label: '←', next_label: '→', remote: true
