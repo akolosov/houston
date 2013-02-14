@@ -1,4 +1,4 @@
-= simple_form_for @problem, html: { class: 'form-horizontal form' } do |f|
+= simple_form_for @problem, html: { id: 'form', class: 'form-horizontal form' } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -7,5 +7,5 @@
     = f.association :tags, as: :check_boxes, label: "Метки", input_html: { class: 'form-input' }
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title, class: "btn btn-success"
-      = link_to 'Отмена', problems_path, class: 'btn'
+      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = link_to 'Отмена [Esc]', problems_path, class: 'btn'

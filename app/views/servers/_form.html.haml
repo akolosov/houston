@@ -1,4 +1,4 @@
-= simple_form_for @server, html: { class: 'form-horizontal form' }  do |f|
+= simple_form_for @server, html: { id: 'form', class: 'form-horizontal form' }  do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -10,5 +10,5 @@
     = f.input :username, label: "Имя пользователя", input_html: { class: 'form-input' }
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title, class: "btn btn-success"
-      = link_to 'Отмена', servers_path, class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = link_to 'Отмена [Esc]', servers_path, class: "btn"

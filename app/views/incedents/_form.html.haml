@@ -1,4 +1,4 @@
-= simple_form_for @incedent, url: (@incedent.id.nil? ? add_incedent_path() : @incedent), html: { class: 'form-horizontal form', multipart: true, id: "incedent" } do |f|
+= simple_form_for @incedent, url: (@incedent.id.nil? ? add_incedent_path() : @incedent), html: { id: 'form', class: 'form-horizontal form', multipart: true } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -25,5 +25,5 @@
     = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title, class: "btn btn-success"
-      = link_to 'Отмена', incedents_path, class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = link_to 'Отмена [Esc]', incedents_path, class: "btn"
