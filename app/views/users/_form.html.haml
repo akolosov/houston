@@ -1,4 +1,4 @@
-= simple_form_for @user, html: { class: 'form-horizontal form' } do |f|
+= simple_form_for @user, html: { id: 'form', class: 'form-horizontal form' } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -10,5 +10,5 @@
     = f.association :roles, label: "Роли", input_html: { class: 'form-input' } if current_user.has_role? :admin
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title, class: "btn btn-success"
-      = link_to 'Отмена', users_path, class: 'btn'
+      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = link_to 'Отмена [Esc]', users_path, class: 'btn'

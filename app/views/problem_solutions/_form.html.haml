@@ -1,4 +1,4 @@
-= simple_form_for @problem_solution, html: { class: 'form-horizontal form' } do |f|
+= simple_form_for @problem_solution, html: { id: 'form', class: 'form-horizontal form' } do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -6,5 +6,5 @@
     = f.association :solution, include_blank: false, label: "Решение", input_html: { class: 'form-input' }
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title, class: "btn btn-success"
-      = link_to 'Отмена', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : problem_solutions_path), class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = link_to 'Отмена [Esc]', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : problem_solutions_path), class: "btn"
