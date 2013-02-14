@@ -51,7 +51,10 @@ class Ability
       can :update, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id
+      can :add, Document
+      can :add, Incedent
       can :create, Document
+      can :create, Incedent
       can :create, Comment
       can :comment, Document
       can :create, DocumentComment

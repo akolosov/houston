@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.12'
 
-gem "bcrypt-ruby", require: "bcrypt"
+gem 'bcrypt-ruby', require: 'bcrypt'
 
 gem 'sqlite3-ruby', require: 'sqlite3'
 
@@ -41,6 +41,8 @@ group :assets do
 end
 
 group :development, :test do
-  gem "erb2haml"
+  gem 'erb2haml'
   gem 'meta_request'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end

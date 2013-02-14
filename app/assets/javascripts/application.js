@@ -49,3 +49,15 @@ miu = {
         return '\n'+heading+'\n';
     }
 }
+
+$('#form').keypress(function(e){
+    if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+        this.submit();
+    }
+});
+
+$('#form').keyup(function(e) {
+    if (e.keyCode == 27) {
+        history.back();
+    }
+});
