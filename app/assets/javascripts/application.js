@@ -58,6 +58,7 @@ $('#form').keypress(function(e){
 
 $('#form').keyup(function(e) {
     if (e.keyCode == 27) {
-        history.back();
+        if (confirm('Вы точно уверены?'))
+            history.back();
     }
 });
