@@ -2,28 +2,28 @@
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :name, label: "Имя", input_html: { class: 'form-input' }
-    = f.input :description, label: "Описание", input_html: { class: 'form-input', id: 'incedent_markdown'  }
+    = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
+    = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'incedent_markdown'  }
     - if current_user.has_role? :admin
-      = f.association :initiator, include_blank: false, label: "Инициатор", input_html: { class: 'form-input' }
-      = f.association :worker, include_blank: true, label: "Исполнитель", input_html: { class: 'form-input' }
-      = f.association :status, include_blank: false, label: "Статус", input_html: { class: 'form-input' }
+      = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
+      = f.association :worker, include_blank: true, label: 'Исполнитель', input_html: { class: 'form-input' }
+      = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'form-input' }
     - elsif current_user.has_role? :manager
       = f.input :initiator_id, as: :hidden
       = f.input :worker_id, as: :hidden
-      = f.association :status, include_blank: false, label: "Статус", input_html: { class: 'form-input' }
+      = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'form-input' }
     - else
       = f.input :initiator_id, as: :hidden
       = f.input :worker_id, as: :hidden
       = f.input :status_id, as: :hidden
-    = f.association :priority, include_blank: false, label: "Приоритет", input_html: { class: 'form-input' }
-    = f.association :type, include_blank: false, label: "Тип", input_html: { class: 'form-input' }
-    = f.association :tags, as: :check_boxes, label: "Метки", input_html: { class: 'form-input' }
+    = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input' }
+    = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input' }
+    = f.association :tags, as: :check_boxes, label: 'Метки', input_html: { class: 'form-input' }
     #attaches
       - if @incedent.persisted?
         = render partial: 'attaches', locals: { incedent: @incedent, f: f }
-    = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
+    = add_object_link(glyph(:plus)+' Прикрепить файл', f, Attach.new, 'file', '#attaches')
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
-      = link_to 'Отмена [Esc]', incedents_path, class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', incedents_path, class: 'btn'

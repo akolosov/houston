@@ -89,7 +89,7 @@ class IncedentsController < ApplicationController
 
         format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
       else
-        format.html { render action: "show" }
+        format.html { render action: 'show' }
       end
     end
   end
@@ -108,7 +108,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
         format.json { render json: @incedent, status: :created, location: @incedent }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -137,7 +137,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
         format.json { render json: @incedent, status: :created, location: @incedent }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -162,7 +162,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно обновлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -198,7 +198,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно принята в работу.' }
         format.json { head :no_content }
       else
-        format.html { render action: "play" }
+        format.html { render action: 'play' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -229,7 +229,7 @@ class IncedentsController < ApplicationController
           format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
           format.json { head :no_content }
         else
-          format.html { render action: "replay" }
+          format.html { render action: 'replay' }
           format.json { render json: @incedent.errors, status: :unprocessable_entity }
         end
       end
@@ -259,7 +259,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно приостановлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "pause" }
+        format.html { render action: 'pause' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -283,7 +283,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно остановлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "stop" }
+        format.html { render action: 'stop' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -313,7 +313,7 @@ class IncedentsController < ApplicationController
           format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
           format.json { head :no_content }
         else
-          format.html { render action: "reject" }
+          format.html { render action: 'reject' }
           format.json { render json: @incedent.errors, status: :unprocessable_entity }
         end
       end
@@ -344,7 +344,7 @@ class IncedentsController < ApplicationController
         format.html { redirect_to :incedents, notice: 'Жалоба успешно решена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "solve" }
+        format.html { render action: 'solve' }
         format.json { render json: @incedent.errors, status: :unprocessable_entity }
       end
     end
@@ -374,7 +374,7 @@ class IncedentsController < ApplicationController
           format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
           format.json { head :no_content }
         else
-          format.html { render action: "close" }
+          format.html { render action: 'close' }
           format.json { render json: @incedent.errors, status: :unprocessable_entity }
         end
       end
@@ -391,9 +391,7 @@ class IncedentsController < ApplicationController
   def save_incedent_attach(incedent, attach)
     uploaded_io = attach[:file]
 
-    if !Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
-      Dir.mkdir(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s), 0700)
-    end
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
@@ -410,9 +408,7 @@ class IncedentsController < ApplicationController
   def save_comment_attach(comment, attach)
     uploaded_io = attach[:file]
 
-    if !Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
-      Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700)
-    end
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)

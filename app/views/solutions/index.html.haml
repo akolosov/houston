@@ -1,5 +1,5 @@
 %h3
-  Известные решения #{(params[:problem_id]? "для проблемы \""+Problem.find(params[:problem_id]).name+"\" "+(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : "") : "")}
+  Известные решения #{(params[:problem_id]? "для проблемы \""+Problem.find(params[:problem_id]).name+"\" "+(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : '') : '')}
 
 #solutions
   = render 'solutions'

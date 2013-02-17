@@ -1,5 +1,5 @@
 %h3
-  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+" жалоб"
+  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+' жалоб'
   - if params[:action] != 'archive'
     = render 'filter'
   - else
@@ -28,21 +28,21 @@
             - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.has_worker?)
               = link_to glyph(:play)+' В работу', play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
           - if !incedent.is_rejected? and !incedent.is_closed? and can? :reject, incedent
-            %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-reject-#{incedent.id}"}
-              = glyph(:remove)+" Отклонить"
+            %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}"}
+              = glyph(:remove)+' Отклонить'
             = render partial: 'reject', locals: { incedent: incedent }
           - if (incedent.is_rejected? or incedent.is_closed?) and can? :replay, incedent and incedent.has_worker?
-            %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-replay-#{incedent.id}"}
+            %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}"}
               = glyph(:play)+' Возобновить'
             = render partial: 'replay', locals: { incedent: incedent }
           - if !incedent.is_closed? and  can? :close, incedent
-            %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-close-#{incedent.id}"}
+            %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-close-#{incedent.id}"}
               = glyph(:ok)+' Закрыть'
             = render partial: 'close', locals: { incedent: incedent }
           - if (incedent.is_closed? or incedent.is_stoped?) and can? :solve, incedent
             = link_to glyph(:thumbs_up)+' Решено', solve_incedent_path(incedent), class: 'btn btn-mini btn-success' if can? :solve, incedent
         - elsif current_user.has_role? :admin and can? :replay, incedent
-          %a.btn.btn-mini{"data-toggle" => "modal", href: "#incedent-replay-#{incedent.id}"}
+          %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}"}
             = glyph(:play)+' Возобновить'
           = render partial: 'replay', locals: { incedent: incedent }
         - else
@@ -56,10 +56,10 @@
       .row-fluid
         .span6
           = content_tag :strong, 'Дата создания: '
-          = incedent.created_at.strftime("%d.%m.%Y в %H:%M")
+          = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
           %br
           = content_tag :strong, 'Дата изменений: '
-          = incedent.updated_at.strftime("%d.%m.%Y в %H:%M")
+          = incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
         .span6
           .pull-right
             = content_tag :strong, 'Автор: '

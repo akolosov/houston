@@ -7,12 +7,12 @@
     = f.input :incedent_id, as: :hidden
     = f.simple_fields_for :comment do |c|
       = c.input :author_id, as: :hidden
-      = c.input :title, label: "Тема", input_html: { class: 'form-input' }
-      = c.input :body, label: "Коментарий", input_html: { class: 'form-input', id: 'incedent_comment_markdown'  }, as: :text
+      = c.input :title, label: 'Тема', input_html: { class: 'form-input' }
+      = c.input :body, label: 'Коментарий', input_html: { class: 'form-input', id: 'incedent_comment_markdown'  }, as: :text
       #attaches
-      = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "comment_file", "#attaches")
+      = add_object_link(glyph(:plus)+' Прикрепить файл', f, Attach.new, 'comment_file', '#attaches')
   .form-actions
     .pull-right
-      = f.submit "Добавить коментарий", class: "btn btn-success"
+      = f.submit 'Добавить коментарий', class: 'btn btn-success'
 %br
 %br

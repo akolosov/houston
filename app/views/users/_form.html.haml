@@ -2,13 +2,13 @@
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :realname, label: "Имя", input_html: { class: 'form-input' }
-    = f.input :username, label: "Логин", input_html: { class: 'form-input' }
+    = f.input :realname, label: 'Имя', input_html: { class: 'form-input' }
+    = f.input :username, label: 'Логин', input_html: { class: 'form-input' }
     = f.input :email, input_html: { class: 'form-input' }
-    = f.input :password, label: "Пароль", input_html: { class: 'form-input' }
-    = f.input :password_confirmation, label: "Подтверждение", input_html: { class: 'form-input' }
-    = f.association :roles, label: "Роли", input_html: { class: 'form-input' } if current_user.has_role? :admin
+    = f.input :password, label: 'Пароль', input_html: { class: 'form-input' }
+    = f.input :password_confirmation, label: 'Подтверждение', input_html: { class: 'form-input' }
+    = f.association :roles, label: 'Роли', input_html: { class: 'form-input' } if current_user.has_role? :admin
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
       = link_to 'Отмена [Esc]', users_path, class: 'btn'

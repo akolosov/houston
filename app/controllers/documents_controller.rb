@@ -68,7 +68,7 @@ class DocumentsController < ApplicationController
       
         format.html { redirect_to @document_comment.document, notice: 'Коментарий успешно добавлен.' }
       else
-        format.html { render action: "show" }
+        format.html { render action: 'show' }
       end
     end
   end
@@ -83,7 +83,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to @document, notice: 'Рецепт удачно создан.' }
         format.json { render json: @document, status: :created, location: @document }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
@@ -108,7 +108,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to @document, notice: 'Рецепт удачно создан.' }
         format.json { render json: @document, status: :created, location: @document }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
@@ -133,7 +133,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to @document, notice: 'Рецепт удачно обновлен.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
@@ -163,7 +163,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to solutions_path, notice: 'Рецепт удачно перенесен в решения.' }
         format.json { head :no_content }
       else
-        format.html { render action: "move" }
+        format.html { render action: 'move' }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
@@ -174,9 +174,7 @@ class DocumentsController < ApplicationController
   def save_document_attach(document, attach)
     uploaded_io = attach[:file]
 
-    if !Dir.exists?(Rails.root.join('public', 'uploads', 'documents', document.id.to_s))
-      Dir.mkdir(Rails.root.join('public', 'uploads', 'documents', document.id.to_s), 0700)
-    end
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'documents', document.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'documents', document.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'documents', document.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
@@ -192,9 +190,7 @@ class DocumentsController < ApplicationController
   def save_comment_attach(comment, attach)
     uploaded_io = attach[:file]
 
-    if !Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
-      Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700)
-    end
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)

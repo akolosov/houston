@@ -1,11 +1,11 @@
-%h3= "Известные решения для проблем"+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : "" )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : "" )
+%h3= 'Известные решения для проблем'+(params[:problem_id] ? "ы \""+Problem.find(params[:problem_id]).name+"\"" : '' )+(params[:server_id] ? " на оборудовании \""+Server.find(params[:server_id]).name+"\"" : '' )
 - @problem_solutions.each do |problem_solution|
   .form
     .form-header
       - if @current_user.has_role? :admin
         .btn-group.pull-right.top10.right10
           = link_to glyph(:pencil)+' Изменить решение проблемы', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini'
-          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+          %a.btn.btn-mini.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
             %span.caret
           %ul.dropdown-menu
             %li

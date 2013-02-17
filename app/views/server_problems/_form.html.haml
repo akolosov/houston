@@ -2,9 +2,9 @@
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.association :server, include_blank: false, label: "Сервер", input_html: { class: 'form-input' }
-    = f.association :problem, include_blank: false, label: "Проблема", input_html: { class: 'form-input' }
+    = f.association :server, include_blank: false, label: 'Сервер', input_html: { class: 'form-input' }
+    = f.association :problem, include_blank: false, label: 'Проблема', input_html: { class: 'form-input' }
   .form-actions
-   .pull-right.btn-group
-      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
-      = link_to 'Отмена [Esc]', (params[:server_id]? problems_by_server_path(Server.find(params[:server_id])) : server_problems_path), class: "btn"
+    .pull-right.btn-group
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', (params[:server_id]? problems_by_server_path(Server.find(params[:server_id])) : server_problems_path), class: 'btn'

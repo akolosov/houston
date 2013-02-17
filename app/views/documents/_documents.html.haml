@@ -8,7 +8,7 @@
         = link_to glyph(:eye_open)+' Читать', document, class: 'btn btn-mini' if can? :read, document
         = link_to glyph(:pencil)+' Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :update, document
         - if can? :manage, document
-          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+          %a.btn.btn-mini.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
             %span.caret
           %ul.dropdown-menu
             %li

@@ -41,7 +41,7 @@ class ServersController < ApplicationController
         format.html { redirect_to :servers, notice: 'Оборудование успешно создано.' }
         format.json { render json: @server, status: :created, location: @server }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @server.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +57,7 @@ class ServersController < ApplicationController
         format.html { redirect_to :servers, notice: 'Оборудование успешно обновлено.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @server.errors, status: :unprocessable_entity }
       end
     end

@@ -7,11 +7,9 @@ class SolutionsController < ApplicationController
   # GET /solutions
   # GET /solutions.json
   def index
-    if (params[:problem_id]) 
-      @solutions = Solution.paginate(page: params[:page], per_page: 5).order('updated_at DESC').find_all_by_problem_id(params[:problem_id])
-    else
-      @solutions = Solution.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-    end
+    params[:problem_id] ?
+        @solutions = Solution.paginate(page: params[:page], per_page: 5).order('updated_at DESC').find_all_by_problem_id(params[:problem_id]) :
+        @solutions = Solution.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,7 +44,7 @@ class SolutionsController < ApplicationController
         format.html { redirect_to :solutions, notice: 'Решение успешно создано.' }
         format.json { render json: @solution, status: :created, location: @solution }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @solution.errors, status: :unprocessable_entity }
       end
     end
@@ -62,7 +60,7 @@ class SolutionsController < ApplicationController
         format.html { redirect_to :solutions, notice: 'Решение успешно обновлено.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @solution.errors, status: :unprocessable_entity }
       end
     end
