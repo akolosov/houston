@@ -9,14 +9,14 @@
     max-height: 100%;
   }
 
-.modal{id: "incedent-replay-#{incedent.id}", style: "display: none;"}
+.modal{id: "incedent-replay-#{incedent.id}", style: 'display: none;'}
   = simple_form_for incedent, url: replay_incedent_path(incedent), method: :post, html: { class: 'form-horizontal form' } do |f|
     .modal-header
-      %i.icon-remove.pull-right{"data-dismiss" => "modal"}
+      %i.icon-remove.pull-right{'data-dismiss' => 'modal'}
       %h3 Укажите причину возобновления
     .modal-body
       = f.input :replay_reason, label: false, input_html: { class: 'form-input' }, as: :text, class: 'form-modal-input'
     .modal-footer
       .pull-right.btn-group
-        = f.submit "Возобновить жалобу", class: "btn btn-success"
-        %a.btn{"data-dismiss" => "modal", href: "#"} Отмена
+        = f.submit 'Возобновить жалобу', class: 'btn btn-success'
+        %a.btn{'data-dismiss' => 'modal', href: '#'} Отмена

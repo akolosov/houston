@@ -7,11 +7,9 @@ class ProblemsController < ApplicationController
   # GET /problems
   # GET /problems.json
   def index
-    if (params[:tag_id])
-      @problems = Problem.problems_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-    else
-      @problems = Problem.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-    end
+    params[:tag_id] ?
+        @problems = Problem.problems_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC') :
+        @problems = Problem.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,7 +44,7 @@ class ProblemsController < ApplicationController
         format.html { redirect_to :problems, notice: 'Проблема успешно создана.' }
         format.json { render json: @problem, status: :created, location: @problem }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @problem.errors, status: :unprocessable_entity }
       end
     end
@@ -62,7 +60,7 @@ class ProblemsController < ApplicationController
         format.html { redirect_to :problems, notice: 'Проблема успешно обновлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @problem.errors, status: :unprocessable_entity }
       end
     end

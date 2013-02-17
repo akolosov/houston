@@ -42,7 +42,7 @@ class UsersController < ApplicationController
         format.html { redirect_to(:users, notice: 'Пользователь успешно создан.') }
         format.xml { render xml: @user, status: :created, location: @user }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.xml { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         format.html { redirect_to(:users, notice: 'Пользователь успешно обновлен.') }
         format.xml  { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
   end
 
   def activate
-    if @user = User.load_from_activation_token(params[:id])
+    if (@user = User.load_from_activation_token(params[:id]))
       @user.activate!
       redirect_to(login_path, notice: 'Пользователь успешно активирован.')
     else

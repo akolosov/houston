@@ -41,7 +41,7 @@ class TagsController < ApplicationController
         format.html { redirect_to :tags, notice: 'Метка успешно создана.' }
         format.json { render json: @tag, status: :created, location: @tag }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @tag.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +57,7 @@ class TagsController < ApplicationController
         format.html { redirect_to :tags, notice: 'Метка успешно обновлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @tag.errors, status: :unprocessable_entity }
       end
     end

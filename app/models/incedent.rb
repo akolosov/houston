@@ -4,8 +4,8 @@ class Incedent < ActiveRecord::Base
   audit(:update)  { |model, user, action| "Жалоба \"#{model.name}\" изменена пользователем #{user.display_name}" }
   audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил жалобу \"#{model.name}\"" }
 
-  belongs_to :initiator, class_name: 'User', foreign_key: "initiator_id"
-  belongs_to :worker, class_name: 'User', foreign_key: "worker_id"
+  belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
+  belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -78,11 +78,11 @@ class Incedent < ActiveRecord::Base
   end
 
   def self.incedents_by_null_worker
-    where("worker_id is null")
+    where('worker_id is null')
   end
 
   def self.incedents_by_not_null_worker
-    where("worker_id is not null")
+    where('worker_id is not null')
   end
 
   def self.incedents_by_user_as_worker(user)

@@ -2,7 +2,7 @@ module CanCan
   module ControllerAdditions
 
     def current_ability
-      @current_ability ||= ::Ability.new(current_user, request.session_options[:id])
+      @current_ability ||= ::Ability.new(current_user)
     end
 
   end

@@ -26,7 +26,7 @@ module ApplicationHelper
       "http://gravatar.com/avatar/#{gravatar_id}.png?s=48"
     end
   end
-  
+
   def add_object_link(name, form, object, partial, where)
     html = render partial: partial, locals: { f: form}, object: object
 
@@ -36,7 +36,7 @@ module ApplicationHelper
       html.appendTo(jQuery("#{where}")).slideDown('slow');
     }, class: 'btn btn-mini'
   end
-  
+
   def link_to_attach_for_incedent(incedent, attach)
    link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', url_to_attach_for_incedent(incedent, attach), title: attach.description,  class: 'btn btn-mini'
   end
@@ -62,15 +62,46 @@ module ApplicationHelper
   end
 
   def url_to_attach(attach)
-    (!attach.incedents.empty? ? url_to_attach_for_incedent(attach.incedents.first, attach) :
-      (!attach.comments.empty? ? url_to_attach_for_comment(attach.comments.first, attach) :
-        (!attach.documents.empty? ? url_to_attach_for_document(attach.documents.first, attach) : '#')))
+    if !attach.incedents.empty? then
+      url_to_attach_for_incedent(attach.incedents.first, attach)
+    else
+      if !attach.comments.empty? then
+        url_to_attach_for_comment(attach.comments.first, attach)
+      else
+        if !attach.documents.empty? then
+          url_to_attach_for_document(attach.documents.first, attach)
+        else
+          '#'
+        end
+      end
+    end
   end
-  
+
+  def url_to_source(attach)
+    if !attach.incedents.empty? then
+      attach.incedents.first
+    else
+      if !attach.comments.empty? then
+        if !attach.comments.first.documents.empty? then
+          document_url(attach.comments.first.documents.first, anchor: attach.comments.first.id.to_s)
+        else
+          if !attach.comments.first.incedents.empty? then
+            incedent_url(attach.comments.first.incedents.first, anchor: attach.comments.first.id.to_s)
+          else
+            ''
+          end
+        end
+      else
+        if !attach.documents.empty? then
+          attach.documents.first
+        else
+          ''
+        end
+      end
+    end
+  end
+
   def link_to_attach_source(attach)
-    link_to glyph(:inbox)+' Источник', (!attach.incedents.empty? ? attach.incedents.first : 
-    (!attach.comments.empty? ? (!attach.comments.first.documents.empty? ? document_url(attach.comments.first.documents.first, anchor: attach.comments.first.id.to_s) :
-      (!attach.comments.first.incedents.empty? ? incedent_url(attach.comments.first.incedents.first, anchor: attach.comments.first.id.to_s) : '')) :
-    (!attach.documents.empty? ? attach.documents.first : ''))), class: 'btn btn-mini'
+    link_to glyph(:inbox)+' Источник', url_to_source(attach), class: 'btn btn-mini'
   end
 end

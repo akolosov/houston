@@ -2,9 +2,9 @@
   .form-header
     %h3= @form_title
   .form-inputs
-    = f.input :name, label: "Имя", input_html: { class: 'form-input' }
-    = f.input :description, label: "Описание", input_html: { class: 'form-input', id: 'solution_markdown' }
+    = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
+    = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'solution_markdown' }
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
-      = link_to 'Отмена [Esc]', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : solutions_path), class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : solutions_path), class: 'btn'

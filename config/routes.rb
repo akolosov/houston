@@ -2,11 +2,11 @@ Houston::Application.routes.draw do
 
   root to: 'welcome#index'
 
-  get "search/index"
+  get 'search/index'
 
-  get "audit/index", as: :audit
+  get 'audit/index', as: :audit
 
-  get "attaches/index", as: :files
+  get 'attaches/index', as: :files
 
   get 'incedents/archive', as: :archive
 

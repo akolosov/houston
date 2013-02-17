@@ -13,7 +13,7 @@
         %td= server.name
         %td= markdown(server.description)
         %td= server.location
-        %td= server.address+":"+server.port
+        %td= server.address+':'+server.port
         %td= server.username
         %td
           .btn-group
@@ -95,6 +95,6 @@
         %td= audit.action
         %td= audit.audited_changes
         %td= audit.comment
-        %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
+        %td= audit.created_at.strftime('%d.%m.%Y %H:%M:%S')
 %br
 %br

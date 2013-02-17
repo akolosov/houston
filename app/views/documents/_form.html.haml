@@ -3,13 +3,13 @@
     %h3= @form_title
   .form-inputs
     = f.input :user_id, as: :hidden
-    = f.input :title, label: "Заголовок", input_html: { class: 'form-input' }
-    = f.input :body, label: "Документ", input_html: { class: 'form-input', id: 'document_markdown' }
+    = f.input :title, label: 'Заголовок', input_html: { class: 'form-input' }
+    = f.input :body, label: 'Документ', input_html: { class: 'form-input', id: 'document_markdown' }
     #attaches
       - if @document.persisted?
         = render partial: 'attaches', locals: { document: @document, f: f }
-    = add_object_link(glyph(:plus)+" Прикрепить файл", f, Attach.new, "file", "#attaches")
+    = add_object_link(glyph(:plus)+' Прикрепить файл', f, Attach.new, 'file', '#attaches')
   .form-actions
     .pull-right.btn-group
-      = f.submit @button_title+' [Ctrl+Enter]', class: "btn btn-success"
-      = link_to 'Отмена [Esc]', documents_path, class: "btn"
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', documents_path, class: 'btn'
