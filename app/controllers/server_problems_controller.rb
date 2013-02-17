@@ -7,9 +7,9 @@ class ServerProblemsController < ApplicationController
   # GET /server_problems
   # GET /server_problems.json
   def index
-    if (params[:problem_id]) 
+    if params[:problem_id]
       @server_problems = ServerProblem.paginate(page: params[:page], per_page: 5).order('updated_at DESC').find_all_by_problem_id(params[:problem_id])
-    elsif (params[:server_id]) 
+    elsif params[:server_id]
       @server_problems = ServerProblem.paginate(page: params[:page], per_page: 5).order('updated_at DESC').find_all_by_server_id(params[:server_id])
     else
       @server_problems = ServerProblem.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
@@ -26,11 +26,11 @@ class ServerProblemsController < ApplicationController
   def new
     @server_problem = ServerProblem.new
 
-    if (params[:problem_id]) 
+    if params[:problem_id]
       @server_problem.problem = Problem.find(params[:problem_id])
     end
 
-    if (params[:server_id]) 
+    if params[:server_id]
       @server_problem.server = Server.find(params[:server_id])
     end
 
@@ -55,7 +55,7 @@ class ServerProblemsController < ApplicationController
         format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для сервера успешно создана.' }
         format.json { render json: @server_problem, status: :created, location: @server_problem }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @server_problem.errors, status: :unprocessable_entity }
       end
     end
@@ -71,7 +71,7 @@ class ServerProblemsController < ApplicationController
         format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для сервера успешно обновлена.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @server_problem.errors, status: :unprocessable_entity }
       end
     end

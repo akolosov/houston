@@ -1,5 +1,5 @@
 %h3
-  Известные проблемы #{(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : "")}
+  Известные проблемы #{(params[:server_id]? "для оборудования\""+Server.find(params[:server_id]).name+"\"" : '')}
 - @server_problems.each do |server_problem|
   .form
     .form-header
@@ -7,7 +7,7 @@
         = link_to glyph(:tint)+' Решения ('+server_problem.problem.solutions.count.to_s+')', solutions_for_problem_by_server_path(server_problem.server, server_problem.problem), class: 'btn btn-mini btn-success' if can? :read, server_problem
         - if can? :manage, server_problem
           = link_to glyph(:pencil)+' Изменить проблему для сервера', edit_problem_for_server_path(server_problem.server, server_problem), class: 'btn btn-mini'
-          %a.btn.btn-mini.dropdown-toggle{"data-toggle" => 'dropdown', :href => '#'}
+          %a.btn.btn-mini.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
             %span.caret
           %ul.dropdown-menu
             %li

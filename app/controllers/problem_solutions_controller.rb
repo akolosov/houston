@@ -7,11 +7,9 @@ class ProblemSolutionsController < ApplicationController
   # GET /problem_solutions
   # GET /problem_solutions.json
   def index
-    if (params[:problem_id]) 
-      @problem_solutions = ProblemSolution.paginate(page: params[:page], per_page: 5).order('updated_at ASC').find_all_by_problem_id(params[:problem_id])
-    else
-      @problem_solutions = ProblemSolution.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-    end
+    params[:problem_id] ?
+        @problem_solutions = ProblemSolution.paginate(page: params[:page], per_page: 5).order('updated_at ASC').find_all_by_problem_id(params[:problem_id]) :
+        @problem_solutions = ProblemSolution.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,7 +22,7 @@ class ProblemSolutionsController < ApplicationController
   def new
     @problem_solution = ProblemSolution.new
 
-    if (params[:problem_id]) 
+    if params[:problem_id]
       @problem_solution.problem = Problem.find(params[:problem_id])
     end
 
@@ -49,7 +47,7 @@ class ProblemSolutionsController < ApplicationController
         format.html { redirect_to @problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions, notice: 'Решение проблемы успешно создано.' }
         format.json { render json: @problem_solution, status: :created, location: @problem_solution }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @problem_solution.errors, status: :unprocessable_entity }
       end
     end
@@ -65,7 +63,7 @@ class ProblemSolutionsController < ApplicationController
         format.html { redirect_to @problem_solution.problem ? solutions_by_problem_path(@problem_solution.problem) : :problem_solutions, notice: 'Решение проблемы успешно обновлено.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @problem_solution.errors, status: :unprocessable_entity }
       end
     end

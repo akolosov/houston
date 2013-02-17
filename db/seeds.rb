@@ -46,19 +46,19 @@ else
             location: 'Server Room', address: '192.168.1.3', username: 'user')
   server3.save
 
-  tag1 = Tag.create(name: "tag #1")
+  tag1 = Tag.create(name: 'tag #1')
   tag1.save
 
-  tag2 = Tag.create(name: "tag #2")
+  tag2 = Tag.create(name: 'tag #2')
   tag2.save
   
-  tag3 = Tag.create(name: "tag #3")
+  tag3 = Tag.create(name: 'tag #3')
   tag3.save
   
-  tag4 = Tag.create(name: "tag #4")
+  tag4 = Tag.create(name: 'tag #4')
   tag4.save
   
-  tag5 = Tag.create(name: "tag #5")
+  tag5 = Tag.create(name: 'tag #5')
   tag5.save
  
   problem1 = Problem.create(name: 'Problem #1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.', tags: [tag1, tag3])

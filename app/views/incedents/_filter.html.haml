@@ -1,10 +1,10 @@
 .pull-right.btn-group#buttons
   = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id], params[:user_id])
-  %a.btn.btn-mini{onclick: "$('#filter').show('fast'); $('#buttons').hide();", title: 'Фильтр'}
+  %a.btn.btn-mini{onclick: '$(\'#filter\').show(\'fast\'); $(\'#buttons\').hide();', title: 'Фильтр'}
     = glyph(:filter)+' Фильтр'
 .form.form-horizontal.filter#filter
   .pull-right
-    %i.icon-remove#close-button{onclick: "$('#filter').hide('fast'); $('#buttons').show();", title: 'Закрыть'}
+    %i.icon-remove#close-button{onclick: '$(\'#filter\').hide(\'fast\'); $(\'#buttons\').show();', title: 'Закрыть'}
   .form-inputs
     - if current_user.has_role? :admin
       .row-fluid
@@ -30,4 +30,4 @@
           = make_type_filter_url(type, params[:status_id], params[:priority_id], params[:user_id])
     .row-fluid
       .pull-right.top-30
-        = link_to "Отменить все фильтры", incedents_path, class: 'btn btn-mini'
+        = link_to 'Отменить все фильтры', incedents_path, class: 'btn btn-mini'

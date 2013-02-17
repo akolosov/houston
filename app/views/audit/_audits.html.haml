@@ -19,6 +19,6 @@
           %td= audit.action
           %td= audit.audited_changes
           %td= audit.comment
-          %td= audit.created_at.strftime("%d.%m.%Y %H:%M:%S")
+          %td= audit.created_at.strftime('%d.%m.%Y %H:%M:%S')
   .apple_pagination
     =will_paginate @audits, previous_label: '←', next_label: '→', remote: true

@@ -7,18 +7,14 @@ class ApplicationController < ActionController::Base
   before_filter :prepare_for_mobile, :set_current_user
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] =  "Недостаточно прав доступа!" #exception.message
-    if !current_user
-      redirect_to login_url
-    else
-      redirect_to root_url
-    end
+    flash[:error] = 'Недостаточно прав доступа!' #exception.message
+    !current_user ? redirect_to(login_url) : redirect_to(root_url)
   end
 
   protected
 
   def not_authenticated
-    redirect_to login_path, alert: "Для начала осуществите вход в ЦУП!"
+    redirect_to login_path, alert: 'Для начала осуществите вход в ЦУП!'
   end
 
   private
@@ -29,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def mobile_device?
     if session[:mobile_param]
-      session[:mobile_param] == "1"
+      session[:mobile_param] == '1'
     else
       request.user_agent =~ /Mobile|webOS/
     end
