@@ -91,6 +91,7 @@ p.footer, p.footer a {
 .form-actions {
 	margin-top: 20px !important;
 	margin-bottom: 0px !important;
+	padding: 5px !important;
 }
 
 .form-footer {
@@ -171,6 +172,11 @@ p.footer, p.footer a {
 
 .btn-success {
 	font-weight: bold !important;
+}
+
+#loginbox {
+	width: 300px !important;
+	height: 160px !important;
 }
 
 .tag0 {
