@@ -91,7 +91,6 @@ p.footer, p.footer a {
 .form-actions {
 	margin-top: 20px !important;
 	margin-bottom: 0px !important;
-	padding: 5px !important;
 }
 
 .form-footer {
@@ -122,7 +121,7 @@ p.footer, p.footer a {
 }
 
 .form-actions {
-  	padding: 10px !important;
+  	padding: 10px;
 }
 
 .solved {
