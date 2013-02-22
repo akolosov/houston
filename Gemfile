@@ -34,6 +34,8 @@ gem 'less-rails'
 
 gem 'mousetrap-rails'
 
+gem 'turbolinks'
+
 group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'
