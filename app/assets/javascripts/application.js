@@ -8,6 +8,7 @@
 //= require jquery_ujs
 //= require mousetrap
 //= require markitup
+//= require turbolinks
 //= require twitter/bootstrap
 //= require_tree .
 
