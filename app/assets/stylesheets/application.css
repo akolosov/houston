@@ -122,7 +122,7 @@ p.footer, p.footer a {
 }
 
 .form-actions {
-  	padding: 10px;
+  	padding: 5px !important;
 }
 
 .solved {
