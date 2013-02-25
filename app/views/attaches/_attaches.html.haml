@@ -25,3 +25,10 @@
               = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
   .apple_pagination
     =will_paginate @attaches, previous_label: '←', next_label: '→', remote: true
+
+:javascript
+  $(document).ready(function () {
+      $(".pagination a").each(function () {
+          $(this).attr("data-remote", true);
+      });
+  });
