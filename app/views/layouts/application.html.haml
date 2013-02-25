@@ -11,6 +11,9 @@
     = stylesheet_link_tag 'application', media: 'all'
     = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Play&subset=latin,cyrillic', media: 'all'
     = csrf_meta_tag
+    / jQuery
+    = javascript_include_tag :jquery
+    = javascript_include_tag :jquery_ujs
     / Icons
     = favicon_link_tag '/favicon.ico?1'
     %link{href: 'favicon.ico', rel: 'shortcut icon'}/
@@ -36,6 +39,5 @@
     / /.fluid-container
     / Footer
     = render partial: 'common/footer'
-    / Javascript
-    / Placed at the end of the document so the pages load faster
+    / Another javascripts
     = javascript_include_tag :application

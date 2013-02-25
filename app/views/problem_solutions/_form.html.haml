@@ -8,3 +8,6 @@
     .pull-right.btn-group
       = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
       = link_to 'Отмена [Esc]', (params[:problem_id]? solutions_by_problem_path(Problem.find(params[:problem_id])) : problem_solutions_path), class: 'btn'
+
+:javascript
+  $("#problem_solution_solution_id").focus();

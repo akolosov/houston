@@ -27,3 +27,6 @@
     .pull-right.btn-group
       = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
       = link_to 'Отмена [Esc]', incedents_path, class: 'btn'
+
+:javascript
+  $("#incedent_name").focus();
