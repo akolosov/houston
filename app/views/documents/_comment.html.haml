@@ -1,6 +1,6 @@
 %br
 %br
-= simple_form_for @document_comment, url: add_document_comment_path(@document_comment.document), method: :post, html: { class: 'form-horizontal form', multipart: true } do |f|
+= simple_form_for @document_comment, url: add_document_comment_path(@document_comment.document), method: :post, html: { id: 'form', class: 'form-horizontal form', multipart: true } do |f|
   .form-header
     %h3 Оставить коментарий
   .form-inputs
@@ -13,6 +13,6 @@
       = add_object_link(glyph(:plus)+' Прикрепить файл', f, Attach.new, 'comment_file', '#attaches')
   .form-actions
     .pull-right
-      = f.submit 'Добавить коментарий', class: 'btn btn-success'
+      = f.submit 'Добавить коментарий [Ctrl+Enter]', class: 'btn btn-success'
 %br
 %br
