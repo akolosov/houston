@@ -64,3 +64,15 @@ $('#form').keyup(function(e) {
             history.back();
     }
 });
+
+function bind_ajax() {
+  $(".pagination a").each(function () {
+    $(this).attr("data-remote", true);
+  });
+
+  $('.pagination a').bind("click", function () {
+    $('.pagination').html('Загрузка страницы...');
+    $.get(this.href, null, null, 'script');
+    return false;
+  });
+};
