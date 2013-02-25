@@ -10,7 +10,7 @@
   }
 
 .modal{id: "incedent-replay-#{incedent.id}", style: 'display: none;'}
-  = simple_form_for incedent, url: replay_incedent_path(incedent), method: :post, html: { class: 'form-horizontal form' } do |f|
+  = simple_form_for incedent, url: replay_incedent_path(incedent), method: :post, html: { id: "replay-form-#{incedent.id}", class: 'form-horizontal form' } do |f|
     .modal-header
       %i.icon-remove.pull-right{'data-dismiss' => 'modal'}
       %h3 Укажите причину возобновления
@@ -18,5 +18,16 @@
       = f.input :replay_reason, label: false, input_html: { class: 'form-input' }, as: :text, class: 'form-modal-input'
     .modal-footer
       .pull-right.btn-group
-        = f.submit 'Возобновить жалобу', class: 'btn btn-success'
-        %a.btn{'data-dismiss' => 'modal', href: '#'} Отмена
+        = f.submit 'Возобновить жалобу [Ctrl+Enter]', class: 'btn btn-success'
+        %a.btn{'data-dismiss' => 'modal', href: '#'} Отмена [Esc]
+
+:javascript
+  $('#replay-form-#{incedent.id}').keypress(function(e){
+      if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+          this.submit();
+      }
+  });
+  
+  $('#incedent-replay-#{incedent.id}').on('shown', function () {
+    $("#incedent-replay-#{incedent.id} textarea").first().focus();
+  });
