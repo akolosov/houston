@@ -1,24 +1,30 @@
-#audits
-  .apple_pagination
-    =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
-  %table.table.table-striped.table-bordered.table-condensed
-    %thead
-      %tr
-        %th Пользователь
-        %th Объект
-        %th Действие
-        %th Изменения
-        %th Комментарий
-        %th Дата и время
+.apple_pagination
+  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th Пользователь
+      %th Объект
+      %th Действие
+      %th Изменения
+      %th Комментарий
+      %th Дата и время
 
-    %tbody  
-      - @audits.each do |audit|
-        %tr
-          %td= audit.user.name
-          %td= audit.auditable_type
-          %td= audit.action
-          %td= audit.audited_changes
-          %td= audit.comment
-          %td= audit.created_at.strftime('%d.%m.%Y %H:%M:%S')
-  .apple_pagination
-    =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
+  %tbody  
+    - @audits.each do |audit|
+      %tr
+        %td= audit.user.name
+        %td= audit.auditable_type
+        %td= audit.action
+        %td= audit.audited_changes
+        %td= audit.comment
+        %td= audit.created_at.strftime('%d.%m.%Y %H:%M:%S')
+.apple_pagination
+  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
+
+:javascript
+  $(document).ready(function () {
+      $(".pagination a").each(function () {
+          $(this).attr("data-remote", true);
+      });
+  });
