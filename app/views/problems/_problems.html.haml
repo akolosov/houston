@@ -21,8 +21,4 @@
   =will_paginate @problems, previous_label: '←', next_label: '→', remote: true
 
 :javascript
-  $(document).ready(function () {
-      $(".pagination a").each(function () {
-          $(this).attr("data-remote", true);
-      });
-  });
+  bind_ajax();
