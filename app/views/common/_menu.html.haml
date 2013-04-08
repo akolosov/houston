@@ -3,7 +3,7 @@
     %ul.nav.nav-list
       %li.nav-header Центр решения проблем 
       %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u' }, class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
-      %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a' }, class: (params[:controller] == 'audits' ? 'bold' : '') if current_user.has_role? :admin
+      %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a' }, class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
       %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f' }, class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
       %li.nav-item= link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd' }, class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
       %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p' }, class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
