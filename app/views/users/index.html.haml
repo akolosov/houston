@@ -20,9 +20,9 @@
             = render user
           = link_to glyph(:pencil)+' Изменить', edit_user_path(user), class: 'btn btn-mini' if can? :update, user
           - if user.active?
-            = link_to(glyph(:trash)+' Деактивировать', deactivate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :deactivate, user)
+            = link_to(glyph(:remove)+' Деактивировать', deactivate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :deactivate, user)
           - else
-            = link_to(glyph(:trash)+' Активировать', activate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :activate, user)
+            = link_to(glyph(:ok)+' Активировать', activate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :activate, user)
           = link_to(glyph(:trash)+' Удалить', user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-danger') unless (user == current_user) && (can? :destroy, user)
 = link_to glyph(:plus)+' Новый пользователь', new_user_path, class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :manage, User
 %br
