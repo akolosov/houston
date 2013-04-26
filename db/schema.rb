@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115060651) do
+ActiveRecord::Schema.define(:version => 20130426034130) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -246,12 +246,12 @@ ActiveRecord::Schema.define(:version => 20130115060651) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username",                                       :null => false
-    t.string   "email",                                          :null => false
+    t.string   "username",                                          :null => false
+    t.string   "email",                                             :null => false
     t.string   "crypted_password"
     t.string   "salt"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "activation_state"
     t.string   "activation_code"
     t.datetime "activation_code_expires_at"
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(:version => 20130115060651) do
     t.datetime "lock_expires_at"
     t.string   "session"
     t.string   "realname"
+    t.boolean  "active",                          :default => true
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"
