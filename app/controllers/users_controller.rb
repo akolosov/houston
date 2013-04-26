@@ -76,12 +76,28 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/1/activate
+  # GET /users/1/activate.xml
   def activate
-    if (@user = User.load_from_activation_token(params[:id]))
-      @user.activate!
-      redirect_to(login_path, notice: 'Пользователь успешно активирован.')
-    else
-      not_authenticated
+    @user = User.find(params[:id])
+    @user.activate!
+
+    respond_to do |format|
+      format.html { redirect_to(users_url) }
+      format.xml  { head :ok }
     end
   end
+
+  # GET /users/1/deactivate
+  # GET /users/1/deactivate.xml
+  def deactivate
+    @user = User.find(params[:id])
+    @user.deactivate!
+
+    respond_to do |format|
+      format.html { redirect_to(users_url) }
+      format.xml  { head :ok }
+    end
+  end
+
 end

@@ -36,4 +36,14 @@ class User < ActiveRecord::Base
     self.realname+' ('+self.email+')'
   end
 
+  def activate!
+    self.active = true
+    self.save
+  end
+
+  def deactivate!
+    self.active = false
+    self.save
+  end
+
 end
