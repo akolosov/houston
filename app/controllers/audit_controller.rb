@@ -5,7 +5,7 @@ class AuditController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @audits = Audit.paginate(page: params[:page], per_page: 10).order('created_at DESC')
+    @audits = Audit.paginate(page: params[:page], per_page: 10)
 
     respond_to do |format|
       format.html # index.html.erb
