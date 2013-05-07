@@ -6,6 +6,7 @@
     %th Местоположение
     - if @current_user.has_role? :admin or @current_user.has_role? :manager
       %th IP-адрес/DNS-имя
+    - if @current_user.has_role? :admin
       %th Пользователь
     %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
   - @servers.each do |server|
@@ -15,6 +16,7 @@
       %td= server.location
       - if @current_user.has_role? :admin or @current_user.has_role? :manager
         %td= server.address.split(',').join(':'+server.port+', ')+':'+server.port
+      - if @current_user.has_role? :admin
         %td= server.username
       %td
         .btn-group
