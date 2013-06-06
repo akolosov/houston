@@ -11,7 +11,7 @@ class IncedentMailer < ActionMailer::Base
   def incedent_commented(incedent_comment)
     @incedent_comment = incedent_comment
 
-    mail(to: (incedent_comment.incedent.initiator == incedent_comment.comment.author ? incedent_comment.incedent.worker.email : incedent_comment.incedent.initiator.email), subject: "Жалоба №#{incedent_comment.incedent.id} прокомментирована")
+    mail(to: (incedent_comment.incedent.initiator == incedent_comment.comment.author ? (incedent_comment.incedent.worker ? incedent_comment.incedent.worker.email : incedent_comment.incedent.initiator.email) : incedent_comment.incedent.initiator.email), subject: "Жалоба №#{incedent_comment.incedent.id} прокомментирована")
   end
 
   def incedent_played(incedent)
