@@ -46,4 +46,8 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def to_label
+    "#{realname}"
+  end
+  
 end
