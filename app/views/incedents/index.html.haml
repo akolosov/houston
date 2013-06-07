@@ -2,6 +2,15 @@
   .filter {
     display: none;
   }
+
+:javascript
+  $(document).ready(
+    function(){
+      setInterval(function(){
+        $("#incedents").load('#{request.fullpath} #incedents');
+      }, 180000);
+    });
+
 #incedents
   = render 'incedents'
 
