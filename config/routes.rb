@@ -83,6 +83,7 @@ Houston::Application.routes.draw do
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
   
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
+  match 'incedents/archive/by_tag/:tag_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_tag
   match 'incedent/add' => 'incedents#add', as: :add_incedent
 
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent

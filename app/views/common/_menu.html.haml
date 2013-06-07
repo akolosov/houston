@@ -27,7 +27,14 @@
 
 .well.sidebar-nav
   %ul.nav.nav-list
-    %li.nav-header Метки для жалоб
-    - Tag.all.sort_by{ | tag | tag.incedents.accessible_by(current_ability).count }.reverse.each do |tag|
-      - if tag.incedents.accessible_by(current_ability).count > 0
-        %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)
+    %li.nav-header Метки для жалоб (В РАБОТЕ)
+    - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
+      - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
+        %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.solved_incedents(false).accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)
+
+.well.sidebar-nav
+  %ul.nav.nav-list
+    %li.nav-header Метки для жалоб (В АРХИВЕ)
+    - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
+      - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
+        %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag), class: 'tag'+(tag.incedents.solved_incedents(true).accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)
