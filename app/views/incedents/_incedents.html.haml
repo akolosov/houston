@@ -73,7 +73,7 @@
       - if incedent.tags
         .pull-right
           - incedent.tags.each do |tag|
-            = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
+            = link_to glyph(:tag)+' '+tag.name, ((params[:action] == 'archive') ? incedents_archive_by_tag_path(tag) : incedents_by_tag_path(tag)), class: 'btn btn-mini'
     - if !incedent.attaches.empty?
       .form-footer
         - incedent.attaches.each do |attach|
