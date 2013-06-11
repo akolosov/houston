@@ -35,6 +35,8 @@ GEM
     better_errors (0.8.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     builder (3.0.4)
     cancan (1.6.9)
     coderay (1.0.9)
@@ -46,6 +48,7 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     commonjs (0.2.6)
+    debug_inspector (0.0.2)
     erb2haml (0.1.4)
       haml
       hpricot
@@ -174,6 +177,7 @@ DEPENDENCIES
   auditor
   bcrypt-ruby
   better_errors
+  binding_of_caller
   cancan
   coffee-rails
   erb2haml
