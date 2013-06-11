@@ -46,5 +46,5 @@ group :development, :test do
   gem 'erb2haml'
   gem 'meta_request'
   gem 'better_errors'
-#  gem 'binding_of_caller'
+  gem 'binding_of_caller'
 end
