@@ -49,5 +49,8 @@ class User < ActiveRecord::Base
   def to_label
     "#{realname}"
   end
-  
+
+  def self.users_by_role_id(role_id)
+    where("id in (select user_id from users_roles where role_id = ?) and active = ?", role_id, true)
+  end
 end

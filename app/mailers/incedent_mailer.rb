@@ -5,7 +5,9 @@ class IncedentMailer < ActionMailer::Base
   def incedent_created(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email, subject: "Жалоба №#{incedent.id} создана")
+    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )
+
+    mail(to: @emails, subject: "Жалоба №#{incedent.id} создана")
   end
 
   def incedent_commented(incedent_comment)
@@ -41,7 +43,9 @@ class IncedentMailer < ActionMailer::Base
   def incedent_rejected(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email, subject: "Жалоба №#{incedent.id} отклонена")
+    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )
+
+    mail(to: @emails, subject: "Жалоба №#{incedent.id} отклонена")
   end
 
   def incedent_solved(incedent)
