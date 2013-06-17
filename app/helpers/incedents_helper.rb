@@ -90,4 +90,12 @@ module IncedentsHelper
     class: 'btn btn-mini'
   end
 
+
+  def make_archive_download_url(tag_id)
+    tag = (tag_id ? Tag.find(tag_id) : nil)
+
+    link_to glyph(:download)+' Скачать', (tag ? incedents_archive_by_tag_path(tag, :xls) : incedents_archive_path(:xls)),
+            class: 'btn btn-mini'
+  end
+
 end
