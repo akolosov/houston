@@ -4,7 +4,7 @@
     = render 'filter'
   - else
     .pull-right
-      = link_to glyph(:download)+' Скачать', incedents_archive_path(:xls),class: 'btn btn-mini'
+      = make_archive_download_url(params[:tag_id])
 
 .apple_pagination
   =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
