@@ -92,7 +92,7 @@ class IncedentMailer < ActionMailer::Base
     mail(to: (incedent.worker ? incedent.worker.email : incedent.initiator.email), subject: "Жалоба №#{incedent.id} решена")
 
     if (@incedent.worker) and (@incedent.worker.jabber)
-      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
+      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
