@@ -17,6 +17,10 @@
         %h3= comment.title
       .form-inputs
         = markdown(comment.body)
+      - if (@current_user.has_role? :admin)
+        .form-actions
+          .pull-right
+            = link_to glyph(:trash)+' Удалить', delete_document_comment_path(@document, comment), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @document
       - if !comment.attaches.empty?
         .form-footer
           - comment.attaches.each do |attach|

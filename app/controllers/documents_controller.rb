@@ -73,6 +73,18 @@ class DocumentsController < ApplicationController
     end
   end
 
+  # POST /document/:document_id/comment/:comment_id/delete
+  def delete_comment
+    @document = Incedent.find(params[:document_id])
+
+    @comment = Comment.find(params[:comment_id])
+    @comment.destroy
+
+    respond_to do |format|
+      format.html { redirect_to document_comments_path(@document), notice: 'Коментарий успешно добавлен.' }
+    end
+  end
+
   # POST /documents
   # POST /documents.json
   def create
