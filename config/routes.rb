@@ -95,10 +95,12 @@ Houston::Application.routes.draw do
   match 'incedent/:id/close' => 'incedents#close', as: :close_incedent
   match 'incedent/:id/comments' => 'incedents#show', as: :incedent_comments
   match 'incedent/:incedent_id/comment' => 'incedents#comment', as: :add_incedent_comment
+  match 'incedent/:incedent_id/comment/:comment_id/delete' => 'incedents#delete_comment', as: :delete_incedent_comment
 
   match 'document/:id/move' => 'documents#move', as: :move_document_to_solution
   match 'document/:id/comments' => 'documents#show', as: :document_comments
   match 'document/:document_id/comment' => 'documents#comment', as: :add_document_comment
+  match 'document/:document_id/comment/:comment_id/delete' => 'documents#delete_comment', as: :delete_document_comment
   match 'document/add' => 'documents#add', as: :add_document
 
   # The priority is based upon order of creation:
