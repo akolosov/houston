@@ -94,6 +94,18 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # POST /incedent/:incedent_id/comment/:comment_id/delete
+  def delete_comment
+    @incedent = Incedent.find(params[:incedent_id])
+
+    @comment = Comment.find(params[:comment_id])
+    @comment.destroy
+
+    respond_to do |format|
+        format.html { redirect_to incedent_comments_path(@incedent), notice: 'Коментарий успешно добавлен.' }
+    end
+  end
+
   # POST /incedents
   # POST /incedents.json
   def create
