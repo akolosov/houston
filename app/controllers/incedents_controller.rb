@@ -84,7 +84,7 @@ class IncedentsController < ApplicationController
             end
           end
         end
-      
+
         IncedentMailer.incedent_commented(@incedent_comment).deliver
 
         format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
@@ -102,7 +102,7 @@ class IncedentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-        format.html { redirect_to incedent_comments_path(@incedent), notice: 'Коментарий успешно добавлен.' }
+        format.html { redirect_to incedent_comments_path(@incedent), notice: 'Коментарий успешно удален.' }
     end
   end
 
@@ -110,7 +110,7 @@ class IncedentsController < ApplicationController
   # POST /incedents.json
   def create
     @incedent = Incedent.new(params[:incedent])
-  
+
     respond_to do |format|
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
