@@ -36,6 +36,8 @@ gem 'mousetrap-rails'
 
 gem 'i18n', '0.6.1'
 
+gem 'xmpp4r'
+
 group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'

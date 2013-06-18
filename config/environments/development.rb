@@ -40,4 +40,8 @@ Houston::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :test
   config.action_mailer.default_url_options = { host: '0.0.0.0:3000' }
+
+  # XMPP
+  config.JabberID = 'messenger@bitrix.taxiolimp.ru';
+  config.JabberPSWD = '123456';
 end
