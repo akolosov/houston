@@ -65,7 +65,7 @@ class DocumentsController < ApplicationController
             end
           end
         end
-      
+
         format.html { redirect_to @document_comment.document, notice: 'Коментарий успешно добавлен.' }
       else
         format.html { render action: 'show' }
@@ -81,7 +81,7 @@ class DocumentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      format.html { redirect_to document_comments_path(@document), notice: 'Коментарий успешно добавлен.' }
+      format.html { redirect_to document_comments_path(@document), notice: 'Коментарий успешно удален.' }
     end
   end
 
