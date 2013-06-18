@@ -105,4 +105,28 @@ module ApplicationHelper
   def link_to_attach_source(attach)
     link_to glyph(:inbox)+' Источник', url_to_source(attach), class: 'btn btn-mini'
   end
+
+  def send_jabber_message(to, subject, text)
+    Jabber::debug = true if Rails.env.development?
+
+    def reconnect(cl)
+      cl.connect
+      cl.auth(Houston::Application.config.JabberPSWD)
+      cl.send(Jabber::Presence.new.set_show(:chat).set_status(Houston::Application.config.app_name))
+    end
+
+    jid = Jabber::JID.new(Houston::Application.config.JabberID+'/'+Houston::Application.config.app_name)
+    client = Jabber::Client.new(jid)
+    client.on_exception { sleep 5; reconnect(client) }
+
+    reconnect(client)
+
+    # Send an Instant Message.
+    to_jid = Jabber::JID.new(to)
+    message = Jabber::Message::new(to_jid, text).set_type(:normal).set_id('1').set_subject(subject)
+    client.send(message)
+
+    client.close! if client.is_connected?
+  end
+
 end
