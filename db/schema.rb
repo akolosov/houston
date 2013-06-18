@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426034130) do
+ActiveRecord::Schema.define(:version => 20130618053350) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(:version => 20130426034130) do
     t.string   "session"
     t.string   "realname"
     t.boolean  "active",                          :default => true
+    t.string   "jabber"
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"

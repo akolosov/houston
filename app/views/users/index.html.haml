@@ -3,6 +3,7 @@
   %tr
     %th Имя
     %th Логин/E-mail
+    %th Jabber ID
     %th Дата регистрации
     %th Роль
     %th{class: ((@current_user.has_role? :admin) ? 'span3' : 'span2' )} Действия
@@ -10,6 +11,7 @@
     %tr{class: (user.active? ? 'success' : 'error' )}
       %td= user.realname
       %td= user.username+' ('+user.email+')'
+      %td= user.jabber
       %td= user.created_at.to_date
       %td= user.roles.first.name.titleize unless user.roles.first.nil?
       %td

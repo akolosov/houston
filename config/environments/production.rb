@@ -78,4 +78,8 @@ Houston::Application.configure do
     authentication:        'plain'
   }
   config.action_mailer.default_url_options = { host: 'houston.taxinonstop.ru' }
+
+  # XMPP
+  config.JabberID = 'messenger@bitrix.taxiolimp.ru';
+  config.JabberPSWD = '123456';
 end
