@@ -12,6 +12,7 @@
             %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p' }, class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
             %li.nav-item= link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's' }, class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
             %li.nav-item= link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l' }, class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
+    %br
 
   .sidebar#navbar2
     %ul.nav.nav-list.accordion-group
@@ -21,6 +22,7 @@
           %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
           %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
           %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b' }, class: (params[:controller] == 'documents' ? 'bold' : '')
+  %br
 
   - if current_user.has_role? :admin or current_user.has_role? :manager
     .sidebar#navbar3
@@ -31,6 +33,7 @@
             - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
               - if tag.problems.count > 0
                 %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
+    %br
 
   .sidebar#navbar4
     %ul.nav.nav-list.accordion-group
@@ -40,6 +43,7 @@
           - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
             - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
               %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
+  %br
 
   .sidebar#navbar5
     %ul.nav.nav-list.accordion-group
