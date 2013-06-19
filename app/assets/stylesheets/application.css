@@ -184,42 +184,47 @@ p.footer, p.footer a {
 	border-radius: 0px !important;
 }
 
-.tag0 {
-	font-size: 0.6em;
+.nav-item {
+    padding-left: 0px;
 }
 
-.tag1 {
-	font-size: 0.7em;
+.nav-item a {
+    display: block !important;
+    text-decoration: none !important;
+    padding-left: 5px;
 }
 
-.tag2 {
-	font-size: 0.8em;
+.nav-item a:hover {
+    background-color: #c5c5c5 !important;
 }
 
-.tag3 {
-	font-size: 0.9em;
+.nav-item a:hover i {
+    background-image: url("twitter/bootstrap/glyphicons-halflings-white.png");
 }
 
-.tag4 {
-	font-size: 1.0em;
+a.accordion-toggle:hover {
+    background-color: #c5c5c5 !important;
 }
 
-.tag5 {
-	font-size: 1.1em;
+.sidebar {
+    background-color: #f5f5f5 !important;
 }
 
-.tag6 {
-	font-size: 1.2em;
+.sidebar-fixed {
+    position: fixed;
+    top: 60px;
+    width: auto;
 }
 
-.tag7 {
-	font-size: 1.3em;
+@media (max-width: 767px) {
+    .sidebar-fixed {
+        position:static;
+        width:auto;
+    }
 }
 
-.tag8 {
-	font-size: 1.4em;
-}
-
-.tag9 {
-	font-size: 1.5em;
+@media (max-width: 979px) {
+    .sidebar-fixed {
+        top:70px;
+    }
 }

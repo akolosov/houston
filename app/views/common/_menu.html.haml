@@ -1,40 +1,51 @@
-- if current_user.has_role? :admin or current_user.has_role? :manager
-  .well.sidebar-nav
-    %ul.nav.nav-list
-      %li.nav-header Центр решения проблем 
-      %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u' }, class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
-      %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a' }, class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
-      %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f' }, class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
-      %li.nav-item= link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd' }, class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-      %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p' }, class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-      %li.nav-item= link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's' }, class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
-      %li.nav-item= link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l' }, class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
+.sidebar-fixed.span2
+  - if current_user.has_role? :admin or current_user.has_role? :manager
+    .sidebar#navbar1
+      %ul.nav.nav-list.accordion-group
+        %li.nav-header.accordion-heading= link_to "Центр решения проблем", "#colapse1",  data: { toggle: "collapse", parent: "#navbar1" }, class: "accordion-toggle"
+        .accordion-body.collapse.in#colapse1
+          .accordion-inner
+            %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u' }, class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a' }, class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f' }, class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd' }, class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p' }, class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.nav-item= link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's' }, class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l' }, class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
 
-.well.sidebar-nav
-  %ul.nav.nav-list
-    %li.nav-header Центр поиска решений
-    %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
-    %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
-    %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b' }, class: (params[:controller] == 'documents' ? 'bold' : '')
+  .sidebar#navbar2
+    %ul.nav.nav-list.accordion-group
+      %li.nav-header.accordion-heading= link_to "Центр поиска решений", "#colapse2",  data: { toggle: "collapse", parent: "#navbar2" }, class: "accordion-toggle"
+      .accordion-body.collapse.in#colapse2
+        .accordion-inner
+          %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r' }, class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b' }, class: (params[:controller] == 'documents' ? 'bold' : '')
 
-- if current_user.has_role? :admin or current_user.has_role? :manager
-  .well.sidebar-nav
-    %ul.nav.nav-list
-      %li.nav-header Метки для проблем
-      - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
-        - if tag.problems.count > 0
-          %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag), class: 'tag'+(tag.problems.count >= 10 ? '9' : tag.problems.count.to_s)
+  - if current_user.has_role? :admin or current_user.has_role? :manager
+    .sidebar#navbar3
+      %ul.nav.nav-list.accordion-group
+        %li.nav-header.accordion-heading= link_to "Метки для проблем", "#colapse3",  data: { toggle: "collapse", parent: "#navbar3" }, class: "accordion-toggle"
+        .accordion-body.collapse.in#colapse3
+          .accordion-inner
+            - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
+              - if tag.problems.count > 0
+                %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
 
-.well.sidebar-nav
-  %ul.nav.nav-list
-    %li.nav-header Метки для жалоб (В РАБОТЕ)
-    - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
-      - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
-        %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag), class: 'tag'+(tag.incedents.solved_incedents(false).accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)
+  .sidebar#navbar4
+    %ul.nav.nav-list.accordion-group
+      %li.nav-header.accordion-heading= link_to "Метки для жалоб (В РАБОТЕ)", "#colapse4",  data: { toggle: "collapse", parent: "#navbar4" }, class: "accordion-toggle"
+      .accordion-body.collapse.in#colapse4
+        .accordion-inner
+          - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
+            - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
+              %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
 
-.well.sidebar-nav
-  %ul.nav.nav-list
-    %li.nav-header Метки для жалоб (В АРХИВЕ)
-    - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
-      - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
-        %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag), class: 'tag'+(tag.incedents.solved_incedents(true).accessible_by(current_ability).count >= 10 ? '9' : tag.incedents.accessible_by(current_ability).count.to_s)
+  .sidebar#navbar5
+    %ul.nav.nav-list.accordion-group
+      %li.nav-header.accordion-heading= link_to "Метки для жалоб (В АРХИВЕ)",  "#colapse5",  data: { toggle: "collapse", parent: "#navbar5" }, class: "accordion-toggle"
+      .accordion-body.collapse.in#colapse5
+        .accordion-inner
+          - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
+            - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
+              %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)
