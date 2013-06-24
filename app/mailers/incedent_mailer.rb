@@ -14,6 +14,20 @@ class IncedentMailer < ActionMailer::Base
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
     end
+
+    if (@incedent.worker) and (@incedent.worker.jabber) and (@incedent.worker.realname != @incedent.initiator.realname)
+      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
+    end
+  end
+
+  def incedent_changed(incedent)
+    @incedent = incedent
+
+    mail(to: (incedent.worker ? incedent.worker.email : incedent.initiator.email), subject: "Жалоба №#{incedent.id} изменена")
+
+    if (@incedent.worker) and (@incedent.worker.jabber)
+      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} изменена", (render 'incedent_mailer/incedent_changed', locals: { incedent: @incedent }, formats: [:text]))
+    end
   end
 
   def incedent_commented(incedent_comment)
