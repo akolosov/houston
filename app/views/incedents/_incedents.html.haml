@@ -69,7 +69,7 @@
               = content_tag :strong, 'Исполнитель: '
               = incedent.worker.realname+' ('+incedent.worker.email+')'
     .form-actions
-      = 'Статус: '+incedent.status.name+', Приоритет: '+incedent.priority.name+', Тип: '+incedent.type.name
+      = ('Статус: '+content_tag(:strong, incedent.status.name)+', Приоритет: '+content_tag(:strong, incedent.priority.name)+', Тип: '+content_tag(:strong, incedent.type.name)).html_safe
       - if incedent.tags
         .pull-right
           - incedent.tags.each do |tag|
