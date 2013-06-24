@@ -1,0 +1,11 @@
+Уважаемый <%= (@incedent.worker ? @incedent.worker.realname : @incedent.initiator.realname) %>
+
+Жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
+изменена.
+
+Ссылка на жалобу: <%= incedent_url(@incedent) %>
+
+С наилучшими пожеланиями
+
+--
+  <%= Houston::Application.config.app_name+' v'+Houston::Application.config.version %>

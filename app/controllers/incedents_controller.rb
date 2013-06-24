@@ -144,6 +144,10 @@ class IncedentsController < ApplicationController
 
         IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
 
+        if (@incedent.worker)
+          IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+        end
+
         IncedentMailer.incedent_created(@incedent).deliver
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
@@ -171,6 +175,13 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.update_attributes(params[:incedent])
+
+        if (@incedent.worker)
+          IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+        end
+
+        IncedentMailer.incedent_changed(@incedent).deliver
+
         format.html { redirect_to :incedents, notice: 'Жалоба успешно обновлена.' }
         format.json { head :no_content }
       else
