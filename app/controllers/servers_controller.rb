@@ -8,8 +8,8 @@ class ServersController < ApplicationController
   # GET /servers.json
   def index
     params[:category_id] ?
-        @servers = Server.servers_by_category(Category.find(params[:category_id])).accessible_by(current_ability).paginate(page: params[:page], per_page: 2).order('updated_at DESC') :
-        @servers = Server.accessible_by(current_ability).paginate(page: params[:page], per_page: 2).order('updated_at DESC')
+        @servers = Server.servers_by_category(Category.find(params[:category_id])).accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC') :
+        @servers = Server.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
