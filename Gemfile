@@ -38,6 +38,8 @@ gem 'i18n', '0.6.1'
 
 gem 'xmpp4r'
 
+gem 'unicorn'
+
 gem 'rack', '1.4.5'
 
 group :assets do
