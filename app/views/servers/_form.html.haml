@@ -1,4 +1,4 @@
-= simple_form_for @server, html: { id: 'form', class: 'form-horizontal form' }  do |f|
+= simple_form_for @server, url: (@server.id.nil? ? add_server_path() : @server), html: { id: 'form', class: 'form-horizontal form', multipart: true  }  do |f|
   .form-header
     %h3= @form_title
   .form-inputs
@@ -8,6 +8,11 @@
     = f.input :address, label: 'IP-адрес/DNS-имя', input_html: { class: 'form-input' }
     = f.input :port, label: 'TCP/UDP порт', input_html: { class: 'form-input' }
     = f.input :username, label: 'Имя пользователя', input_html: { class: 'form-input' }
+    = f.association :categories, as: :check_boxes, label: 'Категории', input_html: { class: 'form-input' }
+    #attaches
+      - if @server.persisted?
+        = render partial: 'attaches', locals: { incedent: @incedent, f: f }
+    = add_object_link(glyph(:plus)+' Прикрепить файл', f, Attach.new, 'file', '#attaches')
   .form-actions
     .pull-right.btn-group
       = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
