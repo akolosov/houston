@@ -7,7 +7,9 @@ class ServersController < ApplicationController
   # GET /servers
   # GET /servers.json
   def index
-    @servers = Server.accessible_by(current_ability).sort_by{ | server | server.problems.count }.reverse
+    params[:category_id] ?
+        @servers = Server.servers_by_category(Category.find(params[:category_id])).accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC') :
+        @servers = Server.accessible_by(current_ability).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +17,17 @@ class ServersController < ApplicationController
     end
   end
 
+
+  # GET /servers/1
+  # GET /servers/1.json
+  def show
+    @server = Server.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @server }
+    end
+  end
   # GET /servers/new
   # GET /servers/new.json
   def new
@@ -47,10 +60,45 @@ class ServersController < ApplicationController
     end
   end
 
+  # POST /servers
+  # POST /servers.json
+  def add
+    @server = Server.new(params[:server])
+
+    respond_to do |format|
+      if @server.save
+
+        if params[:server][:attaches_attributes]
+          params[:server][:attaches_attributes].each do |key, attach|
+            if attach[:file].present?
+              save_server_attach(@server, attach)
+              params[:server][:attaches_attributes].delete key
+            end
+          end
+        end
+
+        format.html { redirect_to :servers, notice: 'Оборудование успешно создано.' }
+        format.json { render json: @server, status: :created, location: @server }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @server.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /servers/1
   # PUT /servers/1.json
   def update
     @server = Server.find(params[:id])
+
+    if params[:server][:attaches_attributes]
+      params[:server][:attaches_attributes].each do |key, attach|
+        if attach[:file].present?
+          save_server_attach(@server, attach)
+          params[:server][:attaches_attributes].delete key
+        end
+      end
+    end
 
     respond_to do |format|
       if @server.update_attributes(params[:server])
@@ -73,5 +121,23 @@ class ServersController < ApplicationController
       format.html { redirect_to servers_url }
       format.json { head :no_content }
     end
+  end
+
+  protected
+
+  def save_server_attach(server, attach)
+    uploaded_io = attach[:file]
+
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'servers', server.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'servers', server.id.to_s))
+
+    File.open(Rails.root.join('public', 'uploads', 'servers', server.id.to_s, uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    @attach = Attach.new(name: uploaded_io.original_filename, description: attach[:description], mime: uploaded_io.content_type, size: File.size(Rails.root.join('public', 'uploads', 'servers', server.id.to_s, uploaded_io.original_filename)))
+    @attach.save
+
+    @server_attach = ServerAttach.new(server: server, attach: @attach)
+    @server_attach.save
   end
 end

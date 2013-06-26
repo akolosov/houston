@@ -7,7 +7,7 @@
       = make_archive_download_url(params[:tag_id])
 
 .apple_pagination
-  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
+  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
 - @incedents.each do |incedent|
   .form{class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : ''))))}
@@ -82,7 +82,7 @@
   %br
 
 .apple_pagination
-  =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
+  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
 :javascript
   bind_ajax();

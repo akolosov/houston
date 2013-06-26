@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618053350) do
+ActiveRecord::Schema.define(:version => 20130626044719) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -39,6 +39,11 @@ ActiveRecord::Schema.define(:version => 20130618053350) do
   add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
+
+  create_table "categories", :force => true do |t|
+    t.string "name"
+    t.text   "description"
+  end
 
   create_table "comment_attaches", :force => true do |t|
     t.integer  "comment_id"
@@ -192,6 +197,26 @@ ActiveRecord::Schema.define(:version => 20130618053350) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "server_attaches", :force => true do |t|
+    t.integer  "server_id"
+    t.integer  "attach_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "server_attaches", ["attach_id"], :name => "index_server_attaches_on_attach_id"
+  add_index "server_attaches", ["server_id"], :name => "index_server_attaches_on_server_id"
+
+  create_table "server_categories", :force => true do |t|
+    t.integer  "server_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "server_categories", ["category_id"], :name => "index_server_categories_on_category_id"
+  add_index "server_categories", ["server_id"], :name => "index_server_categories_on_server_id"
 
   create_table "server_problems", :force => true do |t|
     t.integer  "server_id"
