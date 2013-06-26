@@ -189,6 +189,7 @@ DEPENDENCIES
   markitup-rails (= 0.2.2)
   meta_request
   mousetrap-rails
+  rack (= 1.4.5)
   rails (= 3.2.13)
   rb-readline
   redcarpet
