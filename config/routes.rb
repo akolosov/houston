@@ -14,7 +14,7 @@ Houston::Application.routes.draw do
 
   resources :audit, only: :index
 
-  resources :servers, except: :show
+  resources :servers, except: :create
 
   resources :server_problems, except: :show
 
@@ -31,6 +31,8 @@ Houston::Application.routes.draw do
   resources :incedents, except: :create
 
   resources :attaches, only: :index
+
+  resources :categories, except: :show
 
   resources :welcome do
     member do
@@ -52,6 +54,8 @@ Houston::Application.routes.draw do
   match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server
   match 'server/:server_id/edit_problem/:id' => 'server_problems#edit', as: :edit_problem_for_server
   match 'server/:server_id/problem/:problem_id/solutions' => 'problem_solutions#index', as: :solutions_for_problem_by_server
+  match 'server/add' => 'servers#add', as: :add_server
+  match 'server/by_category/:category_id(.:format)' => 'servers#index', as: :servers_by_category
 
   match 'problem/:problem_id/solutions' => 'problem_solutions#index', as: :solutions_by_problem
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', as: :solution_for_problem

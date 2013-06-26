@@ -9,7 +9,10 @@ class Attach < ActiveRecord::Base
   
   has_many :document_attaches
   has_many :documents, through: :document_attaches, dependent: :delete_all
+
+  has_many :server_attaches
+  has_many :servers, through: :server_attaches, dependent: :delete_all
   
-  accepts_nested_attributes_for :incedents, :documents, :comments
+  accepts_nested_attributes_for :incedents, :documents, :comments, :servers
 
 end

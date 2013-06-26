@@ -38,6 +38,10 @@ module ApplicationHelper
     }, class: 'btn btn-mini'
   end
 
+  def link_to_attach_for_server(server, attach)
+    link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', url_to_attach_for_server(server, attach), title: attach.description,  class: 'btn btn-mini'
+  end
+
   def link_to_attach_for_incedent(incedent, attach)
    link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', url_to_attach_for_incedent(incedent, attach), title: attach.description,  class: 'btn btn-mini'
   end
@@ -48,6 +52,10 @@ module ApplicationHelper
 
   def link_to_attach_for_comment(comment, attach)
    link_to glyph(:file)+' '+attach.name+' ('+attach.size.to_s+')', url_to_attach_for_comment(comment, attach), title: attach.description,  class: 'btn btn-mini'
+  end
+
+  def url_to_attach_for_server(server, attach)
+    "#{root_url}uploads/servers/#{server.id}/"+attach.name
   end
 
   def url_to_attach_for_incedent(incedent, attach)
@@ -72,7 +80,11 @@ module ApplicationHelper
         if !attach.documents.empty? then
           url_to_attach_for_document(attach.documents.first, attach)
         else
-          '#'
+          if !attach.servers.empty? then
+            url_to_attach_for_server(attach.servers.first, attach)
+          else
+            '#'
+          end
         end
       end
     end
@@ -89,14 +101,22 @@ module ApplicationHelper
           if !attach.comments.first.incedents.empty? then
             incedent_url(attach.comments.first.incedents.first, anchor: attach.comments.first.id.to_s)
           else
-            ''
+            if !attach.servers.empty? then
+              server_url(attach.servers.first, anchor: attach.servers.first.id.to_s)
+            else
+              ''
+            end
           end
         end
       else
         if !attach.documents.empty? then
           attach.documents.first
         else
-          ''
+          if !attach.servers.empty? then
+            attach.servers.first
+          else
+            ''
+          end
         end
       end
     end
