@@ -1,0 +1,44 @@
+.apple_pagination
+  =will_paginate @servers, previous_label: '←', next_label: '→', remote: true
+
+- @servers.each do |server|
+  .form
+    .form-header
+      .btn-group.pull-right.top10.right10
+        = link_to glyph(:pencil)+' Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :update, server
+        = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
+        = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, server
+      %h3= server.name
+    .form-inputs
+      = markdown(server.description)
+      %br
+      .controls
+        %table.table.table-striped.table-bordered.table-condensed
+          %tr
+            %th Параметр
+            %th Значение
+          %tr
+            %td Местонахождение
+            %td= server.location
+          - if @current_user.has_role? :admin or @current_user.has_role? :manager
+            %tr
+              %td IP-адрес/DNS-имя
+              %td= server.address.split(',').join(':'+server.port+', ')+':'+server.port
+          - if @current_user.has_role? :admin
+            %tr
+              %td Имя пользователя
+              %td= server.username
+    - if !server.categories.empty?
+      .form-actions
+        .pull-right
+          - server.categories.each do |category|
+            = link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'btn btn-mini'
+
+    - if !server.attaches.empty?
+      .form-footer
+        - server.attaches.each do |attach|
+          = link_to_attach_for_server(server, attach)
+  %br
+  %br
+.apple_pagination
+  =will_paginate @servers, previous_label: '←', next_label: '→', remote: true
