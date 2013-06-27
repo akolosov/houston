@@ -21,6 +21,7 @@
       height: auto;
       left: 30%; 
       top: 15%;
+      z-index: 0;
       background-clip: padding-box;
       outline: none;
       border-radius: 0px !important;
@@ -67,5 +68,5 @@
       %a.btn.btn-mini{href: 'http://ru.wikipedia.org/wiki/%D0%90%D0%BF%D0%BE%D0%BB%D0%BB%D0%BE%D0%BD-13', target: '_blank'}
         = glyph(:book)+' Источник'
       - if !current_user
-        %a.btn.btn-mini.btn-success{href: '/login'}
+        %a.btn.btn-mini.btn-success{ href: '/login', data: { keybinding: 'enter', toggle: 'tooltip', placement: 'top', container: 'body', delay: '200' }, title: 'Горячая клавиша: Enter' }
           = glyph(:home)+' Вход в ЦУП'
