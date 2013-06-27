@@ -414,7 +414,7 @@ class IncedentsController < ApplicationController
   def save_incedent_attach(incedent, attach)
     uploaded_io = attach[:file]
 
-    Dir.mkdir(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s), 0777) unless Dir.exists?(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'incedents', incedent.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
@@ -431,7 +431,7 @@ class IncedentsController < ApplicationController
   def save_comment_attach(comment, attach)
     uploaded_io = attach[:file]
 
-    Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0700) unless Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
+    Dir.mkdir(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s), 0777) unless Dir.exists?(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s))
 
     File.open(Rails.root.join('public', 'uploads', 'comments', comment.id.to_s, uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
