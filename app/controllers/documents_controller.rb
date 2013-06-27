@@ -51,9 +51,8 @@ class DocumentsController < ApplicationController
 
   # POST /document/:id/comment
   def comment
-    @document_comment = DocumentComment.new
-    @document_comment.document = Document.find(params[:document_comment][:document_id])
-    @document_comment.comment = Comment.new(title: params[:document_comment][:comment][:title], body: params[:document_comment][:comment][:body], author: @current_user)
+    @document_comment = DocumentComment.new(document: Document.find(params[:document_comment][:document_id]), comment: Comment.new(params[:document_comment][:comment]))
+    @document_comment.comment.author = @current_user
 
     respond_to do |format|
       if @document_comment.save
@@ -75,13 +74,11 @@ class DocumentsController < ApplicationController
 
   # POST /document/:document_id/comment/:comment_id/delete
   def delete_comment
-    @document = Incedent.find(params[:document_id])
-
     @comment = Comment.find(params[:comment_id])
     @comment.destroy
 
     respond_to do |format|
-      format.html { redirect_to document_comments_path(@document), notice: 'Коментарий успешно удален.' }
+      format.html { redirect_to document_comments_path(Document.find(params[:document_id])), notice: 'Коментарий успешно удален.' }
     end
   end
 

@@ -15,6 +15,6 @@
         .btn-group
           = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), class: 'btn btn-mini' if can? :manage, tag
           = link_to glyph(:trash)+' Удалить', tag, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, tag
-= link_to glyph(:plus)+' Новая метка', new_tag_path, class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :manage, Tag
+= link_to glyph(:plus)+' Новая метка', new_tag_path, class: 'btn btn-mini', data: { keybinding: 'ins', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, Tag
 %br
 %br

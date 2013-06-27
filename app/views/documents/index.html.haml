@@ -3,6 +3,6 @@
 #documents
   = render 'documents'
 
-= link_to glyph(:plus)+' Новый рецепт', new_document_path, class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :create, Document
+= link_to glyph(:plus)+' Новый рецепт', new_document_path, class: 'btn btn-mini', data: { keybinding: 'ins', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Document
 %br
 %br

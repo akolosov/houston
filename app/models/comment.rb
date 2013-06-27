@@ -1,4 +1,6 @@
 class Comment < ActiveRecord::Base
+  include ActiveModel::Validations
+
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   has_many :document_comments, dependent: :destroy
@@ -9,6 +11,9 @@ class Comment < ActiveRecord::Base
 
   has_many :comment_attaches, dependent: :destroy
   has_many :attaches, through: :comment_attaches, dependent: :destroy
+
+  validates :title, presence: true
+  validates :body, presence: true
 
   attr_accessible :body, :title, :author, :author_id
 end

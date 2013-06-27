@@ -64,7 +64,7 @@ class ServersController < ApplicationController
   # POST /servers
   # POST /servers.json
   def add
-    @server = Server.new(params[:server])
+    @server = Server.new(params[:server].except(:attaches_attributes))
 
     respond_to do |format|
       if @server.save
