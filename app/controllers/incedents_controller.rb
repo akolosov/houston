@@ -70,9 +70,8 @@ class IncedentsController < ApplicationController
 
   # POST /incedent/:id/comment
   def comment
-    @incedent_comment = IncedentComment.new
-    @incedent_comment.incedent = Incedent.find(params[:incedent_comment][:incedent_id])
-    @incedent_comment.comment = Comment.new(title: params[:incedent_comment][:comment][:title], body: params[:incedent_comment][:comment][:body], author: @current_user)
+    @incedent_comment = IncedentComment.new(incedent: Incedent.find(params[:incedent_comment][:incedent_id]), comment: Comment.new(params[:incedent_comment][:comment]))
+    @incedent_comment.comment.author = @current_user
 
     respond_to do |format|
       if @incedent_comment.save
@@ -96,13 +95,11 @@ class IncedentsController < ApplicationController
 
   # POST /incedent/:incedent_id/comment/:comment_id/delete
   def delete_comment
-    @incedent = Incedent.find(params[:incedent_id])
-
     @comment = Comment.find(params[:comment_id])
     @comment.destroy
 
     respond_to do |format|
-        format.html { redirect_to incedent_comments_path(@incedent), notice: 'Коментарий успешно удален.' }
+        format.html { redirect_to incedent_comments_path(Incedent.find(params[:incedent_id])), notice: 'Коментарий успешно удален.' }
     end
   end
 

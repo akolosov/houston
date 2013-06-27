@@ -14,6 +14,6 @@
 #incedents
   = render 'incedents'
 
-= link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins' } if can? :create, Incedent
+= link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 %br
 %br
