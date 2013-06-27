@@ -8,7 +8,7 @@ Rails.application.config.sorcery.configure do |config|
   config.session_timeout_from_last_action = false
 
   config.user_config do |user|
-    user.username_attribute_names                     = [:email, :username, :id]
+    user.username_attribute_names                     = [:username, :email]
     user.subclasses_inherit_config                    = true
 
     user.activity_timeout                             = 60.minutes
