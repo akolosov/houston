@@ -4,6 +4,8 @@ gem 'rails', '3.2.13'
 
 gem 'bcrypt-ruby', require: 'bcrypt'
 
+gem 'pg'
+
 gem 'sqlite3-ruby', require: 'sqlite3'
 
 gem 'sorcery'
