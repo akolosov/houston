@@ -3,8 +3,7 @@
   - if params[:action] != 'archive'
     = render 'filter'
   - else
-    .pull-right
-      = make_archive_download_url(params[:tag_id])
+    = render 'archive_filter'
 
 .apple_pagination
   =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true

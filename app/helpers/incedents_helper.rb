@@ -64,6 +64,39 @@ module IncedentsHelper
     remote: true, class: 'btn btn-mini'+(params[:type_id] == type.id.to_s ? ' btn-success disabled' : '')
   end
 
+  def make_archive_user_filter_url(user, type_id, priority_id)
+    type = (type_id ? Type.find(type_id) : nil)
+    priority = (priority_id ? Priority.find(priority_id) : nil)
+
+    link_to user.realname, ((type and priority) ? incedents_archive_by_priority_and_type_and_user_path(priority, type, user) :
+                           (type ? incedents_archive_by_type_and_user_path(type, user) :
+                           (priority ? incedents_archive_by_priority_and_user_path(priority, user) :
+                           incedents_archive_by_user_path(user)))),
+            remote: true, class: 'btn btn-mini' + (params[:user_id] == user.id.to_s ? ' btn-success disabled' : '')
+  end
+
+  def make_archive_priority_filter_url(priority, type_id, user_id)
+    type = (type_id ? Type.find(type_id) : nil)
+    user = (user_id ? User.find(user_id) : nil)
+
+    link_to priority.name, ((type and user) ? incedents_archive_by_priority_and_type_and_user_path(priority, type, user) :
+                            (user ? incedents_archive_by_priority_and_user_path(priority, user) :
+                            (type ? incedents_archive_by_priority_and_type_path(priority, type) :
+                            incedents_archive_by_priority_path(priority)))),
+            remote: true, class: 'btn btn-mini' + (params[:priority_id] == priority.id.to_s ? ' btn-success disabled' : '')
+  end
+
+  def make_archive_type_filter_url(type, priority_id, user_id)
+    priority = (priority_id ? Priority.find(priority_id) : nil)
+    user = (user_id ? User.find(user_id) : nil)
+
+    link_to type.name, ((priority and user) ? incedents_archive_by_priority_and_type_and_user_path(priority, type, user) :
+                        (user ? incedents_archive_by_type_and_user_path(type, user) :
+                        (priority ? incedents_archive_by_priority_and_type_path(priority, type) :
+                        incedents_archive_by_type_path(type)))),
+            remote: true, class: 'btn btn-mini'+(params[:type_id] == type.id.to_s ? ' btn-success disabled' : '')
+  end
+
   def make_download_url(status_id, type_id, priority_id, tag_id, user_id)
     status = (status_id ? Status.find(status_id) : nil)
     type = (type_id ? Type.find(type_id) : nil)
@@ -91,10 +124,20 @@ module IncedentsHelper
   end
 
 
-  def make_archive_download_url(tag_id)
+  def make_archive_download_url(type_id, priority_id, tag_id, user_id)
+    type = (type_id ? Type.find(type_id) : nil)
+    priority = (priority_id ? Priority.find(priority_id) : nil)
     tag = (tag_id ? Tag.find(tag_id) : nil)
+    user = (user_id ? User.find(user_id) : nil)
 
-    link_to glyph(:download)+' Скачать', (tag ? incedents_archive_by_tag_path(tag, :xls) : incedents_archive_path(:xls)),
+    link_to glyph(:download)+' Скачать', ((type and priority and user) ? incedents_archive_by_priority_and_type_and_user_path(priority, type, user, :xls) :
+                        ((priority and user) ? incedents_archive_by_priority_and_user_path(priority, user, :xls) :
+                        ((type and user) ? incedents_archive_by_type_and_user_path(type, user, :xls) :
+                        ((type and priority) ? incedents_archive_by_priority_and_type_path(priority, type, :xls) :
+                        (priority ? incedents_archive_by_priority_path(priority, :xls) :
+                        (type ? incedents_archive_by_type_path(type, :xls) :
+                        (tag ? incedents_archive_by_tag_path(tag, :xls) :
+                        incedents_archive_path(:xls)))))))),
             class: 'btn btn-mini'
   end
 
