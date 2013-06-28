@@ -1,5 +1,5 @@
 # encoding: utf-8
-class IncedentsController < ApplicationController  
+class IncedentsController < ApplicationController
   before_filter :require_login
 
   load_and_authorize_resource
@@ -14,7 +14,7 @@ class IncedentsController < ApplicationController
       format.js
       format.json { render json: @incedents }
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
-      format.xls
+      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Книга жалоб"+(params[:status_id] ? " (по статусу '"+Status.find(params[:status_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
     end
   end
 
@@ -28,7 +28,7 @@ class IncedentsController < ApplicationController
       format.js
       format.json { render json: @incedents }
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
-      format.xls
+      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Архив жалоб"+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
     end
   end
 
@@ -235,11 +235,8 @@ class IncedentsController < ApplicationController
       @incedent.status_id = Houston::Application.config.incedent_played
       @incedent.closed = false
 
-      @incedent_comment = IncedentComment.new
-      @incedent_comment.incedent = @incedent
-      @incedent_comment.comment = Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)
-      @incedent_comment.save  
-  
+      IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)).save
+
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
@@ -319,11 +316,8 @@ class IncedentsController < ApplicationController
   
       @incedent.status_id = Houston::Application.config.incedent_rejected
   
-      @incedent_comment = IncedentComment.new
-      @incedent_comment.incedent = @incedent
-      @incedent_comment.comment = Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:reject_reason], author: @current_user)
-      @incedent_comment.save
-  
+      IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:reject_reason], author: @current_user)).save
+
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
@@ -380,11 +374,8 @@ class IncedentsController < ApplicationController
   
       @incedent.status_id = Houston::Application.config.incedent_closed
 
-      @incedent_comment = IncedentComment.new
-      @incedent_comment.incedent = @incedent
-      @incedent_comment.comment = Comment.new(title: 'Жалоба закрыта', body: params[:incedent][:close_reason], author: @current_user)
-      @incedent_comment.save
-  
+      IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба закрыта', body: params[:incedent][:close_reason], author: @current_user)).save
+
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
