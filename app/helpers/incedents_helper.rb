@@ -118,8 +118,9 @@ module IncedentsHelper
                          (status ? incedents_by_status_path(status, :xls) :
                          (priority ? incedents_by_priority_path(priority, :xls) :
                          (type ? incedents_by_type_path(type, :xls) :
+                         (user ? incedents_by_user_path(user, :xls) :
                          (tag ? incedents_by_tag_path(tag, :xls) :
-                         incedents_path(:xls)))))))))))))))),
+                         incedents_path(:xls))))))))))))))))),
     class: 'btn btn-mini'
   end
 
@@ -136,8 +137,9 @@ module IncedentsHelper
                         ((type and priority) ? incedents_archive_by_priority_and_type_path(priority, type, :xls) :
                         (priority ? incedents_archive_by_priority_path(priority, :xls) :
                         (type ? incedents_archive_by_type_path(type, :xls) :
+                        (user ? incedents_archive_by_user_path(user, :xls) :
                         (tag ? incedents_archive_by_tag_path(tag, :xls) :
-                        incedents_archive_path(:xls)))))))),
+                        incedents_archive_path(:xls))))))))),
             class: 'btn btn-mini'
   end
 
