@@ -9,3 +9,5 @@ vendor
 .idea
 .project
 preprocess.*
+public/assets/
+tmp/
