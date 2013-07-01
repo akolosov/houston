@@ -52,7 +52,7 @@ class ServerProblemsController < ApplicationController
 
     respond_to do |format|
       if @server_problem.save
-        format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для сервера успешно создана.' }
+        format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для оборудования успешно создана.' }
         format.json { render json: @server_problem, status: :created, location: @server_problem }
       else
         format.html { render action: 'new' }
@@ -68,7 +68,7 @@ class ServerProblemsController < ApplicationController
 
     respond_to do |format|
       if @server_problem.update_attributes(params[:server_problem])
-        format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для сервера успешно обновлена.' }
+        format.html { redirect_to @server_problem.server ? problems_by_server_path(@server_problem.server) : :server_problems, notice: 'Проблема для оборудования успешно обновлена.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -85,7 +85,7 @@ class ServerProblemsController < ApplicationController
     @server_problem.destroy
 
     respond_to do |format|
-      format.html { redirect_to @server ? problems_by_server_path(@server) : server_problems_url }
+      format.html { redirect_to (@server ? problems_by_server_path(@server) : :server_problems), notice: 'Проблема для оборудования успешно удалена.' }
       format.json { head :no_content }
     end
   end

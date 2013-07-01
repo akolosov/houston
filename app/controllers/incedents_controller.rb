@@ -195,7 +195,7 @@ class IncedentsController < ApplicationController
     @incedent.destroy
 
     respond_to do |format|
-      format.html { redirect_to incedents_url }
+      format.html { redirect_to :incedents, notice: 'Жалоба успешно удалена.' }
       format.json { head :no_content }
     end
   end
