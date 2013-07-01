@@ -119,7 +119,7 @@ class ServersController < ApplicationController
     @server.destroy
 
     respond_to do |format|
-      format.html { redirect_to servers_url }
+      format.html { redirect_to :servers, notice: 'Оборудование успешно удалено.' }
       format.json { head :no_content }
     end
   end

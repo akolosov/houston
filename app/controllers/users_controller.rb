@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(:users, notice: 'Пользователь успешно создан.') }
+        format.html { redirect_to :users, notice: 'Пользователь успешно создан.' }
         format.xml { render xml: @user, status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to(:users, notice: 'Пользователь успешно обновлен.') }
+        format.html { redirect_to :users, notice: 'Пользователь успешно обновлен.' }
         format.xml  { head :ok }
       else
         format.html { render action: 'edit' }
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to(users_url) }
+      format.html { redirect_to :users, notice: 'Пользователь успешно удален.' }
       format.xml  { head :ok }
     end
   end
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
     @user.activate!
 
     respond_to do |format|
-      format.html { redirect_to(users_url) }
+      format.html { redirect_to :users, notice: 'Пользователь успешно активирован.' }
       format.xml  { head :ok }
     end
   end
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
     @user.deactivate!
 
     respond_to do |format|
-      format.html { redirect_to(users_url) }
+      format.html { redirect_to :users, notice: 'Пользователь успешно деактивирован.' }
       format.xml  { head :ok }
     end
   end
