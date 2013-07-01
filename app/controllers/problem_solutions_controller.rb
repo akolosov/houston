@@ -78,7 +78,7 @@ class ProblemSolutionsController < ApplicationController
     @problem_solution.destroy
 
     respond_to do |format|
-      format.html { redirect_to @problem ? solutions_by_problem_path(@problem) : problem_solutions_url }
+      format.html { redirect_to (@problem ? solutions_by_problem_path(@problem) : :problem_solutions), notice: 'Решение проблемы успешно удалено.' }
       format.json { head :no_content }
     end
   end
