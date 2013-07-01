@@ -27,8 +27,12 @@ class Server < ActiveRecord::Base
     self.port ||= '22'
   end
 
-
   def self.servers_by_category(category)
     where("id in (select server_id from server_categories where category_id = #{category.id})")
   end
+
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
+  end
+
 end

@@ -21,4 +21,8 @@ class Solution < ActiveRecord::Base
     where("id in (select solution_id from problem_solutions where problem_id = #{problem.id})").first
   end
 
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
+  end
+
 end
