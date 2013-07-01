@@ -69,6 +69,40 @@ class Incedent < ActiveRecord::Base
     self.status_id == Houston::Application.config.incedent_waited
   end
 
+  def played!
+    self.status_id = Houston::Application.config.incedent_played
+    self.closed = false
+  end
+
+  def paused!
+    self.status_id = Houston::Application.config.incedent_paused
+    self.closed = false
+  end
+
+  def stoped!
+    self.status_id = Houston::Application.config.incedent_stoped
+    self.closed = false
+  end
+
+  def rejected!
+    self.status_id = Houston::Application.config.incedent_rejected
+    self.closed = false
+  end
+
+  def solved!
+    self.status_id = Houston::Application.config.incedent_solved
+    self.closed = true
+  end
+
+  def closed!
+    self.status_id = Houston::Application.config.incedent_closed
+    self.closed = false
+  end
+
+  def waited!
+    self.status_id = Houston::Application.config.incedent_waited
+  end
+
   def self.incedents_by_tag(tag)
     where("id in (select incedent_id from incedent_tags where tag_id = #{tag.id})")
   end
@@ -120,6 +154,10 @@ class Incedent < ActiveRecord::Base
         csv << incedent.attributes.values_at(*column_names)
       end
     end
+  end
+
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
   end
 
 end

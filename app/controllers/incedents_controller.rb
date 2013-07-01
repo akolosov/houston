@@ -206,8 +206,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.find(params[:id])
 
     @incedent.worker = @current_user
-
-    @incedent.status_id = Houston::Application.config.incedent_played
+    @incedent.played!
 
     respond_to do |format|
       if @incedent.save
@@ -231,9 +230,7 @@ class IncedentsController < ApplicationController
       @incedent = Incedent.find(params[:id])
   
       @incedent.worker = @current_user unless @incedent.has_worker?
-  
-      @incedent.status_id = Houston::Application.config.incedent_played
-      @incedent.closed = false
+      @incedent.played!
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)).save
 
@@ -264,8 +261,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.find(params[:id])
 
     @incedent.worker = @current_user unless @incedent.has_worker?
-
-    @incedent.status_id = Houston::Application.config.incedent_paused
+    @incedent.paused!
 
     respond_to do |format|
       if @incedent.save
@@ -288,8 +284,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.find(params[:id])
 
     @incedent.worker = @current_user unless @incedent.has_worker?
-
-    @incedent.status_id = Houston::Application.config.incedent_stoped
+    @incedent.stoped!
 
     respond_to do |format|
       if @incedent.save
@@ -313,17 +308,16 @@ class IncedentsController < ApplicationController
       @incedent = Incedent.find(params[:id])
 
       @incedent.worker = @current_user unless @incedent.has_worker?
-  
-      @incedent.status_id = Houston::Application.config.incedent_rejected
-  
+      @incedent.rejected!
+
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:reject_reason], author: @current_user)).save
 
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
-  
+
           IncedentMailer.incedent_rejected(@incedent).deliver
-  
+
           format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
           format.json { head :no_content }
         else
@@ -345,9 +339,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.find(params[:id])
 
     @incedent.worker = @current_user unless @incedent.has_worker?
-    @incedent.closed = true
-
-    @incedent.status_id = Houston::Application.config.incedent_solved
+    @incedent.solved!
 
     respond_to do |format|
       if @incedent.save
@@ -371,8 +363,7 @@ class IncedentsController < ApplicationController
       @incedent = Incedent.find(params[:id])
   
       @incedent.worker = @current_user unless @incedent.has_worker?
-  
-      @incedent.status_id = Houston::Application.config.incedent_closed
+      @incedent.closed!
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба закрыта', body: params[:incedent][:close_reason], author: @current_user)).save
 

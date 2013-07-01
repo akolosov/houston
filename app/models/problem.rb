@@ -23,4 +23,8 @@ class Problem < ActiveRecord::Base
     where("id in (select problem_id from problem_tags where tag_id = #{tag.id})")
   end
 
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
+  end
+
 end

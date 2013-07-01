@@ -1,24 +1,24 @@
 class SearchController < ApplicationController
 
   def index
-  	if params[:query]
-      @documents = Document.where("title like '%#{params[:query]}%' or body like '%#{params[:query]}%'")
-      @incedents = Incedent.accessible_by(current_ability).where("name like '%#{params[:query]}%' or description like '%#{params[:query]}%'")
+    if params[:query]
+      @documents = Document.search(params[:query]) if Document.methods.include? :search
+      @incedents = Incedent.accessible_by(current_ability).search(params[:query]) if Incedent.methods.include? :search
 
       if current_user.has_role? :manager or current_user.has_role? :admin
-        @servers = Server.where("name like '%#{params[:query]}%' or description like '%#{params[:query]}%'")
-        @problems = Problem.where("name like '%#{params[:query]}%' or description like '%#{params[:query]}%'")
-        @solutions = Solution.where("name like '%#{params[:query]}%' or description like '%#{params[:query]}%'")
+        @servers = Server.search(params[:query]) if Server.methods.include? :search
+        @problems = Problem.search(params[:query]) if Problem.methods.include? :search
+        @solutions = Solution.search(params[:query]) if Solution.methods.include? :search
       end
 
       if current_user.has_role? :admin
-        @audits = Audit.where("audited_changes like '%#{params[:query]}%' or comment like '%#{params[:query]}%'").order('created_at DESC')
+          @audits = Audit.search(params[:query]).order('created_at DESC') if Audit.methods.include? :search
       end
 
-  	  respond_to do |format|
-	      format.html # index.html.erb
-	    end
-  	end
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
 end
