@@ -1,82 +1,90 @@
 - if @current_user.has_role? :admin or @current_user.has_role? :manager
-  %h3 Список серверов
+  - if !@servers.empty?
+    %h3 Список серверов
+    %table.table.table-striped.table-bordered.table-condensed
+      %tr
+        %th Имя
+        %th Описание
+        %th Местоположение
+        %th IP-адрес/DNS-имя
+        %th Пользователь
+        %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+      - @servers.each do |server|
+        %tr
+          %td= server.name
+          %td= markdown(server.description)
+          %td= server.location
+          %td= server.address+':'+server.port
+          %td= server.username
+          %td
+            .btn-group
+              = link_to glyph(:eye_open)+' Просмотр', server, class: 'btn btn-mini' if can? :read, server
+              = link_to glyph(:pencil)+' Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :manage, server
+              = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
+              = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, server
+  -if !@problems.empty?
+    %hr
+    %h3 Известные проблемы
+    %table.table.table-striped.table-bordered.table-condensed
+      %tr
+        %th Имя
+        %th Описание
+        %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+      - @problems.each do |problem|
+        %tr
+          %td= problem.name
+          %td= markdown(problem.description)
+          %td
+            .btn-group
+              = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
+              = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem
+              = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
+  -if !@solutions.empty?
+    %hr
+    %h3 Известные решения
+    %table.table.table-striped.table-bordered.table-condensed
+      %tr
+        %th Имя
+        %th Описание
+      - @solutions.each do |solution|
+        %tr
+          %td= solution.name
+          %td= markdown(solution.description)
+- if !@incedents.empty?
+  %hr
+  %h3 Книга жалоб
   %table.table.table-striped.table-bordered.table-condensed
     %tr
       %th Имя
       %th Описание
-      %th Местоположение
-      %th IP-адрес/DNS-имя
-      %th Пользователь
-      %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
-    - @servers.each do |server|
+      %th.span2 Статус
+      %th.span2 Действия
+    - @incedents.each do |incedent|
       %tr
-        %td= server.name
-        %td= markdown(server.description)
-        %td= server.location
-        %td= server.address+':'+server.port
-        %td= server.username
+        %td= incedent.name
+        %td= markdown(incedent.description)
+        %td= incedent.status.name
+        %td= link_to glyph(:eye_open)+' Просмотр', incedent, class: 'btn btn-mini' if can? :read, incedent
+
+- if !@documents.empty?
+  %hr
+  %h3 Книга рецептов
+  %table.table.table-striped.table-bordered.table-condensed
+    %tr
+      %th Имя
+      %th Описание
+      %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
+    - @documents.each do |document|
+      %tr
+        %td= document.title
+        %td= markdown(document.body.slice(0, 300)+'...')
         %td
           .btn-group
-            = link_to 'Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :manage, server
-            = link_to 'Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
-            = link_to 'Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini' if can? :destroy, server
-  %hr
-  %h3 Известные проблемы
-  %table.table.table-striped.table-bordered.table-condensed
-    %tr
-      %th Имя
-      %th Описание
-      %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
-    - @problems.each do |problem|
-      %tr
-        %td= problem.name
-        %td= markdown(problem.description)
-        %td
-          .btn-group
-            = link_to 'Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
-            = link_to 'Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' if can? :destroy, problem
-            = link_to 'Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini' if can? :read, problem
-  %hr
-  %h3 Известные решения
-  %table.table.table-striped.table-bordered.table-condensed
-    %tr
-      %th Имя
-      %th Описание
-    - @solutions.each do |solution|
-      %tr
-        %td= solution.name
-        %td= markdown(solution.description)
-  %hr
-%h3 Книга жалоб
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Имя
-    %th Описание
-    %th.span2 Статус
-    %th.span2 Действия
-  - @incedents.each do |incedent|
-    %tr
-      %td= incedent.name
-      %td= markdown(incedent.description)
-      %td= incedent.status.name
-      %td= link_to glyph(:eye_open)+' Просмотр', incedent, class: 'btn btn-mini' if can? :read, incedent
-%hr
-%h3 Книга рецептов
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Имя
-    %th Описание
-    %th{class: ( (@current_user.has_role? :admin) ? 'span3' : 'span1' )} Действия
-  - @documents.each do |document|
-    %tr
-      %td= document.title
-      %td= markdown(document.body.slice(0, 300)+'...')
-      %td
-        .btn-group
-          = link_to glyph(:eye_open)+' Читать', document, class: 'btn btn-mini' if can? :read, document
-          = link_to 'Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :manage, document
-          = link_to 'Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' if can? :manage, document
-- if @current_user.has_role? :admin
+            = link_to glyph(:eye_open)+' Читать', document, class: 'btn btn-mini' if can? :read, document
+            = link_to glyph(:pencil)+' Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :manage, document
+            = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
+
+- if @current_user.has_role? :admin and @audits and !@audits.empty?
   %hr
   %h3 Журнал аудита
   %table.table.table-striped.table-bordered.table-condensed
