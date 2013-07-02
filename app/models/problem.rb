@@ -6,7 +6,7 @@ class Problem < ActiveRecord::Base
 
   resourcify
 
-  attr_accessible :description, :name, :tags, :tag_ids
+  attr_accessible :description, :name, :tags, :tag_ids, :solutions, :servers, :solution_ids, :server_ids
 
   validates :name, :description, presence: true
 

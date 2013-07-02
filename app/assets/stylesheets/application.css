@@ -228,3 +228,8 @@ a.accordion-toggle:hover {
         top:70px;
     }
 }
+
+label.checkbox {
+    display: inline-block !important;
+    margin-left: 20px;
+}

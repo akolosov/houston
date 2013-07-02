@@ -5,6 +5,8 @@
     = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
     = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'problem_markdown' }
     = f.association :tags, as: :check_boxes, label: 'Метки', input_html: { class: 'form-input' }
+    = f.association :solutions, as: :check_boxes, label: 'Решения', input_html: { class: 'form-input' }
+    = f.association :servers, as: :check_boxes, label: 'Оборудование', input_html: { class: 'form-input' }
   .form-actions
     .pull-right.btn-group
       = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
