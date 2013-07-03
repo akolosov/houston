@@ -104,6 +104,7 @@ Houston::Application.routes.draw do
 
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
   match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent
+  match 'incedent/:id/work' => 'incedents#work', as: :work_incedent
   match 'incedent/:id/pause' => 'incedents#pause', as: :pause_incedent
   match 'incedent/:id/stop' => 'incedents#stop', as: :stop_incedent
   match 'incedent/:id/reject' => 'incedents#reject', as: :reject_incedent
