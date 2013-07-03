@@ -88,6 +88,20 @@ class IncedentMailer < ActionMailer::Base
     end
   end
 
+  def incedent_worked(incedent)
+    @incedent = incedent
+
+    mail(to: (incedent.worker ? incedent.worker.email : incedent.initiator.email), subject: "Жалоба №#{incedent.id} передана в работу")
+
+    if (@incedent.initiator.jabber)
+      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
+    end
+
+    if (@incedent.worker) and (@incedent.worker.jabber) and (@incedent.worker.realname != @incedent.initiator.realname)
+      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
+    end
+  end
+
   def incedent_rejected(incedent)
     @incedent = incedent
 
