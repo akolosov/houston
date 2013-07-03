@@ -255,6 +255,38 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # GET /incedent/1/work
+  # GET /incedent/1/work.json
+  def work
+    if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_id].empty?
+      @incedent = Incedent.find(params[:id])
+
+      @incedent.worker = User.find(params[:incedent][:worker_id])
+      @incedent.played!
+
+      IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба назначена исполнителю', body: params[:incedent][:work_reason], author: @current_user)).save
+
+      respond_to do |format|
+        if @incedent.save
+          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
+
+          IncedentMailer.incedent_replayed(@incedent).deliver
+
+          format.html { redirect_to :incedents, notice: 'Жалоба успешно передана в работу.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: 'work' }
+          format.json { render json: @incedent.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину передачи.' }
+        format.json { render json: @incedent.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # GET /incedent/1/pause
   # GET /incedent/1/pause.json
   def pause
