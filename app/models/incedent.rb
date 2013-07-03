@@ -26,9 +26,12 @@ class Incedent < ActiveRecord::Base
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
   attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :initiator_id, :priority_id, :type_id, :status_id, :worker_id
-  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :attaches_attributes
+  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes
    
   def reject_reason    
+  end
+
+  def work_reason
   end
 
   def replay_reason    
