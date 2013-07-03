@@ -270,7 +270,7 @@ class IncedentsController < ApplicationController
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
 
-          IncedentMailer.incedent_replayed(@incedent).deliver
+          IncedentMailer.incedent_worked(@incedent).deliver
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно передана в работу.' }
           format.json { head :no_content }
