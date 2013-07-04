@@ -173,11 +173,13 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       if @incedent.update_attributes(params[:incedent])
 
-        if (@incedent.worker)
-          IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
-        end
+        if !@incedent.is_solved?
+          if (@incedent.worker)
+            IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+          end
 
-        IncedentMailer.incedent_changed(@incedent).deliver
+          IncedentMailer.incedent_changed(@incedent).deliver
+        end
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно обновлена.' }
         format.json { head :no_content }
