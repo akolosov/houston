@@ -62,6 +62,30 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', as: :edit_solution_for_problem
   match 'problems/by_tag/:tag_id' => 'problems#index', as: :problems_by_tag
 
+# incedents filter
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type_and_user_and_server
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type_and_server
+
+  match 'incedents/by_status/:status_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_type_and_user_and_server
+  match 'incedents/by_status/:status_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_type_and_server
+
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_user_and_server
+  match 'incedents/by_status/:status_id/and_priority/:priority_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_server
+
+  match 'incedents/by_priority/:priority_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_type_and_user_and_server
+  match 'incedents/by_priority/:priority_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_type_and_server
+
+  match 'incedents/by_status/:status_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_user_and_server
+  match 'incedents/by_status/:status_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_server
+
+  match 'incedents/by_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_type_and_user_and_server
+  match 'incedents/by_type/:type_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_type_and_server
+
+  match 'incedents/by_priority/:priority_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_user_and_server
+  match 'incedents/by_priority/:priority_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_priority_and_server
+
+  match 'incedents/by_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_user_and_server
+
   match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type_and_user
   match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type
 
@@ -85,7 +109,32 @@ Houston::Application.routes.draw do
 
   match 'incedents/by_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_user
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
-  
+  match 'incedents/by_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_server
+
+# incedents archive filter
+  match 'incedents/archive/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_priority_and_type_and_user_and_server
+  match 'incedents/archive/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_priority_and_type_and_server
+
+  match 'incedents/archive/by_status/:status_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_type_and_user_and_server
+  match 'incedents/archive/by_status/:status_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_type_and_server
+
+  match 'incedents/archive/by_status/:status_id/and_priority/:priority_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_priority_and_user_and_server
+  match 'incedents/archive/by_status/:status_id/and_priority/:priority_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_priority_and_server
+
+  match 'incedents/archive/by_priority/:priority_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_type_and_user_and_server
+  match 'incedents/archive/by_priority/:priority_id/and_type/:type_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_type_and_server
+
+  match 'incedents/archive/by_status/:status_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_user_and_server
+  match 'incedents/archive/by_status/:status_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_status_and_server
+
+  match 'incedents/archive/by_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_type_and_user_and_server
+  match 'incedents/archive/by_type/:type_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_type_and_server
+
+  match 'incedents/archive/by_priority/:priority_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_user_and_server
+  match 'incedents/archive/by_priority/:priority_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_server
+
+  match 'incedents/archive/by_user/:user_id/and_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_user_and_server
+
   match 'incedents/archive/by_priority/:priority_id/and_type/:type_id/and_user/:user_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_type_and_user
   match 'incedents/archive/by_priority/:priority_id/and_type/:type_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_priority_and_type
 
@@ -97,6 +146,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/archive/by_user/:user_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_user
   match 'incedents/archive/by_tag/:tag_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_tag
+  match 'incedents/archive/by_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_server
 
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
 
