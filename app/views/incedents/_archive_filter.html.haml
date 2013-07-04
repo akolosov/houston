@@ -6,27 +6,40 @@
   .pull-right
     %i.icon-remove#close-button{onclick: '$(\'#filter\').hide(\'fast\'); $(\'#buttons\').show();', title: 'Закрыть'}
   .form-inputs
-    - if current_user.has_role? :admin
+    .container-fluid
+      - if current_user.has_role? :admin
+        .row-fluid
+          .span2
+            %small По пользователю:
+          .span10
+            - User.all.each_slice(10).to_a.each do |users|
+              .btn-group
+                - users.each do |user|
+                  = make_archive_user_filter_url(user, params[:type_id], params[:priority_id], params[:server_id])
+              %br
       .row-fluid
-        %small.span2 По пользователю:
-        .btn-group.top-30
-          - User.all.each do |user|
-            = make_archive_user_filter_url(user, params[:type_id], params[:priority_id], params[:server_id])
-    .row-fluid
-      %small.span2 По оборудованию:
-      .btn-group.top-30
-        - Server.all.each do |server|
-          = make_archive_server_filter_url(server, params[:type_id], params[:priority_id], params[:user_id])
-    .row-fluid
-      %small.span2 По приоритету:
-      .btn-group.top-30
-        - Priority.all.each do |priority|
-          = make_archive_priority_filter_url(priority, params[:type_id], params[:user_id], params[:server_id])
-    .row-fluid
-      %small.span2 По типу:
-      .btn-group.top-30
-        - Type.all.each do |type|
-          = make_archive_type_filter_url(type, params[:priority_id], params[:user_id], params[:server_id])
-    .row-fluid
-      .pull-right.top-30
-        = link_to 'Отменить все фильтры', incedents_archive_path, class: 'btn btn-mini'
+        .span2
+          %small По оборудованию:
+        .span10
+          - Server.all.each_slice(10).to_a.each do |servers|
+            .btn-group
+              - servers.each do |server|
+                = make_archive_server_filter_url(server, params[:type_id], params[:priority_id], params[:user_id])
+            %br
+      .row-fluid
+        .span2
+          %small По приоритету:
+        .span10
+          .btn-group
+            - Priority.all.each do |priority|
+              = make_archive_priority_filter_url(priority, params[:type_id], params[:user_id], params[:server_id])
+      .row-fluid
+        .span2
+          %small По типу:
+        .span10
+          .btn-group
+            - Type.all.each do |type|
+              = make_archive_type_filter_url(type, params[:priority_id], params[:user_id], params[:server_id])
+      .row-fluid
+        .pull-right.top-30
+          = link_to 'Отменить все фильтры', incedents_archive_path, class: 'btn btn-mini'
