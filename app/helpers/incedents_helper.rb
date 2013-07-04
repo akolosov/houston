@@ -232,7 +232,7 @@ module IncedentsHelper
             ((type and user and server) ? incedents_archive_by_type_and_user_and_server_path(type, user, server, :xls) :
                 ((type and priority and server) ? incedents_archive_by_priority_and_type_and_server_path(priority, type, server, :xls) :
                     ((priority and server) ? incedents_archive_by_priority_and_server_path(priority, server, :xls) :
-                        ((type and server) ? incedents_archive_and_server_by_type_path(type, server, :xls) :
+                        ((type and server) ? incedents_archive_by_type_and_server_path(type, server, :xls) :
                             ((user and server) ? incedents_archive_by_user_and_server_path(user, server, :xls) :
                                 ((tag and server) ? incedents_archive_by_tag_and_server_path(tag, server, :xls) :
                                     ((type and priority and user) ? incedents_archive_by_priority_and_type_and_user_path(priority, type, user, :xls) :
