@@ -14,7 +14,7 @@ class IncedentsController < ApplicationController
       format.js
       format.json { render json: @incedents }
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
-      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Книга жалоб"+(params[:status_id] ? " (по статусу '"+Status.find(params[:status_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
+      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Книга жалоб"+(params[:status_id] ? " (по статусу '"+Status.find(params[:status_id]).name+"')" : '')+(params[:server_id] ? " (по оборудованию '"+Server.find(params[:server_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
     end
   end
 
@@ -28,7 +28,7 @@ class IncedentsController < ApplicationController
       format.js
       format.json { render json: @incedents }
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
-      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Архив жалоб"+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
+      format.xls { headers["Content-Disposition"] = "attachment; filename=\"Архив жалоб"+(params[:server_id] ? " (по оборудованию '"+Server.find(params[:server_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\"" }
     end
   end
 
@@ -458,39 +458,71 @@ class IncedentsController < ApplicationController
   def get_incedents(archive)
     (params[:tag_id]) ?
       Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_tag(Tag.find(params[:tag_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC') :
-      if (params[:status_id] and params[:type_id] and params[:priority_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:type_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:priority_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:type_id] and params[:priority_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:type_id] and params[:priority_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:type_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:priority_id] and params[:user_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:type_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:status_id] and params[:priority_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif (params[:type_id] and params[:priority_id])
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif params[:status_id]
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif params[:type_id]
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif params[:priority_id]
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      elsif params[:user_id]
-        Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      else
-        Incedent.accessible_by(current_ability).solved_incedents(archive).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
-      end
+        if (params[:status_id] and params[:type_id] and params[:priority_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:priority_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:priority_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:priority_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:priority_id] and params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:priority_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:priority_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:priority_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:user_id] and params[:server_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:priority_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:priority_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:priority_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id] and params[:priority_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:priority_id] and params[:user_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:type_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:status_id] and params[:priority_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif (params[:type_id] and params[:priority_id])
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif params[:status_id]
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif params[:type_id]
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif params[:priority_id]
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif params[:user_id]
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_user(User.find(params[:user_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        elsif params[:server_id]
+          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        else
+          Incedent.accessible_by(current_ability).solved_incedents(archive).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+        end
   end
 
 end

@@ -77,6 +77,9 @@
         .pull-right
           - incedent.tags.each do |tag|
             = link_to glyph(:tag)+' '+tag.name, ((params[:action] == 'archive') ? incedents_archive_by_tag_path(tag) : incedents_by_tag_path(tag)), class: 'btn btn-mini'
+      - if incedent.server
+        .pull-right
+          = link_to glyph(:hdd)+' '+incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(incedent.server) : incedents_by_server_path(incedent.server)), class: 'btn btn-mini'
     - if !incedent.attaches.empty?
       .form-footer
         - incedent.attaches.each do |attach|

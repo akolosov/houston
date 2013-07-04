@@ -8,18 +8,20 @@ class Server < ActiveRecord::Base
 
   before_save :default_values
 
-  attr_accessible :address, :description, :location, :name, :username, :port, :categories, :category_ids, :attaches_attributes
+  attr_accessible :address, :description, :location, :name, :username, :port, :categories, :category_ids, :attaches_attributes, :incedents
 
   validates :name, :description, presence: true
 
   has_many :server_problems, dependent: :destroy
-  has_many :problems, through: :server_problems, dependent: :destroy
+  has_many :problems, through: :server_problems, dependent: :delete_all
 
   has_many :server_categories, dependent: :destroy
-  has_many :categories, through: :server_categories, dependent: :destroy
+  has_many :categories, through: :server_categories, dependent: :delete_all
 
   has_many :server_attaches, dependent: :destroy
-  has_many :attaches, through: :server_attaches, dependent: :destroy
+  has_many :attaches, through: :server_attaches, dependent: :delete_all
+
+  has_many :incedents
 
   accepts_nested_attributes_for :attaches, allow_destroy: true
 

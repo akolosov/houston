@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626044719) do
+ActiveRecord::Schema.define(:version => 20130704034443) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20130626044719) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.boolean  "closed",       :default => false
+    t.integer  "server_id"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"

@@ -9,7 +9,8 @@ class Incedent < ActiveRecord::Base
   belongs_to :status
   belongs_to :priority
   belongs_to :type
-  
+  belongs_to :server
+
   validates :name, :description, presence: true
 
   has_many :incedent_tags, dependent: :destroy
@@ -25,7 +26,7 @@ class Incedent < ActiveRecord::Base
   
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :initiator_id, :priority_id, :type_id, :status_id, :worker_id
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
   attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes
    
   def reject_reason    
@@ -136,6 +137,10 @@ class Incedent < ActiveRecord::Base
 
   def self.incedents_by_status(status)
     where("status_id = #{status.id}")
+  end
+
+  def self.incedents_by_server(server)
+    where("server_id = #{server.id}")
   end
 
   def self.incedents_by_priority(priority)
