@@ -39,7 +39,7 @@ class IncedentMailer < ActionMailer::Base
       send_jabber_message(@incedent_comment.incedent.initiator.jabber, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
     end
 
-    if (@incedent_comment.incedent.worker) and (@incedent_comment.incedent.worker.jabber) and (@incedent_comment.incedent.worker.realname != @incedent_comment.incedent.initiator.realname)
+    if (@incedent_comment.incedent.worker) and (@incedent_comment.incedent.worker.jabber) and (@incedent_comment.incedent.worker.realname != @incedent_comment.comment.author.realname)
       send_jabber_message(@incedent_comment.incedent.worker.jabber, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
     end
   end
