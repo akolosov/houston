@@ -1,1 +1,6 @@
 $("#servers").html("<%= escape_javascript(render('servers')) %>");
+
+<% if (params[:category_id]) %>
+    $('#filter').show();
+    $('#buttons').hide();
+<% end %>

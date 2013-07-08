@@ -40,6 +40,6 @@
           .btn-group
             - Type.all.each do |type|
               = make_archive_type_filter_url(type, params[:priority_id], params[:user_id], params[:server_id])
-      .row-fluid
-        .pull-right.top-30
-          = link_to 'Отменить все фильтры', incedents_archive_path, class: 'btn btn-mini'
+  .form-actions
+    .pull-right.top-10
+      = link_to 'Отменить все фильтры', incedents_archive_path, class: 'btn btn-mini'

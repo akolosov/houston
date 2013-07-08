@@ -1,0 +1,20 @@
+.pull-right.btn-group#buttons
+  %a.btn.btn-mini{onclick: '$(\'#filter\').show(\'fast\'); $(\'#buttons\').hide();', title: 'Фильтр'}
+    = glyph(:filter)+' Фильтр'
+.form.form-horizontal.filter#filter
+  .pull-right
+    %i.icon-remove#close-button{onclick: '$(\'#filter\').hide(\'fast\'); $(\'#buttons\').show();', title: 'Закрыть'}
+  .form-inputs
+    .container-fluid
+      .row-fluid
+        .span2
+          %small По категории:
+        .span10
+          - Category.all.each_slice(10).to_a.each do |categories|
+            .btn-group
+              - categories.each do |category|
+                =link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'btn btn-mini'+(params[:category_id] == category.id.to_s ? ' btn-success disabled' : ''), remote: true
+            %br
+  .form-actions
+    .pull-right.top-10
+      = link_to 'Отменить все фильтры', servers_path, class: 'btn btn-mini'
