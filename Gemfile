@@ -8,7 +8,7 @@ gem 'pg'
 
 gem 'sqlite3-ruby', require: 'sqlite3'
 
-gem 'sorcery'
+gem 'sorcery', '~> 0.8.1'
 
 gem 'cancan'
 
@@ -35,8 +35,6 @@ gem 'markitup-rails', '0.2.2'
 gem 'less-rails'
 
 gem 'mousetrap-rails'
-
-gem 'i18n', '0.6.1'
 
 gem 'xmpp4r'
 
