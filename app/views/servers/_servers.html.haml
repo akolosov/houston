@@ -1,3 +1,7 @@
+%h3
+  = 'Список оборудования'
+  = render 'filter'
+
 .apple_pagination
   =will_paginate @servers, previous_label: '←', next_label: '→', remote: true
 

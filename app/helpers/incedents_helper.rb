@@ -62,8 +62,9 @@ module IncedentsHelper
                             ((priority and status) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
                                 (user ? incedents_by_user_and_server_path(user, server) :
                                     (type ? incedents_by_type_and_server_path(type, server) :
-                                        (priority ? incedents_by_priority_and_server_path(priority, server) :
-                                            incedents_by_server_path(server))))))))))),
+                                        (status ? incedents_by_status_and_server_path(status, server) :
+                                            (priority ? incedents_by_priority_and_server_path(priority, server) :
+                                                incedents_by_server_path(server)))))))))))),
             remote: true, class: 'btn btn-mini' + (params[:server_id] == server.id.to_s ? ' btn-success disabled' : '')
   end
 
@@ -77,15 +78,16 @@ module IncedentsHelper
     link_to priority.name, ((type and status and user and server) ? incedents_by_status_and_priority_and_type_and_user_and_server_path(status, priority, type, user, server) :
         ((status and user and server) ? incedents_by_status_and_priority_and_user_and_server_path(status, priority, user, server) :
             ((type and status and server) ? incedents_by_status_and_priority_and_type_and_server_path(status, priority, type, server) :
-                (server ? incedents_by_priority_and_server_path(priority, server) :
-                    ((status and type and user) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
-                        ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
-                            ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
-                                ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+                ((status and type and user) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
+                    ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
+                        ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
+                            ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+                                ((status and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
                                     (user ? incedents_by_priority_and_user_path(priority, user) :
                                         (type ? incedents_by_priority_and_type_path(priority, type) :
                                             (status ? incedents_by_status_and_priority_path(status, priority) :
-                                                incedents_by_priority_path(priority)))))))))))),
+                                                (server ? incedents_by_priority_and_server_path(priority, server) :
+                                                    incedents_by_priority_path(priority))))))))))))),
             remote: true, class: 'btn btn-mini' + (params[:priority_id] == priority.id.to_s ? ' btn-success disabled' : '')
   end
 
@@ -194,7 +196,7 @@ module IncedentsHelper
                                     ((status and type and server) ? incedents_by_status_and_type_and_server_path(status, type, server, :xls) :
                                         ((status and priority and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server, :xls) :
                                             ((type and priority and server) ? incedents_by_priority_and_type_and_server_path(priority, type, server, :xls) :
-                                                ((status and server) ? incedents_by_status_and_serverpath(status, server, :xls) :
+                                                ((status and server) ? incedents_by_status_and_server_path(status, server, :xls) :
                                                     ((priority and server) ? incedents_by_priority_and_server_path(priority, server, :xls) :
                                                         ((type and server) ? incedents_by_type_and_server_path(type, server, :xls) :
                                                             ((user and server) ? incedents_by_user_and_server_path(user, server, :xls) :
