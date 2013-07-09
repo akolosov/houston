@@ -2,7 +2,7 @@
   .navbar-inner
     .container-fluid
       %p.footer
-        = Houston::Application.config.app_name+' v'+Houston::Application.config.version+'.'
+        = link_to Houston::Application.config.app_name+' v'+Houston::Application.config.version+'.', 'https://github.com/akolosov/houston', target: :blank
         Copyright &copy;
         %a{href: 'mailto:alexey.kolosov@gmail.com'} Alexey Kolosov.
-        All rights reserved. (SESSION_ID: #{request.session_options[:id]})
+        All rights reserved.

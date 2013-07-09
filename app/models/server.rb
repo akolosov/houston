@@ -12,13 +12,13 @@ class Server < ActiveRecord::Base
 
   validates :name, :description, presence: true
 
-  has_many :server_problems, dependent: :destroy
+  has_many :server_problems, dependent: :delete_all
   has_many :problems, through: :server_problems, dependent: :delete_all
 
-  has_many :server_categories, dependent: :destroy
+  has_many :server_categories, dependent: :delete_all
   has_many :categories, through: :server_categories, dependent: :delete_all
 
-  has_many :server_attaches, dependent: :destroy
+  has_many :server_attaches, dependent: :delete_all
   has_many :attaches, through: :server_attaches, dependent: :delete_all
 
   has_many :incedents

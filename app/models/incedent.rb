@@ -13,14 +13,14 @@ class Incedent < ActiveRecord::Base
 
   validates :name, :description, presence: true
 
-  has_many :incedent_tags, dependent: :destroy
-  has_many :tags, through: :incedent_tags, dependent: :destroy
+  has_many :incedent_tags, dependent: :delete_all
+  has_many :tags, through: :incedent_tags, dependent: :delete_all
 
-  has_many :incedent_comments, dependent: :destroy
-  has_many :comments, through: :incedent_comments, dependent: :destroy
+  has_many :incedent_comments, dependent: :delete_all
+  has_many :comments, through: :incedent_comments, dependent: :delete_all
 
-  has_many :incedent_attaches, dependent: :destroy
-  has_many :attaches, through: :incedent_attaches, dependent: :destroy
+  has_many :incedent_attaches, dependent: :delete_all
+  has_many :attaches, through: :incedent_attaches, dependent: :delete_all
 
   has_many :incedent_actions
   

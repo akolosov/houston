@@ -10,17 +10,21 @@ class Problem < ActiveRecord::Base
 
   validates :name, :description, presence: true
 
-  has_many :server_problems, dependent: :destroy
-  has_many :servers, through: :server_problems, dependent: :destroy
+  has_many :server_problems, dependent: :delete_all
+  has_many :servers, through: :server_problems, dependent: :delete_all
 
-  has_many :problem_solutions, dependent: :destroy
-  has_many :solutions, through: :problem_solutions, dependent: :destroy
+  has_many :problem_solutions, dependent: :delete_all
+  has_many :solutions, through: :problem_solutions, dependent: :delete_all
 
-  has_many :problem_tags, dependent: :destroy
-  has_many :tags, through: :problem_tags, dependent: :destroy
+  has_many :problem_tags, dependent: :delete_all
+  has_many :tags, through: :problem_tags, dependent: :delete_all
 
   def self.problems_by_tag(tag)
     where("id in (select problem_id from problem_tags where tag_id = #{tag.id})")
+  end
+
+  def self.problems_by_solution(solution)
+    where("id in (select problem_id from problem_solutions where solution_id = #{solution.id})")
   end
 
   def self.search(query)

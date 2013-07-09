@@ -6,15 +6,15 @@ class Document < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :document_comments, dependent: :destroy
-  has_many :comments, through: :document_comments, dependent: :destroy
+  has_many :document_comments, dependent: :delete_all
+  has_many :comments, through: :document_comments, dependent: :delete_all
 
   attr_accessible :body, :title, :user, :user_id, :attaches_attributes
 
   validates :title, :body, presence: true
 
-  has_many :document_attaches, dependent: :destroy
-  has_many :attaches, through: :document_attaches, dependent: :destroy
+  has_many :document_attaches, dependent: :delete_all
+  has_many :attaches, through: :document_attaches, dependent: :delete_all
 
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
