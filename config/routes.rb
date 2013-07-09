@@ -61,6 +61,7 @@ Houston::Application.routes.draw do
   match 'problem/:problem_id/add_solution' => 'problem_solutions#new', as: :solution_for_problem
   match 'problem/:problem_id/edit_solution/:id' => 'problem_solutions#edit', as: :edit_solution_for_problem
   match 'problems/by_tag/:tag_id' => 'problems#index', as: :problems_by_tag
+  match 'problems/by_solution/:solution_id' => 'problems#index', as: :problems_by_solution
 
 # incedents filter
   match 'incedents/by_status/:status_id/and_priority/:priority_id/and_type/:type_id/and_user/:user_id/and_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_status_and_priority_and_type_and_user_and_server

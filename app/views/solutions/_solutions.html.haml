@@ -5,6 +5,7 @@
     .form-header
       - if @current_user.has_role? :admin
         .btn-group.pull-right.top10.right10
+          = link_to glyph(:fire)+' Проблемы ('+solution.problems.count.to_s+')', problems_by_solution_path(solution), class: 'btn btn-mini' if can? :read, solution
           = link_to glyph(:pencil)+' Изменить', edit_solution_path(solution), class: 'btn btn-mini' if can? :manage, solution
           = link_to glyph(:trash)+' Удалить', solution, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :manage, solution
       %h3= solution.name

@@ -6,10 +6,10 @@ class Tag < ActiveRecord::Base
 
   resourcify
 
-  has_many :problem_tags
+  has_many :problem_tags, dependent: :delete_all
   has_many :problems, through: :problem_tags, dependent: :delete_all
 
-  has_many :incedent_tags
+  has_many :incedent_tags, dependent: :delete_all
   has_many :incedents, through: :incedent_tags, dependent: :delete_all
 
   attr_accessible :name
