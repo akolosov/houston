@@ -28,6 +28,7 @@ class Ability
       can :add, Document
       can :add, Incedent
       can :create, Incedent
+      can :watch, Incedent
       can :play, Incedent
       can :read, Incedent
       can :create, Attach
@@ -46,8 +47,11 @@ class Ability
       can :solve, Incedent, initiator_id: user.id
       can :archive, Incedent, initiator_id: user.id
       can :archive, Incedent, worker_id: user.id
+      can :archive, Incedent, observer_id: user.id
       can :comment, Incedent, initiator_id: user.id
       can :comment, Incedent, worker_id: user.id
+      can :comment, Incedent, observer_id: user.id
+      can :observe, Incedent, observer_id: user.id
     elsif user.has_role? :user
       can :update, User, id: user.id
       can :read, Document
@@ -67,6 +71,7 @@ class Ability
       can :create, DocumentAttach
       can :read, Incedent, initiator_id: user.id
       can :read, Incedent, worker_id: user.id
+      can :read, Incedent, observer_id: user.id
       can :update, Incedent, initiator_id: user.id
       can :play, Incedent, initiator_id: user.id
       can :play, Incedent, worker_id: user.id
@@ -80,8 +85,10 @@ class Ability
       can :solve, Incedent, initiator_id: user.id
       can :archive, Incedent, initiator_id: user.id
       can :archive, Incedent, worker_id: user.id
+      can :archive, Incedent, observer_id: user.id
       can :comment, Incedent, initiator_id: user.id
       can :comment, Incedent, worker_id: user.id
+      can :comment, Incedent, observer_id: user.id
     end
   end
 end

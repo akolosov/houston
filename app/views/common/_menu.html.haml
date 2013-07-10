@@ -21,6 +21,7 @@
       .accordion-body.collapse.in#colapse2
         .accordion-inner
           %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
           %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
           %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: (params[:controller] == 'documents' ? 'bold' : '')
   %br
