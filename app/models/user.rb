@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
 
   before_destroy { |record| Incedent.update_all "worker_id = 1", "worker_id = #{record.id}" }
 
+  has_many :observed_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'observer_id'
+
+  before_destroy { |record| Incedent.update_all "observer_id = 1", "observer_id = #{record.id}" }
+
   has_many :incedent_actions, dependent: :destroy, foreign_key: 'worker_id'
 
   before_destroy { |record| IncedentAction.update_all "worker_id = 1", "worker_id = #{record.id}" }

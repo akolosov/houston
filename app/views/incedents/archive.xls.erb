@@ -35,6 +35,7 @@
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Дата последнего изменения</B></ss:Data></Cell>
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Автор</B></ss:Data></Cell>
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Исполнитель</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Наблюдатель</B></ss:Data></Cell>
       </Row>
     <% @incedents.each do |incedent| %>
       <Row>
@@ -47,6 +48,7 @@
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.updated_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.initiator.realname %></Data></Cell>
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.worker ? incedent.worker.realname : '') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.observer ? incedent.observer.realname : '') %></Data></Cell>
       </Row>
     <% end %>
     </Table>

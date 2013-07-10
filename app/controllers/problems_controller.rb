@@ -16,7 +16,6 @@ class ProblemsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @problems }
     end
   end
 
@@ -27,7 +26,6 @@ class ProblemsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @problem }
     end
   end
 
@@ -44,10 +42,8 @@ class ProblemsController < ApplicationController
     respond_to do |format|
       if @problem.save
         format.html { redirect_to :problems, notice: 'Проблема успешно создана.' }
-        format.json { render json: @problem, status: :created, location: @problem }
       else
         format.html { render action: 'new' }
-        format.json { render json: @problem.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,10 +56,8 @@ class ProblemsController < ApplicationController
     respond_to do |format|
       if @problem.update_attributes(params[:problem])
         format.html { redirect_to :problems, notice: 'Проблема успешно обновлена.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @problem.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -76,7 +70,6 @@ class ProblemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :problems, notice: 'Проблема успешно удалена.' }
-      format.json { head :no_content }
     end
   end
 end

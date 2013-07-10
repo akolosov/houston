@@ -14,7 +14,6 @@ class ServersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @servers }
     end
   end
 
@@ -26,7 +25,6 @@ class ServersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @server }
     end
   end
   # GET /servers/new
@@ -36,7 +34,6 @@ class ServersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @server }
     end
   end
 
@@ -53,10 +50,8 @@ class ServersController < ApplicationController
     respond_to do |format|
       if @server.save
         format.html { redirect_to :servers, notice: 'Оборудование успешно создано.' }
-        format.json { render json: @server, status: :created, location: @server }
       else
         format.html { render action: 'new' }
-        format.json { render json: @server.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -79,10 +74,8 @@ class ServersController < ApplicationController
         end
 
         format.html { redirect_to :servers, notice: 'Оборудование успешно создано.' }
-        format.json { render json: @server, status: :created, location: @server }
       else
         format.html { render action: 'new' }
-        format.json { render json: @server.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -104,10 +97,8 @@ class ServersController < ApplicationController
     respond_to do |format|
       if @server.update_attributes(params[:server])
         format.html { redirect_to :servers, notice: 'Оборудование успешно обновлено.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @server.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -120,7 +111,6 @@ class ServersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :servers, notice: 'Оборудование успешно удалено.' }
-      format.json { head :no_content }
     end
   end
 

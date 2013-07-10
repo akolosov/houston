@@ -10,6 +10,8 @@ Houston::Application.routes.draw do
 
   get 'incedents/archive', as: :archive
 
+  get 'incedents/observe', as: :observe
+
   resources :search
 
   resources :audit, only: :index
@@ -150,9 +152,11 @@ Houston::Application.routes.draw do
   match 'incedents/archive/by_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_server
 
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
+  match 'incedents/observe' => 'incedents#observe', as: :incedents_observe
 
   match 'incedent/add' => 'incedents#add', as: :add_incedent
 
+  match 'incedent/:id/watch' => 'incedents#watch', as: :watch_incedent
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
   match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent
   match 'incedent/:id/work' => 'incedents#work', as: :work_incedent
