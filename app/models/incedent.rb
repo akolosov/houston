@@ -6,6 +6,7 @@ class Incedent < ActiveRecord::Base
 
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
   belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
+  belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -26,8 +27,8 @@ class Incedent < ActiveRecord::Base
   
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
-  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :observer, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
+  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id
    
   def reject_reason    
   end
@@ -43,6 +44,10 @@ class Incedent < ActiveRecord::Base
 
   def has_worker?
     !self.worker.nil?
+  end
+
+  def has_observer?
+    !self.observer.nil?
   end
 
   def is_played?
@@ -123,8 +128,20 @@ class Incedent < ActiveRecord::Base
     where('worker_id is not null')
   end
 
+  def self.incedents_by_null_observer
+    where('observer_id is null')
+  end
+
+  def self.incedents_by_not_null_observer
+    where('observer_id is not null')
+  end
+
   def self.incedents_by_user_as_worker(user)
     where("worker_id = #{user.id}")
+  end
+
+  def self.incedents_by_user_as_observer(user)
+    where("observer_id = #{user.id}")
   end
 
   def self.incedents_by_user_as_initiator_or_worker(user)
@@ -148,7 +165,7 @@ class Incedent < ActiveRecord::Base
   end
 
   def self.incedents_by_user(user)
-    where("initiator_id = #{user.id} or worker_id = #{user.id}")
+    where("initiator_id = #{user.id} or worker_id = #{user.id} or observer_id = #{user.id}")
   end
 
   def self.solved_incedents(archive)

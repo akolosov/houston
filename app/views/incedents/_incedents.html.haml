@@ -1,8 +1,8 @@
 %h3
-  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+' жалоб'
-  - if params[:action] != 'archive'
+  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'
+  - if params[:action] != 'archive' && params[:action] != 'observe'
     = render 'filter'
-  - else
+  - elsif params[:action] != 'observe'
     = render 'archive_filter'
 
 .apple_pagination
@@ -13,9 +13,10 @@
     .form-header
       .btn-group.pull-right.top10.right10
         = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
-        = link_to glyph(:eye_open)+' Посмотреть', incedent, class: 'btn btn-mini' if can? :read, incedent
         = link_to glyph(:pencil)+' Изменить', edit_incedent_path(incedent), class: 'btn btn-mini' if can? :update, incedent and ((!incedent.is_closed? and !incedent.is_solved?) or (current_user.has_role? :admin))
         -if !incedent.is_solved?
+          - if (!incedent.has_observer? and !(incedent.worker == current_user or incedent.initiator == current_user))
+            = link_to glyph(:eye_open)+' Наблюдать', watch_incedent_path(incedent), class: 'btn btn-mini' if can? :watch, incedent
           - if !incedent.is_closed? and can? :work, incedent
             %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-work-#{incedent.id}"}
               = glyph(:share)+' Передать'
@@ -71,6 +72,10 @@
               %br
               = content_tag :strong, 'Исполнитель: '
               = incedent.worker.realname+' ('+incedent.worker.email+')'
+            - if incedent.has_observer?
+              %br
+              = content_tag :strong, 'Наблюдатель: '
+              = incedent.observer.realname+' ('+incedent.observer.email+')'
     .form-actions
       = ('Статус: '+content_tag(:strong, incedent.status.name)+', Приоритет: '+content_tag(:strong, incedent.priority.name)+', Тип: '+content_tag(:strong, incedent.type.name)).html_safe
       - if incedent.tags
