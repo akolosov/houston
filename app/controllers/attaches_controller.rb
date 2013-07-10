@@ -12,7 +12,6 @@ class AttachesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @attaches }
     end
   end
 

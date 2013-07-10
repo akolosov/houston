@@ -22,15 +22,11 @@ class UserSessionsController < ApplicationController
 
   def success_login(user, format, message)
     format.html { redirect_back_or_to(root_path, notice: message) }
-    format.json { render json: user, status: :created, location: user }
-    format.xml  { render xml: user, status: :created, location: user }
   end
 
   def unable_to_login(user, format, message)
     logout
     format.html { redirect_to(login_path, alert: message) }
-    format.json { render json: user.errors, status: :unprocessable_entity }
-    format.xml  { render xml: user.errors, status: :unprocessable_entity }
   end
 
   def destroy

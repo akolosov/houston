@@ -12,7 +12,6 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @documents }
     end
   end
 
@@ -28,7 +27,6 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @document }
     end
   end
 
@@ -40,7 +38,6 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @document }
     end
   end
 
@@ -90,10 +87,8 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       if @document.save
         format.html { redirect_to @document, notice: 'Рецепт успешно создан.' }
-        format.json { render json: @document, status: :created, location: @document }
       else
         format.html { render action: 'new' }
-        format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -115,10 +110,8 @@ class DocumentsController < ApplicationController
         end
 
         format.html { redirect_to @document, notice: 'Рецепт успешно создан.' }
-        format.json { render json: @document, status: :created, location: @document }
       else
         format.html { render action: 'new' }
-        format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -140,10 +133,8 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       if @document.update_attributes(params[:document])
         format.html { redirect_to @document, notice: 'Рецепт успешно обновлен.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -156,7 +147,6 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :documents, notice: 'Рецепт успешно удален.' }
-      format.json { head :no_content }
     end
   end
 
@@ -170,10 +160,8 @@ class DocumentsController < ApplicationController
       if @solution.save
         @document.destroy
         format.html { redirect_to solutions_path, notice: 'Рецепт успешно перенесен в решения.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'move' }
-        format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
   end
