@@ -19,7 +19,7 @@
         = markdown(comment.body)
       - if (@current_user.has_role? :admin)
         .form-actions
-          .pull-right
+          .pull-right.top-5
             = link_to glyph(:trash)+' Удалить', delete_incedent_comment_path(@incedent, comment), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @incedent
       - if !comment.attaches.empty?
         .form-footer
