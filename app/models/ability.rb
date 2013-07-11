@@ -29,6 +29,7 @@ class Ability
       can :add, Incedent
       can :create, Incedent
       can :watch, Incedent
+      can :unwatch, Incedent, observer_id: user.id
       can :play, Incedent
       can :read, Incedent
       can :create, Attach

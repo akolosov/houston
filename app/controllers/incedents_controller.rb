@@ -227,6 +227,25 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # GET /incedent/1/unwatch
+  # GET /incedent/1/unwatch.json
+  def unwatch
+    @incedent = Incedent.find(params[:id])
+
+    if @incedent.has_observer?
+
+      @incedent.observer = nil
+
+      respond_to do |format|
+        if @incedent.save
+          format.html { redirect_to :incedents, notice: 'Наблюдатель успешно удален.' }
+        else
+          format.html { render action: 'observe' }
+        end
+      end
+    end
+  end
+
   # GET /incedent/1/play
   # GET /incedent/1/play.json
   def play
