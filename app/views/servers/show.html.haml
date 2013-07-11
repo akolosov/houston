@@ -28,7 +28,7 @@
             %td= @server.username
   - if !@server.categories.empty?
     .form-actions
-      .pull-right
+      .pull-right.top-5
         - @server.categories.each do |category|
           = link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'btn btn-mini'
 

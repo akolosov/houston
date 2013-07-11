@@ -79,15 +79,16 @@ module IncedentsHelper
         ((status and user and server) ? incedents_by_status_and_priority_and_user_and_server_path(status, priority, user, server) :
             ((type and status and server) ? incedents_by_status_and_priority_and_type_and_server_path(status, priority, type, server) :
                 ((status and type and user) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
-                    ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
-                        ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
-                            ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
-                                ((status and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
-                                    (user ? incedents_by_priority_and_user_path(priority, user) :
-                                        (type ? incedents_by_priority_and_type_path(priority, type) :
-                                            (status ? incedents_by_status_and_priority_path(status, priority) :
-                                                (server ? incedents_by_priority_and_server_path(priority, server) :
-                                                    incedents_by_priority_path(priority))))))))))))),
+                    ((server and type and user) ? incedents_by_priority_and_type_and_user_and_server_path(priority, type, user, server) :
+                        ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
+                            ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
+                                ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+                                    ((status and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
+                                        (user ? incedents_by_priority_and_user_path(priority, user) :
+                                            (type ? incedents_by_priority_and_type_path(priority, type) :
+                                                (status ? incedents_by_status_and_priority_path(status, priority) :
+                                                    (server ? incedents_by_priority_and_server_path(priority, server) :
+                                                        incedents_by_priority_path(priority)))))))))))))),
             remote: true, class: 'btn btn-mini' + (params[:priority_id] == priority.id.to_s ? ' btn-success disabled' : '')
   end
 
@@ -105,11 +106,12 @@ module IncedentsHelper
                         ((priority and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
                             ((status and user) ? incedents_by_status_and_type_and_user_path(status, type, user) :
                                 ((status and priority) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
-                                    (user ? incedents_by_type_and_user_path(type, user) :
-                                        (priority ? incedents_by_priority_and_type_path(priority, type) :
-                                            (status ? incedents_by_status_and_type_path(status, type) :
-                                                (server ? incedents_by_type_and_server_path(type, server) :
-                                                    incedents_by_type_path(type))))))))))))),
+                                    ((user and server) ? incedents_by_type_and_user_and_server_path(type, user, server) :
+                                        (user ? incedents_by_type_and_user_path(type, user) :
+                                            (priority ? incedents_by_priority_and_type_path(priority, type) :
+                                                (status ? incedents_by_status_and_type_path(status, type) :
+                                                    (server ? incedents_by_type_and_server_path(type, server) :
+                                                        incedents_by_type_path(type)))))))))))))),
             remote: true, class: 'btn btn-mini'+(params[:type_id] == type.id.to_s ? ' btn-success disabled' : '')
   end
 
