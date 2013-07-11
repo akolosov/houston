@@ -84,11 +84,11 @@
     .form-actions
       = ('Статус: '+content_tag(:strong, incedent.status.name)+', Приоритет: '+content_tag(:strong, incedent.priority.name)+', Тип: '+content_tag(:strong, incedent.type.name)).html_safe
       - if incedent.tags
-        .pull-right
+        .pull-right.top-5
           - incedent.tags.each do |tag|
             = link_to glyph(:tag)+' '+tag.name, ((params[:action] == 'archive') ? incedents_archive_by_tag_path(tag) : incedents_by_tag_path(tag)), class: 'btn btn-mini'
       - if incedent.server
-        .pull-right
+        .pull-right.top-5
           = link_to glyph(:hdd)+' '+incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(incedent.server) : incedents_by_server_path(incedent.server)), class: 'btn btn-mini'
     - if !incedent.attaches.empty?
       .form-footer
