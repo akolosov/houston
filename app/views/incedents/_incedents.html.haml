@@ -17,6 +17,8 @@
         -if !incedent.is_solved?
           - if (!incedent.has_observer? and !(incedent.worker == current_user or incedent.initiator == current_user))
             = link_to glyph(:eye_open)+' Наблюдать', watch_incedent_path(incedent), class: 'btn btn-mini' if can? :watch, incedent
+          - elsif (incedent.has_observer? and (incedent.observer == current_user))
+            = link_to glyph(:eye_close)+' Игнорировать', unwatch_incedent_path(incedent), class: 'btn btn-mini' if can? :unwatch, incedent
           - if !incedent.is_closed? and can? :work, incedent
             %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-work-#{incedent.id}"}
               = glyph(:share)+' Передать'
@@ -53,7 +55,10 @@
         = link_to glyph(:trash)+' Удалить', incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, incedent
       .pull-left
         = image_tag gravatar_url(incedent.initiator), class: 'img-polaroid user-avatar'
-      %h3= incedent.name
+      %h3
+        = incedent.name
+        - if params[:action] != 'archive' and incedent.has_observer? and incedent.observer == @current_user
+          = link_to glyph(:eye_open), incedent, class: 'btn btn-mini top-5'
     .form-inputs
       = markdown(incedent.description)
     .container-fluid

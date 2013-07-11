@@ -156,6 +156,7 @@ Houston::Application.routes.draw do
 
   match 'incedent/add' => 'incedents#add', as: :add_incedent
 
+  match 'incedent/:id/unwatch' => 'incedents#unwatch', as: :unwatch_incedent
   match 'incedent/:id/watch' => 'incedents#watch', as: :watch_incedent
   match 'incedent/:id/play' => 'incedents#play', as: :play_incedent
   match 'incedent/:id/replay' => 'incedents#replay', as: :replay_incedent

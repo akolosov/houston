@@ -33,8 +33,16 @@ p.footer, p.footer a {
   	margin-top: -30px !important;
 }
 
+.top-20 {
+    margin-top: -20px !important;
+}
+
 .top-10 {
     margin-top: -10px !important;
+}
+
+.top-5 {
+    margin-top: -5px !important;
 }
 
 .top10 {
@@ -202,7 +210,7 @@ p.footer, p.footer a {
     background-color: #c5c5c5 !important;
 }
 
-.nav-item a:hover i {
+a:hover i {
     background-image: url("twitter/bootstrap/glyphicons-halflings-white.png");
 }
 
