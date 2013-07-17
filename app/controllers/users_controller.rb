@@ -51,7 +51,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to :users, notice: 'Пользователь успешно обновлен.' }
+        format.html { redirect_to ((@current_user.has_role? :admin) ? :users : :root), notice: 'Пользователь успешно обновлен.' }
       else
         format.html { render action: 'edit' }
       end
