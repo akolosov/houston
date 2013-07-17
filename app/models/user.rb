@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   rolify
 
-  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber
+  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids
 
   alias_attribute :name, :username
 
