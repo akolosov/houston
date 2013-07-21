@@ -15,7 +15,7 @@ $("#form").keypress (e) ->
 $("#form").keyup (e) ->
   history.back()  if confirm("Вы точно уверены?")  if e.keyCode is 27
 
-bind_ajax = ->
+$ ->
   $(".pagination a").each ->
     $(this).attr "data-remote", true
 
@@ -24,8 +24,6 @@ bind_ajax = ->
     $.get @href, null, null, "script"
     false
 
-$ ->
-  bind_ajax()
   $("#filter a").bind "click", ->
     $.get @href, null, null, "script"
     false
