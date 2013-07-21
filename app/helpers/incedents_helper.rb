@@ -80,15 +80,16 @@ module IncedentsHelper
             ((type and status and server) ? incedents_by_status_and_priority_and_type_and_server_path(status, priority, type, server) :
                 ((status and type and user) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
                     ((server and type and user) ? incedents_by_priority_and_type_and_user_and_server_path(priority, type, user, server) :
-                        ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
-                            ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
-                                ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
-                                    ((status and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
-                                        (user ? incedents_by_priority_and_user_path(priority, user) :
-                                            (type ? incedents_by_priority_and_type_path(priority, type) :
-                                                (status ? incedents_by_status_and_priority_path(status, priority) :
-                                                    (server ? incedents_by_priority_and_server_path(priority, server) :
-                                                        incedents_by_priority_path(priority)))))))))))))),
+                        ((server and type) ? incedents_by_priority_and_type_and_server_path(priority, type, server) :
+                            ((type and user) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
+                                ((status and user) ? incedents_by_status_and_priority_and_user_path(status, priority, user) :
+                                    ((status and type) ? incedents_by_status_and_priority_and_type_path(status, priority, type) :
+                                        ((status and server) ? incedents_by_status_and_priority_and_server_path(status, priority, server) :
+                                            (user ? incedents_by_priority_and_user_path(priority, user) :
+                                                (type ? incedents_by_priority_and_type_path(priority, type) :
+                                                    (status ? incedents_by_status_and_priority_path(status, priority) :
+                                                        (server ? incedents_by_priority_and_server_path(priority, server) :
+                                                            incedents_by_priority_path(priority))))))))))))))),
             remote: true, class: 'btn btn-mini' + (params[:priority_id] == priority.id.to_s ? ' btn-success disabled' : '')
   end
 

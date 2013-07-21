@@ -1,14 +1,3 @@
-// This is a manifest file that'll be compiled into including all the files listed below.
-// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
-// be included in the compiled file accessible from http://example.com/assets/application.js
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
-//
-//= require mousetrap
-//= require markitup
-//= require twitter/bootstrap
-//= require_tree .
-
 markdownSettings = {
     nameSpace: 'markdown', // Useful to prevent multi-instances CSS conflict
     onShiftEnter: {keepDefault: false, openWith: '\n\n'},
@@ -50,29 +39,4 @@ miu = {
         }
         return '\n' + heading + '\n';
     }
-};
-
-$('#form').keypress(function(e){
-    if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
-        this.submit();
-    }
-});
-
-$('#form').keyup(function(e) {
-    if (e.keyCode == 27) {
-        if (confirm('Вы точно уверены?'))
-            history.back();
-    }
-});
-
-function bind_ajax() {
-  $(".pagination a").each(function () {
-    $(this).attr("data-remote", true);
-  });
-
-  $('.pagination a').bind("click", function () {
-    $('.pagination').html('Загрузка страницы...');
-    $.get(this.href, null, null, 'script');
-    return false;
-  });
 };
