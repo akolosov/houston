@@ -25,3 +25,13 @@
               = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
   .apple_pagination
     =will_paginate @attaches, previous_label: '←', next_label: '→', remote: true
+
+:coffeescript
+  $ ->
+    $(".pagination a").each ->
+      $(this).attr "data-remote", true
+
+    $(".pagination a").bind "click", ->
+      $(".pagination").html "Загрузка страницы..."
+      $.get @href, null, null, "script"
+      false

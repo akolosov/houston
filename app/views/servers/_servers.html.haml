@@ -48,3 +48,13 @@
   %br
 .apple_pagination
   =will_paginate @servers, previous_label: '←', next_label: '→', remote: true
+
+:coffeescript
+  $ ->
+    $(".pagination a").each ->
+      $(this).attr "data-remote", true
+
+    $(".pagination a").bind "click", ->
+      $(".pagination").html "Загрузка страницы..."
+      $.get @href, null, null, "script"
+      false
