@@ -1,2 +1,2 @@
 jQuery ->
-  $('#solution_markdown').markItUp(markdownSettings)
+  $('#solution_markdown').markItUp(window.markdownSettings)

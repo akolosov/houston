@@ -1,5 +1,5 @@
 jQuery ->
-  $('#document_markdown').markItUp(markdownSettings)
+  $('#document_markdown').markItUp(window.markdownSettings)
 
 jQuery ->
-  $('#document_comment_markdown').markItUp(markdownSettings)
+  $('#document_comment_markdown').markItUp(window.markdownSettings)
