@@ -42,6 +42,8 @@ gem 'unicorn'
 
 gem 'rack', '1.4.5'
 
+gem 'whenever', :require => false
+
 group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'

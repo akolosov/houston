@@ -57,4 +57,12 @@ class User < ActiveRecord::Base
   def self.users_by_role_id(role_id)
     where("id in (select user_id from users_roles where role_id = ?) and active = ?", role_id, true)
   end
+
+  def self.active
+    where("active = ?", true)
+  end
+
+  def self.inactive
+    where("active = ?", false)
+  end
 end
