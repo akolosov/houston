@@ -84,6 +84,31 @@
             = link_to glyph(:pencil)+' Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :manage, document
             = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
 
+- if @current_user.has_role? :admin and @attaches and !@attaches.empty?
+  %h1 Файлы
+  %table.table.table-striped.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Имя
+        %th Описание
+        %th.span2 Тип
+        %th.span2 Размер
+        %th.span3 Дата и время
+        %th.span2
+
+    %tbody
+      - @attaches.each do |attach|
+        %tr
+          %td= attach.name
+          %td= attach.description
+          %td= attach.mime
+          %td= attach.size
+          %td= attach.created_at.strftime('%d.%m.%Y %H:%M:%S')
+          %td
+            .btn-group
+              = link_to_attach_source(attach)
+              = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
+
 - if @current_user.has_role? :admin and @audits and !@audits.empty?
   %hr
   %h3 Журнал аудита

@@ -42,7 +42,5 @@
     = render partial: 'common/footer'
     / Another javascripts
     = javascript_include_tag :application
-  :javascript
-    $('body').tooltip({
-      selector: "*[data-toggle=tooltip]"
-    });
+  :coffeescript
+    $("body").tooltip selector: "*[data-toggle=tooltip]"

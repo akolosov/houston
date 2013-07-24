@@ -29,18 +29,8 @@ class Incedent < ActiveRecord::Base
 
   attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :observer, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
   attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id
-   
-  def reject_reason    
-  end
 
-  def work_reason
-  end
-
-  def replay_reason    
-  end
-
-  def close_reason    
-  end
+  attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
 
   def has_worker?
     !self.worker.nil?

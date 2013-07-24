@@ -15,4 +15,7 @@ class Attach < ActiveRecord::Base
   
   accepts_nested_attributes_for :incedents, :documents, :comments, :servers
 
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
+  end
 end
