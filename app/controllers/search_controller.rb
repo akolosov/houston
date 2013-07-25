@@ -12,6 +12,7 @@ class SearchController < ApplicationController
       end
 
       if current_user.has_role? :admin
+          @attaches = Attach.search(params[:query]) if Attach.methods.include? :search
           @audits = Audit.search(params[:query]).order('created_at DESC') if Audit.methods.include? :search
       end
 
