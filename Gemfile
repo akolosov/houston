@@ -42,6 +42,8 @@ gem 'unicorn'
 
 gem 'rack', '1.4.5'
 
+gem 'newrelic_rpm'
+
 gem 'whenever', :require => false
 
 group :assets do
