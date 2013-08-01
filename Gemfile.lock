@@ -40,6 +40,7 @@ GEM
     builder (3.0.4)
     callsite (0.0.11)
     cancan (1.6.10)
+    cancan-sugar (0.1.1)
     chronic (0.9.1)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -101,7 +102,6 @@ GEM
     mousetrap-rails (0.0.11)
     multi_json (1.7.7)
     multipart-post (1.2.0)
-    newrelic_rpm (3.6.6.147)
     oauth (0.4.7)
     oauth2 (0.8.1)
       faraday (~> 0.8)
@@ -137,7 +137,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.11.0)
     rake (10.1.0)
-    rb-readline (0.5.0)
+    rb-readline (0.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
@@ -197,6 +197,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   cancan
+  cancan-sugar
   coffee-rails
   erb2haml
   haml-rails
@@ -205,11 +206,10 @@ DEPENDENCIES
   markitup-rails (= 0.2.2)
   meta_request
   mousetrap-rails
-  newrelic_rpm
   pg
   rack (= 1.4.5)
   rails (= 3.2.14)
-  rb-readline
+  rb-readline (~> 0.4.2)
   redcarpet
   rolify
   simple_form
