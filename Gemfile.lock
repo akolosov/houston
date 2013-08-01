@@ -40,7 +40,7 @@ GEM
     builder (3.0.4)
     callsite (0.0.11)
     cancan (1.6.10)
-    cancan-sugar (0.1.1)
+    cancan-sugar (0.1.2)
     chronic (0.9.1)
     coderay (1.0.9)
     coffee-rails (3.2.2)
