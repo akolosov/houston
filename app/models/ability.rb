@@ -4,9 +4,11 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    if user.has_role? :admin
+    permissions_for user, as: :admin do
       can :manage, :all
-    elsif user.has_role? :manager
+    end
+
+    permissions_for user, as: :manager do
       can :update, User, id: user.id
       can :read, Server
       can :read, ServerProblem
@@ -53,7 +55,9 @@ class Ability
       can :comment, Incedent, worker_id: user.id
       can :comment, Incedent, observer_id: user.id
       can :observe, Incedent, observer_id: user.id
-    elsif user.has_role? :user
+    end
+
+    permissions_for user, as: :user do
       can :update, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id

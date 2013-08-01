@@ -12,6 +12,8 @@ gem 'sorcery', '~> 0.8.1'
 
 gem 'cancan'
 
+gem 'cancan-sugar'
+
 gem 'rolify'
 
 gem 'auditor'
@@ -20,7 +22,7 @@ gem 'jquery-rails'
 
 gem 'twitter-bootstrap-rails'
 
-gem 'rb-readline'
+gem 'rb-readline', '~> 0.4.2'
 
 gem 'simple_form'
 
@@ -41,8 +43,6 @@ gem 'xmpp4r'
 gem 'unicorn'
 
 gem 'rack', '1.4.5'
-
-gem 'newrelic_rpm'
 
 gem 'whenever', :require => false
 
