@@ -8,7 +8,7 @@
 - @servers.each do |server|
   .form
     .form-header
-      .btn-group.pull-right.top10.right10
+      .btn-group.pull-right.right5
         = link_to glyph(:pencil)+' Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :update, server
         = link_to glyph(:inbox)+' Жалобы в работе ('+server.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_server_path(server), class: 'btn btn-mini' if can? :read, server
         = link_to glyph(:briefcase)+' Жалобы в архиве ('+server.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_server_path(server), class: 'btn btn-mini' if can? :read, server

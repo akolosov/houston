@@ -6,21 +6,20 @@
     .form
       %a{ name: comment.id }
       .form-header
-        .pull-right.top5.right10
-          = content_tag :strong, 'Автор: '
-          = comment.author.realname
-          %br
-          = content_tag :strong, 'Дата публикации: '
-          = comment.created_at.strftime('%d.%m.%Y в %H:%M')
+        .pull-right.right5
+          = link_to glyph(:trash)+' Удалить', delete_incedent_comment_path(@incedent, comment), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @incedent
         .pull-left
           = image_tag gravatar_url(comment.author), class: 'img-polaroid user-avatar'
-        %h3= comment.title
+        %h3= comment.title[0..75]+(comment.title.length >= 75 ? '...' : '')
       .form-inputs
         = markdown(comment.body)
       - if (@current_user.has_role? :admin)
         .form-actions
-          .pull-right.top-5
-            = link_to glyph(:trash)+' Удалить', delete_incedent_comment_path(@incedent, comment), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @incedent
+          = content_tag :strong, 'Автор: '
+          = comment.author.realname
+          .pull-right.right5
+            = content_tag :strong, 'Дата публикации: '
+            = comment.created_at.strftime('%d.%m.%Y в %H:%M')
       - if !comment.attaches.empty?
         .form-footer
           - comment.attaches.each do |attach|
