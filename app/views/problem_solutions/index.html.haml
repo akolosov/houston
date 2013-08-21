@@ -3,7 +3,7 @@
   .form
     .form-header
       - if @current_user.has_role? :admin
-        .btn-group.pull-right.top10.right10
+        .btn-group.pull-right.right5
           = link_to glyph(:pencil)+' Изменить решение проблемы', edit_solution_for_problem_path(problem_solution.problem, problem_solution), class: 'btn btn-mini'
           %a.btn.btn-mini.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
             %span.caret

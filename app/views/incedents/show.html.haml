@@ -5,7 +5,7 @@
 
 .form{class: (@incedent.is_solved? ? 'solved' : (@incedent.is_rejected? ? 'rejected' : (@incedent.is_played? ? 'played' : (@incedent.is_closed? ? 'closed' : ''))))}
   .form-header
-    .btn-group.pull-right.top10.right10
+    .btn-group.pull-right.right5
       - if @incedent.incedent_actions
         %a.btn.btn-mini#filter-button{onclick: '$(\'#history\').toggle(\'fast\');', title: 'История изменений'}
           = glyph(:tasks)+' История ('+@incedent.incedent_actions.count.to_s+')'
@@ -50,7 +50,7 @@
       = link_to glyph(:trash)+' Удалить', @incedent, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @incedent
     .pull-left
       = image_tag gravatar_url(@incedent.initiator), class: 'img-polaroid user-avatar'
-    %h3= @incedent.name
+    %h3= @incedent.name[0..60]+(@incedent.name.length >= 60 ? '...' : '')
   .form-inputs
     = markdown(@incedent.description)
     %br

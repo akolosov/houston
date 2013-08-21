@@ -3,7 +3,7 @@
 - @problems.each do |problem|
   .form
     .form-header
-      .btn-group.pull-right.top10.right10
+      .btn-group.pull-right.right5
         = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
         = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem
         = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
