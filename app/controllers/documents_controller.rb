@@ -52,6 +52,8 @@ class DocumentsController < ApplicationController
     @document_comment.comment.author = @current_user
 
     respond_to do |format|
+      @document_comment.comment.title = "Комментарий от пользователя "+@current_user.realname if @document_comment.comment.title.empty?
+
       if @document_comment.save
 
         if params[:document_comment][:comment][:attaches_attributes]
