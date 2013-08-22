@@ -2,7 +2,7 @@
   - if current_user.has_role? :admin
     .sidebar#navbar0
       %ul.nav.nav-list.accordion-group
-        %li.nav-header.accordion-heading= link_to "Центр администрирования", "#colapse0",  data: { toggle: "collapse", parent: "#navbar0" }, class: "accordion-toggle collapsed"
+        %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр администрирования", "#colapse0",  data: { toggle: "collapse", parent: "#navbar0" }, class: "accordion-toggle collapsed"
         .accordion-body.collapse#colapse0
           .accordion-inner
             %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
@@ -13,7 +13,7 @@
   - if current_user.has_role? :admin or current_user.has_role? :manager
     .sidebar#navbar1
       %ul.nav.nav-list.accordion-group
-        %li.nav-header.accordion-heading= link_to "Центр решения проблем", "#colapse1",  data: { toggle: "collapse", parent: "#navbar1" }, class: "accordion-toggle"
+        %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр решения проблем", "#colapse1",  data: { toggle: "collapse", parent: "#navbar1" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse1
           .accordion-inner
             %li.nav-item= link_to glyph(:magnet)+' Категории', categories_path, data: { keybinding: 'c', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: C', class: (params[:controller] == 'categories' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
@@ -23,18 +23,18 @@
     %br
   .sidebar#navbar2
     %ul.nav.nav-list.accordion-group
-      %li.nav-header.accordion-heading= link_to "Центр поиска решений", "#colapse2",  data: { toggle: "collapse", parent: "#navbar2" }, class: "accordion-toggle"
+      %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр поиска решений", "#colapse2",  data: { toggle: "collapse", parent: "#navbar2" }, class: "accordion-toggle"
       .accordion-body.collapse.in#colapse2
         .accordion-inner
           %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
           %li.nav-item= link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
           %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
-          %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: (params[:controller] == 'documents' ? 'bold' : '')
+          %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
   %br
   - if current_user.has_role? :admin or current_user.has_role? :manager
     .sidebar#navbar3
       %ul.nav.nav-list.accordion-group
-        %li.nav-header.accordion-heading= link_to "Метки для проблем", "#colapse3",  data: { toggle: "collapse", parent: "#navbar3" }, class: "accordion-toggle"
+        %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для проблем", "#colapse3",  data: { toggle: "collapse", parent: "#navbar3" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse3
           .accordion-inner
             - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
@@ -44,7 +44,7 @@
   - if Incedent.solved_incedents(false).accessible_by(current_ability).count > 0
     .sidebar#navbar4
       %ul.nav.nav-list.accordion-group
-        %li.nav-header.accordion-heading= link_to "Метки для жалоб (В РАБОТЕ)", "#colapse4",  data: { toggle: "collapse", parent: "#navbar4" }, class: "accordion-toggle"
+        %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для жалоб (В РАБОТЕ)", "#colapse4",  data: { toggle: "collapse", parent: "#navbar4" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse4
           .accordion-inner
             - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
@@ -54,7 +54,7 @@
   - if Incedent.solved_incedents(true).accessible_by(current_ability).count > 0
     .sidebar#navbar5
       %ul.nav.nav-list.accordion-group
-        %li.nav-header.accordion-heading= link_to "Метки для жалоб (В АРХИВЕ)",  "#colapse5",  data: { toggle: "collapse", parent: "#navbar5" }, class: "accordion-toggle"
+        %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для жалоб (В АРХИВЕ)",  "#colapse5",  data: { toggle: "collapse", parent: "#navbar5" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse5
           .accordion-inner
             - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
