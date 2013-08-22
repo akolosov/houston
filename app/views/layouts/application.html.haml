@@ -14,7 +14,8 @@
     / jQuery
     = javascript_include_tag :jquery
     = javascript_include_tag :jquery_ujs
-    = javascript_include_tag 'http://code.jquery.com/jquery-migrate-1.1.1.js'
+    = javascript_include_tag 'jquery-migrate.js'
+    = javascript_include_tag 'jquery.cookie.js'
     / Icons
     = favicon_link_tag '/favicon.ico?1'
     %link{href: 'favicon.ico', rel: 'shortcut icon'}/
@@ -27,9 +28,9 @@
     .container-fluid
       .row-fluid
         - if current_user
-          .span2
+          .span2#sidemenu
             = render partial: 'common/menu'
-          .span10
+          .span10#content
             = render partial: 'common/flashes'
             = yield
         - else
@@ -44,3 +45,25 @@
     = javascript_include_tag :application
   :coffeescript
     $("body").tooltip selector: "*[data-toggle=tooltip]"
+
+    $(document).ready ->
+      topmenu = $.cookie("topmenu")
+      if topmenu?
+        $("#sidemenu").toggle()
+        window.toggle_menu()
+      else
+        $("#sidemenu").toggle()
+
+    window.toggle_menu = ->
+      $("#sidemenu").toggle()
+      $("#topmenu").toggle()
+      if $("#content").hasClass("span12")
+        $("#content").removeClass "span12"
+        $("#content").addClass "span10"
+        $("#content").css("width", "")
+        $.removeCookie('topmenu')
+      else
+        $("#content").removeClass "span10"
+        $("#content").addClass "span12"
+        $("#content").css("width", "95%")
+        $.cookie('topmenu', 'true')

@@ -5,9 +5,68 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand{href: '/', data: { toggle: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'У нас проблема!'} Хьюстон
+      =link_to glyph(:th_large)+" Хьюстон", '#', onclick: "window.toggle_menu();", class: 'brand', data: { toggle: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'У нас проблема!'
       .nav-collapse
-        %ul.nav
+        %ul.nav#topmenu
+          - if current_user.has_role? :admin
+            %li.dropdown
+              = link_to glyph(:list)+" Администрирование", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+              %ul.dropdown-menu
+                %li
+                  = link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
+                %li
+                  = link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
+                %li
+                  = link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
+                %li
+                  = link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: L', class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
+          - if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.dropdown
+              = link_to glyph(:list)+" Решение проблем", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+              %ul.dropdown-menu
+                %li
+                  = link_to glyph(:magnet)+' Категории', categories_path, data: { keybinding: 'c', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: C', class: (params[:controller] == 'categories' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+                %li
+                  = link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: D', class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+                %li
+                  = link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: P', class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+                %li
+                  = link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: S', class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
+          %li.dropdown
+            = link_to glyph(:list)+" Поиск решений", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+            %ul.dropdown-menu
+              %li
+                = link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+              %li
+                = link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+              %li
+                = link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
+              %li
+                = link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
+          %li.dropdown
+            = link_to glyph(:list)+" Метки", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+            %ul.dropdown-menu
+              - if current_user.has_role? :admin or current_user.has_role? :manager
+                %li.nav-header  Для проблем
+                - Tag.all.sort_by{ | tag | tag.problems.count }.reverse.each do |tag|
+                  - if tag.problems.count > 0
+                    %li
+                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
+                %li.divider
+              - if Incedent.solved_incedents(false).accessible_by(current_ability).count > 0
+                %li.nav-header Для жалоб (В РАБОТЕ)
+                - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
+                  - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
+                    %li
+                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
+                %li.divider
+              - if Incedent.solved_incedents(true).accessible_by(current_ability).count > 0
+                %li.nav-header Для жалоб (В АРХИВЕ)
+                - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
+                  - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
+                    %li
+                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)
+
       / /.nav-collapse
       %p.navbar-text
         - if current_user
