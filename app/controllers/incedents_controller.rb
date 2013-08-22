@@ -87,6 +87,8 @@ class IncedentsController < ApplicationController
     @incedent_comment.comment.author = @current_user
 
     respond_to do |format|
+      @incedent_comment.comment.title = "Комментарий от пользователя "+@current_user.realname if @incedent_comment.comment.title.empty?
+
       if @incedent_comment.save
 
         if params[:incedent_comment][:comment][:attaches_attributes]
