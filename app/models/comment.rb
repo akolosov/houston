@@ -1,4 +1,6 @@
 class Comment < ActiveRecord::Base
+  default_scope order('created_at')
+
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   has_many :document_comments, dependent: :delete_all
