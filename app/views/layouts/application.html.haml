@@ -23,11 +23,11 @@
     %link{href: 'images/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', sizes: '72x72'}/
     %link{href: 'images/apple-touch-icon-114x114.png', rel: 'apple-touch-icon', sizes: '114x114'}/
   %body
-    - if current_user
+    - if (current_user) and (!current_user.first_login)
       = render partial: 'common/header'
     .container-fluid
       .row-fluid
-        - if current_user
+        - if (current_user) and (!current_user.first_login)
           .span2#sidemenu
             = render partial: 'common/menu'
           .span10#content

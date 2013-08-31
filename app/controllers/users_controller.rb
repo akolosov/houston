@@ -30,8 +30,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # GET /users/first_login
+  def first_login
+  end
+
   # POST /users
-  # POST /users.xml
   def create
     @user = User.new(params[:user])
 
@@ -44,8 +47,23 @@ class UsersController < ApplicationController
     end
   end
 
+  # PUT /users/1/password
+  def update_password
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      if (!params[:password].empty?) and (params[:password] == params[:password_confirmation])
+        @user.password = params[:password]
+        @user.first_login_success!
+
+        format.html { redirect_to :root, notice: 'Пароль успешно обновлен.' }
+      else
+        format.html { redirect_to :first_login, alert: 'Возможно пароли не совпадают! Попробуйте снова!' }
+      end
+    end
+  end
+
   # PUT /users/1
-  # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
 

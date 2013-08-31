@@ -48,9 +48,11 @@ Houston::Application.routes.draw do
 
   match 'login' => 'user_sessions#new', as: :login
   match 'logout' => 'user_sessions#destroy', as: :logout
+  match 'first_login' => 'users#first_login', as: :first_login
 
   match 'users/:id/activate' => 'users#activate', as: :activate_user
   match 'users/:id/deactivate' => 'users#deactivate', as: :deactivate_user
+  match 'users/:id/password' => 'users#update_password', as: :update_password
 
   match 'server/:server_id/problems' => 'server_problems#index', as: :problems_by_server
   match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server

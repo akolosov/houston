@@ -1,0 +1,40 @@
+:css
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+  }
+
+  body {
+    background-color: #444444;
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#555555), to(#111111));
+    background-image: -webkit-linear-gradient(top, #555555 0%, #111111 100%);
+    background-image: -moz-linear-gradient(top, #555555 0%, #111111 100%);
+    background-image: -ms-linear-gradient(top, #555555 0%, #111111 100%);
+    background-image: -o-linear-gradient(top, #555555 0%, #111111 100%);
+    background-image: linear-gradient(top, #555555 0%, #111111 100%);
+  }
+  form {
+    padding: 0px !important;
+    margin: 0px !important;
+    padding-top: 20px !important;
+  }
+  .form-actions {
+    padding: 10px !important;
+  }
+
+#loginbox
+  = form_tag update_password_path(@current_user), method: :put, class: 'form-vertical' do
+    .input-prepend
+      %span.add-on
+        = glyph(:lock)
+      = password_field_tag :password, nil, placeholder: 'Новый пароль'
+    .input-prepend
+      %span.add-on
+        = glyph(:lock)
+      = password_field_tag :password_confirmation, nil, placeholder: 'Подтверждение'
+    .form-actions
+      = submit_tag 'Сохранить', class: 'btn btn-success'
+
+:javascript
+  $("#password").focus();
