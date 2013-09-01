@@ -26,6 +26,8 @@ gem 'rb-readline', '~> 0.4.2'
 
 gem 'simple_form'
 
+gem 'has_scope'
+
 gem 'haml-rails'
 
 gem 'will_paginate', '~> 3.0'

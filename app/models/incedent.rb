@@ -32,6 +32,36 @@ class Incedent < ActiveRecord::Base
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
 
+  scope :by_null_worker, where('worker_id is null')
+
+  scope :by_not_null_worker, where('worker_id is not null')
+
+  scope :by_null_observer, where('observer_id is null')
+
+  scope :by_not_null_observer, where('observer_id is not null')
+
+  scope :by_tag, lambda {|tag| where("id in (select incedent_id from incedent_tags where tag_id = ?)", tag) unless tag.nil? }
+
+  scope :by_user_as_initiator, lambda { |user| where("initiator_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_worker, lambda { |user|  where("worker_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_observer, lambda { |user| where("observer_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_initiator_or_worker, lambda { |user| where("initiator_id = ? or worker_id = ?", user, user) unless user.nil? }
+
+  scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
+
+  scope :by_status, lambda { |status| where("status_id = ?", status) unless status.nil? }
+
+  scope :by_server, lambda { |server| where("server_id = ?", server) unless server.nil? }
+
+  scope :by_priority, lambda { |priority| where("priority_id = ?", priority) unless priority.nil? }
+
+  scope :by_user, lambda { |user| where("initiator_id = ? or worker_id = ? or observer_id = ?", user, user, user) unless user.nil? }
+
+  scope :solved, lambda { |archive| where('closed = ?', archive) }
+
   def has_worker?
     !self.worker.nil?
   end
@@ -100,66 +130,6 @@ class Incedent < ActiveRecord::Base
 
   def waited!
     self.status_id = Houston::Application.config.incedent_waited
-  end
-
-  def self.incedents_by_tag(tag)
-    where("id in (select incedent_id from incedent_tags where tag_id = #{tag.id})")
-  end
-
-  def self.incedents_by_user_as_initiator(user)
-    where("initiator_id = #{user.id}")
-  end
-
-  def self.incedents_by_null_worker
-    where('worker_id is null')
-  end
-
-  def self.incedents_by_not_null_worker
-    where('worker_id is not null')
-  end
-
-  def self.incedents_by_null_observer
-    where('observer_id is null')
-  end
-
-  def self.incedents_by_not_null_observer
-    where('observer_id is not null')
-  end
-
-  def self.incedents_by_user_as_worker(user)
-    where("worker_id = #{user.id}")
-  end
-
-  def self.incedents_by_user_as_observer(user)
-    where("observer_id = #{user.id}")
-  end
-
-  def self.incedents_by_user_as_initiator_or_worker(user)
-    where("initiator_id = #{user.id} or worker_id = #{user.id}")
-  end
-
-  def self.incedents_by_type(type)
-    where("type_id = #{type.id}")
-  end
-
-  def self.incedents_by_status(status)
-    where("status_id = #{status.id}")
-  end
-
-  def self.incedents_by_server(server)
-    where("server_id = #{server.id}")
-  end
-
-  def self.incedents_by_priority(priority)
-    where("priority_id = #{priority.id}")
-  end
-
-  def self.incedents_by_user(user)
-    where("initiator_id = #{user.id} or worker_id = #{user.id} or observer_id = #{user.id}")
-  end
-
-  def self.solved_incedents(archive)
-    where('closed = ?', archive)
   end
 
   def self.to_csv(options = {})

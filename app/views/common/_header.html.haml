@@ -53,19 +53,19 @@
                     %li
                       = link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
                 %li.divider
-              - if Incedent.solved_incedents(false).accessible_by(current_ability).count > 0
+              - if Incedent.solved(false).accessible_by(current_ability).count > 0
                 %li.nav-header Для жалоб (В РАБОТЕ)
-                - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
-                  - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
+                - Tag.all.sort_by{ | tag | tag.incedents.solved(false).accessible_by(current_ability).count }.reverse.each do |tag|
+                  - if tag.incedents.solved(false).accessible_by(current_ability).count > 0
                     %li
-                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
+                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
                 %li.divider
-              - if Incedent.solved_incedents(true).accessible_by(current_ability).count > 0
+              - if Incedent.solved(true).accessible_by(current_ability).count > 0
                 %li.nav-header Для жалоб (В АРХИВЕ)
-                - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
-                  - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
+                - Tag.all.sort_by{ | tag | tag.incedents.solved(true).accessible_by(current_ability).count }.reverse.each do |tag|
+                  - if tag.incedents.solved(true).accessible_by(current_ability).count > 0
                     %li
-                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)
+                      = link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)
 
       / /.nav-collapse
       %p.navbar-text

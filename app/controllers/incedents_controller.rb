@@ -114,7 +114,7 @@ class IncedentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-        format.html { redirect_to incedent_comments_path(Incedent.find(params[:incedent_id])), notice: 'Коментарий успешно удален.' }
+      format.html { redirect_to incedent_comments_path(Incedent.find(params[:incedent_id])), notice: 'Коментарий успешно удален.' }
     end
   end
 
@@ -140,7 +140,7 @@ class IncedentsController < ApplicationController
   # POST /incedent/add.json
   def add
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
-  
+
     respond_to do |format|
       @incedent.observer = nil if (@incedent.observer == @incedent.worker)
 
@@ -173,7 +173,7 @@ class IncedentsController < ApplicationController
   # PUT /incedents/1.json
   def update
     @incedent = Incedent.find(params[:id])
-    
+
     if params[:incedent][:attaches_attributes]
       params[:incedent][:attaches_attributes].each do |key, attach|
         if attach[:file].present?
@@ -280,9 +280,9 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/replay
   # GET /incedent/1/replay.json
   def replay
-    if !params[:incedent][:replay_reason].empty? 
+    if !params[:incedent][:replay_reason].empty?
       @incedent = Incedent.find(params[:id])
-  
+
       @incedent.worker = @current_user unless @incedent.has_worker?
       @incedent.played!
 
@@ -293,9 +293,9 @@ class IncedentsController < ApplicationController
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
-  
+
           IncedentMailer.incedent_replayed(@incedent).deliver
-  
+
           format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
         else
           format.html { render action: 'replay' }
@@ -303,7 +303,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину возобновления.' }
+        format.html { redirect_to :incedents, alert: 'Нужно обязательно указать причину возобновления.' }
       end
     end
   end
@@ -334,7 +334,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину передачи.' }
+        format.html { redirect_to :incedents, alert: 'Нужно обязательно указать причину передачи.' }
       end
     end
   end
@@ -388,7 +388,7 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/reject
   # GET /incedent/1/reject.json
   def reject
-    if !params[:incedent][:reject_reason].empty? 
+    if !params[:incedent][:reject_reason].empty?
       @incedent = Incedent.find(params[:id])
 
       @incedent.worker = @current_user unless @incedent.has_worker?
@@ -411,7 +411,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину отклонения.' }
+        format.html { redirect_to :incedents, alert: 'Нужно обязательно указать причину отклонения.' }
       end
     end
   end
@@ -442,9 +442,9 @@ class IncedentsController < ApplicationController
   # GET /incedent/1/close
   # GET /incedent/1/close.json
   def close
-    if !params[:incedent][:close_reason].empty? 
+    if !params[:incedent][:close_reason].empty?
       @incedent = Incedent.find(params[:id])
-  
+
       @incedent.worker = @current_user unless @incedent.has_worker?
       @incedent.closed!
 
@@ -455,9 +455,9 @@ class IncedentsController < ApplicationController
       respond_to do |format|
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
-  
+
           IncedentMailer.incedent_closed(@incedent).deliver
-  
+
           format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
         else
           format.html { render action: 'close' }
@@ -465,7 +465,7 @@ class IncedentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {  redirect_to :incedents, alert: 'Нужно обязательно указать причину закрытия.' }
+        format.html { redirect_to :incedents, alert: 'Нужно обязательно указать причину закрытия.' }
       end
     end
   end
@@ -506,73 +506,15 @@ class IncedentsController < ApplicationController
   end
 
   def get_incedents(archive)
-    (params[:tag_id]) ?
-      Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_tag(Tag.find(params[:tag_id])) :
-        if (params[:status_id] and params[:type_id] and params[:priority_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:priority_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:type_id] and params[:priority_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:priority_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:status_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:type_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:priority_id] and params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id]))
-        elsif (params[:status_id] and params[:priority_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:type_id] and params[:priority_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:status_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_status(Status.find(params[:status_id]))
-        elsif (params[:type_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_type(Type.find(params[:type_id]))
-        elsif (params[:priority_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:user_id] and params[:server_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:priority_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:priority_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:type_id] and params[:priority_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id] and params[:priority_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:status_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:type_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:priority_id] and params[:user_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id])).incedents_by_user(User.find(params[:user_id]))
-        elsif (params[:status_id] and params[:type_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_type(Type.find(params[:type_id]))
-        elsif (params[:status_id] and params[:priority_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif (params[:type_id] and params[:priority_id])
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id])).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif params[:status_id]
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_status(Status.find(params[:status_id]))
-        elsif params[:type_id]
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_type(Type.find(params[:type_id]))
-        elsif params[:priority_id]
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_priority(Priority.find(params[:priority_id]))
-        elsif params[:user_id]
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_user(User.find(params[:user_id]))
-        elsif params[:server_id]
-          Incedent.accessible_by(current_ability).solved_incedents(archive).incedents_by_server(Server.find(params[:server_id]))
-        else
-          Incedent.accessible_by(current_ability).solved_incedents(archive)
-        end
+    Incedent.scoped.
+        accessible_by(current_ability).
+        solved(archive).
+        by_tag(params[:tag_id]).
+        by_status(params[:status_id]).
+        by_type(params[:type_id]).
+        by_priority(params[:priority_id]).
+        by_user(params[:user_id]).
+        by_server(params[:server_id])
   end
 
 end
