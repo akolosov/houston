@@ -40,6 +40,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        UserMailer.user_created(@user).deliver
+
         format.html { redirect_to :users, notice: 'Пользователь успешно создан.' }
       else
         format.html { render action: 'new' }
@@ -80,7 +82,11 @@ class UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
+
+    UserMailer.user_deleted(@user).deliver
+
     @user.destroy
+
 
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно удален.' }
@@ -93,6 +99,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.activate!
 
+    UserMailer.user_activated(@user).deliver
+
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно активирован.' }
     end
@@ -103,6 +111,8 @@ class UsersController < ApplicationController
   def deactivate
     @user = User.find(params[:id])
     @user.deactivate!
+
+    UserMailer.user_deactivated(@user).deliver
 
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно деактивирован.' }
