@@ -50,6 +50,16 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def first_login_success!
+    self.first_login = false
+    self.save
+  end
+
+  def first_login_fail!
+    self.first_login = true
+    self.save
+  end
+
   def to_label
     "#{realname}"
   end

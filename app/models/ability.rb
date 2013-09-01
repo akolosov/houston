@@ -9,6 +9,8 @@ class Ability
     end
 
     permissions_for user, as: :manager do
+      can :first_login, User
+      can :update_password, User, id: user.id
       can :update, User, id: user.id
       can :read, Server
       can :read, ServerProblem
@@ -58,6 +60,8 @@ class Ability
     end
 
     permissions_for user, as: :user do
+      can :first_login, User
+      can :update_password, User, id: user.id
       can :update, User, id: user.id
       can :read, Document
       can :update, Document, user_id: user.id
