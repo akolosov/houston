@@ -36,6 +36,14 @@ class User < ActiveRecord::Base
 
   validates_confirmation_of :password, message: 'Пароли не совпадают', if: :password
 
+  validates_presence_of :username, message: 'Не указано имя пользователя'
+
+  validates_uniqueness_of :username, message: 'Такое имя уже используется'
+
+  validates_presence_of :email, message: 'Не указан e-mail пользователя'
+
+  validates_uniqueness_of :email, message: 'Такой e-mail уже зарегистрирован'
+
   def display_name
     self.realname+' ('+self.email+')'
   end
