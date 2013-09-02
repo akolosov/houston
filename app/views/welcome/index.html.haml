@@ -1,46 +1,16 @@
-- if !current_user
-  :css
-    html, body {
-        width: 100%;
-        height: 100%;
-        overflow:hidden;
-    }
-
-    body {
-        background-color: #444444;
-        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#555555), to(#111111));
-        background-image: -webkit-linear-gradient(top, #555555 0%, #111111 100%);
-        background-image: -moz-linear-gradient(top, #555555 0%, #111111 100%);
-        background-image: -ms-linear-gradient(top, #555555 0%, #111111 100%);
-        background-image: -o-linear-gradient(top, #555555 0%, #111111 100%);
-        background-image: linear-gradient(top, #555555 0%, #111111 100%);
-    }
-
-    .modal {
-      width: 70%;
-      height: auto;
-      left: 30%; 
-      top: 15%;
-      z-index: 0;
+:css
+  .modal {
+      position: static;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      max-width: 100%;
       background-clip: padding-box;
       outline: none;
       border-radius: 0px !important;
-    }
+  }
 
-- else
-  :css
-    .modal {
-        position: static;
-        margin: 0;
-        width: 100%;
-        height: 100%;
-        max-height: 100%;
-        max-width: 100%;
-        background-clip: padding-box;
-        outline: none;
-        border-radius: 0px !important;
-    }
-:css
   .modal-body {
     max-height: 100%;
   }
@@ -67,6 +37,3 @@
     .pull-right.btn-group
       %a.btn.btn-mini{href: 'http://ru.wikipedia.org/wiki/%D0%90%D0%BF%D0%BE%D0%BB%D0%BB%D0%BE%D0%BD-13', target: '_blank'}
         = glyph(:book)+' Источник'
-      - if !current_user
-        %a.btn.btn-mini.btn-success{ href: '/login', data: { keybinding: 'enter', toggle: 'tooltip', placement: 'top', container: 'body', delay: '200' }, title: 'Горячая клавиша: Enter' }
-          = glyph(:home)+' Вход в ЦУП'

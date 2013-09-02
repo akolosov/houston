@@ -7,7 +7,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Daley', city: cities.first)
 
-Role.create([ { name: 'admin' }, { name: 'manager' }, { name: 'user' } ], without_protection: true)
+Role.create([ { name: 'admin' }, { name: 'manager' }, { name: 'executor' }, { name: 'operator' }, { name: 'client' } ], without_protection: true)
 
 Status.create([ { name: 'Новый' }, { name: 'В работе' }, { name: 'Приостановлен' }, { name: 'Остановлен' }, { name: 'Отклонен' }, { name: 'Решен' }, { name: 'Закрыт' }, { name: 'Ждет подтверждения' } ])
 
@@ -28,9 +28,17 @@ else
   manager.save
   manager.add_role :manager
 
-  user = User.create username: 'user', email: 'user@test.com', password: 'user', password_confirmation: 'user', realname: 'User User'
+  user = User.create username: 'client', email: 'client@test.com', password: 'client', password_confirmation: 'client', realname: 'Client Client'
   user.save
-  user.add_role :user
+  user.add_role :client
+
+  operator = User.create username: 'operator', email: 'operator@test.com', password: 'operator', password_confirmation: 'operator', realname: 'Operator Operator'
+  operator.save
+  operator.add_role :operator
+
+  executor = User.create username: 'executor', email: 'executor@test.com', password: 'executor', password_confirmation: 'executor', realname: 'Executor Executor'
+  executor.save
+  executor.add_role :executor
 
   Auditor::User.current_user = admin
 

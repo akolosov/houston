@@ -41,22 +41,22 @@
               - if tag.problems.count > 0
                 %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.problems.count.to_s+')', problems_by_tag_path(tag)
     %br
-  - if Incedent.solved_incedents(false).accessible_by(current_ability).count > 0
+  - if Incedent.solved(false).accessible_by(current_ability).count > 0
     .sidebar#navbar4
       %ul.nav.nav-list.accordion-group
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для жалоб (В РАБОТЕ)", "#colapse4",  data: { toggle: "collapse", parent: "#navbar4" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse4
           .accordion-inner
-            - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(false).accessible_by(current_ability).count }.reverse.each do |tag|
-              - if tag.incedents.solved_incedents(false).accessible_by(current_ability).count > 0
-                %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
+            - Tag.all.sort_by{ | tag | tag.incedents.solved(false).accessible_by(current_ability).count }.reverse.each do |tag|
+              - if tag.incedents.solved(false).accessible_by(current_ability).count > 0
+                %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved(false).accessible_by(current_ability).count.to_s+')', incedents_by_tag_path(tag)
     %br
-  - if Incedent.solved_incedents(true).accessible_by(current_ability).count > 0
+  - if Incedent.solved(true).accessible_by(current_ability).count > 0
     .sidebar#navbar5
       %ul.nav.nav-list.accordion-group
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для жалоб (В АРХИВЕ)",  "#colapse5",  data: { toggle: "collapse", parent: "#navbar5" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse5
           .accordion-inner
-            - Tag.all.sort_by{ | tag | tag.incedents.solved_incedents(true).accessible_by(current_ability).count }.reverse.each do |tag|
-              - if tag.incedents.solved_incedents(true).accessible_by(current_ability).count > 0
-                %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)
+            - Tag.all.sort_by{ | tag | tag.incedents.solved(true).accessible_by(current_ability).count }.reverse.each do |tag|
+              - if tag.incedents.solved(true).accessible_by(current_ability).count > 0
+                %li.nav-item= link_to glyph(:tag)+' '+tag.name+' ('+tag.incedents.solved(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_tag_path(tag)

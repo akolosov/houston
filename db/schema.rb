@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710094248) do
+ActiveRecord::Schema.define(:version => 20130902042512) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -150,6 +150,8 @@ ActiveRecord::Schema.define(:version => 20130710094248) do
     t.boolean  "closed",       :default => false
     t.integer  "server_id"
     t.integer  "observer_id"
+    t.integer  "operator_id"
+    t.datetime "finish_at"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"
@@ -297,6 +299,7 @@ ActiveRecord::Schema.define(:version => 20130710094248) do
     t.boolean  "active",                          :default => true
     t.string   "jabber"
     t.string   "last_login_from_ip_address"
+    t.boolean  "first_login",                     :default => true
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"

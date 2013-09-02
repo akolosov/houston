@@ -4,9 +4,12 @@ class Incedent < ActiveRecord::Base
   audit(:update)  { |model, user, action| "Жалоба \"#{model.name}\" изменена пользователем #{user.display_name}" }
   audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил жалобу \"#{model.name}\"" }
 
+  before_save :default_values
+
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
   belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
   belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
+  belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -27,10 +30,49 @@ class Incedent < ActiveRecord::Base
   
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :observer, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
-  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id
+
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
+
+  scope :by_null_worker, where('worker_id is null')
+
+  scope :by_not_null_worker, where('worker_id is not null')
+
+  scope :by_null_observer, where('observer_id is null')
+
+  scope :by_not_null_observer, where('observer_id is not null')
+
+  scope :by_tag, lambda {|tag| where("id in (select incedent_id from incedent_tags where tag_id = ?)", tag) unless tag.nil? }
+
+  scope :by_user_as_initiator, lambda { |user| where("initiator_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_worker, lambda { |user|  where("worker_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_observer, lambda { |user| where("observer_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_operator, lambda { |user| where("operator_id = ?", user) unless user.nil? }
+
+  scope :by_user_as_initiator_or_worker, lambda { |user| where("initiator_id = ? or worker_id = ?", user, user) unless user.nil? }
+
+  scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
+
+  scope :by_status, lambda { |status| where("status_id = ?", status) unless status.nil? }
+
+  scope :by_server, lambda { |server| where("server_id = ?", server) unless server.nil? }
+
+  scope :by_priority, lambda { |priority| where("priority_id = ?", priority) unless priority.nil? }
+
+  scope :by_user, lambda { |user| where("initiator_id = ? or worker_id = ? or observer_id = ?", user, user, user) unless user.nil? }
+
+  scope :solved, lambda { |archive| where('closed = ?', archive) }
+
+  def default_values
+    self.initiator_id ||= 1
+    self.operator_id ||= self.initiator_id
+    self.finish_at ||= Time.now + 1.days
+  end
 
   def has_worker?
     !self.worker.nil?
@@ -38,6 +80,14 @@ class Incedent < ActiveRecord::Base
 
   def has_observer?
     !self.observer.nil?
+  end
+
+  def has_operator?
+    !self.operator.nil?
+  end
+
+  def has_initiator?
+    !self.initiator.nil?
   end
 
   def is_played?
@@ -100,66 +150,6 @@ class Incedent < ActiveRecord::Base
 
   def waited!
     self.status_id = Houston::Application.config.incedent_waited
-  end
-
-  def self.incedents_by_tag(tag)
-    where("id in (select incedent_id from incedent_tags where tag_id = #{tag.id})")
-  end
-
-  def self.incedents_by_user_as_initiator(user)
-    where("initiator_id = #{user.id}")
-  end
-
-  def self.incedents_by_null_worker
-    where('worker_id is null')
-  end
-
-  def self.incedents_by_not_null_worker
-    where('worker_id is not null')
-  end
-
-  def self.incedents_by_null_observer
-    where('observer_id is null')
-  end
-
-  def self.incedents_by_not_null_observer
-    where('observer_id is not null')
-  end
-
-  def self.incedents_by_user_as_worker(user)
-    where("worker_id = #{user.id}")
-  end
-
-  def self.incedents_by_user_as_observer(user)
-    where("observer_id = #{user.id}")
-  end
-
-  def self.incedents_by_user_as_initiator_or_worker(user)
-    where("initiator_id = #{user.id} or worker_id = #{user.id}")
-  end
-
-  def self.incedents_by_type(type)
-    where("type_id = #{type.id}")
-  end
-
-  def self.incedents_by_status(status)
-    where("status_id = #{status.id}")
-  end
-
-  def self.incedents_by_server(server)
-    where("server_id = #{server.id}")
-  end
-
-  def self.incedents_by_priority(priority)
-    where("priority_id = #{priority.id}")
-  end
-
-  def self.incedents_by_user(user)
-    where("initiator_id = #{user.id} or worker_id = #{user.id} or observer_id = #{user.id}")
-  end
-
-  def self.solved_incedents(archive)
-    where('closed = ?', archive)
   end
 
   def self.to_csv(options = {})

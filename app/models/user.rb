@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
 
   before_destroy { |record| Document.update_all "user_id = 1", "user_id = #{record.id}" }
 
+  has_many :created_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'operator_id'
+
+  before_destroy { |record| Incedent.update_all "operator_id = 1", "operator_id = #{record.id}" }
+
   has_many :owned_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'initiator_id'
 
   before_destroy { |record| Incedent.update_all "initiator_id = 1", "initiator_id = #{record.id}" }
@@ -36,6 +40,14 @@ class User < ActiveRecord::Base
 
   validates_confirmation_of :password, message: 'Пароли не совпадают', if: :password
 
+  validates_presence_of :username, message: 'Не указано имя пользователя'
+
+  validates_uniqueness_of :username, message: 'Такое имя уже используется'
+
+  validates_presence_of :email, message: 'Не указан e-mail пользователя'
+
+  validates_uniqueness_of :email, message: 'Такой e-mail уже зарегистрирован'
+
   def display_name
     self.realname+' ('+self.email+')'
   end
@@ -47,6 +59,16 @@ class User < ActiveRecord::Base
 
   def deactivate!
     self.active = false
+    self.save
+  end
+
+  def first_login_success!
+    self.first_login = false
+    self.save
+  end
+
+  def first_login_fail!
+    self.first_login = true
     self.save
   end
 

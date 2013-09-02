@@ -1,0 +1,16 @@
+Уважаемый <%= @user.realname %>
+
+Вам создали учетную запись.
+
+Логин: <%= @user.name %> или <%= @user.email %>
+Пароль: 123456
+
+После первого входа обязательно смените пароль!
+
+Ссылка на сервис: <%= root_url %>
+
+
+С наилучшими пожеланиями
+
+--
+<%= Houston::Application.config.app_name+' v'+Houston::Application.config.version %>
