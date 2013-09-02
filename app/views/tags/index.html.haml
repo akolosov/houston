@@ -9,8 +9,8 @@
       %td
         = tag.name
         = link_to(' (Проблем: '+tag.problems.count.to_s+')', problems_by_tag_path(tag))
-        = link_to(' (Жалоб в работе: '+tag.incedents.solved_incedents(false).count.to_s+')', incedents_by_tag_path(tag))
-        = link_to(' (Жалоб в архиве: '+tag.incedents.solved_incedents(true).count.to_s+')', incedents_archive_by_tag_path(tag))
+        = link_to(' (Жалоб в работе: '+tag.incedents.solved(false).count.to_s+')', incedents_by_tag_path(tag))
+        = link_to(' (Жалоб в архиве: '+tag.incedents.solved(true).count.to_s+')', incedents_archive_by_tag_path(tag))
       %td
         .btn-group
           = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), class: 'btn btn-mini' if can? :manage, tag
