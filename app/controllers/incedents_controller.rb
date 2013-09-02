@@ -39,7 +39,7 @@ class IncedentsController < ApplicationController
   # GET /incedents/observed
   # GET /incedents/observed.json
   def observe
-    @incedents = get_incedents(false).incedents_by_user_as_observer(@current_user).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
