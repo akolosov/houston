@@ -20,8 +20,10 @@
       %h3= document.title
     .form-inputs
       = markdown(document.body.slice(0, 500)+'...')
+      %br
       .pull-right
-        = 'Автор: '+document.user.realname+' ('+document.user.email+')'
+        = content_tag :strong, 'Автор: '
+        = document.user.display_name
       %br
     - if !document.attaches.empty?
       .form-footer

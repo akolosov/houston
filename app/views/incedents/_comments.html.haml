@@ -16,7 +16,7 @@
       - if (@current_user.has_role? :admin)
         .form-actions
           = content_tag :strong, 'Автор: '
-          = comment.author.realname
+          = comment.author.display_name
           .pull-right.right5
             = content_tag :strong, 'Дата публикации: '
             = comment.created_at.strftime('%d.%m.%Y в %H:%M')
