@@ -9,8 +9,9 @@
     %h3= @document.title
   .form-inputs
     = markdown(@document.body)
+    %br
     .pull-right
-      = 'Автор: '+@document.user.realname+' ('+@document.user.email+')'
+      = 'Автор: '+@document.user.display_name
     %br
   - if !@document.attaches.empty?
     .form-footer

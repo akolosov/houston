@@ -69,19 +69,19 @@
           .pull-right
             - if @incedent.has_operator?
               = content_tag :strong, 'Оператор: '
-              = @incedent.operator.realname+' ('+@incedent.operator.email+')'
+              = @incedent.operator.display_name
             - if @incedent.has_initiator?
               %br
               = content_tag :strong, 'Инициатор: '
-              = @incedent.initiator.realname+' ('+@incedent.initiator.email+')'
+              = @incedent.initiator.display_name
             - if @incedent.has_worker?
               %br
               = content_tag :strong, 'Исполнитель: '
-              = @incedent.worker.realname+' ('+@incedent.worker.email+')'
+              = @incedent.worker.display_name
             - if @incedent.has_observer?
               %br
               = content_tag :strong, 'Наблюдатель: '
-              = @incedent.observer.realname+' ('+@incedent.observer.email+')'
+              = @incedent.observer.display_name
     = render 'history' if @incedent.incedent_actions
   .form-actions
     = ('Статус: '+content_tag(:strong, @incedent.status.name)+', Приоритет: '+content_tag(:strong, @incedent.priority.name)+', Тип: '+content_tag(:strong, @incedent.type.name)).html_safe
