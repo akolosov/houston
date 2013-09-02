@@ -14,11 +14,12 @@ module IncedentsHelper
                     ((type and priority and status) ? incedents_by_status_and_priority_and_type_and_user_path(status, priority, type, user) :
                         ((status and type) ? incedents_by_status_and_type_and_user_path(status, type, user) :
                             ((type and priority) ? incedents_by_priority_and_type_and_user_path(priority, type, user) :
-                                (status ? incedents_by_status_and_user_path(status, user) :
-                                    (type ? incedents_by_type_and_user_path(type, user) :
-                                        (priority ? incedents_by_priority_and_user_path(priority, user) :
-                                            (server ? incedents_by_user_and_server_path(user, server) :
-                                                incedents_by_user_path(user)))))))))))),
+                                ((type and server) ? incedents_by_type_and_user_and_server_path(type, user, server) :
+                                    (status ? incedents_by_status_and_user_path(status, user) :
+                                        (type ? incedents_by_type_and_user_path(type, user) :
+                                            (priority ? incedents_by_priority_and_user_path(priority, user) :
+                                                (server ? incedents_by_user_and_server_path(user, server) :
+                                                    incedents_by_user_path(user))))))))))))),
             remote: true, class: 'btn btn-mini' + (params[:user_id] == user.id.to_s ? ' btn-success disabled' : '')
   end
 
