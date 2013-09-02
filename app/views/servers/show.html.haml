@@ -2,8 +2,8 @@
   .form-header
     .btn-group.pull-right.right5
       = link_to glyph(:pencil)+' Изменить', edit_server_path(@server), class: 'btn btn-mini' if can? :update, @server
-      = link_to glyph(:inbox)+' Жалобы в работе ('+@server.incedents.solved_incedents(false).accessible_by(current_ability).count.to_s+')', incedents_by_server_path(@server), class: 'btn btn-mini' if can? :read, @server
-      = link_to glyph(:briefcase)+' Жалобы в архиве ('+@server.incedents.solved_incedents(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_server_path(@server), class: 'btn btn-mini' if can? :read, @server
+      = link_to glyph(:inbox)+' Жалобы в работе ('+@server.incedents.solved(false).accessible_by(current_ability).count.to_s+')', incedents_by_server_path(@server), class: 'btn btn-mini' if can? :read, @server
+      = link_to glyph(:briefcase)+' Жалобы в архиве ('+@server.incedents.solved(true).accessible_by(current_ability).count.to_s+')', incedents_archive_by_server_path(@server), class: 'btn btn-mini' if can? :read, @server
       = link_to glyph(:fire)+' Проблемы ('+@server.problems.count.to_s+')', problems_by_server_path(@server), class: 'btn btn-mini' if can? :read, @server
       = link_to glyph(:trash)+' Удалить', @server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @server
     %h3= @server.name
