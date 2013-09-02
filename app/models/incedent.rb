@@ -167,7 +167,7 @@ class Incedent < ActiveRecord::Base
 
   def self.notify_workers
     User.active.each do |user|
-      @incedents = Incedent.solved_incedents(false).incedents_by_user_as_worker(user)
+      @incedents = Incedent.solved(false).by_user_as_worker(user)
       if !@incedents.empty?
         IncedentMailer.incedents_in_progress(@incedents).deliver
       end
