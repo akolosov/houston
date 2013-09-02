@@ -26,6 +26,8 @@ gem 'rb-readline', '~> 0.4.2'
 
 gem 'simple_form'
 
+gem 'bootstrap-datepicker-rails'
+
 gem 'has_scope'
 
 gem 'haml-rails'

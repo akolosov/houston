@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
 
   before_destroy { |record| Document.update_all "user_id = 1", "user_id = #{record.id}" }
 
+  has_many :created_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'operator_id'
+
+  before_destroy { |record| Incedent.update_all "operator_id = 1", "operator_id = #{record.id}" }
+
   has_many :owned_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'initiator_id'
 
   before_destroy { |record| Incedent.update_all "initiator_id = 1", "initiator_id = #{record.id}" }

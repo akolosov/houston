@@ -69,10 +69,18 @@
           %br
           = content_tag :strong, 'Дата изменений: '
           = incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
+          %br
+          = content_tag :strong, 'Срок исполнения: '
+          = incedent.finish_at.strftime('%d.%m.%Y в %H:%M')
         .span6
           .pull-right
-            = content_tag :strong, 'Автор: '
-            = incedent.initiator.realname+' ('+incedent.initiator.email+')'
+            - if incedent.has_operator?
+              = content_tag :strong, 'Оператор: '
+              = incedent.operator.realname+' ('+incedent.operator.email+')'
+            - if incedent.has_initiator?
+              %br
+              = content_tag :strong, 'Инициатор: '
+              = incedent.initiator.realname+' ('+incedent.initiator.email+')'
             - if incedent.has_worker?
               %br
               = content_tag :strong, 'Исполнитель: '

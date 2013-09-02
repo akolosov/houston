@@ -4,9 +4,12 @@ class Incedent < ActiveRecord::Base
   audit(:update)  { |model, user, action| "Жалоба \"#{model.name}\" изменена пользователем #{user.display_name}" }
   audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил жалобу \"#{model.name}\"" }
 
+  before_save :default_values
+
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
   belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
   belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
+  belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -27,8 +30,9 @@ class Incedent < ActiveRecord::Base
   
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :initiator, :worker, :observer, :server, :initiator_id, :priority_id, :type_id, :status_id, :worker_id, :server_id
-  attr_accessible :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id
+
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
 
@@ -48,6 +52,8 @@ class Incedent < ActiveRecord::Base
 
   scope :by_user_as_observer, lambda { |user| where("observer_id = ?", user) unless user.nil? }
 
+  scope :by_user_as_operator, lambda { |user| where("operator_id = ?", user) unless user.nil? }
+
   scope :by_user_as_initiator_or_worker, lambda { |user| where("initiator_id = ? or worker_id = ?", user, user) unless user.nil? }
 
   scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
@@ -62,12 +68,26 @@ class Incedent < ActiveRecord::Base
 
   scope :solved, lambda { |archive| where('closed = ?', archive) }
 
+  def default_values
+    self.initiator_id ||= 1
+    self.operator_id ||= self.initiator_id
+    self.finish_at ||= Time.now + 1.days
+  end
+
   def has_worker?
     !self.worker.nil?
   end
 
   def has_observer?
     !self.observer.nil?
+  end
+
+  def has_operator?
+    !self.operator.nil?
+  end
+
+  def has_initiator?
+    !self.initiator.nil?
   end
 
   def is_played?

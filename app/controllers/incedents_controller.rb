@@ -68,6 +68,8 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.new
 
     @incedent.initiator = @current_user
+    @incedent.operator = @current_user
+    @incedent.finish_at = Time.now + 1.days
     @incedent.status_id = Houston::Application.config.incedent_created
 
     respond_to do |format|
