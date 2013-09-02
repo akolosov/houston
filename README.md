@@ -1,7 +1,7 @@
 Houston
 =======
 
-Центр управления полётами. Центр решения проблем. База знаний. Книга жалоб и предложений. :)
+Центр управления полётами. Центр решения проблем. База знаний. Книга жалоб и предложений. Упрощенный вариант.
 
 # Настройка (Development)
     git clone git://github.com/akolosov/houston.git
@@ -15,9 +15,11 @@ Houston
     open http://0.0.0.0:3000/
     
 # Вход в систему (Development)
-    E-Mail: admin@test.com, Username: admin, ID: 1, Password: admin
-    E-Mail: manager@test.com, Username: manager, ID: 2, Password: manager
-    E-Mail: user@test.com, Username: user, ID: 3, Password: user
+    E-Mail: admin@test.com, Username: admin, Password: admin
+    E-Mail: manager@test.com, Username: manager, Password: manager
+    E-Mail: client@test.com, Username: client, Password: client
+    E-Mail: operator@test.com, Username: operator, Password: operator
+    E-Mail: executor@test.com, Username: executor, Password: executor
 
 # License
 

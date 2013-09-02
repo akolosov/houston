@@ -6,6 +6,6 @@
 #servers
   = render 'servers'
 
-= link_to glyph(:plus)+' Новое оборудование', new_server_path, class: 'btn btn-mini', data: { keybinding: 'ins', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Server
+= link_to glyph(:plus)+' Новое оборудование', new_server_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Server
 %br
 %br

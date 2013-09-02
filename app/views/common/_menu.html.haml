@@ -5,10 +5,10 @@
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр администрирования", "#colapse0",  data: { toggle: "collapse", parent: "#navbar0" }, class: "accordion-toggle collapsed"
         .accordion-body.collapse#colapse0
           .accordion-inner
-            %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
-            %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
-            %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
-            %li.nav-item= link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: L', class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: L', class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
     %br
   - if current_user.has_role? :admin or current_user.has_role? :manager
     .sidebar#navbar1
@@ -16,20 +16,20 @@
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр решения проблем", "#colapse1",  data: { toggle: "collapse", parent: "#navbar1" }, class: "accordion-toggle"
         .accordion-body.collapse.in#colapse1
           .accordion-inner
-            %li.nav-item= link_to glyph(:magnet)+' Категории', categories_path, data: { keybinding: 'c', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: C', class: (params[:controller] == 'categories' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-            %li.nav-item= link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: D', class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-            %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: P', class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-            %li.nav-item= link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: S', class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
+            %li.nav-item= link_to glyph(:magnet)+' Категории', categories_path, data: { keybinding: 'c', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: C', class: (params[:controller] == 'categories' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.nav-item= link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: D', class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.nav-item= link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: P', class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+            %li.nav-item= link_to glyph(:tint)+' Решения', solutions_path, data: { keybinding: 's', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: S', class: (params[:controller] == 'solutions' ? 'bold' : '') if current_user.has_role? :admin
     %br
   .sidebar#navbar2
     %ul.nav.nav-list.accordion-group
       %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр поиска решений", "#colapse2",  data: { toggle: "collapse", parent: "#navbar2" }, class: "accordion-toggle"
       .accordion-body.collapse.in#colapse2
         .accordion-inner
-          %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
-          %li.nav-item= link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
-          %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
-          %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
+          %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+          %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
   %br
   - if current_user.has_role? :admin or current_user.has_role? :manager
     .sidebar#navbar3
