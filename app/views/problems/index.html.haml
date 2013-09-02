@@ -3,6 +3,6 @@
 #problems
   = render 'problems'
 
-= link_to glyph(:plus)+' Новая проблема', new_problem_path, class: 'btn btn-mini', data: { keybinding: 'ins', toggle: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, Problem
+= link_to glyph(:plus)+' Новая проблема', new_problem_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, Problem
 %br
 %br

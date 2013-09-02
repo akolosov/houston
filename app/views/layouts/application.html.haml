@@ -44,7 +44,7 @@
     / Another javascripts
     = javascript_include_tag :application
   :coffeescript
-    $("body").tooltip selector: "*[data-toggle=tooltip]"
+    $("body").tooltip selector: "*[data-rel=tooltip]"
 
     $(document).ready ->
       topmenu = $.cookie("topmenu")
