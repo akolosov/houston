@@ -1,13 +1,8 @@
-:css
-  .filter {
-    display: none;
-  }
-
 :javascript
   $(document).ready(
     function(){
       setInterval(function(){
-        $("#incedents").load('#{request.fullpath} #incedents');
+        $("#content").load('#{request.fullpath} #incedents');
       }, 180000);
     });
 

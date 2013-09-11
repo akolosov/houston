@@ -71,7 +71,7 @@
 
     window.toggle_view_mode = (mode) ->
       $.cookie('viewmode', mode, { expires: 30 })
-      $("#incedents").load('#{request.fullpath} #incedents')
+      $("#content").load('#{request.fullpath} #incedents')
 
     window.toggle_filter = (url) ->
-      $("#incedents").load(url+' #incedents')
+      $("#content").load(url+' #incedents')

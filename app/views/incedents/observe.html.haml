@@ -1,11 +1,3 @@
-:javascript
-  $(document).ready(
-    function(){
-      setInterval(function(){
-        $("#incedents").load('#{request.fullpath} #incedents');
-      }, 180000);
-    });
-
 #incedents
   = render 'incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' )
 
