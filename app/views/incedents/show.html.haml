@@ -84,14 +84,18 @@
               = @incedent.observer.display_name
     = render 'history' if @incedent.incedent_actions
   .form-actions
-    = ('Статус: '+content_tag(:strong, @incedent.status.name)+', Приоритет: '+content_tag(:strong, @incedent.priority.name)+', Тип: '+content_tag(:strong, @incedent.type.name)).html_safe
+    .pull-left
+      = lbl @incedent.status.name
+      = lbl @incedent.priority.name
+      = lbl @incedent.type.name
+
     - if @incedent.tags
       .pull-right.top-5
         - @incedent.tags.each do |tag|
-          = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'btn btn-mini'
+          = link_to glyph(:tag)+' '+tag.name, incedents_by_tag_path(tag), class: 'label'
     - if @incedent.server
       .pull-right.top-5
-        = link_to glyph(:hdd)+' '+@incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(@incedent.server) : incedents_by_server_path(@incedent.server)), class: 'btn btn-mini'
+        = link_to glyph(:hdd)+' '+@incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(@incedent.server) : incedents_by_server_path(@incedent.server)), class: 'label'
   - if !@incedent.attaches.empty?
     .form-footer
       - @incedent.attaches.each do |attach|

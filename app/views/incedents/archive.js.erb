@@ -1,4 +1,4 @@
-$("#incedents").html("<%= escape_javascript(render('incedents')) %>");
+$("#incedents").html("<%= escape_javascript(render('incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' ))) %>");
 
 <% if (params[:user_id] or params[:server_id] or params[:priority_id] or params[:type_id]) %>
 	$('#filter').show();

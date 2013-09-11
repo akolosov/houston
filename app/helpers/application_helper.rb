@@ -5,6 +5,35 @@ module ApplicationHelper
     content_tag :i, nil, class: names.map{|name| "icon-#{name.to_s.gsub('_','-')}" }
   end
 
+  def badge(text, aclass = '')
+    content_tag :span, text, class: 'badge badge-'+aclass.to_s
+  end
+
+  def lbl(text, aclass = '')
+    content_tag :span, text, class: 'label label-'+aclass.to_s
+  end
+
+  def show_status(status)
+    case status
+      when Houston::Application.config.incedent_created
+        glyph(:file)
+      when Houston::Application.config.incedent_played
+        glyph(:play)
+      when Houston::Application.config.incedent_paused
+        glyph(:pause)
+      when Houston::Application.config.incedent_stoped
+        glyph(:stop)
+      when Houston::Application.config.incedent_rejected
+        glyph(:remove)
+      when Houston::Application.config.incedent_solved
+        glyph(:thumbs_up)
+      when Houston::Application.config.incedent_closed
+        glyph(:ok)
+      when Houston::Application.config.incedent_waited
+        glyph(:time)
+    end
+  end
+
   def markdown(text)
     renderer = Redcarpet::Render::HTML.new(hard_wrap: true, filter_html: true, prettify: true)
     options = {
