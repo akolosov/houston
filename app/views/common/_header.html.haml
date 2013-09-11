@@ -78,5 +78,9 @@
               %input.span2.search-query{name: 'query', type: 'text', value: params[:query], data: { keybinding: 'f' }}/
               %button.btn{type: 'submit'}
                 = glyph(:search)+' Поиск'
+          - if (params[:controller] == 'incedents')
+            .btn-group.pull-right{style: 'margin: 4px !important; ', data: { toggle: "buttons-radio" } }
+              = link_to glyph(:list), '#', onclick: "window.toggle_view_mode('list');",  class: 'btn btn-small'+((cookies[:viewmode] == 'list') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: СПИСОК'
+              = link_to glyph(:list_alt), '#', onclick: "window.toggle_view_mode('table');", class: 'btn btn-small'+((cookies[:viewmode] == 'table') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ТАБЛИЦА'
         - else
           = link_to glyph(:lock)+'Вход', :login, class: 'btn btn-mini'

@@ -3,7 +3,7 @@
     display: none;
   }
 #incedents
-  = render 'incedents'
+  = render 'incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' )
 
 = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 %br

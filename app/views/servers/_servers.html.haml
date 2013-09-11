@@ -38,7 +38,7 @@
       .form-actions
         .pull-right.top-5
           - server.categories.each do |category|
-            = link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'btn btn-mini'
+            = link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'label'
 
     - if !server.attaches.empty?
       .form-footer

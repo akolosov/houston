@@ -1,13 +1,15 @@
 # encoding: utf-8
 class IncedentsController < ApplicationController
-  before_filter :require_login
+  before_filter :require_login, :set_per_page
 
   load_and_authorize_resource
+
+  attr_accessor :per_page
 
   # GET /incedents
   # GET /incedents.json
   def index
-    @incedents = get_incedents(false).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+    @incedents = get_incedents(false).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -23,7 +25,7 @@ class IncedentsController < ApplicationController
   # GET /incedents/archive
   # GET /incedents/archive.json
   def archive
-    @incedents = get_incedents(true).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+    @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -39,7 +41,7 @@ class IncedentsController < ApplicationController
   # GET /incedents/observed
   # GET /incedents/observed.json
   def observe
-    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: 5).order('updated_at DESC')
+    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -473,6 +475,14 @@ class IncedentsController < ApplicationController
   end
 
   protected
+
+  def set_per_page
+    if cookies[:viewmode] == 'table'
+      @per_page = 20
+    else
+      @per_page = 5
+    end
+  end
 
   def save_incedent_attach(incedent, attach)
     uploaded_io = attach[:file]

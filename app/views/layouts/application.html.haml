@@ -66,4 +66,9 @@
         $("#content").removeClass "span10"
         $("#content").addClass "span12"
         $("#content").css("width", "95%")
-        $.cookie('topmenu', 'true')
+        $.cookie('topmenu', 'true', { expires: 30 })
+
+
+    window.toggle_view_mode = (mode) ->
+      $.cookie('viewmode', mode, { expires: 30 })
+      $("#incedents").load('#{request.fullpath} #incedents')
