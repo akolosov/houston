@@ -108,7 +108,7 @@
 				cancelSelection: true,
 				sortList: [],
 				headerList: [],
-				dateFormat: "us",
+				dateFormat: "ru",
 				decimal: '.',
 				debug: false
 			};
@@ -790,7 +790,29 @@
 		type: "numeric"
 	});
 
-	ts.addParser({
+    ts.addParser({
+        id: "shortDateTime",
+        is: function(s) {
+            return s.match(new RegExp(/^\d{1,2}\.\d{1,2}\.\d{2,4} ([0-2]?[0-9]:[0-5][0-9])$/));
+        },
+        format: function(s,table) {
+            var c = table.config;
+            s = s.replace(/\-/g,"/");
+            if(c.dateFormat == "us") {
+                // reformat the string in ISO format
+                s = s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4}) (([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(am|pm)))/, "$3/$1/$2 $4");
+            } else if(c.dateFormat == "uk") {
+                //reformat the string in ISO format
+                s = s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4}) (([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(am|pm)))/, "$3/$2/$1 $4");
+            } else if(c.dateFormat == "ru") {
+                s = s.replace(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4}) ([0-2]?[0-9]:[0-5][0-9])/, "$3/$2/$1 $4");
+            }
+            return $.tablesorter.formatFloat(new Date(s).getTime());
+        },
+        type: "numeric"
+    });
+
+    ts.addParser({
 		id: "shortDate",
 		is: function(s) {
 			return /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s);
@@ -804,6 +826,8 @@
 			} else if(c.dateFormat == "uk") {
 				//reformat the string in ISO format
 				s = s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/, "$3/$2/$1");
+            } else if(c.dateFormat == "ru") {
+                s = s.replace(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/, "$3/$2/$1");
 			} else if(c.dateFormat == "dd/mm/yy" || c.dateFormat == "dd-mm-yy") {
 				s = s.replace(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2})/, "$1/$2/$3");	
 			}
