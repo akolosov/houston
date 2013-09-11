@@ -23,6 +23,7 @@
     %link{href: 'images/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', sizes: '72x72'}/
     %link{href: 'images/apple-touch-icon-114x114.png', rel: 'apple-touch-icon', sizes: '114x114'}/
   %body
+    .hidden#result
     - if (current_user) and (!current_user.first_login)
       = render partial: 'common/header'
     .container-fluid
@@ -71,7 +72,21 @@
 
     window.toggle_view_mode = (mode) ->
       $.cookie('viewmode', mode, { expires: 30 })
-      $("#content").load('#{request.fullpath} #incedents')
+      $("#content").load "#{request.fullpath} #incedents", () ->
+        $("#incedents_table").tablesorter({sortList:[[4,0],[0,1]]})
+        $(".pagination a").each ->
+          $(this).attr "data-remote", true
+        $(".pagination a").bind "click", ->
+          $(".pagination").html "Загрузка страницы..."
+          $.get @href, null, null, "script"
+          false
 
     window.toggle_filter = (url) ->
-      $("#content").load(url+' #incedents')
+      $("#content").load url+" #incedents", () ->
+        $("#incedents_table").tablesorter({sortList:[[4,0],[0,1]]})
+        $(".pagination a").each ->
+          $(this).attr "data-remote", true
+        $(".pagination a").bind "click", ->
+          $(".pagination").html "Загрузка страницы..."
+          $.get @href, null, null, "script"
+          false

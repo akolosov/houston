@@ -525,7 +525,7 @@ class IncedentsController < ApplicationController
         by_status(params[:status_id]).
         by_type(params[:type_id]).
         by_priority(params[:priority_id]).
-        by_user(params[:user_id]).
+        by_user_as_initiator_or_worker(params[:user_id]).
         by_server(params[:server_id])
   end
 
