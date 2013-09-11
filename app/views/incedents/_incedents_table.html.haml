@@ -22,51 +22,57 @@
     background-color: #eee !important;
   }
 
-%h3
-  = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'
-  - if params[:action] != 'archive' && params[:action] != 'observe'
-    = render 'filter'
-  - elsif params[:action] != 'observe'
-    = render 'archive_filter'
+.container-fluid
+  .row-fluid
+    %div{ class: ((params[:action] == 'observe') ? 'span12' : 'span10' )}
+      %h3
+        = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'
 
-.apple_pagination
-  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+      .apple_pagination
+        =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
-%table.table.table-condensed.table-bordered.table-hover
-  %thead
-    %tr
-      %th.span1 Приор.
-      %th.span1 Тип
-      %th Имя
-      %th.span3 Дата создания
-      %th.span3 Срок исполнения
-      %th.span2 Инициатор
-      %th.span2 Исполнитель
+      %table.table.table-condensed.table-bordered.table-hover
+        %thead
+          %tr
+            %th.span1 Приор.
+            %th.span1 Тип
+            %th Имя
+            %th.span3 Дата создания
+            %th.span3 Срок исполнения
+            %th.span3 Инициатор
+            %th.span3 Исполнитель
 
-  %tbody
-  - @incedents.each do |incedent|
-    %tr{ class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : '')))), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
-      = render partial: 'popup', locals: { incedent: incedent }
-      %td
-        = image_tag 'images/priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
-      %td
-        = lbl incedent.type.name
-      %td
-        = show_status incedent.status_id
-        = incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
-      %td
-        = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
-      %td
-        = incedent.finish_at.strftime('%d.%m.%Y в %H:%M')
-      %td
-        - if incedent.has_initiator?
-          = incedent.initiator.realname
-      %td
-        - if incedent.has_worker?
-          = incedent.worker.realname
+        %tbody
+        - @incedents.each do |incedent|
+          %tr{ class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : '')))), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
+            = render partial: 'popup', locals: { incedent: incedent }
+            %td
+              = image_tag 'images/priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
+            %td
+              = lbl incedent.type.name
+            %td
+              = show_status incedent.status_id
+              = incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
+            %td
+              = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
+            %td
+              = incedent.finish_at.strftime('%d.%m.%Y в %H:%M')
+            %td
+              - if incedent.has_initiator?
+                = incedent.initiator.realname
+            %td
+              - if incedent.has_worker?
+                = incedent.worker.realname
 
-.apple_pagination
-  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+      .apple_pagination
+        =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+
+    - if params[:action] != 'observe'
+      .span2
+        - if params[:action] == 'archive'
+          = render 'archive_filter'
+        - else
+          = render 'filter'
 
 :coffeescript
   $ ->

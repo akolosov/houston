@@ -1,53 +1,53 @@
-.pull-right.btn-group#buttons
-  = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id], params[:user_id], params[:server_id])
-  %a.btn.btn-mini{onclick: '$(\'#filter\').show(\'fast\'); $(\'#buttons\').hide();', title: 'Фильтр'}
-    = glyph(:filter)+' Фильтр'
-.form.form-horizontal.filter#filter
-  .pull-right
-    %i.icon-remove#close-button{onclick: '$(\'#filter\').hide(\'fast\'); $(\'#buttons\').show();', title: 'Закрыть'}
+.form.form-horizontal
+  .form-header
+    %h5= glyph(:filter)+" Фильтр для жалоб"
   .form-inputs
     .container-fluid
       - if current_user.has_role? :admin
         .row-fluid
-          .span2
+          .span12
             %small По пользователю:
-          .span10
-            - User.all.each_slice(10).to_a.each do |users|
-              .btn-group
+            %select.form-input{ onchange: "window.toggle_filter(this.value);" }
+              %option{ value: '' }
+              - User.all.each_slice(10).to_a.each do |users|
                 - users.each do |user|
-                  = make_user_filter_url(user, params[:status_id], params[:type_id], params[:priority_id], params[:server_id])
-              %br
+                  %option{ value: make_user_filter_url(user, params[:status_id], params[:type_id], params[:priority_id], params[:server_id]), selected: (params[:user_id] == user.id.to_s) }
+                    = user.realname
       .row-fluid
-        .span2
+        .span12
           %small По оборудованию:
-        .span10
-          - Server.all.each_slice(10).to_a.each do |servers|
-            .btn-group
-              - servers.each do |server|
-                = make_server_filter_url(server, params[:type_id], params[:priority_id], params[:user_id], params[:status_id])
+          %select.form-input{ onchange: "window.toggle_filter(this.value);" }
+            %option{ value: '' }
+            - Server.all.each do |server|
+              %option{ value: make_server_filter_url(server, params[:type_id], params[:priority_id], params[:user_id], params[:status_id]), selected: (params[:server_id] == server.id.to_s) }
+                = server.name
             %br
       .row-fluid
-        .span2
+        .span12
           %small По статусу:
-        .span10
-          .btn-group
+          %select.form-input{ onchange: "window.toggle_filter(this.value);" }
+            %option{ value: '' }
             - Status.all.each do |status|
               - if status.id != Houston::Application.config.incedent_solved and status.id != Houston::Application.config.incedent_waited
-                = make_status_filter_url(status, params[:type_id], params[:priority_id], params[:user_id], params[:server_id])
+                %option{ value: make_status_filter_url(status, params[:type_id], params[:priority_id], params[:user_id], params[:server_id]), selected: (params[:status_id] == status.id.to_s) }
+                  = status.name
       .row-fluid
-        .span2
+        .span12
           %small По приоритету:
-        .span10
-          .btn-group
+          %select.form-input{ onchange: "window.toggle_filter(this.value);" }
+            %option{ value: '' }
             - Priority.all.each do |priority|
-              = make_priority_filter_url(priority, params[:status_id], params[:type_id], params[:user_id], params[:server_id])
+              %option{ value: make_priority_filter_url(priority, params[:status_id], params[:type_id], params[:user_id], params[:server_id]), selected: (params[:priority_id] == priority.id.to_s) }
+                = priority.name
       .row-fluid
-        .span2
+        .span12
           %small По типу:
-        .span10
-          .btn-group
+          %select.form-input{ onchange: "window.toggle_filter(this.value);" }
+            %option{ value: '' }
             - Type.all.each do |type|
-              = make_type_filter_url(type, params[:status_id], params[:priority_id], params[:user_id], params[:server_id])
+              %option{ value: make_type_filter_url(type, params[:status_id], params[:priority_id], params[:user_id], params[:server_id]), selected: (params[:type_id] == type.id.to_s) }
+                = type.name
   .form-actions
-    .pull-right.top-10
-      = link_to 'Отменить все фильтры', incedents_path, class: 'btn btn-mini'
+    .btn-group.pull-right.top-5
+      = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id], params[:user_id], params[:server_id])
+      = link_to glyph(:remove)+' Отменить фильтры', incedents_path, remote: true, class: 'btn btn-mini'
