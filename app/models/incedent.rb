@@ -90,6 +90,14 @@ class Incedent < ActiveRecord::Base
     !self.initiator.nil?
   end
 
+  def is_overdated_now?
+    (self.finish_at < Time.now)
+  end
+
+  def is_overdated_soon?
+    ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
+  end
+
   def is_played?
     self.status_id == Houston::Application.config.incedent_played
   end
