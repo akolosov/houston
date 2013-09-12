@@ -39,7 +39,10 @@
             %th Тип
             %th Имя
             %th Дата создания
-            %th Срок исполнения
+            - if params[:action] == 'archive'
+              %th Дата завершения
+            - else
+              %th Срок исполнения
             %th Инициатор
             %th Исполнитель
 
@@ -58,7 +61,10 @@
               %td
                 = incedent.created_at.strftime('%d.%m.%Y %H:%M')
               %td
-                = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
+                - if params[:action] == 'archive'
+                  = incedent.updated_at.strftime('%d.%m.%Y %H:%M')
+                - else
+                  = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
               %td
                 - if incedent.has_initiator?
                   = incedent.initiator.realname
