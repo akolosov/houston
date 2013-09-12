@@ -8,7 +8,7 @@
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
       - @incedents.each do |incedent|
-        .form{class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : ''))))}
+        .form{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : '') }
           .form-header
             .btn-group.pull-right.right5
               = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
