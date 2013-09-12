@@ -6,11 +6,11 @@ module ApplicationHelper
   end
 
   def badge(text, aclass = '')
-    content_tag :span, text, class: 'badge badge-'+aclass.to_s
+    content_tag :span, text, class: 'badge'+((aclass != '') ? ' badge-'+aclass.to_s : '')
   end
 
   def lbl(text, aclass = '')
-    content_tag :span, text, class: 'label label-'+aclass.to_s
+    content_tag :span, text, class: 'label'+((aclass != '') ? ' label-'+aclass.to_s : '')
   end
 
   def show_status(status)
