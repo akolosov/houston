@@ -3,7 +3,7 @@
     display: none;
   }
 
-.form{class: (@incedent.is_solved? ? 'solved' : (@incedent.is_rejected? ? 'rejected' : (@incedent.is_played? ? 'played' : (@incedent.is_closed? ? 'closed' : ''))))}
+.form{ class: ((params[:action] != 'archive') ? (@incedent.is_overdated_now? ? 'error' : (@incedent.is_overdated_soon? ? 'warning' : '')) : '') }
   .form-header
     .btn-group.pull-right.right5
       - if @incedent.incedent_actions
