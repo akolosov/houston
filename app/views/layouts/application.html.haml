@@ -73,7 +73,7 @@
     window.toggle_view_mode = (mode) ->
       $.cookie('viewmode', mode, { expires: 30 })
       $("#content").load "#{request.fullpath} #incedents", () ->
-        $("#incedents_table").tablesorter({sortList:[[4,0],[0,1]]})
+        $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
         $(".pagination a").each ->
           $(this).attr "data-remote", true
         $(".pagination a").bind "click", ->
@@ -83,7 +83,7 @@
 
     window.toggle_filter = (url) ->
       $("#content").load url+" #incedents", () ->
-        $("#incedents_table").tablesorter({sortList:[[4,0],[0,1]]})
+        $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
         $(".pagination a").each ->
           $(this).attr "data-remote", true
         $(".pagination a").bind "click", ->

@@ -9,14 +9,14 @@ class IncedentsController < ApplicationController
   # GET /incedents
   # GET /incedents.json
   def index
-    @incedents = get_incedents(false).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
+    @incedents = get_incedents(false).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
       format.js
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
       format.xls {
-        @incedents = get_incedents(false).order('updated_at DESC')
+        @incedents = get_incedents(false).order('finish_at')
         headers["Content-Disposition"] = "attachment; filename=\"Книга жалоб"+(params[:status_id] ? " (по статусу '"+Status.find(params[:status_id]).name+"')" : '')+(params[:server_id] ? " (по оборудованию '"+Server.find(params[:server_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\""
       }
     end
@@ -25,14 +25,14 @@ class IncedentsController < ApplicationController
   # GET /incedents/archive
   # GET /incedents/archive.json
   def archive
-    @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
+    @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
       format.js
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
       format.xls {
-        @incedents = get_incedents(true).order('updated_at DESC')
+        @incedents = get_incedents(true).order('finish_at')
         headers["Content-Disposition"] = "attachment; filename=\"Архив жалоб"+(params[:server_id] ? " (по оборудованию '"+Server.find(params[:server_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\""
       }
     end
@@ -41,7 +41,7 @@ class IncedentsController < ApplicationController
   # GET /incedents/observed
   # GET /incedents/observed.json
   def observe
-    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
+    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
