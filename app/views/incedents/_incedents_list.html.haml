@@ -119,12 +119,13 @@
 
 = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
-:coffeescript
-  $ ->
-    $(".pagination a").each ->
-      $(this).attr "data-remote", true
+- unless @incedents.empty?
+  :coffeescript
+    $ ->
+      $(".pagination a").each ->
+        $(this).attr "data-remote", true
 
-    $(".pagination a").bind "click", ->
-      $(".pagination").html "Загрузка страницы..."
-      $.get @href, null, null, "script"
-      false
+      $(".pagination a").bind "click", ->
+        $(".pagination").html "Загрузка страницы..."
+        $.get @href, null, null, "script"
+        false

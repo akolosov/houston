@@ -5,7 +5,11 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      =link_to glyph(:th_large)+" Хьюстон", '#', onclick: "window.toggle_menu();", class: 'brand', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'У нас проблема!'
+      %a{ href: "#", class: 'brand' }
+        %i{ class: 'icon-th-large', onclick: "window.toggle_menu();", data: { rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Переключить вид меню' }
+        &nbsp;
+      %a{ href: root_path, class: 'brand', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'У нас проблема!' }
+        = " Хьюстон"
       .nav-collapse
         %ul.nav#topmenu
           - if current_user.has_role? :admin
