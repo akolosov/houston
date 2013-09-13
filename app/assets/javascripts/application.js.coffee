@@ -7,7 +7,6 @@
 #= require mousetrap
 #= require markitup
 #= require twitter/bootstrap
-#= require bootstrap-datepicker
 #= require_tree .
 
 $("#form").keypress (e) ->

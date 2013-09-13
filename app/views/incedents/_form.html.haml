@@ -68,4 +68,6 @@
       }
   });
 
+  Calendar.setup({ inputField : "incedent_finish_at", trigger : "incedent_finish_at", showTime : 24, dateFormat : "%d.%m.%Y %H:%M", onSelect   : function() { this.hide() }  });
+
   $("#incedent_name").focus();
