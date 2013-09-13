@@ -16,8 +16,8 @@
     = javascript_include_tag :jquery_ujs
     = javascript_include_tag 'jquery-migrate.js'
     = javascript_include_tag 'jquery.cookie.js'
-    = javascript_include_tag 'jscal/jscal2.js'
-    = javascript_include_tag 'jscal/lang/ru.js'
+    / Another javascripts
+    = javascript_include_tag :application
     / Icons
     = favicon_link_tag '/favicon.ico?1'
     %link{href: 'favicon.ico', rel: 'shortcut icon'}/
@@ -44,8 +44,6 @@
     / /.fluid-container
     / Footer
     = render partial: 'common/footer'
-    / Another javascripts
-    = javascript_include_tag :application
   :coffeescript
     $("body").tooltip selector: "*[data-rel=tooltip]"
 
