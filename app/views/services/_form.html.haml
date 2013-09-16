@@ -1,0 +1,17 @@
+= simple_form_for @service, html: { id: 'form', class: 'form-horizontal form', multipart: true } do |f|
+  .form-header
+    %h3= @form_title
+  .form-inputs
+    .control-group.select.optional.service_parent
+      %label.select.optional.control-label Верхний уровень
+      .controls
+        = select_tag :service_parent_id, nested_options(@services, selected: @service.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "service[parent_id]", id: "service_parent_id"
+    = f.input :name, label: 'Название', input_html: { class: 'form-input' }
+    = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'service_markdown' }
+  .form-actions
+    .pull-right.btn-group
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', services_path, class: 'btn'
+
+:javascript
+  $("#service_name").focus();

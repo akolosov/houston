@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902042512) do
+ActiveRecord::Schema.define(:version => 20130916032807) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -241,6 +241,16 @@ ActiveRecord::Schema.define(:version => 20130902042512) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "port"
+  end
+
+  create_table "services", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "lft"
+    t.integer  "rgt"
   end
 
   create_table "sessions", :force => true do |t|

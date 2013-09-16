@@ -1,0 +1,7 @@
+%h1 Сервисы системы
+
+%ol.tree= sortable_tree @services, { title: :name }
+
+%br
+
+= link_to glyph(:plus)+' Новый сервис', new_service_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Service

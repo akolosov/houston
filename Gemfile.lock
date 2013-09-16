@@ -31,6 +31,8 @@ GEM
     arel (3.0.2)
     auditor (2.3.3)
       activerecord (~> 3.0)
+    awesome_nested_set (2.1.6)
+      activerecord (>= 3.0.0)
     bcrypt-ruby (3.0.1)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
@@ -145,6 +147,11 @@ GEM
     rolify (3.2.0)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
+    sass (3.2.10)
+    sass-rails (3.2.6)
+      railties (~> 3.2.0)
+      sass (>= 3.1.10)
+      tilt (~> 1.3)
     sexp_processor (4.3.0)
     simple_form (2.1.0)
       actionpack (~> 3.0)
@@ -161,6 +168,8 @@ GEM
     sqlite3 (1.3.8)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
+    the_sortable_tree (2.4.0)
+      rails (>= 3.1)
     therubyracer (0.12.0)
       libv8 (~> 3.16.14.0)
       ref
@@ -193,6 +202,7 @@ PLATFORMS
 
 DEPENDENCIES
   auditor
+  awesome_nested_set
   bcrypt-ruby
   better_errors
   binding_of_caller
@@ -213,9 +223,11 @@ DEPENDENCIES
   rb-readline (~> 0.4.2)
   redcarpet
   rolify
+  sass-rails
   simple_form
   sorcery (~> 0.8.1)
   sqlite3-ruby
+  the_sortable_tree
   therubyracer
   twitter-bootstrap-rails
   uglifier

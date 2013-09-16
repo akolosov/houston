@@ -19,6 +19,8 @@
                 %li
                   = link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
                 %li
+                  = link_to glyph(:briefcase)+' Сервисы', services_path, data: { keybinding: 'e', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: E', class: (params[:controller] == 'services' ? 'bold' : '') if current_user.has_role? :admin
+                %li
                   = link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
                 %li
                   = link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
