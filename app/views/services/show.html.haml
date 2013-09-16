@@ -1,6 +1,7 @@
 .form
   .form-header
     .btn-group.pull-right.right5
+      = link_to glyph(:plus)+' Добавить', add_child_service_path(@service), class: 'btn btn-mini' if can? :create, @service
       = link_to glyph(:pencil)+' Изменить', edit_service_path(@service), class: 'btn btn-mini' if can? :update, @service
       = link_to glyph(:trash)+' Удалить', @service, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @service
     %h3= @service.name

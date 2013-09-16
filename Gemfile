@@ -20,6 +20,8 @@ gem 'auditor'
 
 gem 'jquery-rails'
 
+gem 'jquery-ui-rails'
+
 gem 'twitter-bootstrap-rails'
 
 gem 'rb-readline', '~> 0.4.2'

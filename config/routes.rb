@@ -36,7 +36,11 @@ Houston::Application.routes.draw do
 
   resources :categories, except: :show
 
-  resources :services
+  resources :services  do
+    collection do
+      post :rebuild
+    end
+  end
 
   resources :welcome do
     member do

@@ -11,6 +11,7 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
     end
   end
 
