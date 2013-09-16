@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916032807) do
+ActiveRecord::Schema.define(:version => 20130916105059) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -152,6 +152,9 @@ ActiveRecord::Schema.define(:version => 20130916032807) do
     t.integer  "observer_id"
     t.integer  "operator_id"
     t.datetime "finish_at"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"

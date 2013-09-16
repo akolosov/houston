@@ -30,13 +30,17 @@ Houston::Application.routes.draw do
 
   resources :tags, except: :show
 
-  resources :incedents, except: :create
+  resources :incedents, except: :create do
+    collection do
+      post :rebuild
+    end
+  end
 
   resources :attaches, only: :index
 
   resources :categories, except: :show
 
-  resources :services  do
+  resources :services do
     collection do
       post :rebuild
     end

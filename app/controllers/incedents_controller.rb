@@ -1,5 +1,7 @@
 # encoding: utf-8
 class IncedentsController < ApplicationController
+  include TheSortableTreeController::Rebuild
+
   before_filter :require_login, :set_per_page
 
   load_and_authorize_resource
@@ -9,7 +11,7 @@ class IncedentsController < ApplicationController
   # GET /incedents
   # GET /incedents.json
   def index
-    @incedents = get_incedents(false).paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    @incedents = get_incedents(false).nested_set.paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -74,6 +76,8 @@ class IncedentsController < ApplicationController
     @incedent.finish_at = Time.now + 1.days
     @incedent.status_id = Houston::Application.config.incedent_created
 
+    @incedents = get_incedents(false).nested_set.all
+
     respond_to do |format|
       format.html # new.html.erb
     end
@@ -82,6 +86,9 @@ class IncedentsController < ApplicationController
   # GET /incedents/1/edit
   def edit
     @incedent = Incedent.find(params[:id])
+
+    @incedents = get_incedents(false).nested_set.all
+
     @attach = Attach.new
   end
 
@@ -479,6 +486,8 @@ class IncedentsController < ApplicationController
   def set_per_page
     if cookies[:viewmode] == 'table'
       @per_page = 20
+    elsif cookies[:viewmode] == 'tree'
+      @per_page = 100
     else
       @per_page = 5
     end
