@@ -1,0 +1,76 @@
+:css
+  .popup {
+    width: 50% !important;
+    left: 40% !important;
+  }
+
+  .popup-header {
+    padding: 5px 5px 5px 10px !important;
+    border-bottom: 1px solid #999 !important;
+    background-color: #eee !important;
+    -webkit-border-radius: 6px 6px 0 0 !important;
+    -moz-border-radius: 6px 6px 0 0 !important;
+    border-radius: 6px 6px 0 0 !important;
+  }
+
+  .popup-body {
+  }
+
+  .popup-footer {
+    padding: 10px !important;
+    border-top: 1px solid #999 !important;
+    background-color: #eee !important;
+  }
+
+.container-fluid
+  .row-fluid
+    %div{ class: ((params[:action] == 'observe') ? 'span12' : 'span10' )}
+      %h3
+        = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'
+
+      .apple_pagination
+        =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+
+      - if current_user.has_role? :admin or current_user.has_role? :manager
+        %ol.sortable_tree{ data: { rebuild_url: rebuild_incedents_url } }
+          = sortable_tree @incedents, { title: :name }
+      - else
+        %ol.tree= just_tree @incedents, { title: :name }
+
+      .apple_pagination
+        =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+
+    - if params[:action] != 'observe'
+      .span2
+        - if params[:action] == 'archive'
+          = render 'archive_filter'
+        - else
+          = render 'filter'
+
+= link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
+
+- unless @incedents.empty?
+  - if params[:action] == 'archive'
+    :coffeescript
+      $ ->
+        $("#incedents_table").tablesorter({sortList:[[5,1],[0,1]]})
+
+        $(".pagination a").each ->
+          $(this).attr "data-remote", true
+
+        $(".pagination a").bind "click", ->
+          $(".pagination").html "Загрузка страницы..."
+          $.get @href, null, null, "script"
+          false
+  - else
+    :coffeescript
+      $ ->
+        $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+
+        $(".pagination a").each ->
+          $(this).attr "data-remote", true
+
+        $(".pagination a").bind "click", ->
+          $(".pagination").html "Загрузка страницы..."
+          $.get @href, null, null, "script"
+          false
