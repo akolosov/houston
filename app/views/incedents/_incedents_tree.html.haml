@@ -33,9 +33,9 @@
 
       - if current_user.has_role? :admin or current_user.has_role? :manager
         %ol.sortable_tree{ data: { rebuild_url: rebuild_incedents_url } }
-          = sortable_tree @incedents, { title: :name }
+          = sortable_tree @incedents, { title: :name, render_module: RenderIncedentsTreeHelper }
       - else
-        %ol.tree= just_tree @incedents, { title: :name }
+        %ol.tree= just_tree @incedents, { title: :name, render_module: RenderIncedentsTreeHelper }
 
       .apple_pagination
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
@@ -47,30 +47,20 @@
         - else
           = render 'filter'
 
+%br
+
 = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
 - unless @incedents.empty?
-  - if params[:action] == 'archive'
-    :coffeescript
-      $ ->
-        $("#incedents_table").tablesorter({sortList:[[5,1],[0,1]]})
+  :coffeescript
+    $ ->
+      $(".popup").each ->
+        $(this).prependTo($('#incedents'))
 
-        $(".pagination a").each ->
-          $(this).attr "data-remote", true
+      $(".pagination a").each ->
+        $(this).attr "data-remote", true
 
-        $(".pagination a").bind "click", ->
-          $(".pagination").html "Загрузка страницы..."
-          $.get @href, null, null, "script"
-          false
-  - else
-    :coffeescript
-      $ ->
-        $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
-
-        $(".pagination a").each ->
-          $(this).attr "data-remote", true
-
-        $(".pagination a").bind "click", ->
-          $(".pagination").html "Загрузка страницы..."
-          $.get @href, null, null, "script"
-          false
+      $(".pagination a").bind "click", ->
+        $(".pagination").html "Загрузка страницы..."
+        $.get @href, null, null, "script"
+        false

@@ -79,10 +79,16 @@ class Incedent < ActiveRecord::Base
 
   scope :by_user, lambda { |user| where("initiator_id = ? or worker_id = ? or observer_id = ?", user, user, user) unless user.nil? }
 
+  scope :by_parent, lambda { |parent| where("parent_id = ?", parent) unless parent.nil? }
+
   scope :solved, lambda { |archive| where('closed = ?', archive) }
 
   def has_parent?
     !self.parent_id.nil?
+  end
+
+  def have_childs?
+    !self.childs.empty?
   end
 
   def parents_count

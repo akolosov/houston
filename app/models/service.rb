@@ -27,6 +27,10 @@ class Service < ActiveRecord::Base
     !self.parent_id.nil?
   end
 
+  def have_childs?
+    !self.childs.empty?
+  end
+
   def parents_count
     count = 0
     if self.has_parent?

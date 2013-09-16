@@ -126,6 +126,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/by_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_user
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
+  match 'incedents/by_parent/:parent_id(.:format)' => 'incedents#index', as: :incedents_by_parent
   match 'incedents/by_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_server
 
 # incedents archive filter
@@ -163,6 +164,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/archive/by_user/:user_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_user
   match 'incedents/archive/by_tag/:tag_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_tag
+  match 'incedents/archive/by_parent/:parent_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_parent
   match 'incedents/archive/by_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_server
 
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive

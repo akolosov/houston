@@ -487,7 +487,7 @@ class IncedentsController < ApplicationController
     if cookies[:viewmode] == 'table'
       @per_page = 20
     elsif cookies[:viewmode] == 'tree'
-      @per_page = 100
+      @per_page = 20
     else
       @per_page = 5
     end
@@ -531,6 +531,7 @@ class IncedentsController < ApplicationController
         accessible_by(current_ability).
         solved(archive).
         by_tag(params[:tag_id]).
+        by_parent(params[:parent_id]).
         by_status(params[:status_id]).
         by_type(params[:type_id]).
         by_priority(params[:priority_id]).

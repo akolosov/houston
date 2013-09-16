@@ -59,3 +59,50 @@ module RenderSortableTreeHelper
     end
   end
 end
+
+module RenderIncedentsTreeHelper
+  module Render
+    class << self
+      attr_accessor :h, :options
+
+      def render_node(h, options)
+        @h, @options = h, options
+        node = options[:node]
+
+        "
+          <li data-node-id='#{ node.id }'>
+            <div class='item'>
+              <i class='handle'></i>
+              #{ show_link }
+            </div>
+            #{ children }
+          </li>
+        "
+      end
+
+      def show_link
+        node = options[:node]
+        ns   = options[:namespace]
+        url  = h.url_for(ns + [node])
+        title_field = options[:title]
+
+        result = "<h4>"+h.link_to(h.raw(node.send(title_field)+'  '+h.lbl(node.type.name)+'  '+h.lbl(node.priority.name)+'  '+h.lbl(node.status.name)), "#incedent-popup-#{node.id}",
+                         class: ((h.params[:action] != 'archive') ? (node.is_overdated_now? ? 'error' : (node.is_overdated_soon? ? 'warning' : '')) : ''),
+                         data: { toggle: 'modal' })+"</h4>"
+        result += h.render partial: 'popup', locals: { incedent: node }
+
+        result
+      end
+
+      def controls
+      end
+
+      def children
+        unless options[:children].blank?
+          "<ol class='nested_set'>#{ options[:children] }</ol>"
+        end
+      end
+
+    end
+  end
+end
