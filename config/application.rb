@@ -68,7 +68,7 @@ module Houston
     config.incedent_waited   = 8
 
     config.app_name = 'Houston'
-    config.version = '0.13.0'
+    config.version = '0.14.0'
     config.email = 'houston@taxinonstop.ru'
   end
 end
