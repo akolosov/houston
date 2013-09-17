@@ -68,6 +68,7 @@
     window.toggle_view_mode = (mode) ->
       $.cookie('viewmode', mode, { expires: 30 })
       $("#content").load "#{request.fullpath} #incedents", () ->
+        mode = $.cookie("viewmode")
         $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]}) if mode == 'table'
         $(".popup").each ->
           $(this).prependTo($('#incedents')) if mode == 'tree'
@@ -80,6 +81,7 @@
 
     window.toggle_filter = (url) ->
       $("#content").load url+" #incedents", () ->
+        mode = $.cookie("viewmode")
         $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]}) if mode == 'table'
         $(".popup").each ->
           $(this).prependTo($('#incedents')) if mode == 'tree'
