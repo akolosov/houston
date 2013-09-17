@@ -30,11 +30,21 @@ Houston::Application.routes.draw do
 
   resources :tags, except: :show
 
-  resources :incedents, except: :create
+  resources :incedents, except: :create do
+    collection do
+      post :rebuild
+    end
+  end
 
   resources :attaches, only: :index
 
   resources :categories, except: :show
+
+  resources :services do
+    collection do
+      post :rebuild
+    end
+  end
 
   resources :welcome do
     member do
@@ -53,6 +63,8 @@ Houston::Application.routes.draw do
   match 'users/:id/activate' => 'users#activate', as: :activate_user
   match 'users/:id/deactivate' => 'users#deactivate', as: :deactivate_user
   match 'users/:id/password' => 'users#update_password', as: :update_password
+
+  match 'service/:id/add' => 'services#new', as: :add_child_service
 
   match 'server/:server_id/problems' => 'server_problems#index', as: :problems_by_server
   match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server
@@ -114,6 +126,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/by_user/:user_id(.:format)' => 'incedents#index', as: :incedents_by_user
   match 'incedents/by_tag/:tag_id(.:format)' => 'incedents#index', as: :incedents_by_tag
+  match 'incedents/by_parent/:parent_id(.:format)' => 'incedents#index', as: :incedents_by_parent
   match 'incedents/by_server/:server_id(.:format)' => 'incedents#index', as: :incedents_by_server
 
 # incedents archive filter
@@ -151,6 +164,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/archive/by_user/:user_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_user
   match 'incedents/archive/by_tag/:tag_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_tag
+  match 'incedents/archive/by_parent/:parent_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_parent
   match 'incedents/archive/by_server/:server_id(.:format)' => 'incedents#archive', as: :incedents_archive_by_server
 
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive

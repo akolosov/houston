@@ -11,12 +11,7 @@
     = stylesheet_link_tag 'application', media: 'all'
     = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Play&subset=latin,cyrillic', media: 'all'
     = csrf_meta_tag
-    / jQuery
-    = javascript_include_tag :jquery
-    = javascript_include_tag :jquery_ujs
-    = javascript_include_tag 'jquery-migrate.js'
-    = javascript_include_tag 'jquery.cookie.js'
-    / Another javascripts
+    / Javascripts
     = javascript_include_tag :application
     / Icons
     = favicon_link_tag '/favicon.ico?1'
@@ -74,6 +69,8 @@
       $.cookie('viewmode', mode, { expires: 30 })
       $("#content").load "#{request.fullpath} #incedents", () ->
         $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+        $(".popup").each ->
+          $(this).prependTo($('#incedents'))
         $(".pagination a").each ->
           $(this).attr "data-remote", true
         $(".pagination a").bind "click", ->
@@ -84,6 +81,8 @@
     window.toggle_filter = (url) ->
       $("#content").load url+" #incedents", () ->
         $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+        $(".popup").each ->
+          $(this).prependTo($('#incedents'))
         $(".pagination a").each ->
           $(this).attr "data-remote", true
         $(".pagination a").bind "click", ->

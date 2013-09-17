@@ -19,6 +19,8 @@
                 %li
                   = link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
                 %li
+                  = link_to glyph(:briefcase)+' Сервисы', services_path, data: { keybinding: 'e', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: E', class: (params[:controller] == 'services' ? 'bold' : '') if current_user.has_role? :admin
+                %li
                   = link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
                 %li
                   = link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
@@ -84,6 +86,7 @@
                 = glyph(:search)+' Поиск'
           - if (params[:controller] == 'incedents')
             .btn-group.pull-right{style: 'margin: 4px !important; ', data: { toggle: "buttons-radio" } }
+              = link_to glyph(:align_left), '#', onclick: "window.toggle_view_mode('tree');",  class: 'btn btn-small'+((cookies[:viewmode] == 'tree') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ДЕРЕВО'
               = link_to glyph(:list), '#', onclick: "window.toggle_view_mode('list');",  class: 'btn btn-small'+((cookies[:viewmode] == 'list') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: СПИСОК'
               = link_to glyph(:list_alt), '#', onclick: "window.toggle_view_mode('table');", class: 'btn btn-small'+((cookies[:viewmode] == 'table') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ТАБЛИЦА'
         - else

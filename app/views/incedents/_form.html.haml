@@ -9,6 +9,10 @@
           = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'incedent_markdown'  }
         .span4
           - if current_user.has_role? :admin
+            .control-group.select.optional.service_parent
+              %label.select.optional.control-label Верхний уровень
+              .controls
+                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
             = f.association :operator, include_blank: false, label: 'Оператор', input_html: { class: 'form-input' }
             = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
             = f.association :worker, include_blank: true, label: 'Исполнитель', input_html: { class: 'form-input' }
@@ -16,6 +20,10 @@
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
             = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'form-input' }
           - elsif current_user.has_role? :manager
+            .control-group.select.optional.service_parent
+              %label.select.optional.control-label Верхний уровень
+              .controls
+                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
             = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
             = f.association :worker, include_blank: true, label: 'Исполнитель', input_html: { class: 'form-input' }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
@@ -25,6 +33,7 @@
           - elsif current_user.has_role? :executor
             = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
+            = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
             = f.input :worker_id, as: :hidden
             = f.input :observer_id, as: :hidden
@@ -32,11 +41,13 @@
           - elsif current_user.has_role? :operator
             = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
+            = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
             = f.input :worker_id, as: :hidden
             = f.input :observer_id, as: :hidden
             = f.input :status_id, as: :hidden
           - elsif current_user.has_role? :client
+            = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
             = f.input :initiator_id, as: :hidden
             = f.input :worker_id, as: :hidden

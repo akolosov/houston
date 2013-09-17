@@ -1,5 +1,9 @@
 # encoding: utf-8
 class Incedent < ActiveRecord::Base
+  acts_as_nested_set
+
+  include TheSortableTree::Scopes
+
   audit(:create)  { |model, user, action| "Жалоба \"#{model.name}\" создана пользователем #{user.display_name}" }
   audit(:update)  { |model, user, action| "Жалоба \"#{model.name}\" изменена пользователем #{user.display_name}" }
   audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил жалобу \"#{model.name}\"" }
@@ -14,6 +18,9 @@ class Incedent < ActiveRecord::Base
   belongs_to :priority
   belongs_to :type
   belongs_to :server
+  belongs_to :parent,
+             :class_name => "Incedent",
+             :foreign_key => "parent_id"
 
   validates :name, :description, presence: true
 
@@ -27,10 +34,16 @@ class Incedent < ActiveRecord::Base
   has_many :attaches, through: :incedent_attaches, dependent: :delete_all
 
   has_many :incedent_actions
-  
+
+  has_many :childs,
+           :class_name => "Incedent",
+           :foreign_key => "parent_id",
+           :order => "name",
+           :dependent => :delete_all
+
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id, :parent_id, :parent, :childs
 
   attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at
 
@@ -66,7 +79,26 @@ class Incedent < ActiveRecord::Base
 
   scope :by_user, lambda { |user| where("initiator_id = ? or worker_id = ? or observer_id = ?", user, user, user) unless user.nil? }
 
+  scope :by_parent, lambda { |parent| where("parent_id = ?", parent) unless parent.nil? }
+
   scope :solved, lambda { |archive| where('closed = ?', archive) }
+
+  def has_parent?
+    !self.parent_id.nil?
+  end
+
+  def have_childs?
+    !self.childs.empty?
+  end
+
+  def parents_count
+    count = 0
+    if self.has_parent?
+      count = 1
+      count += self.parent.parents_count
+    end
+    count
+  end
 
   def default_values
     self.initiator_id ||= 1
