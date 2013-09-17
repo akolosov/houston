@@ -2,7 +2,9 @@
   $(document).ready ->
     setInterval (->
       $("#content").load "#{request.fullpath} #incedents", () ->
-          $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+          $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]}) if mode == 'table'
+          $(".popup").each ->
+            $(this).prependTo($('#incedents')) if mode == 'tree'
           $(".pagination a").each ->
             $(this).attr "data-remote", true
           $(".pagination a").bind "click", ->
