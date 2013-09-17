@@ -44,7 +44,7 @@
         = link_to glyph(:trash), incedent, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if can? :destroy, incedent
         = link_to glyph(:remove), "#", data: { dismiss: 'modal', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Закрыть окно', class: 'btn btn-mini'
     %h4= incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
-  .modal-body.popup-body{ class: (incedent.is_solved? ? 'solved' : (incedent.is_rejected? ? 'rejected' : (incedent.is_played? ? 'played' : (incedent.is_closed? ? 'closed' : '')))) }
+  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : '') }
     = markdown(incedent.description)
     %br
     .container-fluid
