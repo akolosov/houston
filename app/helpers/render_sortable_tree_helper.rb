@@ -82,16 +82,7 @@ module RenderIncedentsTreeHelper
 
       def show_link
         node = options[:node]
-        ns   = options[:namespace]
-        url  = h.url_for(ns + [node])
-        title_field = options[:title]
-
-        result = "<h4>"+h.link_to(h.raw(node.send(title_field)+'  '+h.lbl(node.type.name)+'  '+h.lbl(node.priority.name)+'  '+h.lbl(node.status.name)), "#incedent-popup-#{node.id}",
-                         class: ((h.params[:action] != 'archive') ? (node.is_overdated_now? ? 'error' : (node.is_overdated_soon? ? 'warning' : '')) : ''),
-                         data: { toggle: 'modal' })+"</h4>"
-        result += h.render partial: 'popup', locals: { incedent: node }
-
-        result
+        h.render partial: 'tree_item', locals: { incedent: node }
       end
 
       def controls
