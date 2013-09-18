@@ -1,0 +1,36 @@
+= simple_form_for @service_class, url: (@service_class.id.nil? ? @service_class : update_service_class_path(@service_class.service, @service_class)), html: { id: 'form', class: 'form-horizontal form', multipart: true  } do |f|
+  .form-header
+    %h3= @form_title+' для сервиса '+ @service_class.service.name
+  .form-inputs
+    = f.input :service_id, as: :hidden
+    .container-fluid
+      .row-fluid
+        .span6
+          .container-fluid
+            .row-fluid
+              .span12
+                = f.association :type, label: 'Тип', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.association :priority, label: 'Приоритет', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :autoclose, label: 'Автозакрытие', input_html: { class: 'form-input' }
+        .span6
+          .container-fluid
+            .row-fluid
+              .span12
+                = f.input :reaction_hours, label: 'Реакция, часов', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :escalation_hours, label: 'Эскалация, часов', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :performance_hours, label: 'Выполнение, часов', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :autoclose_hours, label: 'Автозакрытие, часов', input_html: { class: 'form-input' }
+  .form-actions
+    .pull-right.btn-group
+      = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', service_classes_path, class: 'btn'

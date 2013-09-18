@@ -46,7 +46,7 @@ module RenderSortableTreeHelper
         "<div class='btn-group pull-right controls'>
             #{ h.link_to h.glyph(:plus), add_path, class: 'btn btn-mini', data: { rel: 'tooltip', container: 'body', placement: 'bottom', delay: '200' }, title: 'Добавить дочерний сервис' if h.can? :create, node }
             #{ h.link_to h.glyph(:pencil), edit_path, class: 'btn btn-mini', data: { rel: 'tooltip', container: 'body', placement: 'bottom', delay: '200' }, title: 'Редактировать сервис' if h.can? :update, node }
-            #{ h.link_to h.glyph(:trash), show_path, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', container: 'body', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if h.can? :destroy, node }
+            #{ h.link_to h.glyph(:trash), show_path, class: 'btn btn-mini btn-danger', method: :delete, data: { confirm: 'Вы уверены?', rel: 'tooltip', container: 'body', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if h.can? :destroy, node }
           </div>"
       end
 

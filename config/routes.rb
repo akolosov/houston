@@ -46,6 +46,8 @@ Houston::Application.routes.draw do
     end
   end
 
+  resources :service_classes, except: [:show, :index ]
+
   resources :welcome do
     member do
       get 'denied'
@@ -65,6 +67,12 @@ Houston::Application.routes.draw do
   match 'users/:id/password' => 'users#update_password', as: :update_password
 
   match 'service/:id/add' => 'services#new', as: :add_child_service
+
+  match 'service/:service_id/class/:id' => 'service_classes#edit', as: :edit_service_class
+  match 'service/:service_id/add_class' => 'service_classes#new', as: :new_service_class
+  match 'service/:service_id/class/:id/delete' => 'service_classes#destroy', as: :delete_service_class
+  match 'service/:service_id/class/:id/update' => 'service_classes#update', as: :update_service_class
+
 
   match 'server/:server_id/problems' => 'server_problems#index', as: :problems_by_server
   match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server

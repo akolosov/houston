@@ -67,6 +67,13 @@ module Houston
     config.incedent_closed   = 7
     config.incedent_waited   = 8
 
+    # class of service time
+    # type_id -> priority_id -> reaction_hours, autoclose_hours, escalation_hours, performance_hours
+    config.class_of_service_time = { '1' => { '1' => [10, 10, 10, 10], '2'  => [10, 10, 10, 10], '3'  => [10, 10, 10, 10], '4'  => [10, 10, 10, 10], '5'  => [10, 10, 10, 10] },
+                                     '2' => { '1' => [10, 10, 10, 10], '2'  => [10, 10, 10, 10], '3'  => [10, 10, 10, 10], '4'  => [10, 10, 10, 10], '5'  => [10, 10, 10, 10] },
+                                     '3' => { '1' => [10, 10, 10, 10], '2'  => [10, 10, 10, 10], '3'  => [10, 10, 10, 10], '4'  => [10, 10, 10, 10], '5'  => [10, 10, 10, 10] },
+                                     '4' => { '1' => [10, 10, 10, 10], '2'  => [10, 10, 10, 10], '3'  => [10, 10, 10, 10], '4'  => [10, 10, 10, 10], '5'  => [10, 10, 10, 10] }}
+
     config.app_name = 'Houston'
     config.version = '0.14.0'
     config.email = 'houston@taxinonstop.ru'
