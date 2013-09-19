@@ -48,11 +48,7 @@ Houston::Application.routes.draw do
 
   resources :service_classes, except: [:show, :index ]
 
-  resources :welcome do
-    member do
-      get 'denied'
-    end
-  end
+  resources :welcome
 
   resources :users
 
@@ -179,6 +175,7 @@ Houston::Application.routes.draw do
   match 'incedents/observe' => 'incedents#observe', as: :incedents_observe
 
   match 'incedent/add' => 'incedents#add', as: :add_incedent
+  match 'incedent/by_class/:service_class_id/add' => 'incedents#new', as: :add_incedent_by_class
 
   match 'incedent/:id/unwatch' => 'incedents#unwatch', as: :unwatch_incedent
   match 'incedent/:id/watch' => 'incedents#watch', as: :watch_incedent

@@ -23,6 +23,7 @@
     .hidden#result
     - if (current_user) and (!current_user.first_login)
       = render partial: 'common/header'
+      = render partial: 'common/about'
     .container-fluid
       .row-fluid
         - if (current_user) and (!current_user.first_login)

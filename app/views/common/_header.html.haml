@@ -79,6 +79,8 @@
           .btn-group.pull-right{style: 'margin: 4px !important; '}
             = link_to glyph(:user)+' Профиль', edit_user_path(current_user), class: 'btn btn-small'
             = link_to glyph(:off)+' Выход', :logout, class: 'btn btn-small'
+            %a.btn.btn-small{ data: { toggle: 'modal' }, href: "#houston-about"}
+              = glyph(:asterisk)
           %form.form-search.pull-right{action: '/search/', style: 'margin-top: 2px; margin-bottom: -5px; '}
             .input-append
               %input.span2.search-query{name: 'query', type: 'text', value: params[:query], data: { keybinding: 'f' }}/
@@ -89,5 +91,3 @@
               = link_to glyph(:align_left), '#', onclick: "window.toggle_view_mode('tree');",  class: 'btn btn-small'+((cookies[:viewmode] == 'tree') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ДЕРЕВО'
               = link_to glyph(:list), '#', onclick: "window.toggle_view_mode('list');",  class: 'btn btn-small'+((cookies[:viewmode] == 'list') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: СПИСОК'
               = link_to glyph(:list_alt), '#', onclick: "window.toggle_view_mode('table');", class: 'btn btn-small'+((cookies[:viewmode] == 'table') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ТАБЛИЦА'
-        - else
-          = link_to glyph(:lock)+'Вход', :login, class: 'btn btn-mini'
