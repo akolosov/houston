@@ -18,6 +18,7 @@ class Incedent < ActiveRecord::Base
   belongs_to :priority
   belongs_to :type
   belongs_to :server
+  belongs_to :service_class
   belongs_to :parent,
              :class_name => "Incedent",
              :foreign_key => "parent_id"
@@ -45,7 +46,7 @@ class Incedent < ActiveRecord::Base
 
   attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id, :parent_id, :parent, :childs
 
-  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at, :service_class_id
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
 

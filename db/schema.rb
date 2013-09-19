@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918033503) do
+ActiveRecord::Schema.define(:version => 20130919052327) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -145,9 +145,9 @@ ActiveRecord::Schema.define(:version => 20130918033503) do
     t.integer  "status_id"
     t.integer  "priority_id"
     t.integer  "type_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.boolean  "closed",       :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "closed",           :default => false
     t.integer  "server_id"
     t.integer  "observer_id"
     t.integer  "operator_id"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(:version => 20130918033503) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
+    t.integer  "service_class_id"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"

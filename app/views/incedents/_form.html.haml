@@ -55,9 +55,10 @@
             = f.input :status_id, as: :hidden
             = f.input :server_id, as: :hidden
 
-          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input' }
-          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input' }
-          = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y 23:59') }
+          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input', disabled: ((@incedent.service_class_id.nil?) and ((current_user.has_role? :admin) or (current_user.has_role? :manager)) ? '' : ' disabled') }
+          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input', disabled: ((@incedent.service_class_id.nil?) and ((current_user.has_role? :admin) or (current_user.has_role? :manager)) ? '' : ' disabled') }
+          = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y %H:00') }
+          = f.input :service_class_id, as: :hidden
       .row-fluid
         .span12
           = f.association :tags, as: :check_boxes, label: 'Метки', input_html: { class: 'form-input' }

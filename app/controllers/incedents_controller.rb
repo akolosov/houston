@@ -1,6 +1,7 @@
 # encoding: utf-8
 class IncedentsController < ApplicationController
   include TheSortableTreeController::Rebuild
+  include ApplicationHelper
 
   before_filter :require_login, :set_per_page
 
@@ -77,6 +78,14 @@ class IncedentsController < ApplicationController
     @incedent.status_id = Houston::Application.config.incedent_created
 
     @incedents = get_incedents(false).nested_set.all
+
+    if params[:service_class_id]
+      @service_class = ServiceClass.find(params[:service_class_id])
+      @incedent.type_id = @service_class.type_id
+      @incedent.priority_id = @service_class.priority_id
+      @incedent.service_class_id = @service_class.id
+      @incedent.finish_at = Time.now + @service_class.performance_hours.hours
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -524,19 +533,6 @@ class IncedentsController < ApplicationController
 
     @comment_attach = CommentAttach.new(comment: comment, attach: @attach)
     @comment_attach.save
-  end
-
-  def get_incedents(archive)
-    Incedent.scoped.
-        accessible_by(current_ability).
-        solved(archive).
-        by_tag(params[:tag_id]).
-        by_parent(params[:parent_id]).
-        by_status(params[:status_id]).
-        by_type(params[:type_id]).
-        by_priority(params[:priority_id]).
-        by_user_as_initiator_or_worker(params[:user_id]).
-        by_server(params[:server_id])
   end
 
 end
