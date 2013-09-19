@@ -27,7 +27,7 @@ class ServiceClassesController < ApplicationController
       if @service_class.save
         format.html { redirect_to @service_class.service, notice: 'Класс обслуживания успешно создан.' }
       else
-        format.html { render action: "new" }
+        format.html { render action: "new", alert: params[:message] }
       end
     end
   end

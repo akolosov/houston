@@ -65,12 +65,14 @@ module RenderDashboardTreeHelper
         node = options[:node]
         title_field = options[:title]
 
-        result = "<h4>"
+        result = "<h4 onclick='$(\"#service-#{node.id}\").toggle();'>"
         result += node.send(title_field)
+        result += '<div class="pull-right">'+(h.glyph(:plus))+'</div>' unless node.have_childs?
 
         unless node.have_childs?
           tp = 0
-          result += "</div><ol><li><div class='item'><table class='table table-condensed table-bordered table-hover'>"
+          result += "</div><ol><li><div class='item' id='service-#{node.id}' style='display : none; '><table class='table table-very-condensed table-bordered table-hover'>"
+
           node.service_classes.each do |sclass|
             if tp != sclass.type_id
               if tp != 0
@@ -83,10 +85,11 @@ module RenderDashboardTreeHelper
               tp = sclass.type_id
             end
 
-            result += "<td>"
+            result += "<td align='center'>"
             result += h.link_to (h.image_tag 'priority'+sclass.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: sclass.priority.name), h.add_incedent_by_class_path(sclass)
             result += "</td>"
           end
+
           result += "</tr></table></div></li></ol>"
         end
 

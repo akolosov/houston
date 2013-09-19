@@ -11,7 +11,7 @@
         .span5
           = markdown(@service.description)
         .span7
-          %table.table.table-condensed.table-bordered.table-hover
+          %table.table.table-very-condensed.table-bordered.table-hover
             %tr
               %th
               %th
@@ -35,4 +35,4 @@
                     = link_to glyph(:pencil), edit_service_class_path(service_class.service, service_class), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Редактировать жалобу' if can? :update, service_class
                     = link_to glyph(:trash), delete_service_class_path(service_class.service, service_class), method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if can? :destroy, service_class
           %br
-          = link_to glyph(:plus)+' Новый сервис', new_service_class_path(@service), class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if (current_user.has_role? :admin)
+          = link_to glyph(:plus)+' Новый класс обслуживания', new_service_class_path(@service), class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if (current_user.has_role? :admin)

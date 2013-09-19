@@ -1,4 +1,4 @@
-= simple_form_for @service_class, url: (@service_class.id.nil? ? @service_class : update_service_class_path(@service_class.service, @service_class)), html: { id: 'form', class: 'form-horizontal form', multipart: true  } do |f|
+= simple_form_for @service_class, url: (@service_class.id.nil? ? create_service_class_path(@service_class.service) : update_service_class_path(@service_class.service, @service_class)), html: { id: 'form', class: 'form-horizontal form', multipart: true  } do |f|
   .form-header
     %h3= @form_title+' для сервиса '+ @service_class.service.name
   .form-inputs
@@ -34,3 +34,10 @@
     .pull-right.btn-group
       = f.submit @button_title+' [Ctrl+Enter]', class: 'btn btn-success'
       = link_to 'Отмена [Esc]', service_classes_path, class: 'btn'
+
+:javascript
+  $('#form').keypress(function(e){
+      if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+          this.submit();
+      }
+  });

@@ -66,6 +66,7 @@ Houston::Application.routes.draw do
 
   match 'service/:service_id/class/:id' => 'service_classes#edit', as: :edit_service_class
   match 'service/:service_id/add_class' => 'service_classes#new', as: :new_service_class
+  match 'service/:service_id/create' => 'service_classes#create', as: :create_service_class
   match 'service/:service_id/class/:id/delete' => 'service_classes#destroy', as: :delete_service_class
   match 'service/:service_id/class/:id/update' => 'service_classes#update', as: :update_service_class
 
