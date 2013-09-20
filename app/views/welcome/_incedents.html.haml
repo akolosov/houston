@@ -12,10 +12,14 @@
       %th Имя
       %th Дата создания
       %th Срок исполнения
+      - if @services.empty?
+        %th Инициатор
+        %th Исполнитель
+
 
   %tbody
     - @incedents.each do |incedent|
-      %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : ''), data: { toggle: 'modal' }, ondblclick: "window.location = '#{incedent_url(incedent)}'" }
+      %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : ''), data: { toggle: 'modal' }, onclick: "window.location = '#{incedent_url(incedent)}'" }
         %td
           = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
         %td
@@ -28,6 +32,13 @@
           = incedent.created_at.strftime('%d.%m.%Y %H:%M')
         %td
           = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
+        - if @services.empty?
+          %td
+            - if incedent.has_initiator?
+              = incedent.initiator.realname
+          %td
+            - if incedent.has_worker?
+              = incedent.worker.realname
 
 .apple_pagination
   =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
