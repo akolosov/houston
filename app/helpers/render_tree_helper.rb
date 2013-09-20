@@ -61,36 +61,69 @@ module RenderDashboardTreeHelper
         result
       end
 
+      def classes_table(h, node)
+        title_field = options[:title]
+
+        result = "<h4><a href='#' onclick='$(\"#service-#{node.id}\").toggle();'>"
+        result += node.send(title_field)
+        result += '<div class="pull-right">'+(h.glyph(:plus))+'</div></a>'
+
+        tp = 0
+        result += "</div><ol><li><div class='item' id='service-#{node.id}' style='display : none; '><table class='table table-very-condensed table-bordered table-hover'>"
+
+        node.service_classes.each do |sclass|
+          if tp != sclass.type_id
+            if tp != 0
+              result += "</tr>"
+            end
+            result += "<tr>"
+            result += "<td>"
+            result += h.lbl sclass.type.name
+            result += "</td>"
+            tp = sclass.type_id
+          end
+
+          result += "<td "+((sclass.is_default) ? "class='solved'" : '')+">"
+          result += h.link_to (h.image_tag 'priority'+sclass.priority_id.to_s+'.gif'), h.add_incedent_by_class_path(sclass), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: sclass.priority.name
+          result += "</td>"
+        end
+
+        result += "</tr></table></div></li></ol>"
+
+        result
+      end
+
+      def class_item(h, node)
+        title_field = options[:title]
+
+        service_class  = node.service_classes.default_class.first
+
+        unless service_class.nil?
+          result = "<h4>"
+          result += h.link_to node.send(title_field), h.add_incedent_by_class_path(service_class)
+          result += '<div class="pull-right">'
+          result += h.link_to (h.glyph(:plus)), h.add_incedent_by_class_path(service_class)
+          result += '</div>'
+        else
+          result = classes_table(h, node)
+        end
+
+        result
+      end
+
       def show_link
         node = options[:node]
         title_field = options[:title]
 
-        result = "<h4 onclick='$(\"#service-#{node.id}\").toggle();'>"
-        result += node.send(title_field)
-        result += '<div class="pull-right">'+(h.glyph(:plus))+'</div>' unless node.have_childs?
-
         unless node.have_childs?
-          tp = 0
-          result += "</div><ol><li><div class='item' id='service-#{node.id}' style='display : none; '><table class='table table-very-condensed table-bordered table-hover'>"
-
-          node.service_classes.each do |sclass|
-            if tp != sclass.type_id
-              if tp != 0
-                result += "</tr>"
-              end
-              result += "<tr>"
-              result += "<td>"
-              result += h.lbl sclass.type.name
-              result += "</td>"
-              tp = sclass.type_id
-            end
-
-            result += "<td align='center'>"
-            result += h.link_to (h.image_tag 'priority'+sclass.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: sclass.priority.name), h.add_incedent_by_class_path(sclass)
-            result += "</td>"
+          if h.current_user.has_role? :admin
+            result = classes_table(h, node)
+          else
+              result = class_item(h, node)
           end
-
-          result += "</tr></table></div></li></ol>"
+        else
+          result = "<h4>"
+          result += node.send(title_field)
         end
 
         result += "</h4>"
