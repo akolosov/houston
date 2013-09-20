@@ -1,8 +1,12 @@
-.container-fluid
-  .row-fluid
-    .span6
-      %h3 Выберите интересующий вас сервис
-      %ol.tree= just_tree @services, { title: :name, render_module: RenderDashboardTreeHelper }
-    .span6
-      #incedents
-        = render partial: 'incedents'
+- unless @services.empty?
+  .container-fluid
+    .row-fluid
+      .span6
+        %h3 Выберите интересующий вас сервис
+        %ol.tree= just_tree @services, { title: :name, render_module: RenderDashboardTreeHelper }
+      .span6
+        #incedents
+          = render partial: 'incedents'
+- else
+  #incedents
+    = render partial: 'incedents'

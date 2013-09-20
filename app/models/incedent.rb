@@ -84,6 +84,8 @@ class Incedent < ActiveRecord::Base
 
   scope :solved, lambda { |archive| where('closed = ?', archive) }
 
+  scope :closed, where("status_id = ? and closed = ?", Houston::Application.config.incedent_closed, false)
+
   def has_parent?
     !self.parent_id.nil?
   end
@@ -209,10 +211,21 @@ class Incedent < ActiveRecord::Base
   def self.notify_workers
     User.active.each do |user|
       @incedents = Incedent.solved(false).by_user_as_worker(user)
-      if !@incedents.empty?
+      unless @incedents.empty?
         IncedentMailer.incedents_in_progress(@incedents).deliver
       end
     end
   end
 
+  def self.autoclose!
+      Incedent.closed.each do |incedent|
+        unless incedent.service_class.nil?
+           if (incedent.service_class.autoclose) and (incedent.created_at + incedent.service_class.autoclose_hours.hours) > Time.now
+             incedent.worker = User.find(1) unless incedent.has_worker?
+             incedent.solved!
+             IncedentAction.create(incedent: incedent, status: incedent.status, worker: incedent.worker).save
+           end
+        end
+      end
+    end
 end

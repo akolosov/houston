@@ -16,3 +16,9 @@
       = f.submit 'Добавить коментарий [Ctrl+Enter]', class: 'btn btn-success'
 %br
 %br
+:javascript
+  $('#form').keypress(function(e){
+      if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+          this.submit();
+      }
+  });
