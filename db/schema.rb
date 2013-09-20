@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916105059) do
+ActiveRecord::Schema.define(:version => 20130919052327) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -145,9 +145,9 @@ ActiveRecord::Schema.define(:version => 20130916105059) do
     t.integer  "status_id"
     t.integer  "priority_id"
     t.integer  "type_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.boolean  "closed",       :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "closed",           :default => false
     t.integer  "server_id"
     t.integer  "observer_id"
     t.integer  "operator_id"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(:version => 20130916105059) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
+    t.integer  "service_class_id"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"
@@ -245,6 +246,23 @@ ActiveRecord::Schema.define(:version => 20130916105059) do
     t.datetime "updated_at",  :null => false
     t.string   "port"
   end
+
+  create_table "service_classes", :force => true do |t|
+    t.integer  "service_id"
+    t.integer  "type_id"
+    t.integer  "priority_id"
+    t.integer  "reaction_hours"
+    t.boolean  "autoclose"
+    t.integer  "autoclose_hours"
+    t.integer  "escalation_hours"
+    t.integer  "performance_hours"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "service_classes", ["priority_id"], :name => "index_service_classes_on_priority_id"
+  add_index "service_classes", ["service_id"], :name => "index_service_classes_on_service_id"
+  add_index "service_classes", ["type_id"], :name => "index_service_classes_on_type_id"
 
   create_table "services", :force => true do |t|
     t.integer  "parent_id"

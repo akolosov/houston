@@ -46,11 +46,9 @@ Houston::Application.routes.draw do
     end
   end
 
-  resources :welcome do
-    member do
-      get 'denied'
-    end
-  end
+  resources :service_classes, except: [:show, :index ]
+
+  resources :welcome
 
   resources :users
 
@@ -65,6 +63,13 @@ Houston::Application.routes.draw do
   match 'users/:id/password' => 'users#update_password', as: :update_password
 
   match 'service/:id/add' => 'services#new', as: :add_child_service
+
+  match 'service/:service_id/class/:id' => 'service_classes#edit', as: :edit_service_class
+  match 'service/:service_id/add_class' => 'service_classes#new', as: :new_service_class
+  match 'service/:service_id/create' => 'service_classes#create', as: :create_service_class
+  match 'service/:service_id/class/:id/delete' => 'service_classes#destroy', as: :delete_service_class
+  match 'service/:service_id/class/:id/update' => 'service_classes#update', as: :update_service_class
+
 
   match 'server/:server_id/problems' => 'server_problems#index', as: :problems_by_server
   match 'server/:server_id/add_problem' => 'server_problems#new', as: :problem_for_server
@@ -171,6 +176,7 @@ Houston::Application.routes.draw do
   match 'incedents/observe' => 'incedents#observe', as: :incedents_observe
 
   match 'incedent/add' => 'incedents#add', as: :add_incedent
+  match 'incedent/by_class/:service_class_id/add' => 'incedents#new', as: :add_incedent_by_class
 
   match 'incedent/:id/unwatch' => 'incedents#unwatch', as: :unwatch_incedent
   match 'incedent/:id/watch' => 'incedents#watch', as: :watch_incedent

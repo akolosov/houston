@@ -1,0 +1,45 @@
+%h3 Текущие жалобы
+
+.apple_pagination
+  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+
+%table.table.table-very-condensed.table-bordered.table-hover.table-sorted#incedents_table
+  %thead
+    %tr
+      %th{data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Приоритет'}
+      %th{data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Статус'}
+      %th Тип
+      %th Имя
+      %th Дата создания
+      %th Срок исполнения
+
+  %tbody
+    - @incedents.each do |incedent|
+      %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : ''), data: { toggle: 'modal' }, ondblclick: "window.location = '#{incedent_url(incedent)}'" }
+        %td
+          = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
+        %td
+          = image_tag 'status'+incedent.status_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.status.name
+        %td
+          = lbl incedent.type.name
+        %td
+          = incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
+        %td
+          = incedent.created_at.strftime('%d.%m.%Y %H:%M')
+        %td
+          = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
+
+.apple_pagination
+  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
+
+:coffeescript
+  $ ->
+    $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+
+    $(".pagination a").each ->
+      $(this).attr "data-remote", true
+
+    $(".pagination a").bind "click", ->
+      $(".pagination").html "Загрузка страницы..."
+      $.get @href, null, null, "script"
+      false

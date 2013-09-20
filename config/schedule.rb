@@ -8,3 +8,7 @@ set :output, File.join(Whenever.path, "log", "cron.log")
 every 1.day, :at => '9:30 am' do
   runner "Incedent.notify_workers"
 end
+
+every 1.hour do
+  runner "Incedent.autoclose!"
+end

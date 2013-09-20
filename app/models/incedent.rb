@@ -18,6 +18,7 @@ class Incedent < ActiveRecord::Base
   belongs_to :priority
   belongs_to :type
   belongs_to :server
+  belongs_to :service_class
   belongs_to :parent,
              :class_name => "Incedent",
              :foreign_key => "parent_id"
@@ -45,7 +46,7 @@ class Incedent < ActiveRecord::Base
 
   attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id, :parent_id, :parent, :childs
 
-  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at, :service_class_id
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
 
@@ -82,6 +83,8 @@ class Incedent < ActiveRecord::Base
   scope :by_parent, lambda { |parent| where("parent_id = ?", parent) unless parent.nil? }
 
   scope :solved, lambda { |archive| where('closed = ?', archive) }
+
+  scope :closed, where("status_id = ? and closed = ?", Houston::Application.config.incedent_closed, false)
 
   def has_parent?
     !self.parent_id.nil?
@@ -208,10 +211,21 @@ class Incedent < ActiveRecord::Base
   def self.notify_workers
     User.active.each do |user|
       @incedents = Incedent.solved(false).by_user_as_worker(user)
-      if !@incedents.empty?
+      unless @incedents.empty?
         IncedentMailer.incedents_in_progress(@incedents).deliver
       end
     end
   end
 
+  def self.autoclose!
+      Incedent.closed.each do |incedent|
+        unless incedent.service_class.nil?
+           if (incedent.service_class.autoclose) and (incedent.created_at + incedent.service_class.autoclose_hours.hours) > Time.now
+             incedent.worker = User.find(1) unless incedent.has_worker?
+             incedent.solved!
+             IncedentAction.create(incedent: incedent, status: incedent.status, worker: incedent.worker).save
+           end
+        end
+      end
+    end
 end

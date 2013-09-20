@@ -178,4 +178,17 @@ module ApplicationHelper
     client.close! if client.is_connected?
   end
 
+  def get_incedents(archive)
+    Incedent.scoped.
+        accessible_by(current_ability).
+        solved(archive).
+        by_tag(params[:tag_id]).
+        by_parent(params[:parent_id]).
+        by_status(params[:status_id]).
+        by_type(params[:type_id]).
+        by_priority(params[:priority_id]).
+        by_user_as_initiator_or_worker(params[:user_id]).
+        by_server(params[:server_id])
+  end
+
 end

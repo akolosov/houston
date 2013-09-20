@@ -12,6 +12,8 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Service
+      can :read, ServiceClass
       can :read, Server
       can :read, ServerProblem
       can :read, ServerCategory
@@ -64,6 +66,8 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Service
+      can :read, ServiceClass
       can :read, Server
       can :read, ServerProblem
       can :read, ServerCategory
@@ -113,6 +117,8 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Service
+      can :read, ServiceClass
       can :read, Document
       can :update, Document, user_id: user.id
       can :add, Document

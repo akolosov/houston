@@ -6,4 +6,33 @@
       = link_to glyph(:trash)+' Удалить', @service, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, @service
     %h3= @service.name
   .form-inputs
-    = markdown(@service.description)
+    .container-fluid
+      .row-fluid
+        .span5
+          = markdown(@service.description)
+        .span7
+          %table.table.table-very-condensed.table-bordered.table-hover
+            %tr
+              %th
+              %th
+              %th Автозакрытие
+              %th Реакция
+              %th Эскалация
+              %th Исполнение
+              - if (current_user.has_role? :admin)
+                %th
+
+            - @service.service_classes.each do |service_class|
+              %tr
+                %td= lbl service_class.type.name
+                %td= image_tag 'priority'+service_class.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: service_class.priority.name
+                %td= ((service_class.autoclose) ? service_class.autoclose_hours : '' )
+                %td= service_class.reaction_hours
+                %td= service_class.escalation_hours
+                %td= service_class.performance_hours
+                - if (current_user.has_role? :admin)
+                  %td
+                    = link_to glyph(:pencil), edit_service_class_path(service_class.service, service_class), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Редактировать жалобу' if can? :update, service_class
+                    = link_to glyph(:trash), delete_service_class_path(service_class.service, service_class), method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if can? :destroy, service_class
+          %br
+          = link_to glyph(:plus)+' Новый класс обслуживания', new_service_class_path(@service), class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if (current_user.has_role? :admin)

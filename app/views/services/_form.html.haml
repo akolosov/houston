@@ -20,4 +20,10 @@
       = link_to 'Отмена [Esc]', services_path, class: 'btn'
 
 :javascript
+  $('#form').keypress(function(e){
+      if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+          this.submit();
+      }
+  });
+
   $("#service_name").focus();
