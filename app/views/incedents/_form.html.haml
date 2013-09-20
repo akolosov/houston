@@ -56,8 +56,8 @@
             = f.input :status_id, as: :hidden
             = f.input :server_id, as: :hidden
 
-          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input', disabled: ((@incedent.service_class_id.nil?) or ((current_user.has_role? :admin) or (current_user.has_role? :manager)) ? '' : ' disabled') }
-          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input', disabled: ((@incedent.service_class_id.nil?) or ((current_user.has_role? :admin) or (current_user.has_role? :manager)) ? '' : ' disabled') }
+          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
+          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
           = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y %H:00') }
       .row-fluid
         .span12

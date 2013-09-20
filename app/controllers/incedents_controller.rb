@@ -80,11 +80,11 @@ class IncedentsController < ApplicationController
     @incedents = get_incedents(false).nested_set.all
 
     if params[:service_class_id]
-      @service_class = ServiceClass.find(params[:service_class_id])
-      @incedent.type_id = @service_class.type_id
-      @incedent.priority_id = @service_class.priority_id
-      @incedent.service_class_id = @service_class.id
-      @incedent.finish_at = Time.now + @service_class.performance_hours.hours
+      @incedent.service_class = ServiceClass.find(params[:service_class_id])
+      @incedent.type_id = @incedent.service_class.type_id
+      @incedent.priority_id = @incedent.service_class.priority_id
+      @incedent.service_class_id = @incedent.service_class.id
+      @incedent.finish_at = Time.now + @incedent.service_class.performance_hours.hours
     end
 
     respond_to do |format|
