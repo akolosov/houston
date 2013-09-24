@@ -17,15 +17,19 @@
               = link_to glyph(:list)+" Администрирование", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
               %ul.dropdown-menu
                 %li
+                  = link_to glyph(:flag)+' Подразделения', divisions_path, data: { keybinding: 'v', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: V', class: (params[:controller] == 'divisions' ? 'bold' : '') if current_user.has_role? :admin
+                %li
                   = link_to glyph(:user)+' Пользователи', users_path, data: { keybinding: 'u', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: U', class: (params[:controller] == 'users' ? 'bold' : '') if current_user.has_role? :admin
+                %li.divider
                 %li
                   = link_to glyph(:briefcase)+' Сервисы', services_path, data: { keybinding: 'e', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: E', class: (params[:controller] == 'services' ? 'bold' : '') if current_user.has_role? :admin
+                %li
+                  = link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: L', class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
+                %li.divider
                 %li
                   = link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
                 %li
                   = link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
-                %li
-                  = link_to glyph(:tags)+' Метки', tags_path, data: { keybinding: 'l', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: L', class: (params[:controller] == 'tags' ? 'bold' : '') if current_user.has_role? :admin
           - if current_user.has_role? :admin or current_user.has_role? :manager
             %li.dropdown
               = link_to glyph(:list)+" Решение проблем", "#", class: 'dropdown-toggle', data: { toggle: 'dropdown' }
@@ -34,6 +38,7 @@
                   = link_to glyph(:magnet)+' Категории', categories_path, data: { keybinding: 'c', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: C', class: (params[:controller] == 'categories' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
                 %li
                   = link_to glyph(:hdd)+' Оборудование', servers_path, data: { keybinding: 'd', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: D', class: (params[:controller] == 'servers' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
+                %li.divider
                 %li
                   = link_to glyph(:fire)+' Проблемы', problems_path, data: { keybinding: 'p', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: P', class: (params[:controller] == 'problems' ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
                 %li
@@ -47,6 +52,7 @@
                 = link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
               %li
                 = link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
+              %li.divider
               %li
                 = link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
           %li.dropdown

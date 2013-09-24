@@ -7,7 +7,7 @@ class ServicesController < ApplicationController
 
   # GET /services
   def index
-    @services = Service.accessible_by(current_ability).nested_set.select('id, name, description, parent_id').all
+    @divisions = Division.accessible_by(current_ability).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,6 +31,7 @@ class ServicesController < ApplicationController
 
     if (params[:id])
       @service.parent = Service.find(params[:id])
+      @service.division = @service.parent.division
     end
 
     respond_to do |format|

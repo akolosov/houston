@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130920075129) do
+ActiveRecord::Schema.define(:version => 20130924025341) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -64,6 +64,13 @@ ActiveRecord::Schema.define(:version => 20130920075129) do
   end
 
   add_index "comments", ["author_id"], :name => "index_comments_on_author_id"
+
+  create_table "divisions", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "document_attaches", :force => true do |t|
     t.integer  "document_id"
@@ -273,6 +280,7 @@ ActiveRecord::Schema.define(:version => 20130920075129) do
     t.datetime "updated_at",  :null => false
     t.integer  "lft"
     t.integer  "rgt"
+    t.integer  "division_id"
   end
 
   create_table "sessions", :force => true do |t|
@@ -332,6 +340,7 @@ ActiveRecord::Schema.define(:version => 20130920075129) do
     t.string   "jabber"
     t.string   "last_login_from_ip_address"
     t.boolean  "first_login",                     :default => true
+    t.integer  "division_id"
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"

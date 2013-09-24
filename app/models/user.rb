@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   rolify
 
-  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids
+  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids, :division, :division_id
 
   alias_attribute :name, :username
 
@@ -47,6 +47,10 @@ class User < ActiveRecord::Base
   validates_presence_of :email, message: 'Не указан e-mail пользователя'
 
   validates_uniqueness_of :email, message: 'Такой e-mail уже зарегистрирован'
+
+  belongs_to :division
+
+  scope :by_division, lambda { |division| where("division_id = ?", division) unless division.nil? }
 
   def display_name
     self.realname+' ('+self.email+')'

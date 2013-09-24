@@ -30,6 +30,8 @@ Houston::Application.routes.draw do
 
   resources :tags, except: :show
 
+  resources :divisions, except: :show
+
   resources :incedents, except: :create do
     collection do
       post :rebuild
@@ -61,6 +63,7 @@ Houston::Application.routes.draw do
   match 'users/:id/activate' => 'users#activate', as: :activate_user
   match 'users/:id/deactivate' => 'users#deactivate', as: :deactivate_user
   match 'users/:id/password' => 'users#update_password', as: :update_password
+  match 'users/by_division/:division_id' => 'users#index', as: :users_by_division
 
   match 'service/:id/add' => 'services#new', as: :add_child_service
 
