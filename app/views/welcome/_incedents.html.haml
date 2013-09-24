@@ -12,7 +12,7 @@
       %th Имя
       %th Дата создания
       %th Срок исполнения
-      - if @services.empty?
+      - if @divisions.empty?
         %th Инициатор
         %th Исполнитель
 
@@ -32,7 +32,7 @@
           = incedent.created_at.strftime('%d.%m.%Y %H:%M')
         %td
           = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
-        - if @services.empty?
+        - if @divisions.empty?
           %td
             - if incedent.has_initiator?
               = incedent.initiator.realname
@@ -43,7 +43,7 @@
 .apple_pagination
   =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
-- if @services.empty?
+- if @divisions.empty?
   = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
 :coffeescript

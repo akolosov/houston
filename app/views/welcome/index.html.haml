@@ -1,9 +1,14 @@
-- unless @services.empty?
+- unless @divisions.empty?
   .container-fluid
     .row-fluid
       .span6
         %h3 Выберите интересующий вас сервис
-        %ol.tree= just_tree @services, { title: :name, render_module: RenderDashboardTreeHelper }
+        - @divisions.each do |division|
+          .alert.alert-success
+            %a{ href: '#', onclick: "$('#service-tree-#{division.id}').toggle();"}
+              %h4= division.name
+          %ol.tree{ style: ((division.id == current_user.division_id) ? '' : "display: none;"), id: "service-tree-#{division.id}", data: { rebuild_url: rebuild_services_url } }
+            = just_tree Service.accessible_by(current_ability).by_division(division.id).nested_set.select('id, name, description, parent_id').all, { title: :name }
       .span6
         #incedents
           = render partial: 'incedents'

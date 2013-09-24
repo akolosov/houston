@@ -7,17 +7,19 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Daley', city: cities.first)
 
-def build_test_tree klass = Service, count = 5
+def build_test_tree klass = Service, count = 5, division = nil
   count.times do |i|
     var = klass.new
     var.name        = "Service ##{i}"
     var.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.'
+    var.division = division
     var.save
 
     count.times do |ii|
       var1 = klass.new
       var1.name        = "Service ##{ii}"
       var1.description      = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.'
+      var1.division = division
       var1.save
       var1.move_to_child_of var
 
@@ -25,6 +27,7 @@ def build_test_tree klass = Service, count = 5
         var2 = klass.new
         var2.name        = "Service ##{iii}"
         var2.description      = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.'
+        var2.division = division
         var2.save
         var2.move_to_child_of var1
       end
@@ -45,23 +48,32 @@ if Rails.env.production?
   admin.save
   admin.add_role :admin
 else
-  admin = User.create username: 'admin', email: 'admin@test.com', password: 'admin', password_confirmation: 'admin', realname: 'Admin Admin'
+  division1 = Division.create(name: 'division #1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.')
+  division1.save
+
+  division2 = Division.create(name: 'division #2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.')
+  division2.save
+
+  division3 = Division.create(name: 'division #3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.')
+  division3.save
+
+  admin = User.create username: 'admin', email: 'admin@test.com', password: 'admin', password_confirmation: 'admin', realname: 'Admin Admin', division: division1
   admin.save
   admin.add_role :admin
 
-  manager = User.create username: 'manager', email: 'manager@test.com', password: 'manager', password_confirmation: 'manager', realname: 'Manager Manager'
+  manager = User.create username: 'manager', email: 'manager@test.com', password: 'manager', password_confirmation: 'manager', realname: 'Manager Manager', division: division2
   manager.save
   manager.add_role :manager
 
-  user = User.create username: 'client', email: 'client@test.com', password: 'client', password_confirmation: 'client', realname: 'Client Client'
+  user = User.create username: 'client', email: 'client@test.com', password: 'client', password_confirmation: 'client', realname: 'Client Client', division: division1
   user.save
   user.add_role :client
 
-  operator = User.create username: 'operator', email: 'operator@test.com', password: 'operator', password_confirmation: 'operator', realname: 'Operator Operator'
+  operator = User.create username: 'operator', email: 'operator@test.com', password: 'operator', password_confirmation: 'operator', realname: 'Operator Operator', division: division3
   operator.save
   operator.add_role :operator
 
-  executor = User.create username: 'executor', email: 'executor@test.com', password: 'executor', password_confirmation: 'executor', realname: 'Executor Executor'
+  executor = User.create username: 'executor', email: 'executor@test.com', password: 'executor', password_confirmation: 'executor', realname: 'Executor Executor', division: division2
   executor.save
   executor.add_role :executor
 
@@ -248,5 +260,7 @@ else
   Incedent.create(name: 'Incedent #29', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.', initiator_id: 4, status_id: 1, priority_id: 1, type_id: 2, tags: [tag4, tag1], server: server9).save
   Incedent.create(name: 'Incedent #30', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In adipiscing, ligula et imperdiet malesuada, arcu quam lacinia lacus, dignissim eleifend enim lorem ac augue. Etiam quis venenatis ipsum. Aliquam sodales diam ac felis dignissim sollicitudin. Proin lacinia condimentum neque. Integer lacinia consequat ipsum, et consequat quam luctus venenatis. Ut tempor convallis sodales. Vivamus blandit diam non diam ornare id dignissim nunc porttitor. Phasellus rutrum, lorem sed congue pharetra, erat augue dignissim dolor, vel fermentum ipsum arcu in sapien.', initiator_id: 4, status_id: 1, priority_id: 1, type_id: 2, tags: [tag4, tag1], server: server9).save
 
-  build_test_tree Service, 3
+  build_test_tree Service, 2, division1
+  build_test_tree Service, 2, division2
+  build_test_tree Service, 2, division3
 end

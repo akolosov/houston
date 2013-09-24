@@ -4,13 +4,22 @@
   .form-inputs
     .container-fluid
       .row-fluid
-        .span8
-          = f.input :name, label: 'Название', input_html: { class: 'form-input' }
-        .span4
-          .control-group.select.optional.service_parent
-            %label.select.optional.control-label Верхний уровень
-            .controls
-              = select_tag :service_parent_id, nested_options(@services, selected: @service.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "service[parent_id]", id: "service_parent_id"
+        - unless @service.parent.nil?
+          .span12
+            = f.input :parent_id, as: :hidden
+            = f.input :name, label: 'Название', input_html: { class: 'form-input' }
+        - else
+          .span8
+            = f.input :name, label: 'Название', input_html: { class: 'form-input' }
+          .span4
+            .control-group.select.optional.service_parent
+              %label.select.optional.control-label Верхний уровень
+              .controls
+                = select_tag :service_parent_id, nested_options(@services, selected: @service.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "service[parent_id]", id: "service_parent_id"
+            - if @service.division.nil?
+              = f.association :division, include_blank: false, label: 'Подразделение', input_html: { class: 'form-input' }
+            - else
+              = f.input :division_id, as: :hidden
       .row-fluid
         .span12
           = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'service_markdown' }

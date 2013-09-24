@@ -12,6 +12,7 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Division
       can :read, Service
       can :read, ServiceClass
       can :read, Server
@@ -66,6 +67,7 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Division
       can :read, Service
       can :read, ServiceClass
       can :read, Server
@@ -117,6 +119,7 @@ class Ability
       can :first_login, User
       can :update_password, User, id: user.id
       can :update, User, id: user.id
+      can :read, Division
       can :read, Service
       can :read, ServiceClass
       can :read, Document

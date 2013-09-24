@@ -7,8 +7,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-
-    @users = User.accessible_by(current_ability)
+    if params[:division_id]
+      @users = User.by_division(params[:division_id]).accessible_by(current_ability)
+    else
+      @users = User.accessible_by(current_ability)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

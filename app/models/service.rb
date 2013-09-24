@@ -11,7 +11,7 @@ class Service < ActiveRecord::Base
 
   after_create :classes_by_default
 
-  attr_accessible :description, :name, :parent_id
+  attr_accessible :description, :name, :parent_id, :division, :division_id
 
   validates :name, :description, presence: true
 
@@ -26,6 +26,10 @@ class Service < ActiveRecord::Base
            :foreign_key => "parent_id",
            :order => "name",
            :dependent => :delete_all
+
+  belongs_to :division
+
+  scope :by_division, lambda { |division| where("division_id = ?", division) unless division.nil? }
 
   def classes_by_default
     if self.service_classes.empty?
@@ -45,6 +49,7 @@ class Service < ActiveRecord::Base
                               autoclose_hours: service_class.autoclose_hours, escalation_hours: service_class.escalation_hours,
                               performance_hours: service_class.performance_hours, reaction_hours: service_class.reaction_hours).save
         end
+        self.division = self.parent.division unless self.division.nil?
       end
     end
   end

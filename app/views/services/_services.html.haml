@@ -1,2 +1,6 @@
-%ol.sortable_tree{ data: { rebuild_url: rebuild_services_url } }
-  = sortable_tree @services, { title: :name }
+- @divisions.each do |division|
+  .alert.alert-success
+    %a{ href: '#', onclick: "$('#service-tree-#{division.id}').toggle();"}
+      %h4= division.name
+  %ol.sortable_tree{ style: ((division.id == current_user.division_id) ? '' : "display: none;"), id: "service-tree-#{division.id}", data: { rebuild_url: rebuild_services_url } }
+    = sortable_tree Service.accessible_by(current_ability).by_division(division.id).nested_set.select('id, name, description, parent_id').all, { title: :name }
