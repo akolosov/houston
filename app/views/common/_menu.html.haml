@@ -31,7 +31,8 @@
       %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр поиска решений", "#colapse2",  data: { toggle: "collapse", parent: "#navbar2" }, class: "accordion-toggle"
       .accordion-body.collapse.in#colapse2
         .accordion-inner
-          %li.nav-item= link_to glyph(:inbox)+' Книга жалоб', incedents_path, data: { keybinding: 'i', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:inbox)+' Общая книга жалоб', incedents_path, data: { keybinding: 'i', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: I', class: ((params[:controller] == 'incedents') and (params[:action] == 'index') ? 'bold' : '')
+          %li.nav-item= link_to glyph(:check)+' На согласовании', incedents_onreview_path, data: { keybinding: 'w', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: W', class: ((params[:controller] == 'incedents') and (params[:action] == 'onreview') ? 'bold' : '')
           %li.nav-item= link_to glyph(:eye_open)+' Наблюдаемые', incedents_observe_path, data: { keybinding: 'o', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: O', class: ((params[:controller] == 'incedents') and (params[:action] == 'observe') ? 'bold' : '') if current_user.has_role? :admin or current_user.has_role? :manager
           %li.nav-item= link_to glyph(:briefcase)+' Архив жалоб', incedents_archive_path, data: { keybinding: 'r', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: R', class: ((params[:controller] == 'incedents') and (params[:action] == 'archive') ? 'bold' : '')
           %li.divider

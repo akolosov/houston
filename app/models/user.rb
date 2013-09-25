@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
 
   before_destroy { |record| Incedent.update_all "observer_id = 1", "observer_id = #{record.id}" }
 
+  has_many :reviewed_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'reviewer_id'
+
+  before_destroy { |record| Incedent.update_all "reviewer_id = 1", "reviewer_id = #{record.id}" }
+
   has_many :incedent_actions, dependent: :destroy, foreign_key: 'worker_id'
 
   before_destroy { |record| IncedentAction.update_all "worker_id = 1", "worker_id = #{record.id}" }
@@ -90,5 +94,11 @@ class User < ActiveRecord::Base
 
   def self.inactive
     where("active = ?", false)
+  end
+
+  def has_role_in? roles
+    roles.each do |role|
+      true if self.has_role? role
+    end
   end
 end

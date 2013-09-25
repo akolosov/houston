@@ -10,7 +10,6 @@ class IncedentsController < ApplicationController
   attr_accessor :per_page
 
   # GET /incedents
-  # GET /incedents.json
   def index
     @incedents = get_incedents(false).nested_set.paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
@@ -26,7 +25,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedents/archive
-  # GET /incedents/archive.json
   def archive
     @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
 
@@ -41,8 +39,7 @@ class IncedentsController < ApplicationController
     end
   end
 
-  # GET /incedents/observed
-  # GET /incedents/observed.json
+  # GET /incedents/observe
   def observe
     @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
@@ -52,8 +49,17 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # GET /incedents/review
+  def onreview
+    @incedents = get_incedents(false).by_user_as_reviewer(@current_user).not_reviewed.paginate(page: params[:page], per_page: @per_page).order('finish_at')
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+    end
+  end
+
   # GET /incedents/1
-  # GET /incedents/1.json
   def show
     @incedent = Incedent.find(params[:id])
 
@@ -68,7 +74,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedents/new
-  # GET /incedents/new.json
   def new
     @incedent = Incedent.new
 
@@ -139,7 +144,6 @@ class IncedentsController < ApplicationController
   end
 
   # POST /incedents
-  # POST /incedents.json
   def create
     @incedent = Incedent.new(params[:incedent])
 
@@ -157,7 +161,6 @@ class IncedentsController < ApplicationController
   end
 
   # POST /incedent/add
-  # POST /incedent/add.json
   def add
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
 
@@ -190,7 +193,6 @@ class IncedentsController < ApplicationController
   end
 
   # PUT /incedents/1
-  # PUT /incedents/1.json
   def update
     @incedent = Incedent.find(params[:id])
 
@@ -222,7 +224,6 @@ class IncedentsController < ApplicationController
   end
 
   # DELETE /incedents/1
-  # DELETE /incedents/1.json
   def destroy
     @incedent = Incedent.find(params[:id])
     @incedent.destroy
@@ -233,7 +234,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/watch
-  # GET /incedent/1/watch.json
   def watch
     @incedent = Incedent.find(params[:id])
 
@@ -256,7 +256,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/unwatch
-  # GET /incedent/1/unwatch.json
   def unwatch
     @incedent = Incedent.find(params[:id])
 
@@ -275,7 +274,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/play
-  # GET /incedent/1/play.json
   def play
     @incedent = Incedent.find(params[:id])
 
@@ -298,7 +296,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/replay
-  # GET /incedent/1/replay.json
   def replay
     if !params[:incedent][:replay_reason].empty?
       @incedent = Incedent.find(params[:id])
@@ -329,7 +326,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/work
-  # GET /incedent/1/work.json
   def work
     if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_id].empty?
       @incedent = Incedent.find(params[:id])
@@ -360,7 +356,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/pause
-  # GET /incedent/1/pause.json
   def pause
     @incedent = Incedent.find(params[:id])
 
@@ -383,7 +378,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/stop
-  # GET /incedent/1/stop.json
   def stop
     @incedent = Incedent.find(params[:id])
 
@@ -406,7 +400,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/reject
-  # GET /incedent/1/reject.json
   def reject
     if !params[:incedent][:reject_reason].empty?
       @incedent = Incedent.find(params[:id])
@@ -436,8 +429,36 @@ class IncedentsController < ApplicationController
     end
   end
 
+  # GET /incedent/1/review
+  def review
+    if !params[:incedent][:review_reason].empty?
+      @incedent = Incedent.find(params[:id])
+
+      @incedent.reviewed!
+
+      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+
+      IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба согласована', body: params[:incedent][:review_reason], author: @current_user)).save
+
+      respond_to do |format|
+        if @incedent.save
+          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+
+          IncedentMailer.incedent_reviewed(@incedent).deliver
+
+          format.html { redirect_to :incedents, notice: 'Жалоба успешно согласована.' }
+        else
+          format.html { render action: 'review' }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to :incedents, alert: 'Нужно обязательно указать причину согласования.' }
+      end
+    end
+  end
+
   # GET /incedent/1/solve
-  # GET /incedent/1/solve.json
   def solve
     @incedent = Incedent.find(params[:id])
 
@@ -460,7 +481,6 @@ class IncedentsController < ApplicationController
   end
 
   # GET /incedent/1/close
-  # GET /incedent/1/close.json
   def close
     if !params[:incedent][:close_reason].empty?
       @incedent = Incedent.find(params[:id])

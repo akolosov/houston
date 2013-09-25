@@ -1,0 +1,2 @@
+$("#incedents").html("<%= escape_javascript(render('incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' ))) %>");
+

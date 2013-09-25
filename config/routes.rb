@@ -12,6 +12,8 @@ Houston::Application.routes.draw do
 
   get 'incedents/observe', as: :observe
 
+  get 'incedents/onreview', as: :onreview
+
   resources :search
 
   resources :audit, only: :index
@@ -177,6 +179,7 @@ Houston::Application.routes.draw do
 
   match 'incedents/archive' => 'incedents#archive', as: :incedents_archive
   match 'incedents/observe' => 'incedents#observe', as: :incedents_observe
+  match 'incedents/onreview' => 'incedents#onreview', as: :incedents_onreview
 
   match 'incedent/add' => 'incedents#add', as: :add_incedent
   match 'incedent/by_class/:service_class_id/add' => 'incedents#new', as: :add_incedent_by_class
@@ -189,6 +192,7 @@ Houston::Application.routes.draw do
   match 'incedent/:id/pause' => 'incedents#pause', as: :pause_incedent
   match 'incedent/:id/stop' => 'incedents#stop', as: :stop_incedent
   match 'incedent/:id/reject' => 'incedents#reject', as: :reject_incedent
+  match 'incedent/:id/review' => 'incedents#review', as: :review_incedent
   match 'incedent/:id/solve' => 'incedents#solve', as: :solve_incedent
   match 'incedent/:id/close' => 'incedents#close', as: :close_incedent
   match 'incedent/:id/comments' => 'incedents#show', as: :incedent_comments

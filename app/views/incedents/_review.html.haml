@@ -1,0 +1,33 @@
+:css
+  form {
+    margin: 0;
+  }
+  .modal {
+    width: 30%;
+  }
+  .modal-body {
+    max-height: 100%;
+  }
+
+.modal{id: "incedent-review-#{incedent.id}", style: 'display: none;'}
+  = simple_form_for incedent, url: review_incedent_path(incedent), method: :post, html: { id: "review-form-#{incedent.id}", class: 'form-horizontal form' } do |f|
+    .modal-header
+      %i.icon-remove.pull-right{'data-dismiss' => 'modal'}
+      %h3 Укажите причину согласования
+    .modal-body
+      = f.input :review_reason, label: false, input_html: { class: 'form-input' }, as: :text, class: 'form-modal-input'
+    .modal-footer
+      .pull-right.btn-group
+        = f.submit 'Согласовать жалобу [Ctrl+Enter]', class: 'btn btn-success'
+        %a.btn{'data-dismiss' => 'modal', href: '#'} Отмена [Esc]
+
+:javascript
+  $('#review-form-#{incedent.id}').keypress(function(e){
+      if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) {
+          this.submit();
+      }
+  });
+  
+  $('#incedent-review-#{incedent.id}').on('shown', function () {
+    $("#incedent-review-#{incedent.id} textarea").first().focus();
+  });

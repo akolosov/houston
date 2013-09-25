@@ -1,0 +1,20 @@
+:coffeescript
+  $(document).ready ->
+    setInterval (->
+      $("#content").load "#{request.fullpath} #incedents", () ->
+          mode = $.cookie("viewmode")
+          $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]}) if mode == 'table'
+          $(".popup").each ->
+            $(this).prependTo($('#incedents')) if mode == 'tree'
+          $(".pagination a").each ->
+            $(this).attr "data-remote", true
+          $(".pagination a").bind "click", ->
+            $(".pagination").html "Загрузка страницы..."
+            $.get @href, null, null, "script"
+            false
+    ), 180000
+
+#incedents
+  = render 'incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' )
+%br
+%br

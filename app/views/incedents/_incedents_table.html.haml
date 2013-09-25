@@ -24,9 +24,9 @@
 
 .container-fluid
   .row-fluid
-    %div{ class: ((params[:action] == 'observe') ? 'span12' : 'span10' )}
+    %div{ class: (((params[:action] == 'observe') or (params[:action] == 'onreview')) ? 'span12' : 'span10' )}
       %h3
-        = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'
+        = (params[:action] == 'archive' ? 'Архив' : 'Книга')+(params[:action] == 'observe' ? ' наблюдаемых' : '')+' жалоб'+(params[:action] == 'onreview' ? ' на согласовании' : '')
 
       .apple_pagination
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
@@ -75,7 +75,7 @@
       .apple_pagination
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
-    - if params[:action] != 'observe'
+    - if (params[:action] != 'observe') and (params[:action] != 'onreview')
       .span2
         - if params[:action] == 'archive'
           = render 'archive_filter'

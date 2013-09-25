@@ -18,7 +18,10 @@
                 = f.input :autoclose, label: 'Автозакрытие', input_html: { class: 'form-input' }
             .row-fluid
               .span12
-                = f.input :is_default, label: 'По умолчанию для сервиса', input_html: { class: 'form-input' }
+                = f.input :review, label: 'Подтверждение', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :is_default, label: 'По умолчанию', input_html: { class: 'form-input' }
         .span6
           .container-fluid
             .row-fluid
@@ -30,6 +33,9 @@
             .row-fluid
               .span12
                 = f.input :performance_hours, label: 'Выполнение, часов', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
+                = f.input :review_hours, label: 'Подтверждение, часов', input_html: { class: 'form-input' }
             .row-fluid
               .span12
                 = f.input :autoclose_hours, label: 'Автозакрытие, часов', input_html: { class: 'form-input' }
