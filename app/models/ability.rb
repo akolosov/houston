@@ -43,11 +43,11 @@ class Ability
       can :create, IncedentAttach
       can :create, DocumentAttach
       can :create, ServerAttach
-      can :update, Incedent, operator_id: user.id
+      can [:update, :destroy], Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :update, :replay], Incedent, initiator_id: user.id
       can [:reject, :replay, :pause, :stop, :archive, :comment, :close], Incedent, incedent_workers: { id: user.worked_incedent_ids }
-      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
       can [:unwatch, :observe, :comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
+      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
     end
 
     permissions_for user, as: :executor do
@@ -84,7 +84,7 @@ class Ability
       can :create, IncedentAttach
       can :create, DocumentAttach
       can :create, ServerAttach
-      can :update, Incedent, operator_id: user.id
+      can [:update, :destroy], Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :replay, :update], Incedent, initiator_id: user.id
       can [:comment, :archive, :close, :reject, :replay, :stop, :pause], Incedent, incedent_workers: { id: user.worked_incedent_ids }
       can [:comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
@@ -113,7 +113,7 @@ class Ability
       can :create, CommentAttach
       can :create, IncedentAttach
       can :create, DocumentAttach
-      can [:update, :read], Incedent, operator_id: user.id
+      can [:update, :read, :destroy], Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :replay, :play, :update, :read], Incedent, initiator_id: user.id
       can [:comment, :archive, :close, :reject, :replay, :stop, :pause, :play, :read], Incedent, incedent_workers: { id: user.worked_incedent_ids }
       can [:comment, :archive, :read], Incedent, incedent_observers: { id: user.observed_incedent_ids }

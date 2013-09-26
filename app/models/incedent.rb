@@ -161,9 +161,9 @@ class Incedent < ActiveRecord::Base
 
   def has_reviewed? reviewer = nil
     unless reviewer.nil?
-      if self.reviewers.include? reviewer
+      if self.incedent_reviewers.include? reviewer
         self.reviewers.each do |user|
-          true if (user == reviewer) and (user.reviewed_at)
+          return true if (user == reviewer.user) and (reviewer.reviewed_at)
         end
       end
     end
@@ -206,7 +206,7 @@ class Incedent < ActiveRecord::Base
   end
 
   def is_need_review? user = nil
-    ((self.is_waited?) && (self.has_reviewer? user) && (!self.has_reviewed? user))
+    ((self.has_reviewer? user) && (!self.has_reviewed? user))
   end
 
   def is_played?
@@ -345,7 +345,7 @@ class Incedent < ActiveRecord::Base
 
   def self.notify_workers
     User.active.each do |user|
-      @incedents = Incedent.solved(false).by_user_as_worker(user)
+      @incedents = Incedent.solved(false).by_worker(user)
       unless @incedents.empty?
         IncedentMailer.incedents_in_progress(@incedents).deliver
       end

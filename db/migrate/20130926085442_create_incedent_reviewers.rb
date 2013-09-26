@@ -3,7 +3,7 @@ class CreateIncedentReviewers < ActiveRecord::Migration
     create_table :incedent_reviewers do |t|
       t.references :incedent
       t.references :user
-      t.datetime :reviewed_at
+      t.datetime   :reviewed_at
 
       t.timestamps
     end
