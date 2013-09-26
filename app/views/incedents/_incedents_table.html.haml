@@ -69,8 +69,8 @@
                 - if incedent.has_initiator?
                   = incedent.initiator.realname
               %td
-                - if incedent.has_worker?
-                  = incedent.worker.realname
+                - if incedent.has_workers?
+                  = incedent.workers.all.collect(&:realname).join(", ")
 
       .apple_pagination
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true

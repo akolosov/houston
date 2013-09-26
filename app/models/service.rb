@@ -72,4 +72,8 @@ class Service < ActiveRecord::Base
     count
   end
 
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
+  end
+
 end

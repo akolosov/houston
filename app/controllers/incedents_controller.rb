@@ -41,7 +41,7 @@ class IncedentsController < ApplicationController
 
   # GET /incedents/observe
   def observe
-    @incedents = get_incedents(false).by_user_as_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    @incedents = get_incedents(false).by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,7 +51,7 @@ class IncedentsController < ApplicationController
 
   # GET /incedents/review
   def onreview
-    @incedents = get_incedents(false).by_user_as_reviewer(@current_user).not_reviewed.paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    @incedents = get_incedents(false).by_reviewer(@current_user).not_reviewed(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -165,7 +165,7 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
 
     respond_to do |format|
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+      @incedent.delete_observer @current_user if (@incedent.has_observer? @incedent.worker)
 
       if @incedent.save
 
@@ -237,9 +237,9 @@ class IncedentsController < ApplicationController
   def watch
     @incedent = Incedent.find(params[:id])
 
-    if !@incedent.has_observer?
+    if !@incedent.has_observer? @current_user
 
-      @incedent.observer = @current_user
+      @incedent.add_observer @current_user
 
       respond_to do |format|
         if @incedent.save
@@ -259,9 +259,9 @@ class IncedentsController < ApplicationController
   def unwatch
     @incedent = Incedent.find(params[:id])
 
-    if @incedent.has_observer?
+    if @incedent.has_observer? @current_user
 
-      @incedent.observer = nil
+      @incedent.delete_observer @current_user
 
       respond_to do |format|
         if @incedent.save
@@ -277,10 +277,10 @@ class IncedentsController < ApplicationController
   def play
     @incedent = Incedent.find(params[:id])
 
-    @incedent.worker = @current_user
+    @incedent.add_worker @current_user
     @incedent.played!
 
-    @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+    @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
     respond_to do |format|
       if @incedent.save
@@ -300,10 +300,10 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:replay_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.worker = @current_user unless @incedent.has_worker?
+      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
       @incedent.played!
 
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+      @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)).save
 
@@ -330,10 +330,10 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_id].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.worker = User.find(params[:incedent][:worker_id])
+      @incedent.add_worker User.find(params[:incedent][:worker_id])
       @incedent.played!
 
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+      @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба назначена исполнителю', body: params[:incedent][:work_reason], author: @current_user)).save
 
@@ -359,10 +359,10 @@ class IncedentsController < ApplicationController
   def pause
     @incedent = Incedent.find(params[:id])
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
+    @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
     @incedent.paused!
 
-    @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+    @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
     respond_to do |format|
       if @incedent.save
@@ -381,10 +381,10 @@ class IncedentsController < ApplicationController
   def stop
     @incedent = Incedent.find(params[:id])
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
+    @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
     @incedent.stoped!
 
-    @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+    @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
     respond_to do |format|
       if @incedent.save
@@ -404,10 +404,10 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:reject_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.worker = @current_user unless @incedent.has_worker?
+      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
       @incedent.rejected!
 
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+      @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба отклонена', body: params[:incedent][:reject_reason], author: @current_user)).save
 
@@ -436,8 +436,6 @@ class IncedentsController < ApplicationController
 
       @incedent.reviewed!
 
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
-
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба согласована', body: params[:incedent][:review_reason], author: @current_user)).save
 
       respond_to do |format|
@@ -462,10 +460,10 @@ class IncedentsController < ApplicationController
   def solve
     @incedent = Incedent.find(params[:id])
 
-    @incedent.worker = @current_user unless @incedent.has_worker?
+    @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
     @incedent.solved!
 
-    @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+    @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
     respond_to do |format|
       if @incedent.save
@@ -485,10 +483,10 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:close_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.worker = @current_user unless @incedent.has_worker?
+      @incedent.add_worker = @current_user unless @incedent.has_worker? @current_user
       @incedent.closed!
 
-      @incedent.observer = nil if (@incedent.observer == @incedent.worker)
+      @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба закрыта', body: params[:incedent][:close_reason], author: @current_user)).save
 

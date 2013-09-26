@@ -171,9 +171,19 @@ module ApplicationHelper
     reconnect(client)
 
     # Send an Instant Message.
-    to_jid = Jabber::JID.new(to)
-    message = Jabber::Message::new(to_jid, text).set_type(:normal).set_id('1').set_subject(subject)
-    client.send(message)
+    if to.kind_of?(Array)
+      to.all.each do |jb|
+        if jb.jabber
+          to_jid = Jabber::JID.new(jb.jabber)
+          message = Jabber::Message::new(to_jid, text).set_type(:normal).set_id('1').set_subject(subject)
+          client.send(message)
+        end
+      end
+    else
+      to_jid = Jabber::JID.new(to)
+      message = Jabber::Message::new(to_jid, text).set_type(:normal).set_id('1').set_subject(subject)
+      client.send(message)
+    end
 
     client.close! if client.is_connected?
   end
@@ -187,8 +197,9 @@ module ApplicationHelper
         by_status(params[:status_id]).
         by_type(params[:type_id]).
         by_priority(params[:priority_id]).
-        by_user_as_initiator_or_worker_or_reviewer(params[:user_id]).
+        by_initiator_worker_reviewer(params[:user_id]).
         by_server(params[:server_id])
   end
 
 end
+

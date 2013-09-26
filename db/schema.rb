@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925070159) do
+ActiveRecord::Schema.define(:version => 20130926085442) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -134,6 +134,27 @@ ActiveRecord::Schema.define(:version => 20130925070159) do
   add_index "incedent_comments", ["comment_id"], :name => "index_incedent_comments_on_comment_id"
   add_index "incedent_comments", ["incedent_id"], :name => "index_incedent_comments_on_incedent_id"
 
+  create_table "incedent_observers", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_observers", ["incedent_id"], :name => "index_incedent_observers_on_incedent_id"
+  add_index "incedent_observers", ["user_id"], :name => "index_incedent_observers_on_user_id"
+
+  create_table "incedent_reviewers", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "user_id"
+    t.datetime "reviewed_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_reviewers", ["incedent_id"], :name => "index_incedent_reviewers_on_incedent_id"
+  add_index "incedent_reviewers", ["user_id"], :name => "index_incedent_reviewers_on_user_id"
+
   create_table "incedent_tags", :force => true do |t|
     t.integer  "tag_id"
     t.integer  "incedent_id"
@@ -143,6 +164,18 @@ ActiveRecord::Schema.define(:version => 20130925070159) do
 
   add_index "incedent_tags", ["incedent_id"], :name => "index_incedent_tags_on_incedent_id"
   add_index "incedent_tags", ["tag_id"], :name => "index_incedent_tags_on_tag_id"
+
+  create_table "incedent_workers", :force => true do |t|
+    t.integer  "incedent_id"
+    t.integer  "user_id"
+    t.integer  "status_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "incedent_workers", ["incedent_id"], :name => "index_incedent_workers_on_incedent_id"
+  add_index "incedent_workers", ["status_id"], :name => "index_incedent_workers_on_status_id"
+  add_index "incedent_workers", ["user_id"], :name => "index_incedent_workers_on_user_id"
 
   create_table "incedents", :force => true do |t|
     t.string   "name"
