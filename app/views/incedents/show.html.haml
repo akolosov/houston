@@ -66,10 +66,6 @@
         .span6
           = content_tag :strong, 'Дата создания: '
           = @incedent.created_at.strftime('%d.%m.%Y в %H:%M')
-          - unless @incedent.reviewed_at.nil?
-            %br
-            = content_tag :strong, 'Дата согласования: '
-            = @incedent.reviewed_at.strftime('%d.%m.%Y в %H:%M')
           %br
           = content_tag :strong, 'Дата изменений: '
           = @incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
@@ -85,18 +81,18 @@
               %br
               = content_tag :strong, 'Инициатор: '
               = @incedent.initiator.display_name
-            - if @incedent.has_worker?
+            - if @incedent.has_workers?
               %br
-              = content_tag :strong, 'Исполнитель: '
-              = @incedent.worker.display_name
-            - if @incedent.has_observer?
+              = content_tag :strong, 'Исполнители: '
+              = @incedent.workers.all.collect(&:realname).join(", ")
+            - if @incedent.has_observers?
               %br
-              = content_tag :strong, 'Наблюдатель: '
-              = @incedent.observer.display_name
-            - if @incedent.has_reviewer?
+              = content_tag :strong, 'Наблюдатели: '
+              = @incedent.observers.all.collect(&:realname).join(", ")
+            - if @incedent.has_reviewers?
               %br
-              = content_tag :strong, (@incedent.reviewed_at ? 'Согласовал: ' : 'Не согласовал: ')
-              = @incedent.reviewer.display_name
+              = content_tag :strong, 'На согласовании: '
+              = @incedent.reviewers.all.collect(&:realname).join(", ")
     = render 'history' if @incedent.incedent_actions
   .form-actions
     .pull-left

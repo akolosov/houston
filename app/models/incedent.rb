@@ -4,6 +4,10 @@ class Incedent < ActiveRecord::Base
 
   workflow_column :state
 
+  workflow do
+
+  end
+
   acts_as_nested_set
 
   include TheSortableTree::Scopes
@@ -30,6 +34,15 @@ class Incedent < ActiveRecord::Base
 
   validates :name, :description, presence: true
 
+  has_many :incedent_observers, dependent: :delete_all
+  has_many :observers, through: :incedent_observers, dependent: :delete_all
+
+  has_many :incedent_workers, dependent: :delete_all
+  has_many :workers, through: :incedent_workers, dependent: :delete_all
+
+  has_many :incedent_reviewers, dependent: :delete_all
+  has_many :reviewers, through: :incedent_reviewers, dependent: :delete_all
+
   has_many :incedent_tags, dependent: :delete_all
   has_many :tags, through: :incedent_tags, dependent: :delete_all
 
@@ -53,7 +66,7 @@ class Incedent < ActiveRecord::Base
 
   attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :review_reason, :attaches_attributes, :observer_id, :reviewer_id
 
-  attr_accessible :parent_id, :parent, :childs, :finish_at, :service_class_id, :state
+  attr_accessible :parent_id, :parent, :childs, :finish_at, :service_class_id, :state, :observers, :reviewers, :workers, :observer_ids, :reviewer_ids, :worker_ids
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason, :review_reason
 
@@ -69,23 +82,21 @@ class Incedent < ActiveRecord::Base
 
   scope :by_not_null_reviewer, where('reviewer_id is not null')
 
-  scope :not_reviewed, where('reviewed_at is null')
+  scope :not_reviewed, lambda { |user| where("id in (select incedent_id from incedent_reviewers where user_id = ? and reviewed_at is null)", user) unless user.nil? }
 
   scope :by_tag, lambda {|tag| where("id in (select incedent_id from incedent_tags where tag_id = ?)", tag) unless tag.nil? }
 
-  scope :by_user_as_initiator, lambda { |user| where("initiator_id = ?", user) unless user.nil? }
+  scope :by_initiator, lambda { |user| where("initiator_id = ?", user) unless user.nil? }
 
-  scope :by_user_as_worker, lambda { |user|  where("worker_id = ?", user) unless user.nil? }
+  scope :by_operator, lambda { |user| where("operator_id = ?", user) unless user.nil? }
 
-  scope :by_user_as_observer, lambda { |user| where("observer_id = ?", user) unless user.nil? }
+  scope :by_worker, lambda { |user| where("id in (select incedent_id from incedent_workers where user_id = ?)", user) unless user.nil? }
 
-  scope :by_user_as_operator, lambda { |user| where("operator_id = ?", user) unless user.nil? }
+  scope :by_observer, lambda { |user| where("id in (select incedent_id from incedent_observers where user_id = ?)", user) unless user.nil? }
 
-  scope :by_user_as_reviewer, lambda { |user| where("reviewer_id = ?", user) unless user.nil? }
+  scope :by_reviewer, lambda { |user| where("id in (select incedent_id from incedent_reviewers where user_id = ?)", user) unless user.nil? }
 
-  scope :by_user_as_initiator_or_worker, lambda { |user| where("initiator_id = ? or worker_id = ?", user, user) unless user.nil? }
-
-  scope :by_user_as_initiator_or_worker_or_reviewer, lambda { |user| where("initiator_id = ? or worker_id = ? or reviewer_id = ?", user, user, user) unless user.nil? }
+  scope :by_initiator_worker_reviewer, lambda { |user| where("initiator_id = ? or id in (select incedent_id from incedent_workers where user_id = ?) or id in (select incedent_id from incedent_reviewers where user_id = ?)", user, user, user) unless user.nil? }
 
   scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
 
@@ -94,8 +105,6 @@ class Incedent < ActiveRecord::Base
   scope :by_server, lambda { |server| where("server_id = ?", server) unless server.nil? }
 
   scope :by_priority, lambda { |priority| where("priority_id = ?", priority) unless priority.nil? }
-
-  scope :by_user, lambda { |user| where("initiator_id = ? or worker_id = ? or observer_id = ?", user, user, user) unless user.nil? }
 
   scope :by_parent, lambda { |parent| where("parent_id = ?", parent) unless parent.nil? }
 
@@ -126,16 +135,50 @@ class Incedent < ActiveRecord::Base
     self.finish_at ||= Time.now + 1.days
   end
 
-  def has_worker?
-    !self.worker.nil?
+  def has_worker? worker = nil
+    if worker.nil?
+      self.has_workers?
+    else
+      self.workers.include? worker
+    end
   end
 
-  def has_observer?
-    !self.observer.nil?
+  def has_observer? observer = nil
+    if observer.nil?
+      self.has_observers?
+    else
+      self.observers.include? observer
+    end
   end
 
-  def has_reviewer?
-    !self.reviewer.nil?
+  def has_reviewer? reviewer = nil
+    if reviewer.nil?
+      self.has_reviewers?
+    else
+      self.reviewers.include? reviewer
+    end
+  end
+
+  def has_reviewed? reviewer = nil
+    unless reviewer.nil?
+      if self.reviewers.include? reviewer
+        self.reviewers.each do |user|
+          true if (user == reviewer) and (user.reviewed_at)
+        end
+      end
+    end
+  end
+
+  def has_workers?
+    !self.workers.empty?
+  end
+
+  def has_observers?
+    !self.observers.empty?
+  end
+
+  def has_reviewers?
+    !self.reviewers.empty?
   end
 
   def has_operator?
@@ -158,12 +201,12 @@ class Incedent < ActiveRecord::Base
     ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
   end
 
-  def is_overdated_review?
-    ((self.has_reviewer?) && (self.reviewed_at.nil?) && (self.has_service_class?) && ((self.created_at + self.service_class.review_hours.hours) <= Time.now))
+  def is_overdated_review? user = nil
+    ((self.has_reviewer? user) && (!self.has_reviewed? user) && (self.has_service_class?) && ((self.created_at + self.service_class.review_hours.hours) <= Time.now))
   end
 
-  def is_need_review?
-    ((self.is_waited?) && (self.has_reviewer?) && (self.reviewed_at.nil?))
+  def is_need_review? user = nil
+    ((self.is_waited?) && (self.has_reviewer? user) && (!self.has_reviewed? user))
   end
 
   def is_played?
@@ -192,6 +235,36 @@ class Incedent < ActiveRecord::Base
 
   def is_waited?
     self.status_id == Houston::Application.config.incedent_waited
+  end
+
+  def delete_observer user
+     self.observers.each do |observer|
+        observer.destroy if (observer.observer == user)
+     end
+  end
+
+  def add_observer user
+    IncedentObserver.create(incedent: self, observer: user).save
+  end
+
+  def delete_worker user
+    self.workers.each do |worker|
+      worker.destroy if (worker.worker == user)
+    end
+  end
+
+  def add_worker user
+    IncedentWorker.create(incedent: self, worker: user, status_id: Houston::Application.config.incedent_paused).save
+  end
+
+  def delete_reviewer user
+    self.reviewers.each do |reviewer|
+      reviewer.destroy if (reviewer.reviewer == user)
+    end
+  end
+
+  def add_reviewer user
+    IncedentReviewer.create(incedent: self, reviewer: user).save
   end
 
   def played!
@@ -239,6 +312,22 @@ class Incedent < ActiveRecord::Base
 
   def waited!
     self.status_id = Houston::Application.config.incedent_waited
+  end
+
+  def self.prepare_for_multiple
+    Incedent.all.each do |incedent|
+      unless incedent.worker.nil?
+        IncedentWorker.create(incedent: incedent, user: incedent.worker, status: incedent.status).save
+      end
+
+      unless incedent.observer.nil?
+        IncedentObserver.create(incedent: incedent, user: incedent.observer).save
+      end
+
+      unless incedent.reviewer.nil?
+        IncedentReviewer.create(incedent: incedent, user: incedent.reviewer, reviewed_at: incedent.reviewed_at).save
+      end
+    end
   end
 
   def self.to_csv(options = {})

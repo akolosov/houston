@@ -36,7 +36,6 @@ class Ability
       can :add, Incedent
       can :create, Incedent
       can :watch, Incedent
-      can :unwatch, Incedent, observer_id: user.id
       can :play, Incedent
       can :read, Incedent
       can :create, Attach
@@ -45,26 +44,10 @@ class Ability
       can :create, DocumentAttach
       can :create, ServerAttach
       can :update, Incedent, operator_id: user.id
-      can :update, Incedent, initiator_id: user.id
-      can :pause, Incedent, worker_id: user.id
-      can :stop, Incedent, worker_id: user.id
-      can :replay, Incedent, initiator_id: user.id
-      can :replay, Incedent, worker_id: user.id
-      can :reject, Incedent, worker_id: user.id
-      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :close, Incedent, initiator_id: user.id
-      can :close, Incedent, worker_id: user.id
-      can :solve, Incedent, initiator_id: user.id
-      can :archive, Incedent, initiator_id: user.id
-      can :archive, Incedent, worker_id: user.id
-      can :archive, Incedent, observer_id: user.id
-      can :comment, Incedent, initiator_id: user.id
-      can :comment, Incedent, worker_id: user.id
-      can :comment, Incedent, observer_id: user.id
-      can :comment, Incedent, reviewer_id: user.id
-      can :observe, Incedent, observer_id: user.id
-      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can [:comment, :archive, :solve, :close, :update, :replay], Incedent, initiator_id: user.id
+      can [:reject, :replay, :pause, :stop, :archive, :comment, :close], Incedent, incedent_workers: { id: user.worked_incedent_ids }
+      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
+      can [:unwatch, :observe, :comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
     end
 
     permissions_for user, as: :executor do
@@ -102,25 +85,10 @@ class Ability
       can :create, DocumentAttach
       can :create, ServerAttach
       can :update, Incedent, operator_id: user.id
-      can :update, Incedent, initiator_id: user.id
-      can :pause, Incedent, worker_id: user.id
-      can :stop, Incedent, worker_id: user.id
-      can :replay, Incedent, initiator_id: user.id
-      can :replay, Incedent, worker_id: user.id
-      can :reject, Incedent, worker_id: user.id
-      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :close, Incedent, initiator_id: user.id
-      can :close, Incedent, worker_id: user.id
-      can :solve, Incedent, initiator_id: user.id
-      can :archive, Incedent, initiator_id: user.id
-      can :archive, Incedent, worker_id: user.id
-      can :archive, Incedent, observer_id: user.id
-      can :comment, Incedent, initiator_id: user.id
-      can :comment, Incedent, worker_id: user.id
-      can :comment, Incedent, observer_id: user.id
-      can :comment, Incedent, reviewer_id: user.id
-      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can [:comment, :archive, :solve, :close, :replay, :update], Incedent, initiator_id: user.id
+      can [:comment, :archive, :close, :reject, :replay, :stop, :pause], Incedent, incedent_workers: { id: user.worked_incedent_ids }
+      can [:comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
+      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
     end
 
     permissions_for user, as: [:operator, :client] do
@@ -145,32 +113,11 @@ class Ability
       can :create, CommentAttach
       can :create, IncedentAttach
       can :create, DocumentAttach
-      can :read, Incedent, initiator_id: user.id
-      can :read, Incedent, worker_id: user.id
-      can :read, Incedent, observer_id: user.id
-      can :read, Incedent, operator_id: user.id
-      can :update, Incedent, operator_id: user.id
-      can :update, Incedent, initiator_id: user.id
-      can :play, Incedent, initiator_id: user.id
-      can :play, Incedent, worker_id: user.id
-      can :pause, Incedent, worker_id: user.id
-      can :stop, Incedent, worker_id: user.id
-      can :replay, Incedent, initiator_id: user.id
-      can :replay, Incedent, worker_id: user.id
-      can :reject, Incedent, worker_id: user.id
-      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :close, Incedent, initiator_id: user.id
-      can :close, Incedent, worker_id: user.id
-      can :solve, Incedent, initiator_id: user.id
-      can :archive, Incedent, initiator_id: user.id
-      can :archive, Incedent, worker_id: user.id
-      can :archive, Incedent, observer_id: user.id
-      can :comment, Incedent, initiator_id: user.id
-      can :comment, Incedent, worker_id: user.id
-      can :comment, Incedent, observer_id: user.id
-      can :comment, Incedent, reviewer_id: user.id
-      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
-      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can [:update, :read], Incedent, operator_id: user.id
+      can [:comment, :archive, :solve, :close, :replay, :play, :update, :read], Incedent, initiator_id: user.id
+      can [:comment, :archive, :close, :reject, :replay, :stop, :pause, :play, :read], Incedent, incedent_workers: { id: user.worked_incedent_ids }
+      can [:comment, :archive, :read], Incedent, incedent_observers: { id: user.observed_incedent_ids }
+      can [:review, :onreview, :reject, :comment], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
     end
   end
 end
