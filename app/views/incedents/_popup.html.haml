@@ -9,33 +9,40 @@
             = link_to glyph(:eye_open), watch_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Набдюдать за жалобой' if can? :watch, incedent
           - elsif (incedent.has_observer? and (incedent.observer == current_user))
             = link_to glyph(:eye_close), unwatch_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Перестать наблюдать за жалобой' if can? :unwatch, incedent
-          - if !incedent.is_closed? and can? :work, incedent
+          - if !incedent.is_closed? and !incedent.is_need_review? and can? :work, incedent
             %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-work-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Передать жалобу в работу' }
               = glyph(:share)
             = render partial: 'work', locals: { incedent: incedent }
           - if (incedent.has_worker? and incedent.worker == current_user)
-            - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+            - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?  and !incedent.is_need_review?
               = link_to glyph(:pause), pause_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Приостановить работу над жалобой' if can? :pause, incedent
-            - elsif !incedent.is_rejected? and !incedent.is_closed?
+            - elsif !incedent.is_rejected? and !incedent.is_closed? and !incedent.is_need_review?
               = link_to glyph(:play), play_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Приступить к работе над жалобой' if can? :play, incedent
-            - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker?
+            - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_worker? and !incedent.is_need_review?
               = link_to glyph(:stop), stop_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Остановить работу над жалобой' if can? :stop, incedent
           - else
-            - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.has_worker?)
+            - if !incedent.is_rejected? and !incedent.is_closed? and !incedent.has_worker? and !incedent.is_need_review?
               = link_to glyph(:play), play_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Приступить к работе над жалобой' if can? :play, incedent
-          - if !incedent.is_rejected? and !incedent.is_closed? and can? :reject, incedent
-            %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Отклонить жалобу'}
+          - if incedent.is_waited? and incedent.is_need_review? and can? :reject, incedent and can? :review, incedent
+            %a.btn.btn-mini.btn-success{'data-toggle' => 'modal', href: "#incedent-review-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Согласовать жалобу'}
+              = glyph(:check)
+            = render partial: 'review', locals: { incedent: incedent }
+            %a.btn.btn-mini.btn-warning{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Отклонить жалобу'}
               = glyph(:remove)
             = render partial: 'reject', locals: { incedent: incedent }
-          - if (incedent.is_rejected? or incedent.is_closed?) and can? :replay, incedent and incedent.has_worker?
+          - if !incedent.is_rejected? and !incedent.is_closed? and !incedent.is_need_review? and can? :reject, incedent
+            %a.btn.btn-mini.btn-warning{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Отклонить жалобу'}
+              = glyph(:remove)
+            = render partial: 'reject', locals: { incedent: incedent }
+          - if (incedent.is_rejected? or incedent.is_closed?) and !incedent.is_need_review? and can? :replay, incedent and incedent.has_worker?
             %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Возобновить работу над жалобой'}
               = glyph(:play)
             = render partial: 'replay', locals: { incedent: incedent }
-          - if !incedent.is_closed? and  can? :close, incedent
+          - if !incedent.is_closed? and !incedent.is_need_review? and  can? :close, incedent
             %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-close-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Завершить работы над жалобой'}
               = glyph(:ok)
             = render partial: 'close', locals: { incedent: incedent }
-          - if (incedent.is_closed? or incedent.is_stoped?) and can? :solve, incedent
+          - if (incedent.is_closed? or incedent.is_stoped?) and !incedent.is_need_review? and can? :solve, incedent
             = link_to glyph(:thumbs_up), solve_incedent_path(incedent), class: 'btn btn-mini btn-success', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Жалоба успешно решена' if can? :solve, incedent
         - elsif current_user.has_role? :admin and can? :replay, incedent
           %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Возобновить работу над жалобой'}
@@ -44,7 +51,7 @@
         = link_to glyph(:trash), incedent, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if can? :destroy, incedent
         = link_to glyph(:remove), "#", data: { dismiss: 'modal', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Закрыть окно', class: 'btn btn-mini'
     %h4= incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
-  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : '') }
+  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? ? 'error' : (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : ''))) : '') }
     = markdown(incedent.description)
     %br
     .container-fluid
@@ -52,6 +59,10 @@
         .span6
           = content_tag :strong, 'Дата создания: '
           = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
+          - unless incedent.reviewed_at.nil?
+            %br
+            = content_tag :strong, 'Дата согласования: '
+            = incedent.reviewed_at.strftime('%d.%m.%Y в %H:%M')
           %br
           = content_tag :strong, 'Дата изменений: '
           = incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
@@ -75,6 +86,10 @@
               %br
               = content_tag :strong, 'Наблюдатель: '
               = incedent.observer.display_name
+            - if incedent.has_reviewer?
+              %br
+              = content_tag :strong, (incedent.reviewed_at ? 'Согласовал: ' : 'Не согласовал: ')
+              = incedent.reviewer.display_name
   .modal-footer.popup-footer
     .pull-left
       = lbl incedent.status.name

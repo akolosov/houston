@@ -51,6 +51,7 @@ class Ability
       can :replay, Incedent, initiator_id: user.id
       can :replay, Incedent, worker_id: user.id
       can :reject, Incedent, worker_id: user.id
+      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
       can :close, Incedent, initiator_id: user.id
       can :close, Incedent, worker_id: user.id
       can :solve, Incedent, initiator_id: user.id
@@ -60,7 +61,10 @@ class Ability
       can :comment, Incedent, initiator_id: user.id
       can :comment, Incedent, worker_id: user.id
       can :comment, Incedent, observer_id: user.id
+      can :comment, Incedent, reviewer_id: user.id
       can :observe, Incedent, observer_id: user.id
+      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
     end
 
     permissions_for user, as: :executor do
@@ -104,6 +108,7 @@ class Ability
       can :replay, Incedent, initiator_id: user.id
       can :replay, Incedent, worker_id: user.id
       can :reject, Incedent, worker_id: user.id
+      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
       can :close, Incedent, initiator_id: user.id
       can :close, Incedent, worker_id: user.id
       can :solve, Incedent, initiator_id: user.id
@@ -113,6 +118,9 @@ class Ability
       can :comment, Incedent, initiator_id: user.id
       can :comment, Incedent, worker_id: user.id
       can :comment, Incedent, observer_id: user.id
+      can :comment, Incedent, reviewer_id: user.id
+      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
     end
 
     permissions_for user, as: [:operator, :client] do
@@ -150,6 +158,7 @@ class Ability
       can :replay, Incedent, initiator_id: user.id
       can :replay, Incedent, worker_id: user.id
       can :reject, Incedent, worker_id: user.id
+      can :reject, Incedent, reviewer_id: user.id, reviewed_at: nil
       can :close, Incedent, initiator_id: user.id
       can :close, Incedent, worker_id: user.id
       can :solve, Incedent, initiator_id: user.id
@@ -159,6 +168,9 @@ class Ability
       can :comment, Incedent, initiator_id: user.id
       can :comment, Incedent, worker_id: user.id
       can :comment, Incedent, observer_id: user.id
+      can :comment, Incedent, reviewer_id: user.id
+      can :onreview, Incedent, reviewer_id: user.id, reviewed_at: nil
+      can :review, Incedent, reviewer_id: user.id, reviewed_at: nil
     end
   end
 end

@@ -150,6 +150,20 @@ class IncedentMailer < ActionMailer::Base
     end
   end
 
+  def incedent_reviewed(incedent)
+    @incedent = incedent
+
+    mail(to: incedent.initiator.email+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} согласована")
+
+    if (@incedent.initiator.jabber)
+      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} согласована", (render 'incedent_mailer/incedent_reviewed', locals: { incedent: @incedent }, formats: [:text]))
+    end
+
+    if (@incedent.has_observer?) and (@incedent.observer.jabber)
+      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} согласована", (render 'incedent_mailer/incedent_reviewed', locals: { incedent: @incedent }, formats: [:text]))
+    end
+  end
+
   def incedent_solved(incedent)
     @incedent = incedent
 

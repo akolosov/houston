@@ -1,5 +1,9 @@
 # encoding: utf-8
 class Incedent < ActiveRecord::Base
+  include Workflow
+
+  workflow_column :state
+
   acts_as_nested_set
 
   include TheSortableTree::Scopes
@@ -14,6 +18,7 @@ class Incedent < ActiveRecord::Base
   belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
   belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
   belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
+  belongs_to :reviewer, class_name: 'User', foreign_key: 'reviewer_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -44,11 +49,13 @@ class Incedent < ActiveRecord::Base
 
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id, :parent_id, :parent, :childs
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :reviewer, :server, :operator_id, :initiator_id, :priority_id
 
-  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :attaches_attributes, :observer_id, :finish_at, :service_class_id
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :review_reason, :attaches_attributes, :observer_id, :reviewer_id
 
-  attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason
+  attr_accessible :parent_id, :parent, :childs, :finish_at, :service_class_id, :state
+
+  attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason, :review_reason
 
   scope :by_null_worker, where('worker_id is null')
 
@@ -57,6 +64,12 @@ class Incedent < ActiveRecord::Base
   scope :by_null_observer, where('observer_id is null')
 
   scope :by_not_null_observer, where('observer_id is not null')
+
+  scope :by_null_reviewer, where('reviewer_id is null')
+
+  scope :by_not_null_reviewer, where('reviewer_id is not null')
+
+  scope :not_reviewed, where('reviewed_at is null')
 
   scope :by_tag, lambda {|tag| where("id in (select incedent_id from incedent_tags where tag_id = ?)", tag) unless tag.nil? }
 
@@ -68,7 +81,11 @@ class Incedent < ActiveRecord::Base
 
   scope :by_user_as_operator, lambda { |user| where("operator_id = ?", user) unless user.nil? }
 
+  scope :by_user_as_reviewer, lambda { |user| where("reviewer_id = ?", user) unless user.nil? }
+
   scope :by_user_as_initiator_or_worker, lambda { |user| where("initiator_id = ? or worker_id = ?", user, user) unless user.nil? }
+
+  scope :by_user_as_initiator_or_worker_or_reviewer, lambda { |user| where("initiator_id = ? or worker_id = ? or reviewer_id = ?", user, user, user) unless user.nil? }
 
   scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
 
@@ -117,6 +134,10 @@ class Incedent < ActiveRecord::Base
     !self.observer.nil?
   end
 
+  def has_reviewer?
+    !self.reviewer.nil?
+  end
+
   def has_operator?
     !self.operator.nil?
   end
@@ -125,12 +146,24 @@ class Incedent < ActiveRecord::Base
     !self.initiator.nil?
   end
 
+  def has_service_class?
+    !self.service_class.nil?
+  end
+
   def is_overdated_now?
     (self.finish_at < Time.now)
   end
 
   def is_overdated_soon?
     ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
+  end
+
+  def is_overdated_review?
+    ((self.has_reviewer?) && (self.reviewed_at.nil?) && (self.has_service_class?) && ((self.created_at + self.service_class.review_hours.hours) <= Time.now))
+  end
+
+  def is_need_review?
+    ((self.is_waited?) && (self.has_reviewer?) && (self.reviewed_at.nil?))
   end
 
   def is_played?
@@ -162,8 +195,12 @@ class Incedent < ActiveRecord::Base
   end
 
   def played!
-    self.status_id = Houston::Application.config.incedent_played
-    self.closed = false
+    if self.is_need_review?
+      self.waited!
+    else
+      self.status_id = Houston::Application.config.incedent_played
+      self.closed = false
+    end
   end
 
   def paused!
@@ -179,6 +216,15 @@ class Incedent < ActiveRecord::Base
   def rejected!
     self.status_id = Houston::Application.config.incedent_rejected
     self.closed = false
+  end
+
+  def reviewed!
+    self.reviewed_at = Time.now
+    if self.has_worker?
+      self.played!
+    else
+      self.paused!
+    end
   end
 
   def solved!
@@ -228,4 +274,20 @@ class Incedent < ActiveRecord::Base
         end
       end
     end
+end
+
+class TheIncedent < Incedent
+
+end
+
+class TheProblem < Incedent
+
+end
+
+class TheSupport < Incedent
+
+end
+
+class TheChange < Incedent
+
 end

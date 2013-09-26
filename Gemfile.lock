@@ -198,6 +198,7 @@ GEM
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
     will_paginate (3.0.4)
+    workflow (1.0.0)
     xmpp4r (0.5)
 
 PLATFORMS
@@ -238,4 +239,5 @@ DEPENDENCIES
   unicorn
   whenever
   will_paginate (~> 3.0)
+  workflow
   xmpp4r
