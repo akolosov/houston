@@ -1,5 +1,9 @@
 # encoding: utf-8
 class Incedent < ActiveRecord::Base
+  include Workflow
+
+  workflow_column :state
+
   acts_as_nested_set
 
   include TheSortableTree::Scopes
@@ -219,7 +223,7 @@ class Incedent < ActiveRecord::Base
     if self.has_worker?
       self.played!
     else
-      self.stoped!
+      self.paused!
     end
   end
 
@@ -270,4 +274,20 @@ class Incedent < ActiveRecord::Base
         end
       end
     end
+end
+
+class TheIncedent < Incedent
+
+end
+
+class TheProblem < Incedent
+
+end
+
+class TheSupport < Incedent
+
+end
+
+class TheChange < Incedent
+
 end

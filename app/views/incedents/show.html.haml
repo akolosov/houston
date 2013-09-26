@@ -3,7 +3,7 @@
     display: none;
   }
 
-.form{ class: ((params[:action] != 'archive') ? (@incedent.is_overdated_now? ? 'error' : (@incedent.is_overdated_soon? ? 'warning' : '')) : '') }
+.form{ class: ((params[:action] != 'archive') ? (@incedent.is_overdated_review? ? 'error' : (@incedent.is_overdated_now? ? 'error' : (@incedent.is_overdated_soon? ? 'warning' : ''))) : '') }
   .form-header
     .btn-group.pull-right.right5
       - if @incedent.incedent_actions
@@ -66,6 +66,10 @@
         .span6
           = content_tag :strong, 'Дата создания: '
           = @incedent.created_at.strftime('%d.%m.%Y в %H:%M')
+          - unless @incedent.reviewed_at.nil?
+            %br
+            = content_tag :strong, 'Дата согласования: '
+            = @incedent.reviewed_at.strftime('%d.%m.%Y в %H:%M')
           %br
           = content_tag :strong, 'Дата изменений: '
           = @incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
@@ -89,6 +93,10 @@
               %br
               = content_tag :strong, 'Наблюдатель: '
               = @incedent.observer.display_name
+            - if @incedent.has_reviewer?
+              %br
+              = content_tag :strong, (@incedent.reviewed_at ? 'Согласовал: ' : 'Не согласовал: ')
+              = @incedent.reviewer.display_name
     = render 'history' if @incedent.incedent_actions
   .form-actions
     .pull-left

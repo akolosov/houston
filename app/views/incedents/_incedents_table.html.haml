@@ -48,7 +48,7 @@
 
         %tbody
           - @incedents.each do |incedent|
-            %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : ''), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
+            %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? ? 'error' : (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : ''))) : ''), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
               = render partial: 'popup', locals: { incedent: incedent }
               %td
                 = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
@@ -88,7 +88,7 @@
   - if params[:action] == 'archive'
     :coffeescript
       $ ->
-        $("#incedents_table").tablesorter({sortList:[[5,1],[0,1]]})
+        $("#incedents_table").tablesorter({sortList:[[1,1],[5,1],[0,1]]})
 
         $(".pagination a").each ->
           $(this).attr "data-remote", true
@@ -100,7 +100,7 @@
   - else
     :coffeescript
       $ ->
-        $("#incedents_table").tablesorter({sortList:[[5,0],[0,1]]})
+        $("#incedents_table").tablesorter({sortList:[[1,1],[5,0],[0,1]]})
 
         $(".pagination a").each ->
           $(this).attr "data-remote", true

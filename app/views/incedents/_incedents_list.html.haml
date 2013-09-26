@@ -8,7 +8,7 @@
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
       - @incedents.each do |incedent|
-        .form{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : '') }
+        .form{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? ? 'error' : (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : ''))) : '') }
           .form-header
             .btn-group.pull-right.right5
               = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
@@ -72,6 +72,10 @@
                 .span6
                   = content_tag :strong, 'Дата создания: '
                   = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
+                  - unless incedent.reviewed_at.nil?
+                    %br
+                    = content_tag :strong, 'Дата согласования: '
+                    = incedent.reviewed_at.strftime('%d.%m.%Y в %H:%M')
                   %br
                   = content_tag :strong, 'Дата изменений: '
                   = incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
@@ -95,6 +99,10 @@
                       %br
                       = content_tag :strong, 'Наблюдатель: '
                       = incedent.observer.display_name
+                    - if incedent.has_reviewer?
+                      %br
+                      = content_tag :strong, (incedent.reviewed_at ? 'Согласовал: ' : 'Не согласовал: ')
+                      = incedent.reviewer.display_name
           .form-actions
             .pull-left
               = lbl incedent.status.name

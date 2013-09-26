@@ -51,7 +51,7 @@
         = link_to glyph(:trash), incedent, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Удалить жалобу' if can? :destroy, incedent
         = link_to glyph(:remove), "#", data: { dismiss: 'modal', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Закрыть окно', class: 'btn btn-mini'
     %h4= incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
-  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : '') }
+  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? ? 'error' : (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : ''))) : '') }
     = markdown(incedent.description)
     %br
     .container-fluid
@@ -59,6 +59,10 @@
         .span6
           = content_tag :strong, 'Дата создания: '
           = incedent.created_at.strftime('%d.%m.%Y в %H:%M')
+          - unless incedent.reviewed_at.nil?
+            %br
+            = content_tag :strong, 'Дата согласования: '
+            = incedent.reviewed_at.strftime('%d.%m.%Y в %H:%M')
           %br
           = content_tag :strong, 'Дата изменений: '
           = incedent.updated_at.strftime('%d.%m.%Y в %H:%M')
@@ -82,6 +86,10 @@
               %br
               = content_tag :strong, 'Наблюдатель: '
               = incedent.observer.display_name
+            - if incedent.has_reviewer?
+              %br
+              = content_tag :strong, (incedent.reviewed_at ? 'Согласовал: ' : 'Не согласовал: ')
+              = incedent.reviewer.display_name
   .modal-footer.popup-footer
     .pull-left
       = lbl incedent.status.name
