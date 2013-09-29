@@ -1,4 +1,4 @@
-Уважаемый <%= @incedent.worker.realname %>
+Уважаемый <%= @incedent.workers.all.collect(&:realname).join(", ") %>
 
 Жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
 назначена и принята Вами в работу.

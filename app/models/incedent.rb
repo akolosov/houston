@@ -18,11 +18,10 @@ class Incedent < ActiveRecord::Base
 
   before_save :default_values
 
+  belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
   belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
   belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
-  belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
-  belongs_to :reviewer, class_name: 'User', foreign_key: 'reviewer_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
@@ -62,25 +61,13 @@ class Incedent < ActiveRecord::Base
 
   accepts_nested_attributes_for :attaches, allow_destroy: true
 
-  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :reviewer, :server, :operator_id, :initiator_id, :priority_id
+  attr_accessible :description, :name, :tags, :incedent_actions, :tag_ids, :operator, :initiator, :worker, :observer, :server, :operator_id, :initiator_id, :priority_id
 
-  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :review_reason, :attaches_attributes, :observer_id, :reviewer_id
+  attr_accessible :type_id, :status_id, :worker_id, :server_id, :closed, :reject_reason, :replay_reason, :close_reason, :work_reason, :review_reason, :attaches_attributes, :observer_id
 
   attr_accessible :parent_id, :parent, :childs, :finish_at, :service_class_id, :state, :observers, :reviewers, :workers, :observer_ids, :reviewer_ids, :worker_ids
 
   attr_accessor :reject_reason, :work_reason, :replay_reason, :close_reason, :review_reason
-
-  scope :by_null_worker, where('worker_id is null')
-
-  scope :by_not_null_worker, where('worker_id is not null')
-
-  scope :by_null_observer, where('observer_id is null')
-
-  scope :by_not_null_observer, where('observer_id is not null')
-
-  scope :by_null_reviewer, where('reviewer_id is null')
-
-  scope :by_not_null_reviewer, where('reviewer_id is not null')
 
   scope :not_reviewed, lambda { |user| where("id in (select incedent_id from incedent_reviewers where user_id = ? and reviewed_at is null)", user) unless user.nil? }
 
@@ -209,36 +196,36 @@ class Incedent < ActiveRecord::Base
     ((self.has_reviewer? user) && (!self.has_reviewed? user))
   end
 
-  def is_played?
-    self.status_id == Houston::Application.config.incedent_played
+  def is_played? user = nil
+    self.get_status Houston::Application.config.incedent_played, user
   end
 
-  def is_paused?
-    self.status_id == Houston::Application.config.incedent_paused
+  def is_paused? user = nil
+    self.get_status Houston::Application.config.incedent_paused, user
   end
 
-  def is_stoped?
-    self.status_id == Houston::Application.config.incedent_stoped
+  def is_stoped? user = nil
+    self.get_status Houston::Application.config.incedent_stoped, user
   end
 
-  def is_rejected?
-    self.status_id == Houston::Application.config.incedent_rejected
+  def is_rejected? user = nil
+    self.get_status Houston::Application.config.incedent_rejected, user
   end
 
-  def is_solved?
+  def is_solved? user = nil
     self.status_id == Houston::Application.config.incedent_solved or self.closed
   end
 
-  def is_closed?
-    self.status_id == Houston::Application.config.incedent_closed
+  def is_closed? user = nil
+    self.get_status Houston::Application.config.incedent_closed, user
   end
 
-  def is_waited?
-    self.status_id == Houston::Application.config.incedent_waited
+  def is_waited? user = nil
+    self.get_status Houston::Application.config.incedent_waited, user
   end
 
   def delete_observer user
-     self.observers.each do |observer|
+     self.incedent_observers.each do |observer|
         observer.destroy if (observer.observer == user)
      end
   end
@@ -248,17 +235,17 @@ class Incedent < ActiveRecord::Base
   end
 
   def delete_worker user
-    self.workers.each do |worker|
+    self.incedent_workers.each do |worker|
       worker.destroy if (worker.worker == user)
     end
   end
 
-  def add_worker user
-    IncedentWorker.create(incedent: self, worker: user, status_id: Houston::Application.config.incedent_paused).save
+  def add_worker user, status = 3
+    IncedentWorker.create(incedent: self, worker: user, status_id: status).save
   end
 
   def delete_reviewer user
-    self.reviewers.each do |reviewer|
+    self.incedent_reviewers.each do |reviewer|
       reviewer.destroy if (reviewer.reviewer == user)
     end
   end
@@ -267,36 +254,36 @@ class Incedent < ActiveRecord::Base
     IncedentReviewer.create(incedent: self, reviewer: user).save
   end
 
-  def played!
-    if self.is_need_review?
-      self.waited!
+  def played! user = nil
+    if self.is_need_review? user
+      self.waited! user
     else
-      self.status_id = Houston::Application.config.incedent_played
+      self.set_status Houston::Application.config.incedent_played, user
       self.closed = false
     end
   end
 
-  def paused!
-    self.status_id = Houston::Application.config.incedent_paused
+  def paused! user = nil
+    self.set_status Houston::Application.config.incedent_paused, user
     self.closed = false
   end
 
-  def stoped!
-    self.status_id = Houston::Application.config.incedent_stoped
+  def stoped! user = nil
+    self.set_status Houston::Application.config.incedent_stoped, user
     self.closed = false
   end
 
-  def rejected!
-    self.status_id = Houston::Application.config.incedent_rejected
+  def rejected! user = nil
+    self.set_status Houston::Application.config.incedent_rejected, user
     self.closed = false
   end
 
-  def reviewed!
+  def reviewed! user = nil
     self.reviewed_at = Time.now
-    if self.has_worker?
-      self.played!
+    if self.has_workers?
+      self.played! user
     else
-      self.paused!
+      self.paused! user
     end
   end
 
@@ -305,13 +292,47 @@ class Incedent < ActiveRecord::Base
     self.closed = true
   end
 
-  def closed!
-    self.status_id = Houston::Application.config.incedent_closed
+  def closed! user = nil
+    self.set_status Houston::Application.config.incedent_closed, user
     self.closed = false
   end
 
-  def waited!
-    self.status_id = Houston::Application.config.incedent_waited
+  def waited! user = nil
+    self.set_status Houston::Application.config.incedent_waited, user
+  end
+
+  def set_status status, user = nil
+    unless user.nil?
+      if self.has_worker? user
+        self.incedent_workers.each do |worker|
+          worker.status_id = status if (worker.worker == user)
+        end
+      else
+        self.add_worker user, status
+      end
+    else
+      self.status_id = status
+    end
+  end
+
+  def set_status_all status
+    if self.has_workers?
+      self.incedent_workers.each do |worker|
+        worker.status_id = status
+      end
+    end
+    self.status_id = status
+  end
+
+  def get_status status, user = nil
+    self.incedent_workers.each do |worker|
+      unless user.nil?
+        return (worker.status_id == status) if (worker.worker == user)
+      else
+        return false if (worker.status_id != status)
+      end
+    end
+    return false
   end
 
   def self.prepare_for_multiple
@@ -322,10 +343,6 @@ class Incedent < ActiveRecord::Base
 
       unless incedent.observer.nil?
         IncedentObserver.create(incedent: incedent, user: incedent.observer).save
-      end
-
-      unless incedent.reviewer.nil?
-        IncedentReviewer.create(incedent: incedent, user: incedent.reviewer, reviewed_at: incedent.reviewed_at).save
       end
     end
   end
@@ -356,9 +373,9 @@ class Incedent < ActiveRecord::Base
       Incedent.closed.each do |incedent|
         unless incedent.service_class.nil?
            if (incedent.service_class.autoclose) and (incedent.created_at + incedent.service_class.autoclose_hours.hours) > Time.now
-             incedent.worker = User.find(1) unless incedent.has_worker?
+             incedent.add_worker User.find(1) unless incedent.has_workers?
              incedent.solved!
-             IncedentAction.create(incedent: incedent, status: incedent.status, worker: incedent.worker).save
+             IncedentAction.create(incedent: incedent, status: incedent.status, worker: incedent.workers).save
            end
         end
       end

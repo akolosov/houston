@@ -4,40 +4,41 @@
     = link_to glyph(:eye_open)+(title ? ' Наблюдать' : ''), watch_incedent_path(incedent), class: 'btn btn-mini' if can? :watch, incedent
   - elsif (incedent.has_observer? current_user)
     = link_to glyph(:eye_close)+(title ? ' Игнорировать' : ''), unwatch_incedent_path(incedent), class: 'btn btn-mini' if can? :unwatch, incedent
-  - if !incedent.is_closed? and (!incedent.is_need_review? current_user) and can? :work, incedent
+  - if (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and can? :work, incedent
     %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-work-#{incedent.id}"}
       = glyph(:share)+(title ? ' Передать' : '')
     = render partial: 'work', locals: { incedent: incedent }
   - if (incedent.has_worker? current_user)
-    - if incedent.is_played? and !incedent.is_rejected? and !incedent.is_closed? and (!incedent.is_need_review? current_user) and incedent.has_workers?
+    - if (incedent.is_played? current_user) and (!incedent.is_rejected? current_user) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and incedent.has_workers?
       = link_to glyph(:pause)+(title ? ' Приостановить' : ''), pause_incedent_path(incedent), class: 'btn btn-mini' if can? :pause, incedent
-    - elsif !incedent.is_rejected? and !incedent.is_closed? and (!incedent.is_need_review? current_user)
+    - elsif (!incedent.is_rejected? current_user) and (!incedent.is_played? current_user) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user)
+      %p= incedent.is_need_review? current_user
       = link_to glyph(:play)+(title ? ' В работу' : ''), play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
-    - if (incedent.is_played? or incedent.is_paused?) and !incedent.is_rejected? and !incedent.is_closed? and incedent.has_workers? and (!incedent.is_need_review? current_user)
+    - if ((incedent.is_played? current_user) or (incedent.is_paused? current_user)) and (!incedent.is_rejected? current_user) and (!incedent.is_closed? current_user) and incedent.has_workers? and (!incedent.is_need_review? current_user)
       = link_to glyph(:stop)+(title ? ' Остановить' : ''), stop_incedent_path(incedent), class: 'btn btn-mini' if can? :stop, incedent
   - else
-    - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.has_workers?) and (!incedent.is_need_review? current_user)
+    - if (!incedent.is_rejected? current_user) and (!incedent.is_closed? current_user) and (!incedent.has_workers?) and (!incedent.is_need_review? current_user)
       = link_to glyph(:play)+(title ? ' В работу' : ''), play_incedent_path(incedent), class: 'btn btn-mini' if can? :play, incedent
-  - if !incedent.is_rejected? and (incedent.is_need_review? current_user) and (can? :reject, incedent) and (can? :review, incedent)
+  - if (!incedent.is_rejected? current_user) and (incedent.is_need_review? current_user) and (can? :reject, incedent) and (can? :review, incedent)
     %a.btn.btn-mini.btn-success{'data-toggle' => 'modal', href: "#incedent-review-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Согласовать жалобу'}
       = glyph(:check)+(title ? ' Согласовать' : '')
     = render partial: 'review', locals: { incedent: incedent }
     %a.btn.btn-mini.btn-warning{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}", data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Отклонить жалобу'}
       = glyph(:remove)+(title ? ' Отклонить' : '')
     = render partial: 'reject', locals: { incedent: incedent }
-  - if !incedent.is_rejected? and !incedent.is_closed? and (!incedent.is_need_review? current_user) and can? :reject, incedent
+  - if (!incedent.is_rejected? current_user) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and can? :reject, incedent
     %a.btn.btn-mini.btn-warning{'data-toggle' => 'modal', href: "#incedent-reject-#{incedent.id}"}
       = glyph(:remove)+(title ? ' Отклонить' : '')
     = render partial: 'reject', locals: { incedent: incedent }
-  - if (incedent.is_rejected? or incedent.is_closed?) and (!incedent.is_need_review? current_user) and incedent.has_workers? and can? :replay, incedent
+  - if ((incedent.is_rejected? current_user) or (incedent.is_closed? current_user)) and (!incedent.is_need_review? current_user) and (incedent.has_workers?) and can? :replay, incedent
     %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}"}
       = glyph(:play)+(title ? ' Возобновить' : '')
     = render partial: 'replay', locals: { incedent: incedent }
-  - if !incedent.is_closed? and (!incedent.is_need_review? current_user) and  can? :close, incedent
+  - if (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and  can? :close, incedent
     %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-close-#{incedent.id}"}
       = glyph(:ok)+(title ? ' Закрыть' : '')
     = render partial: 'close', locals: { incedent: incedent }
-  - if (incedent.is_closed? or incedent.is_stoped?) and (!incedent.is_need_review? current_user) and can? :solve, incedent
+  - if ((incedent.is_closed? current_user) or (incedent.is_stoped? current_user)) and (!incedent.is_need_review? current_user) and can? :solve, incedent
     = link_to glyph(:thumbs_up)+(title ? ' Решено' : ''), solve_incedent_path(incedent), class: 'btn btn-mini btn-success' if can? :solve, incedent
 - elsif current_user.has_role? :admin and can? :replay, incedent
   %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-replay-#{incedent.id}"}
