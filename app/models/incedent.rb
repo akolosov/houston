@@ -180,11 +180,21 @@ class Incedent < ActiveRecord::Base
     !self.service_class.nil?
   end
 
-  def is_overdated_now?
+  def is_overdated_now? user = nil
+    unless user.nil?
+      self.incedent_workers.each do |worker|
+        return (worker.finish_at < Time.now) if (worker.worker == user)
+      end
+    end
     (self.finish_at < Time.now)
   end
 
-  def is_overdated_soon?
+  def is_overdated_soon? user = nil
+    unless user.nil?
+      self.incedent_workers.each do |worker|
+        return ((worker.finish_at >= (Time.now - 4.hours)) && (worker.finish_at <= (Time.now + 6.hours))) if (worker.worker == user)
+      end
+    end
     ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
   end
 
@@ -279,11 +289,16 @@ class Incedent < ActiveRecord::Base
   end
 
   def reviewed! user = nil
-    self.reviewed_at = Time.now
-    if self.has_workers?
-      self.played! user
-    else
-      self.paused! user
+    unless user.nil?
+      self.incedent_reviewers.each do |reviewer|
+        (reviewer.reviewed_at = Time.now) if (reviewer.reviewer == user)
+      end
+
+      if self.has_workers?
+        self.played! user
+      else
+        self.paused! user
+      end
     end
   end
 
@@ -333,6 +348,15 @@ class Incedent < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  def get_status_id user = nil
+    self.incedent_workers.each do |worker|
+      unless user.nil?
+        return worker.status_id if (worker.worker == user)
+      end
+    end
+    return Houston::Application.config.incedent_waited
   end
 
   def self.prepare_for_multiple

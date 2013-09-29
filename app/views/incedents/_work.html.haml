@@ -15,7 +15,7 @@
       %i.icon-remove.pull-right{'data-dismiss' => 'modal'}
       %h3 Укажите кому передать и причину
     .modal-body
-      = f.association :worker, include_blank: false, label: false, input_html: { class: 'form-input' }
+      = f.association :workers, include_blank: false, label: false, input_html: { multiple: true, class: 'form-input' }
       = f.input :work_reason, label: false, input_html: { class: 'form-input' }, as: :text, class: 'form-modal-input'
     .modal-footer
       .pull-right.btn-group

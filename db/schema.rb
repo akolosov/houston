@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(:version => 20130926085442) do
     t.integer  "incedent_id"
     t.integer  "user_id"
     t.integer  "status_id"
+    t.datetime "finish_at"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -196,9 +197,7 @@ ActiveRecord::Schema.define(:version => 20130926085442) do
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "service_class_id"
-    t.integer  "reviewer_id"
     t.string   "state"
-    t.datetime "reviewed_at"
   end
 
   add_index "incedents", ["initiator_id"], :name => "index_incedents_on_initiator_id"

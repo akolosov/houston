@@ -149,7 +149,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
+        IncedentAction.create(incedent: @incedent, status_id: @incedent.status, worker: @incedent.initiator).save
 
         IncedentMailer.incedent_created(@incedent).deliver
 
@@ -177,10 +177,10 @@ class IncedentsController < ApplicationController
           end
         end
 
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.initiator).save
+        IncedentAction.create(incedent: @incedent, status_id: @incedent.status, worker: @incedent.initiator).save
 
         if (@incedent.worker)
-          IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+          IncedentAction.create(incedent: @incedent, status_id: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
         end
 
         IncedentMailer.incedent_created(@incedent).deliver
@@ -210,7 +210,7 @@ class IncedentsController < ApplicationController
 
         if !@incedent.is_solved?
           if (@incedent.worker)
-            IncedentAction.create(incedent: @incedent, status: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+            IncedentAction.create(incedent: @incedent, status_id: (Status.find(Houston::Application.config.incedent_played)), worker: @incedent.worker).save
           end
 
           IncedentMailer.incedent_changed(@incedent).deliver
@@ -284,7 +284,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
         IncedentMailer.incedent_played(@incedent).deliver
 
@@ -300,17 +300,15 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:replay_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
-      @incedent.played!
-
-      @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
+      @incedent.incedent_workers do |worker|
+        @incedent.played! worker.worker
+        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id worker.worker), worker: worker.worker).save
+      end
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)).save
 
       respond_to do |format|
         if @incedent.save
-          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
-
           IncedentMailer.incedent_replayed(@incedent).deliver
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
@@ -327,20 +325,22 @@ class IncedentsController < ApplicationController
 
   # GET /incedent/1/work
   def work
-    if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_id].empty?
+    if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_ids].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.add_worker User.find(params[:incedent][:worker_id])
-      @incedent.played! User.find(params[:incedent][:worker_id])
-
-      @incedent.delete_observer User.find(params[:incedent][:worker_id]) if (@incedent.has_observer? User.find(params[:incedent][:worker_id]))
+      params[:incedent][:worker_ids].each do |worker_id|
+        unless worker_id == ''
+          @incedent.add_worker User.find(worker_id)
+          @incedent.played! User.find(worker_id)
+          @incedent.delete_observer User.find(worker_id) if (@incedent.has_observer? User.find(worker_id))
+          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save
+        end
+      end
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба назначена исполнителю', body: params[:incedent][:work_reason], author: @current_user)).save
 
       respond_to do |format|
         if @incedent.save
-          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @incedent.worker).save
-
           IncedentMailer.incedent_worked(@incedent).deliver
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно передана в работу.' }
@@ -366,7 +366,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
         IncedentMailer.incedent_paused(@incedent).deliver
 
@@ -388,7 +388,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
         IncedentMailer.incedent_stoped(@incedent).deliver
 
@@ -413,7 +413,7 @@ class IncedentsController < ApplicationController
 
       respond_to do |format|
         if @incedent.save
-          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
           IncedentMailer.incedent_rejected(@incedent).deliver
 
@@ -440,7 +440,7 @@ class IncedentsController < ApplicationController
 
       respond_to do |format|
         if @incedent.save
-          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
           IncedentMailer.incedent_reviewed(@incedent).deliver
 
@@ -460,11 +460,15 @@ class IncedentsController < ApplicationController
   def solve
     @incedent = Incedent.find(params[:id])
 
+    @incedent.incedent_workers do |worker|
+      @incedent.closed! worker.worker
+    end
+
     @incedent.solved!
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
         IncedentMailer.incedent_solved(@incedent).deliver
 
@@ -489,7 +493,7 @@ class IncedentsController < ApplicationController
 
       respond_to do |format|
         if @incedent.save
-          IncedentAction.create(incedent: @incedent, status: @incedent.status, worker: @current_user).save
+          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
           IncedentMailer.incedent_closed(@incedent).deliver
 

@@ -4,6 +4,7 @@ class CreateIncedentWorkers < ActiveRecord::Migration
       t.references :incedent
       t.references :user
       t.references :status
+      t.datetime   :finish_at
 
       t.timestamps
     end
