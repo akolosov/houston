@@ -122,38 +122,46 @@ class Incedent < ActiveRecord::Base
     self.finish_at ||= Time.now + 1.days
   end
 
-  def has_worker? worker = nil
-    if worker.nil?
-      self.has_workers?
+  def has_worker? user = nil
+    if user.nil?
+      return self.has_workers?
     else
-      self.workers.include? worker
-    end
-  end
-
-  def has_observer? observer = nil
-    if observer.nil?
-      self.has_observers?
-    else
-      self.observers.include? observer
-    end
-  end
-
-  def has_reviewer? reviewer = nil
-    if reviewer.nil?
-      self.has_reviewers?
-    else
-      self.reviewers.include? reviewer
-    end
-  end
-
-  def has_reviewed? reviewer = nil
-    unless reviewer.nil?
-      if self.incedent_reviewers.include? reviewer
-        self.reviewers.each do |user|
-          return true if (user == reviewer.user) and (reviewer.reviewed_at)
-        end
+      self.incedent_workers.each do |worker|
+        return true if (worker.worker == user)
       end
     end
+    return false
+  end
+
+  def has_observer? user = nil
+    if user.nil?
+      return self.has_observers?
+    else
+      self.incedent_observers.each do |observer|
+        return true if (observer.observer == user)
+      end
+    end
+    return false
+  end
+
+  def has_reviewer? user = nil
+    if user.nil?
+      return self.has_reviewers?
+    else
+      self.incedent_reviewers.each do |reviewer|
+        return true if (reviewer.reviewer == user)
+      end
+    end
+    return false
+  end
+
+  def has_reviewed? user = nil
+    unless user.nil?
+      self.incedent_reviewers.each do |reviewer|
+        return true if (reviewer.reviewer == user) and (!reviewer.reviewed_at.nil?)
+      end
+    end
+    return false
   end
 
   def has_workers?
@@ -203,7 +211,11 @@ class Incedent < ActiveRecord::Base
   end
 
   def is_need_review? user = nil
-    ((self.has_reviewer? user) && (!self.has_reviewed? user))
+    unless user.nil?
+      ((self.has_reviewer? user) && (!self.has_reviewed? user))
+    else
+      ((self.has_reviewers?) && (!self.has_reviewed?))
+    end
   end
 
   def is_played? user = nil
@@ -227,7 +239,13 @@ class Incedent < ActiveRecord::Base
   end
 
   def is_closed? user = nil
-    self.get_status Houston::Application.config.incedent_closed, user
+    unless user.nil?
+      return self.get_status Houston::Application.config.incedent_closed, user
+    else
+      self.incedent_workers.each do |worker|
+        return true if (self.is_closed? worker.worker)
+      end
+    end
   end
 
   def is_waited? user = nil
@@ -265,11 +283,23 @@ class Incedent < ActiveRecord::Base
   end
 
   def played! user = nil
-    if self.is_need_review? user
-      self.waited! user
+    unless user.nil?
+      if self.is_need_review? user
+        self.waited! user
+      else
+        self.set_status Houston::Application.config.incedent_played, user
+        self.closed = false
+      end
     else
-      self.set_status Houston::Application.config.incedent_played, user
-      self.closed = false
+      if self.is_need_review?
+        self.set_status_all Houston::Application.config.incedent_waited
+        self.status_id = Houston::Application.config.incedent_waited
+        self.closed = false
+      else
+        self.set_status_all Houston::Application.config.incedent_played
+        self.status_id = Houston::Application.config.incedent_played
+        self.closed = false
+      end
     end
   end
 
@@ -291,19 +321,38 @@ class Incedent < ActiveRecord::Base
   def reviewed! user = nil
     unless user.nil?
       self.incedent_reviewers.each do |reviewer|
-        (reviewer.reviewed_at = Time.now) if (reviewer.reviewer == user)
+        if (reviewer.reviewer == user)
+          reviewer.reviewed_at = Time.now
+          reviewer.save
+        end
       end
+    else
+      self.incedent_reviewers.each do |reviewer|
+        reviewer.reviewed_at = Time.now
+        reviewer.save
+      end
+    end
+  end
 
-      if self.has_workers?
-        self.played! user
-      else
-        self.paused! user
+  def unreviewed! user = nil
+    unless user.nil?
+      self.incedent_reviewers.each do |reviewer|
+        if (reviewer.reviewer == user)
+          reviewer.reviewed_at = nil
+          reviewer.save
+        end
+      end
+    else
+      self.incedent_reviewers.each do |reviewer|
+        reviewer.reviewed_at = nil
+        reviewer.save
       end
     end
   end
 
   def solved!
     self.status_id = Houston::Application.config.incedent_solved
+    self.set_status_all Houston::Application.config.incedent_solved
     self.closed = true
   end
 
@@ -314,16 +363,22 @@ class Incedent < ActiveRecord::Base
 
   def waited! user = nil
     self.set_status Houston::Application.config.incedent_waited, user
+    self.status_id = Houston::Application.config.incedent_waited
+    self.closed = false
   end
 
   def set_status status, user = nil
     unless user.nil?
       if self.has_worker? user
         self.incedent_workers.each do |worker|
-          worker.status_id = status if (worker.worker == user)
+          if (worker.worker == user)
+            worker.status_id = status
+            worker.save
+          end
         end
+        self.save
       else
-        self.add_worker user, status
+        self.add_worker user, status unless (self.initiator == user) or (self.operator == user)
       end
     else
       self.status_id = status
@@ -334,6 +389,7 @@ class Incedent < ActiveRecord::Base
     if self.has_workers?
       self.incedent_workers.each do |worker|
         worker.status_id = status
+        worker.save
       end
     end
     self.status_id = status
@@ -356,7 +412,16 @@ class Incedent < ActiveRecord::Base
         return worker.status_id if (worker.worker == user)
       end
     end
-    return Houston::Application.config.incedent_waited
+    return self.status_id
+  end
+
+  def get_status_name user = nil
+    self.incedent_workers.each do |worker|
+      unless user.nil?
+        return worker.status.name if (worker.worker == user)
+      end
+    end
+    return self.status.name
   end
 
   def self.prepare_for_multiple

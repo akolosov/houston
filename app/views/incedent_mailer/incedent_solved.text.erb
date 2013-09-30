@@ -1,4 +1,4 @@
-Уважаемый <%= (@incedent.has_workers ? @incedent.workers.all.collect(&:realname).join(", ") : @incedent.initiator.realname) %>
+Уважаемый <%= (@incedent.has_workers? ? @incedent.workers.all.collect(&:realname).join(", ") : @incedent.initiator.realname) %>
 
 Жалоба "<%= @incedent.name %>" от <%= @incedent.created_at.strftime('%d.%m.%Y %H:%M') %>
 принята как выполненная пользователем <%= @incedent.initiator.realname %> и убрана в архив.

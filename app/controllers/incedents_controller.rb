@@ -179,8 +179,10 @@ class IncedentsController < ApplicationController
 
         IncedentAction.create(incedent: @incedent, status_id: @incedent.status, worker: @incedent.initiator).save
 
-        if (@incedent.worker)
-          IncedentAction.create(incedent: @incedent, status_id: Status.find(Houston::Application.config.incedent_played), worker: @incedent.worker).save
+        @incedent.played! if params[:incedent][:worker_ids]
+
+        params[:incedent][:worker_ids].each do |worker_id|
+          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
         end
 
         IncedentMailer.incedent_created(@incedent).deliver
@@ -208,9 +210,11 @@ class IncedentsController < ApplicationController
     respond_to do |format|
       if @incedent.update_attributes(params[:incedent])
 
-        if !@incedent.is_solved?
-          if (@incedent.worker)
-            IncedentAction.create(incedent: @incedent, status_id: (Status.find(Houston::Application.config.incedent_played)), worker: @incedent.worker).save
+        unless @incedent.is_solved?
+          @incedent.played! if params[:incedent][:worker_ids]
+
+          params[:incedent][:worker_ids].each do |worker_id|
+            IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
           end
 
           IncedentMailer.incedent_changed(@incedent).deliver
@@ -300,10 +304,16 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:replay_reason].empty?
       @incedent = Incedent.find(params[:id])
 
+      @incedent.unreviewed!
+
+      @incedent.played!
+
       @incedent.incedent_workers do |worker|
-        @incedent.played! worker.worker
         IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id worker.worker), worker: worker.worker).save
       end
+
+      @incedent.status_id = Houston::Application.config.incedent_played
+      @incedent.closed = false
 
       IncedentComment.new(incedent: @incedent, comment: Comment.new(title: 'Жалоба возобновлена', body: params[:incedent][:replay_reason], author: @current_user)).save
 
@@ -404,7 +414,7 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:reject_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
+      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user and @incedent.has_reviewer? @current_user
       @incedent.rejected! @current_user
 
       @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)
@@ -460,16 +470,14 @@ class IncedentsController < ApplicationController
   def solve
     @incedent = Incedent.find(params[:id])
 
-    @incedent.incedent_workers do |worker|
-      @incedent.closed! worker.worker
-    end
-
     @incedent.solved!
+
+    @incedent.incedent_workers do |worker|
+      IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id worker.worker), worker: worker.worker).save
+    end
 
     respond_to do |format|
       if @incedent.save
-        IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
-
         IncedentMailer.incedent_solved(@incedent).deliver
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно решена.' }
@@ -484,7 +492,7 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:close_reason].empty?
       @incedent = Incedent.find(params[:id])
 
-      @incedent.add_worker = @current_user unless @incedent.has_worker? @current_user
+      @incedent.add_worker @current_user unless @incedent.has_worker? @current_user
       @incedent.closed! @current_user
 
       @incedent.delete_observer @current_user if (@incedent.has_observer? @current_user)

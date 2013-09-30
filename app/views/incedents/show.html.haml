@@ -1,14 +1,20 @@
 :css
-  #history {
+  #history, #workers, #reviewers {
     display: none;
   }
 
 .form{ class: ((params[:action] != 'archive') ? (@incedent.is_overdated_review? ? 'error' : (@incedent.is_overdated_now? ? 'error' : (@incedent.is_overdated_soon? ? 'warning' : ''))) : '') }
   .form-header
     .btn-group.pull-right.right5
-      - if @incedent.incedent_actions
+      - unless @incedent.incedent_actions.empty?
         %a.btn.btn-mini#filter-button{onclick: '$(\'#history\').toggle(\'fast\');', title: 'История изменений'}
           = glyph(:tasks)+' История ('+@incedent.incedent_actions.count.to_s+')'
+      - unless @incedent.incedent_workers.empty?
+        %a.btn.btn-mini#filter-button{onclick: '$(\'#workers\').toggle(\'fast\');', title: 'Список исполнителей'}
+          = glyph(:tasks)+' Исполнители ('+@incedent.incedent_workers.count.to_s+')'
+      - unless @incedent.incedent_reviewers.empty?
+        %a.btn.btn-mini#filter-button{onclick: '$(\'#reviewers\').toggle(\'fast\');', title: 'Список согласователей'}
+          = glyph(:tasks)+' Согласователи ('+@incedent.incedent_reviewers.count.to_s+')'
       = render partial: "controls", locals: { incedent: @incedent, title: true }
     .pull-left
       = image_tag gravatar_url(@incedent.initiator), class: 'img-polaroid user-avatar'
@@ -48,7 +54,9 @@
               %br
               = content_tag :strong, 'На согласовании: '
               = @incedent.reviewers.all.collect(&:realname).join(", ")
-    = render 'history' if @incedent.incedent_actions
+    = render 'workers' unless @incedent.incedent_workers.empty?
+    = render 'reviewers' unless @incedent.incedent_reviewers.empty?
+    = render 'history' unless @incedent.incedent_actions.empty?
   .form-actions
     .pull-left
       = lbl @incedent.status.name

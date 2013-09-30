@@ -19,11 +19,11 @@
 
   %tbody
     - @incedents.each do |incedent|
-      %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? ? 'error' : (incedent.is_overdated_soon? ? 'warning' : '')) : ''), data: { toggle: 'modal' }, onclick: "window.location = '#{incedent_url(incedent)}'" }
+      %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_now? @current_user ? 'error' : (incedent.is_overdated_soon? @current_user ? 'warning' : '')) : ''), data: { toggle: 'modal' }, onclick: "window.location = '#{incedent_url(incedent)}'" }
         %td
           = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
         %td
-          = image_tag 'status'+incedent.status_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.status.name
+          = image_tag 'status'+(incedent.get_status_id  @current_user).to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: (incedent.get_status_name @current_user)
         %td
           = lbl incedent.type.name
         %td
