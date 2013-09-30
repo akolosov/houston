@@ -19,6 +19,7 @@
               %th Реакция
               %th Эскалация
               %th Исполнение
+              %th Рассмотрение
               - if (current_user.has_role? :admin)
                 %th
 
@@ -30,6 +31,7 @@
                 %td= service_class.reaction_hours
                 %td= service_class.escalation_hours
                 %td= service_class.performance_hours
+                %td= service_class.review_hours
                 - if (current_user.has_role? :admin)
                   %td
                     = link_to glyph(:pencil), edit_service_class_path(service_class.service, service_class), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Редактировать жалобу' if can? :update, service_class

@@ -1,0 +1,16 @@
+%br
+.form.normal#workers
+  .pull-right
+    %i.icon-remove#close-button{onclick: '$(\'#workers\').hide(\'fast\');', title: 'Закрыть'}
+  .form-inputs
+    %p Список исполнителей:
+    %table.table.table-striped.table-bordered.table-condensed
+      %tr
+        %th Пользователь
+        %th Статус
+        %th.span3 Срок исполнения
+      - @incedent.incedent_workers.order('created_at').each do |worker|
+        %tr
+          %td= worker.worker.display_name
+          %td= worker.status.name
+          %td= worker.finish_at.strftime('%d.%m.%Y %H:%M')

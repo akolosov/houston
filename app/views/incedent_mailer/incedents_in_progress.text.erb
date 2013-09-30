@@ -1,4 +1,4 @@
-Уважаемый <%= @incedents.first.worker.realname %>
+Уважаемый <%= @incedents.workers.all.collect(&:realname).join(", ") %>
 
 У Вас имеется незавершенные жалобы:
 

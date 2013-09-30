@@ -40,14 +40,15 @@ class Service < ActiveRecord::Base
                                 autoclose_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][1],
                                 escalation_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][2],
                                 performance_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][3],
-                                reaction_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][0]).save
+                                reaction_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][0],
+                                review_hours: Houston::Application.config.class_of_service_time[type.id.to_s][prio.id.to_s][4]).save
           end
         end
       else
         self.parent.service_classes.each do |service_class|
           ServiceClass.create(priority_id: service_class.priority_id, type_id: service_class.type_id, service_id: self.id, autoclose: service_class.autoclose,
                               autoclose_hours: service_class.autoclose_hours, escalation_hours: service_class.escalation_hours,
-                              performance_hours: service_class.performance_hours, reaction_hours: service_class.reaction_hours).save
+                              performance_hours: service_class.performance_hours, reaction_hours: service_class.reaction_hours, review_hours: service_class.review_hours).save
         end
         self.division = self.parent.division unless self.division.nil?
       end
@@ -69,6 +70,10 @@ class Service < ActiveRecord::Base
       count += self.parent.parents_count
     end
     count
+  end
+
+  def self.search(query)
+    where("name like '%#{query}%' or description like '%#{query}%'")
   end
 
 end

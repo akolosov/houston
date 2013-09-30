@@ -1,0 +1,14 @@
+%br
+.form.normal#reviewers
+  .pull-right
+    %i.icon-remove#close-button{onclick: '$(\'#reviewers\').hide(\'fast\');', title: 'Закрыть'}
+  .form-inputs
+    %p Список согласования:
+    %table.table.table-striped.table-bordered.table-condensed
+      %tr
+        %th Пользователь
+        %th.span3 Дата согласования
+      - @incedent.incedent_reviewers.order('created_at').each do |reviewer|
+        %tr
+          %td= reviewer.reviewer.display_name
+          %td= reviewer.reviewed_at.strftime('%d.%m.%Y %H:%M') if (reviewer.reviewed_at)

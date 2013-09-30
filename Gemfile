@@ -52,6 +52,8 @@ gem 'awesome_nested_set'
 
 gem 'the_sortable_tree'
 
+gem 'workflow'
+
 group :assets do
   gem 'less-rails'
   gem 'coffee-rails'

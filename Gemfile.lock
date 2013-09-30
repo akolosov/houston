@@ -34,7 +34,7 @@ GEM
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
     bcrypt-ruby (3.0.1)
-    better_errors (0.9.0)
+    better_errors (1.0.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
@@ -43,7 +43,7 @@ GEM
     callsite (0.0.11)
     cancan (1.6.10)
     cancan-sugar (0.1.2)
-    chronic (0.10.1)
+    chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -52,7 +52,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    commonjs (0.2.6)
+    commonjs (0.2.7)
     debug_inspector (0.0.2)
     erb2haml (0.1.5)
       html2haml
@@ -81,18 +81,17 @@ GEM
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (4.0.4)
-      jquery-rails
+    jquery-ui-rails (4.0.5)
       railties (>= 3.1.0)
     json (1.8.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    kgio (2.8.0)
-    less (2.3.3)
-      commonjs (~> 0.2.6)
-    less-rails (2.3.3)
+    kgio (2.8.1)
+    less (2.4.0)
+      commonjs (~> 0.2.7)
+    less-rails (2.4.2)
       actionpack (>= 3.1)
-      less (~> 2.3.1)
+      less (~> 2.4.0)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -104,8 +103,8 @@ GEM
       rack-contrib
       railties
     mime-types (1.25)
-    mousetrap-rails (0.0.11)
-    multi_json (1.7.9)
+    mousetrap-rails (0.0.12)
+    multi_json (1.8.0)
     multipart-post (1.2.0)
     oauth (0.4.7)
     oauth2 (0.8.1)
@@ -114,7 +113,7 @@ GEM
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
       rack (~> 1.2)
-    pg (0.16.0)
+    pg (0.17.0)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -140,7 +139,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    raindrops (0.11.0)
+    raindrops (0.12.0)
     rake (10.1.0)
     rb-readline (0.4.2)
     rdoc (3.12.2)
@@ -197,7 +196,8 @@ GEM
     whenever (0.8.4)
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
-    will_paginate (3.0.4)
+    will_paginate (3.0.5)
+    workflow (1.0.0)
     xmpp4r (0.5)
 
 PLATFORMS
@@ -238,4 +238,5 @@ DEPENDENCIES
   unicorn
   whenever
   will_paginate (~> 3.0)
+  workflow
   xmpp4r

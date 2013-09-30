@@ -7,7 +7,7 @@ class IncedentMailer < ActionMailer::Base
   def incedent_created(incedent)
     @incedent = incedent
 
-    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )+(incedent.has_observer? ? ', '+incedent.observer.email : '')
+    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : '')
 
     mail(to: @emails, subject: "Жалоба №#{incedent.id} создана")
 
@@ -15,176 +15,188 @@ class IncedentMailer < ActionMailer::Base
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_worker?) and (@incedent.worker.jabber) and (@incedent.worker.realname != @incedent.initiator.realname)
-      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_worker?)
+      send_jabber_message(@incedent.workers, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observer?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} создана", (render 'incedent_mailer/incedent_created', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_changed(incedent)
     @incedent = incedent
 
-    mail(to: (incedent.has_worker? ? incedent.worker.email : incedent.initiator.email)+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} изменена")
+    mail(to: (incedent.has_workers? ? incedent.workers.all.collect(&:email).join(", ") : incedent.initiator.email)+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} изменена")
 
-    if (@incedent.has_worker?) and (@incedent.worker.jabber)
-      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} изменена", (render 'incedent_mailer/incedent_changed', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_workers?)
+      send_jabber_message(@incedent.workers, "Жалоба №#{incedent.id} изменена", (render 'incedent_mailer/incedent_changed', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} изменена", (render 'incedent_mailer/incedent_changed', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observer?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} изменена", (render 'incedent_mailer/incedent_changed', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_commented(incedent_comment)
     @incedent_comment = incedent_comment
 
-    mail(to: (incedent_comment.incedent.initiator == incedent_comment.comment.author ? (incedent_comment.incedent.has_worker? ? incedent_comment.incedent.worker.email : incedent_comment.incedent.initiator.email) : incedent_comment.incedent.initiator.email)+(incedent_comment.incedent.has_observer? ? ', '+incedent_comment.incedent.observer.email : ''), subject: "Жалоба №#{incedent_comment.incedent.id} прокомментирована")
+    mail(to: (incedent_comment.incedent.initiator == incedent_comment.comment.author ? (incedent_comment.incedent.has_workers? ? incedent_comment.incedent.workers.all.collect(&:email).join(", ") : incedent_comment.incedent.initiator.email) : incedent_comment.incedent.initiator.email)+(incedent_comment.incedent.has_observers? ? ', '+incedent_comment.incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent_comment.incedent.id} прокомментирована")
 
     if (@incedent_comment.incedent.initiator.jabber)
       send_jabber_message(@incedent_comment.incedent.initiator.jabber, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
     end
 
-    if (@incedent_comment.incedent.has_worker?) and (@incedent_comment.incedent.worker.jabber) and (@incedent_comment.incedent.worker.realname != @incedent_comment.comment.author.realname)
-      send_jabber_message(@incedent_comment.incedent.worker.jabber, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
+    if (@incedent_comment.incedent.has_workers?)
+      send_jabber_message(@incedent_comment.incedent.workers, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
     end
 
-    if (@incedent_comment.incedent.has_observer?) and (@incedent_comment.incedent.observer.jabber)
-      send_jabber_message(@incedent_comment.incedent.observer.jabber, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
+    if (@incedent_comment.incedent.has_observers?)
+      send_jabber_message(@incedent_comment.incedent.observers, "Жалоба №#{incedent_comment.incedent.id} прокомментирована", (render 'incedent_mailer/incedent_commented', locals: { incedent_comment: @incedent_comment }, formats: [:text]))
     end
   end
 
   def incedent_played(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} принята в работу")
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} принята в работу")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} принята в работу", (render 'incedent_mailer/incedent_played', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} принята в работу", (render 'incedent_mailer/incedent_played', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} принята в работу", (render 'incedent_mailer/incedent_played', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_paused(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} приостановлена")
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} приостановлена")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} приостановлена", (render 'incedent_mailer/incedent_paused', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} приостановлена", (render 'incedent_mailer/incedent_paused', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} приостановлена", (render 'incedent_mailer/incedent_paused', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_stoped(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} остановлена")
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} остановлена")
 
     if (@incedent.initiator.jabber)
-      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} остановлена", (render 'incedent_mailer/incedent_stoped', locals: { incedent: @incedent }, formats: [:text]))
+      send_jabber_message(@incedent.initiators, "Жалоба №#{incedent.id} остановлена", (render 'incedent_mailer/incedent_stoped', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} остановлена", (render 'incedent_mailer/incedent_stoped', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} остановлена", (render 'incedent_mailer/incedent_stoped', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_replayed(incedent)
     @incedent = incedent
 
-    mail(to: (incedent.has_worker? ? incedent.worker.email : incedent.initiator.email)+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} возобновлена")
+    mail(to: (incedent.has_workers? ? incedent.workers.all.collect(&:email).join(", ") : incedent.initiator.email)+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} возобновлена")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} возобновлена", (render 'incedent_mailer/incedent_replayed', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_worker?) and (@incedent.worker.jabber) and (@incedent.worker.realname != @incedent.initiator.realname)
-      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} возобновлена", (render 'incedent_mailer/incedent_replayed', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_workers?)
+      send_jabber_message(@incedent.workers, "Жалоба №#{incedent.id} возобновлена", (render 'incedent_mailer/incedent_replayed', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} возобновлена", (render 'incedent_mailer/incedent_replayed', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} возобновлена", (render 'incedent_mailer/incedent_replayed', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_worked(incedent)
     @incedent = incedent
 
-    mail(to: (incedent.has_worker? ? incedent.worker.email : incedent.initiator.email)+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} передана в работу")
+    mail(to: (incedent.has_workers? ? incedent.workers.all.collect(&:email).join(", ") : incedent.initiator.email)+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} передана в работу")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_worker?) and (@incedent.worker.jabber) and (@incedent.worker.realname != @incedent.initiator.realname)
-      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_workers?)
+      send_jabber_message(@incedent.workers, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} передана в работу", (render 'incedent_mailer/incedent_worked', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_rejected(incedent)
     @incedent = incedent
 
-    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )+(incedent.has_observer? ? ', '+incedent.observer.email : '')
-
-    mail(to: @emails, subject: "Жалоба №#{incedent.id} отклонена")
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} отклонена")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} отклонена", (render 'incedent_mailer/incedent_rejected', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} отклонена", (render 'incedent_mailer/incedent_rejected', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} отклонена", (render 'incedent_mailer/incedent_rejected', locals: { incedent: @incedent }, formats: [:text]))
+    end
+  end
+
+  def incedent_reviewed(incedent)
+    @incedent = incedent
+
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} согласована")
+
+    if (@incedent.initiator.jabber)
+      send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} согласована", (render 'incedent_mailer/incedent_reviewed', locals: { incedent: @incedent }, formats: [:text]))
+    end
+
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} согласована", (render 'incedent_mailer/incedent_reviewed', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_solved(incedent)
     @incedent = incedent
 
-    mail(to: (incedent.has_worker? ? incedent.worker.email : incedent.initiator.email)+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} решена")
+    mail(to: (incedent.has_workers? ? incedent.workers.all.collect(&:email).join(", ") : incedent.initiator.email)+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} решена")
 
-    if (@incedent.has_worker?) and (@incedent.worker.jabber)
-      send_jabber_message(@incedent.worker.jabber, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_workers?)
+      send_jabber_message(@incedent.workers, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} решена", (render 'incedent_mailer/incedent_solved', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedent_closed(incedent)
     @incedent = incedent
 
-    mail(to: incedent.initiator.email+(incedent.has_observer? ? ', '+incedent.observer.email : ''), subject: "Жалоба №#{incedent.id} закрыта")
+    mail(to: incedent.initiator.email+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : ''), subject: "Жалоба №#{incedent.id} закрыта")
 
     if (@incedent.initiator.jabber)
       send_jabber_message(@incedent.initiator.jabber, "Жалоба №#{incedent.id} закрыта", (render 'incedent_mailer/incedent_closed', locals: { incedent: @incedent }, formats: [:text]))
     end
 
-    if (@incedent.has_observer?) and (@incedent.observer.jabber)
-      send_jabber_message(@incedent.observer.jabber, "Жалоба №#{incedent.id} закрыта", (render 'incedent_mailer/incedent_closed', locals: { incedent: @incedent }, formats: [:text]))
+    if (@incedent.has_observers?)
+      send_jabber_message(@incedent.observers, "Жалоба №#{incedent.id} закрыта", (render 'incedent_mailer/incedent_closed', locals: { incedent: @incedent }, formats: [:text]))
     end
   end
 
   def incedents_in_progress(incedents)
     @incedents = incedents
 
-    mail(to: incedents.first.worker.email, subject: "Список незавершенных жалоб")
+    mail(to: incedents.workers.all.collect(&:email).join(", "), subject: "Список незавершенных жалоб")
 
-    if @incedents.first.worker.jabber
-      send_jabber_message(@incedents.first.worker.jabber, "Список незавершенных жалоб", (render 'incedent_mailer/incedents_in_progress', locals: { incedents: @incedents }, formats: [:text]))
+    if @incedents.has_workers?
+      send_jabber_message(@incedents.workers, "Список незавершенных жалоб", (render 'incedent_mailer/incedents_in_progress', locals: { incedents: @incedents }, formats: [:text]))
     end
   end
 
