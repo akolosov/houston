@@ -427,11 +427,11 @@ class Incedent < ActiveRecord::Base
   def self.prepare_for_multiple
     Incedent.all.each do |incedent|
       unless incedent.worker.nil?
-        IncedentWorker.create(incedent: incedent, user: incedent.worker, status: incedent.status).save
+        IncedentWorker.create(incedent: incedent, worker: incedent.worker, status: incedent.status).save
       end
 
       unless incedent.observer.nil?
-        IncedentObserver.create(incedent: incedent, user: incedent.observer).save
+        IncedentObserver.create(incedent: incedent, observer: incedent.observer).save
       end
     end
   end
