@@ -75,7 +75,7 @@ module Houston
                                      '4' => { '1' => [10, 10, 10, 10, 10], '2'  => [10, 10, 10, 10, 10], '3'  => [10, 10, 10, 10, 10], '4'  => [10, 10, 10, 10, 10], '5'  => [10, 10, 10, 10, 10] }}
 
     config.app_name = 'Houston'
-    config.version = '0.15.2'
+    config.version = '0.16.0'
     config.email = 'houston@taxinonstop.ru'
   end
 end
