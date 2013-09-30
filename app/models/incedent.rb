@@ -20,8 +20,6 @@ class Incedent < ActiveRecord::Base
 
   belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
-  belongs_to :worker, class_name: 'User', foreign_key: 'worker_id'
-  belongs_to :observer, class_name: 'User', foreign_key: 'observer_id'
   belongs_to :status
   belongs_to :priority
   belongs_to :type
