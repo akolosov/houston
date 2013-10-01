@@ -165,8 +165,6 @@ class IncedentsController < ApplicationController
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
 
     respond_to do |format|
-      @incedent.delete_observer @current_user if (@incedent.has_observer? @incedent.worker)
-
       if @incedent.save
 
         if params[:incedent][:attaches_attributes]
