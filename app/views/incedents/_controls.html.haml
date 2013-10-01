@@ -4,7 +4,7 @@
     = link_to glyph(:eye_open)+(title ? ' Наблюдать' : ''), watch_incedent_path(incedent), class: 'btn btn-mini' if can? :watch, incedent
   - elsif (incedent.has_observer? current_user)
     = link_to glyph(:eye_close)+(title ? ' Игнорировать' : ''), unwatch_incedent_path(incedent), class: 'btn btn-mini' if can? :unwatch, incedent
-  - if (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and can? :work, incedent
+  - if (!incedent.has_workers?) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and (can? :work, incedent)
     %a.btn.btn-mini{'data-toggle' => 'modal', href: "#incedent-work-#{incedent.id}"}
       = glyph(:share)+(title ? ' Передать' : '')
     = render partial: 'work', locals: { incedent: incedent }
