@@ -180,6 +180,7 @@ class IncedentsController < ApplicationController
         @incedent.played! if params[:incedent][:worker_ids]
 
         params[:incedent][:worker_ids].each do |worker_id|
+          @incedent.delete_observer User.find(worker_id) unless worker_id == ''
           IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
         end
 
@@ -212,6 +213,7 @@ class IncedentsController < ApplicationController
           @incedent.played! if params[:incedent][:worker_ids]
 
           params[:incedent][:worker_ids].each do |worker_id|
+            @incedent.delete_observer User.find(worker_id) unless worker_id == ''
             IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
           end
 
@@ -340,7 +342,7 @@ class IncedentsController < ApplicationController
         unless worker_id == ''
           @incedent.add_worker User.find(worker_id)
           @incedent.played! User.find(worker_id)
-          @incedent.delete_observer User.find(worker_id) if (@incedent.has_observer? User.find(worker_id))
+          @incedent.delete_observer User.find(worker_id)
           IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save
         end
       end
