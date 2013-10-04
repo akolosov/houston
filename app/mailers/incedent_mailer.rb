@@ -195,5 +195,6 @@ class IncedentMailer < ActionMailer::Base
 
     mail(to: user.email, subject: "Список незавершенных жалоб") if user.email
     send_jabber_message(user.jabber, "Список незавершенных жалоб", (render 'incedent_mailer/incedents_in_progress', locals: { incedents: @incedents }, formats: [:text])) if user.jabber
+  end
 
 end
