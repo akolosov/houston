@@ -48,7 +48,7 @@
 
         %tbody
           - @incedents.each do |incedent|
-            %tr{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? @current_user ? 'error' : (incedent.is_overdated_now? @current_user ? 'error' : (incedent.is_overdated_soon? @current_user ? 'warning' : ''))) : ''), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
+            %tr{ class: (((params[:action] != 'archive') and (!incedent.is_solved?)) ? ((incedent.is_overdated_review? @current_user) ? 'error' : ((incedent.is_overdated_now? @current_user) ? 'error' : ((incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : ''), data: { toggle: 'modal' }, href: "#incedent-popup-#{incedent.id}" }
               = render partial: 'popup', locals: { incedent: incedent }
               %td
                 = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name

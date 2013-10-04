@@ -192,7 +192,7 @@ class Incedent < ActiveRecord::Base
         return (worker.finish_at < Time.now) if (worker.worker == user)
       end
     end
-    (self.finish_at < Time.now)
+    return (self.finish_at < Time.now)
   end
 
   def is_overdated_soon? user = nil
@@ -201,7 +201,7 @@ class Incedent < ActiveRecord::Base
         return ((worker.finish_at >= (Time.now - 4.hours)) && (worker.finish_at <= (Time.now + 6.hours))) if (worker.worker == user)
       end
     end
-    ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
+    return ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
   end
 
   def is_overdated_review? user = nil

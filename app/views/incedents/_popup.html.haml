@@ -6,7 +6,7 @@
         = render partial: "controls", locals: { incedent: incedent, title: false }
         = link_to glyph(:remove), "#", data: { dismiss: 'modal', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Закрыть окно', class: 'btn btn-mini'
     %h4= incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')
-  .modal-body.popup-body{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? @current_user ? 'error' : (incedent.is_overdated_now? @current_user ? 'error' : (incedent.is_overdated_soon? @current_user ? 'warning' : ''))) : '') }
+  .modal-body.popup-body{ class: (((params[:action] != 'archive')  and (!incedent.is_solved?)) ? ((incedent.is_overdated_review? @current_user) ? 'error' : ((incedent.is_overdated_now? @current_user) ? 'error' : ((incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : '') }
     = markdown(incedent.description)
     %br
     .container-fluid
