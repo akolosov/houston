@@ -75,7 +75,7 @@ Houston::Application.configure do
     domain:                'taxinonstop.ru',
     user_name:             'houston@taxinonstop.ru',
     password:              'zd3hVeT3',
-    enable_starttls_auto:  true,
+    enable_starttls_auto:  false,
     authentication:        'plain'
   }
   config.action_mailer.default_url_options = { host: 'houston.taxinonstop.ru' }
