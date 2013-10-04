@@ -16,7 +16,7 @@ class Incedent < ActiveRecord::Base
   audit(:update)  { |model, user, action| "Жалоба \"#{model.name}\" изменена пользователем #{user.display_name}" }
   audit(:destroy) { |model, user, action| "Пользователь #{user.display_name} удалил жалобу \"#{model.name}\"" }
 
-  before_save :default_values
+  before_save :default_values, :set_finish_at_to_all
 
   belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
@@ -117,7 +117,7 @@ class Incedent < ActiveRecord::Base
   def default_values
     self.initiator_id ||= 1
     self.operator_id ||= self.initiator_id
-    self.finish_at ||= Time.now + 1.days
+    self.finish_at ||= Houston::Application.config.workpattern.calc(DateTime.now, 8.minutes)
   end
 
   def has_worker? user = nil
@@ -189,23 +189,23 @@ class Incedent < ActiveRecord::Base
   def is_overdated_now? user = nil
     unless user.nil?
       self.incedent_workers.each do |worker|
-        return (worker.finish_at < Time.now) if (worker.worker == user)
+        return (worker.finish_at < Houston::Application.config.workpattern.calc(DateTime.now, 0)) if (worker.worker == user)
       end
     end
-    return (self.finish_at < Time.now)
+    return (self.finish_at < Houston::Application.config.workpattern.calc(DateTime.now, 0))
   end
 
   def is_overdated_soon? user = nil
     unless user.nil?
       self.incedent_workers.each do |worker|
-        return ((worker.finish_at >= (Time.now - 4.hours)) && (worker.finish_at <= (Time.now + 6.hours))) if (worker.worker == user)
+        return ((worker.finish_at >= Houston::Application.config.workpattern.calc(DateTime.now, 4.minutes)) && (worker.finish_at <= Houston::Application.config.workpattern.calc(DateTime.now, 6.minutes))) if (worker.worker == user)
       end
     end
-    return ((self.finish_at >= (Time.now - 4.hours)) && (self.finish_at <= (Time.now + 6.hours)))
+    return ((self.finish_at >= Houston::Application.config.workpattern.calc(DateTime.now, 4.minutes)) && (self.finish_at <= Houston::Application.config.workpattern.calc(DateTime.now, 6.minutes)))
   end
 
   def is_overdated_review? user = nil
-    ((self.has_reviewer? user) && (!self.has_reviewed? user) && (self.has_service_class?) && ((self.created_at + self.service_class.review_hours.hours) <= Time.now))
+    ((self.has_reviewer? user) && (!self.has_reviewed? user) && (self.has_service_class?) && (Houston::Application.config.workpattern.calc(self.created_at, self.service_class.review_hours.minutes) <= Time.now))
   end
 
   def is_need_review? user = nil
@@ -393,6 +393,15 @@ class Incedent < ActiveRecord::Base
     self.status_id = status
   end
 
+  def set_finish_at_to_all
+    if self.has_workers?
+      self.incedent_workers.each do |worker|
+        worker.finish_at = self.finish_at
+        worker.save
+      end
+    end
+  end
+
   def get_status status, user = nil
     self.incedent_workers.each do |worker|
       unless user.nil?
@@ -447,7 +456,7 @@ class Incedent < ActiveRecord::Base
   def self.autoclose!
       Incedent.closed.each do |incedent|
         unless incedent.service_class.nil?
-           if (incedent.service_class.autoclose) and (incedent.created_at + incedent.service_class.autoclose_hours.hours) > Time.now
+           if (incedent.service_class.autoclose) and Houston::Application.config.workpattern.calc(incedent.created_at, incedent.service_class.autoclose_hours.minutes) > Time.now
              incedent.add_worker User.find(1) unless incedent.has_workers?
              incedent.solved!
              IncedentAction.create(incedent: incedent, status: incedent.status, worker: incedent.workers).save

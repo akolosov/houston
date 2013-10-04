@@ -54,6 +54,8 @@ gem 'the_sortable_tree'
 
 gem 'workflow'
 
+gem 'workpattern'
+
 group :assets do
   gem 'less-rails'
   gem 'coffee-rails'

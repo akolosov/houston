@@ -79,7 +79,6 @@ class IncedentsController < ApplicationController
 
     @incedent.initiator = @current_user
     @incedent.operator = @current_user
-    @incedent.finish_at = Time.now + 1.days
     @incedent.status_id = Houston::Application.config.incedent_created
 
     @incedents = get_incedents(false).nested_set.all
@@ -89,7 +88,9 @@ class IncedentsController < ApplicationController
       @incedent.type_id = @incedent.service_class.type_id
       @incedent.priority_id = @incedent.service_class.priority_id
       @incedent.service_class_id = @incedent.service_class.id
-      @incedent.finish_at = Time.now + @incedent.service_class.performance_hours.hours
+      @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, @incedent.service_class.performance_hours.minutes)
+    else
+      @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, 8.minutes)
     end
 
     respond_to do |format|
@@ -216,6 +217,7 @@ class IncedentsController < ApplicationController
             @incedent.delete_observer User.find(worker_id) unless worker_id == ''
             IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
           end
+
 
           IncedentMailer.incedent_changed(@incedent).deliver
         end

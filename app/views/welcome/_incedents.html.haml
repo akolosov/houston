@@ -19,7 +19,7 @@
 
   %tbody
     - @incedents.each do |incedent|
-      %tr{ class: (((params[:action] != 'archive') and (!incedent.is_solved?)) ? ((incedent.is_overdated_review? @current_user) ? 'error' : ((incedent.is_overdated_now? @current_user) ? 'error' : ((incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : ''), onclick: "window.location = '#{incedent_url(incedent)}'" }
+      %tr{ class: (((params[:action] != 'archive') and (!incedent.is_solved?)) ? ((incedent.is_overdated_review? @current_user) ? 'info' : ((incedent.is_overdated_now? @current_user) ? 'error' : ((incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : ''), onclick: "window.location = '#{incedent_url(incedent)}'" }
         %td
           = image_tag 'priority'+incedent.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: incedent.priority.name
         %td

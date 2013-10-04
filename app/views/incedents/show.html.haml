@@ -3,7 +3,7 @@
     display: none;
   }
 
-.form{ class: (((params[:action] != 'archive') and (!@incedent.is_solved?)) ? ((@incedent.is_overdated_review? @current_user) ? 'error' : ((@incedent.is_overdated_now? @current_user) ? 'error' : ((@incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : '') }
+.form{ class: (((params[:action] != 'archive') and (!@incedent.is_solved?)) ? ((@incedent.is_overdated_review? @current_user) ? 'info' : ((@incedent.is_overdated_now? @current_user) ? 'error' : ((@incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : '') }
   .form-header
     .btn-group.pull-right.right5
       - unless @incedent.incedent_actions.empty?
