@@ -13,13 +13,12 @@
         %h3= comment.title[0..75]+(comment.title.length >= 75 ? '...' : '')
       .form-inputs
         = markdown(comment.body)
-      - if (@current_user.has_role? :admin)
-        .form-actions
-          = content_tag :strong, 'Автор: '
-          = comment.author.display_name
-          .pull-right.right5
-            = content_tag :strong, 'Дата публикации: '
-            = comment.created_at.strftime('%d.%m.%Y в %H:%M')
+      .form-actions
+        = content_tag :strong, 'Автор: '
+        = comment.author.display_name
+        .pull-right.right5
+          = content_tag :strong, 'Дата публикации: '
+          = comment.created_at.strftime('%d.%m.%Y в %H:%M')
       - if !comment.attaches.empty?
         .form-footer
           - comment.attaches.each do |attach|
