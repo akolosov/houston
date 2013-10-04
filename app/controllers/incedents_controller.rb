@@ -164,6 +164,7 @@ class IncedentsController < ApplicationController
   # POST /incedent/add
   def add
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
+    @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, (Houston::Application.config.class_of_service_time[@incedent.type.id.to_s][@incedent.priority.id.to_s][3]).minutes)
 
     respond_to do |format|
       if @incedent.save
