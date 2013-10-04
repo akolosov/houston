@@ -8,7 +8,7 @@
         =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
       - @incedents.each do |incedent|
-        .form{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? @current_user ? 'error' : (incedent.is_overdated_now? @current_user ? 'error' : (incedent.is_overdated_soon? @current_user ? 'warning' : ''))) : '') }
+        .form{ class: ((params[:action] != 'archive') ? (incedent.is_overdated_review? @current_user ? 'info' : (incedent.is_overdated_now? @current_user ? 'error' : (incedent.is_overdated_soon? @current_user ? 'warning' : ''))) : '') }
           .form-header
             .btn-group.pull-right.right5
               = link_to glyph(:comment)+' Обсудить ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
