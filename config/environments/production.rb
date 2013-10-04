@@ -70,11 +70,11 @@ Houston::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:               'smtp.taxinonstop.ru',
+    address:               'smtp.mail.ru',
     port:                  25,
-    domain:                'taxinonstop.ru',
-    user_name:             'houston@taxinonstop.ru',
-    password:              'DHdqf3',
+    domain:                'mail.ru',
+    user_name:             'houston-info@mail.ru',
+    password:              'zd3hVeT3',
     authentication:        'plain'
   }
   config.action_mailer.default_url_options = { host: 'houston.taxinonstop.ru' }
