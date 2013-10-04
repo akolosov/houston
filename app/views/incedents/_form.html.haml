@@ -47,7 +47,10 @@
 
           = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
           = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
-          = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y %H:00') }
+          - if @incedent.persisted?
+            = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y %H:00') }
+          - else
+            = f.input :finish_at, as: :hidden
       .row-fluid
         .span12
           = f.association :tags, as: :check_boxes, label: 'Метки', input_html: { class: 'form-input' }
