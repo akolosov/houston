@@ -190,14 +190,10 @@ class IncedentMailer < ActionMailer::Base
     end
   end
 
-  def incedents_in_progress(incedents)
+  def incedents_in_progress(incedents, user)
     @incedents = incedents
 
-    mail(to: incedents.workers.all.collect(&:email).join(", "), subject: "Список незавершенных жалоб")
-
-    if @incedents.has_workers?
-      send_jabber_message(@incedents.workers, "Список незавершенных жалоб", (render 'incedent_mailer/incedents_in_progress', locals: { incedents: @incedents }, formats: [:text]))
-    end
-  end
+    mail(to: user.email, subject: "Список незавершенных жалоб") if user.email
+    send_jabber_message(user.jabber, "Список незавершенных жалоб", (render 'incedent_mailer/incedents_in_progress', locals: { incedents: @incedents }, formats: [:text])) if user.jabber
 
 end
