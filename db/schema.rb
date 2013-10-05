@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130930063112) do
+ActiveRecord::Schema.define(:version => 20131005141537) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -300,6 +300,7 @@ ActiveRecord::Schema.define(:version => 20130930063112) do
     t.boolean  "is_default",        :default => false
     t.boolean  "review",            :default => false
     t.integer  "review_hours"
+    t.boolean  "all_around_day"
   end
 
   add_index "service_classes", ["priority_id"], :name => "index_service_classes_on_priority_id"

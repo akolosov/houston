@@ -83,7 +83,7 @@ module RenderDashboardTreeHelper
             tp = sclass.type_id
           end
 
-          result += "<td "+((sclass.is_default) ? "class='solved'" : '')+">"
+          result += "<td "+((sclass.is_default) ? "class='solved'" : '')+((sclass.all_around_day) ? " class='error'" : '')+">"
           result += h.link_to (h.image_tag 'priority'+sclass.priority_id.to_s+'.gif'), h.add_incedent_by_class_path(sclass), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: sclass.priority.name
           result += "</td>"
         end

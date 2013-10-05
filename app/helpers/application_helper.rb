@@ -201,5 +201,13 @@ module ApplicationHelper
         by_server(params[:server_id])
   end
 
+  def get_datetime start_datetime, duration, all_arround_day = false
+    unless all_arround_day
+      return Houston::Application.config.workpattern.calc(start_datetime, duration.minutes)
+    else
+      return (start_datetime + duration.hours)
+    end
+  end
+
 end
 
