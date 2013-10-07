@@ -7,13 +7,13 @@
   .form-header
     .btn-group.pull-right.right5
       - unless @incedent.incedent_actions.empty?
-        %a.btn.btn-mini#filter-button{onclick: '$(\'#history\').toggle(\'fast\');', title: 'История изменений'}
+        %a.btn.btn-mini#filter-button{onclick: '$(\'#history\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'История изменений'}
           = glyph(:tasks)+' История ('+@incedent.incedent_actions.count.to_s+')'
       - unless @incedent.incedent_workers.empty?
-        %a.btn.btn-mini#filter-button{onclick: '$(\'#workers\').toggle(\'fast\');', title: 'Список исполнителей'}
+        %a.btn.btn-mini#filter-button{onclick: '$(\'#workers\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Список исполнителей'}
           = glyph(:tasks)+' Исполнители ('+@incedent.incedent_workers.count.to_s+')'
       - unless @incedent.incedent_reviewers.empty?
-        %a.btn.btn-mini#filter-button{onclick: '$(\'#reviewers\').toggle(\'fast\');', title: 'Список согласователей'}
+        %a.btn.btn-mini#filter-button{onclick: '$(\'#reviewers\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Список согласователей'}
           = glyph(:tasks)+' Согласователи ('+@incedent.incedent_reviewers.count.to_s+')'
       = render partial: "controls", locals: { incedent: @incedent, title: true }
     .pull-left
