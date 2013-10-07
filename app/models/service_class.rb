@@ -17,5 +17,5 @@ class ServiceClass < ActiveRecord::Base
 
   validates_uniqueness_of :is_default, scope: :service_id, unless: lambda { |cl| !cl.is_default }, message: 'Класс обслуживания по умолчанию уже задан для данного сервиса!'
 
-  attr_accessible :priority_id, :type_id, :service_id, :autoclose, :autoclose_hours, :escalation_hours, :performance_hours, :reaction_hours, :review_hours, :is_default, :review
+  attr_accessible :priority_id, :type_id, :service_id, :autoclose, :all_around_day, :autoclose_hours, :escalation_hours, :performance_hours, :reaction_hours, :review_hours, :is_default, :review
 end

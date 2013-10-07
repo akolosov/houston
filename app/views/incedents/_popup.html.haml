@@ -2,7 +2,7 @@
   .modal-header.popup-header
     .btn-group.pull-right.right5.top5
       - if incedent.incedent_actions
-        = link_to glyph(:comment)+' ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), class: 'btn btn-mini' if can? :create, Comment
+        = link_to glyph(:comment)+' ('+incedent.comments.count.to_s+')', incedent_comments_path(incedent), data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Обсудить жалобу', class: 'btn btn-mini' if can? :create, Comment
         = render partial: "controls", locals: { incedent: incedent, title: false }
         = link_to glyph(:remove), "#", data: { dismiss: 'modal', rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Закрыть окно', class: 'btn btn-mini'
     %h4= incedent.name[0..60]+(incedent.name.length >= 60 ? '...' : '')

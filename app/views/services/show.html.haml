@@ -24,7 +24,7 @@
                 %th
 
             - @service.service_classes.each do |service_class|
-              %tr{ class: (service_class.is_default) ? 'solved' : '' }
+              %tr{ class: ((service_class.is_default) ? 'bold solved' : '')+((service_class.all_around_day) ? ' bold warning' : '') }
                 %td= lbl service_class.type.name
                 %td= image_tag 'priority'+service_class.priority_id.to_s+'.gif', data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: service_class.priority.name
                 %td= ((service_class.autoclose) ? service_class.autoclose_hours : '' )

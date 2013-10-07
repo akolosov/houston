@@ -15,6 +15,9 @@
                 = f.association :priority, label: 'Приоритет', input_html: { class: 'form-input' }
             .row-fluid
               .span12
+                = f.input :all_around_day, label: 'Круглосуточный', input_html: { class: 'form-input' }
+            .row-fluid
+              .span12
                 = f.input :autoclose, label: 'Автозакрытие', input_html: { class: 'form-input' }
             .row-fluid
               .span12

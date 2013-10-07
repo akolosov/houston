@@ -11,7 +11,11 @@ class IncedentsController < ApplicationController
 
   # GET /incedents
   def index
-    @incedents = get_incedents(false).nested_set.paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    if cookies[:viewmode] == 'tree'
+      @incedents = get_incedents(false).nested_set.order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
+    else
+      @incedents = get_incedents(false).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,7 +30,11 @@ class IncedentsController < ApplicationController
 
   # GET /incedents/archive
   def archive
-    @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at DESC')
+    if cookies[:viewmode] == 'tree'
+      @incedents = get_incedents(true).nested_set.paginate(page: params[:page], per_page: @per_page).order('updated_at')
+    else
+      @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,7 +49,11 @@ class IncedentsController < ApplicationController
 
   # GET /incedents/observe
   def observe
-    @incedents = get_incedents(false).by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    if cookies[:viewmode] == 'tree'
+      @incedents = get_incedents(false).nested_set.by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at, priority_id DESC, status_id DESC')
+    else
+      @incedents = get_incedents(false).by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at, priority_id DESC, status_id DESC')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -88,9 +100,9 @@ class IncedentsController < ApplicationController
       @incedent.type_id = @incedent.service_class.type_id
       @incedent.priority_id = @incedent.service_class.priority_id
       @incedent.service_class_id = @incedent.service_class.id
-      @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, @incedent.service_class.performance_hours.minutes)
+      @incedent.finish_at = get_datetime(DateTime.now, @incedent.service_class.performance_hours, @incedent.service_class.all_around_day)
     else
-      @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, 8.minutes)
+      @incedent.finish_at = get_datetime(DateTime.now, 8)
     end
 
     respond_to do |format|
@@ -164,7 +176,7 @@ class IncedentsController < ApplicationController
   # POST /incedent/add
   def add
     @incedent = Incedent.new(params[:incedent].except(:attaches_attributes))
-    @incedent.finish_at = Houston::Application.config.workpattern.calc(DateTime.now, (Houston::Application.config.class_of_service_time[@incedent.type.id.to_s][@incedent.priority.id.to_s][3]).minutes)
+    @incedent.finish_at ||= get_datetime(DateTime.now, (Houston::Application.config.class_of_service_time[@incedent.type.id.to_s][@incedent.priority.id.to_s][3]))
 
     respond_to do |format|
       if @incedent.save
