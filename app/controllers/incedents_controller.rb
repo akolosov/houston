@@ -22,7 +22,7 @@ class IncedentsController < ApplicationController
       format.js
       format.csv { send_data @incedents.to_csv(col_sep: "\t") }
       format.xls {
-        @incedents = get_incedents(false).order('finish_at')
+        @incedents = get_incedents(false).order('finish_at, priority_id DESC, status_id DESC')
         headers["Content-Disposition"] = "attachment; filename=\"Книга жалоб"+(params[:status_id] ? " (по статусу '"+Status.find(params[:status_id]).name+"')" : '')+(params[:server_id] ? " (по оборудованию '"+Server.find(params[:server_id]).name+"')" : '')+(params[:type_id] ? " (по типу '"+Type.find(params[:type_id]).name+"')" : '')+(params[:priority_id] ? " (по приоритету '"+Priority.find(params[:priority_id]).name+"')" : '')+(params[:tag_id] ? " (по метке '"+Tag.find(params[:tag_id]).name+"')" : '')+(params[:user_id] ? " (по пользователю '"+User.find(params[:user_id]).realname+"')" : '')+".xls\""
       }
     end
@@ -31,9 +31,9 @@ class IncedentsController < ApplicationController
   # GET /incedents/archive
   def archive
     if cookies[:viewmode] == 'tree'
-      @incedents = get_incedents(true).nested_set.paginate(page: params[:page], per_page: @per_page).order('updated_at')
+      @incedents = get_incedents(true).nested_set.order('updated_at DESC, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
     else
-      @incedents = get_incedents(true).paginate(page: params[:page], per_page: @per_page).order('updated_at')
+      @incedents = get_incedents(true).order('updated_at DESC, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
     end
 
     respond_to do |format|
@@ -50,9 +50,9 @@ class IncedentsController < ApplicationController
   # GET /incedents/observe
   def observe
     if cookies[:viewmode] == 'tree'
-      @incedents = get_incedents(false).nested_set.by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at, priority_id DESC, status_id DESC')
+      @incedents = get_incedents(false).nested_set.by_observer(@current_user).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
     else
-      @incedents = get_incedents(false).by_observer(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at, priority_id DESC, status_id DESC')
+      @incedents = get_incedents(false).by_observer(@current_user).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
     end
 
     respond_to do |format|
@@ -63,7 +63,11 @@ class IncedentsController < ApplicationController
 
   # GET /incedents/review
   def onreview
-    @incedents = get_incedents(false).by_reviewer(@current_user).not_reviewed(@current_user).paginate(page: params[:page], per_page: @per_page).order('finish_at')
+    if cookies[:viewmode] == 'tree'
+      @incedents = get_incedents(false).nested_set.by_reviewer(@current_user).not_reviewed(@current_user).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
+    else
+      @incedents = get_incedents(false).by_reviewer(@current_user).not_reviewed(@current_user).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @per_page)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
