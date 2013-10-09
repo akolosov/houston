@@ -10,8 +10,7 @@ class Ability
 
     permissions_for user, as: :manager do
       can :first_login, User
-      can :update_password, User, id: user.id
-      can :update, User, id: user.id
+      can [ :update, :update_password, :update_settings, :setup ], User, id: user.id
       can :read, Division
       can :read, Service
       can :read, ServiceClass
@@ -52,8 +51,7 @@ class Ability
 
     permissions_for user, as: :executor do
       can :first_login, User
-      can :update_password, User, id: user.id
-      can :update, User, id: user.id
+      can [ :update, :update_password, :update_settings, :setup ], User, id: user.id
       can :read, Division
       can :read, Service
       can :read, ServiceClass
@@ -93,8 +91,7 @@ class Ability
 
     permissions_for user, as: [:operator, :client] do
       can :first_login, User
-      can :update_password, User, id: user.id
-      can :update, User, id: user.id
+      can [ :update, :update_password, :update_settings, :setup ], User, id: user.id
       can :read, Division
       can :read, Service
       can :read, ServiceClass

@@ -2,6 +2,7 @@
 %table.table.table-striped.table-bordered.table-condensed
   %tr
     %th Имя
+    %th Подразделение
     %th Логин/E-mail
     %th Jabber ID
     %th Дата регистрации
@@ -10,6 +11,7 @@
   - @users.each do |user|
     %tr{class: (user.active? ? 'success' : 'error' )}
       %td= user.realname
+      %td= user.division.name if user.division
       %td= user.username+' ('+user.email+')'
       %td= user.jabber
       %td= user.created_at.to_date
@@ -21,6 +23,7 @@
               = glyph(:user)+' Роль'
             = render user
           = link_to glyph(:pencil)+' Изменить', edit_user_path(user), class: 'btn btn-mini' if can? :update, user
+          = link_to glyph(:wrench)+' Настройки', user_setup_path(user), class: 'btn btn-mini' if can? :update_settings, user
           - if user.active?
             = link_to(glyph(:remove)+' Деактивировать', deactivate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :deactivate, user)
           - else

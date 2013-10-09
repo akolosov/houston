@@ -170,6 +170,8 @@ GEM
     sqlite3 (1.3.8)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
+    store_configurable (3.2.5)
+      activerecord (~> 3.2.0)
     the_sortable_tree (2.4.0)
       rails (>= 3.1)
     therubyracer (0.12.0)
@@ -232,6 +234,7 @@ DEPENDENCIES
   simple_form
   sorcery (~> 0.8.1)
   sqlite3-ruby
+  store_configurable
   the_sortable_tree
   therubyracer
   twitter-bootstrap-rails

@@ -85,15 +85,16 @@
       %p.navbar-text
         - if current_user
           .btn-group.pull-right{style: 'margin: 4px !important; '}
-            = link_to glyph(:user)+' Профиль', edit_user_path(current_user), class: 'btn btn-small'
-            = link_to glyph(:off)+' Выход', :logout, class: 'btn btn-small'
-            %a.btn.btn-small{ data: { toggle: 'modal' }, href: "#houston-about"}
+            = link_to glyph(:user), edit_user_path(current_user), class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Профиль пользователя'
+            = link_to glyph(:wrench), user_setup_path(current_user), class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Настройки пользователя'
+            = link_to glyph(:off), :logout, class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Выход из системы'
+            %a.btn.btn-small{ data: { toggle: 'modal', rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Хьюстон! У нас проблема!', href: "#houston-about" }
               = glyph(:asterisk)
           %form.form-search.pull-right{action: '/search/', style: 'margin-top: 2px; margin-bottom: -5px; '}
             .input-append
               %input.span2.search-query{name: 'query', type: 'text', value: params[:query], data: { keybinding: 'f' }}/
               %button.btn{type: 'submit'}
-                = glyph(:search)+' Поиск'
+                = glyph(:search)
           - if (params[:controller] == 'incedents')
             .btn-group.pull-right{style: 'margin: 4px !important; ', data: { toggle: "buttons-radio" } }
               = link_to glyph(:align_left), '#', onclick: "window.toggle_view_mode('tree');",  class: 'btn btn-small'+((cookies[:viewmode] == 'tree') ? ' active' : '' ), data: { rel: 'tooltip', placement: 'bottom', container: 'body', delay: '200' }, title: 'Режим просмотра: ДЕРЕВО'

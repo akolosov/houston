@@ -1,8 +1,11 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
+  store_configurable
   rolify
 
-  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids, :division, :division_id, :worked_incedent_ids, :observed_incedent_ids, :reviewed_incedent_ids
+  attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids, :division, :division_id
+
+  attr_accessible :worked_incedent_ids, :observed_incedent_ids, :reviewed_incedent_ids, :config
 
   alias_attribute :name, :username
 

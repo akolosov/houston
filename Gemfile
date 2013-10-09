@@ -56,6 +56,8 @@ gem 'workflow'
 
 gem 'workpattern'
 
+gem 'store_configurable'
+
 group :assets do
   gem 'less-rails'
   gem 'coffee-rails'

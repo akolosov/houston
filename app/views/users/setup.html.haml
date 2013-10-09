@@ -1,0 +1,10 @@
+= simple_form_for @user, url: user_settings_path(@user), method: :put, html: { class: 'form-horizontal form', id: 'form' } do |f|
+  .form-header
+    %h3= "Изменение настроек пользователя "+@user.realname
+  .form-inputs
+    = f.simple_fields_for :config do |c|
+      = c.input :title, label: 'Имя', input_html: { class: 'form-input', value: @user.config.title }
+  .form-actions
+    .pull-right.btn-group
+      = f.submit 'Сохранить настройки [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', :root, class: 'btn'

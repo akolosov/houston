@@ -33,6 +33,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # GET /users/1/settings
+  def setup
+    @user = User.find(params[:id])
+  end
+
   # GET /users/first_login
   def first_login
   end
@@ -66,6 +71,23 @@ class UsersController < ApplicationController
         format.html { redirect_to :root, notice: 'Пароль успешно обновлен.' }
       else
         format.html { redirect_to :first_login, alert: 'Возможно пароли не совпадают! Попробуйте снова!' }
+      end
+    end
+  end
+
+  # PUT /users/1/settings
+  def user_settings
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      params[:user][:config].each do |name, value|
+        @user.config[name] = value
+      end
+
+      if @user.save
+        format.html { redirect_to :root, notice: 'Настройки пользователя успешно обновлены.' }
+      else
+        format.html { redirect_to :user_settings, alert: 'Неверные параметры настройки! Попробуйте снова!' }
       end
     end
   end
