@@ -87,9 +87,9 @@
           .btn-group.pull-right{style: 'margin: 4px !important; '}
             = link_to glyph(:user), edit_user_path(current_user), class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Профиль пользователя'
             = link_to glyph(:wrench), user_setup_path(current_user), class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Настройки пользователя'
-            = link_to glyph(:off), :logout, class: 'btn btn-small', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Выход из системы'
+            = link_to glyph(:off), :logout, class: 'btn btn-small', data: { confirm: 'Вы уверены?', rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Выход из системы'
             %a.btn.btn-small{ data: { toggle: 'modal', rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Хьюстон! У нас проблема!', href: "#houston-about" }
-              = glyph(:asterisk)
+              = glyph(:question_sign)
           %form.form-search.pull-right{action: '/search/', style: 'margin-top: 2px; margin-bottom: -5px; '}
             .input-append
               %input.span2.search-query{name: 'query', type: 'text', value: params[:query], data: { keybinding: 'f' }}/

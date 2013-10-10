@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   store_configurable
   rolify
 
+  before_save :default_config
+
   attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids, :division, :division_id
 
   attr_accessible :worked_incedent_ids, :observed_incedent_ids, :reviewed_incedent_ids, :config
@@ -103,5 +105,21 @@ class User < ActiveRecord::Base
     roles.each do |role|
       true if self.has_role? role
     end
+  end
+
+  def self.set_default_config
+    User.all.each do |user|
+      user.save
+    end
+  end
+
+  protected
+
+  def default_config
+    self.config.table_count = 20 if self.config.table_count.empty?
+    self.config.tree_count = 20 if self.config.tree_count.empty?
+    self.config.list_count = 5 if self.config.list_count.empty?
+    self.config.refresh_interval = 180 if self.config.refresh_interval.empty?
+    self.config.time_zone = Houston::Application.config.time_zone if self.config.time_zone.empty?
   end
 end

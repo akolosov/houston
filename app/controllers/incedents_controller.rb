@@ -540,11 +540,11 @@ class IncedentsController < ApplicationController
 
   def set_per_page
     if cookies[:viewmode] == 'table'
-      @per_page = 20
+      @per_page = @current_user.config.table_count
     elsif cookies[:viewmode] == 'tree'
-      @per_page = 20
+      @per_page = @current_user.config.tree_count
     else
-      @per_page = 5
+      @per_page = @current_user.config.list_count
     end
   end
 

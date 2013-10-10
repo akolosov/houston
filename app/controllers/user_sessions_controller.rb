@@ -22,6 +22,8 @@ class UserSessionsController < ApplicationController
 
   def success_login(user, format, message)
     if user.first_login?
+      Houston::Application.config.time_zone = user.config.time_zone unless user.config.time_zone.empty?
+
       format.html { redirect_back_or_to :first_login, notice: 'Первый вход в систему. Задайте новый пароль!' }
     else
       format.html { redirect_back_or_to :root, notice: message }
