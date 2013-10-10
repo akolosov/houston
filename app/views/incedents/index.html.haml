@@ -12,7 +12,7 @@
             $(".pagination").html "Загрузка страницы..."
             $.get @href, null, null, "script"
             false
-    ), 180000
+    ), #{ current_user.config.refresh_interval.to_i * 1000 }
 
 #incedents
   = render 'incedents_'+((cookies[:viewmode]) ? cookies[:viewmode] : 'list' )

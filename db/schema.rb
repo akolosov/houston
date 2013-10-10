@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131005141537) do
+ActiveRecord::Schema.define(:version => 20131009073352) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20131005141537) do
     t.string   "last_login_from_ip_address"
     t.boolean  "first_login",                     :default => true
     t.integer  "division_id"
+    t.text     "_config"
   end
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"

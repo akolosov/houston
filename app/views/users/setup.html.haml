@@ -1,0 +1,22 @@
+= simple_form_for @user, url: user_settings_path(@user), method: :put, html: { class: 'form-horizontal form', id: 'form' } do |f|
+  .form-header
+    %h3= "Изменение настроек пользователя "+@user.realname
+  .form-inputs
+    = f.simple_fields_for :config do |c|
+      .container-fluid
+        .row-fluid
+          .span4
+            = c.input :table_count, label: 'Кол-во жалоб в режиме ТАБЛИЦА', required: false, input_html: { class: 'form-input', value: @user.config.table_count }
+            = c.input :list_count, label: 'Кол-во жалоб в режиме СПИСОК', required: false, input_html: { class: 'form-input', value: @user.config.list_count }
+            = c.input :tree_count, label: 'Кол-во жалоб в режиме ДЕРЕВО', required: false, input_html: { class: 'form-input', value: @user.config.tree_count }
+          .span4
+            .control-group.string.user_config_timezone
+              %label.select.control-label Временная зона
+              .controls
+                = c.time_zone_select :time_zone, ActiveSupport::TimeZone.all.sort, model: ActiveSupport::TimeZone, default: @user.config.time_zone, class: 'form-input'
+            = c.input :refresh_interval, label: 'Время обновления списка жалоб, секунд', required: false, input_html: { class: 'form-input', value: @user.config.refresh_interval }
+          .span4
+  .form-actions
+    .pull-right.btn-group
+      = f.submit 'Сохранить настройки [Ctrl+Enter]', class: 'btn btn-success'
+      = link_to 'Отмена [Esc]', :root, class: 'btn'

@@ -9,7 +9,7 @@ class WelcomeController < ApplicationController
       redirect_to :login
     else
       @divisions = Division.accessible_by(current_ability).all
-      @incedents = get_incedents(false).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: 20)
+      @incedents = get_incedents(false).order('finish_at, priority_id DESC, status_id DESC').paginate(page: params[:page], per_page: @current_user.config.table_count)
 
       respond_to do |format|
         format.html # index.html.erb
