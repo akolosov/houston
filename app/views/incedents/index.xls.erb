@@ -34,8 +34,9 @@
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Дата создания</B></ss:Data></Cell>
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Дата последнего изменения</B></ss:Data></Cell>
         <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Автор</B></ss:Data></Cell>
-        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Исполнитель</B></ss:Data></Cell>
-        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Наблюдатель</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Исполнители</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Наблюдатели</B></ss:Data></Cell>
+        <Cell ss:StyleID="s01"><ss:Data xmlns="http://www.w3.org/TR/REC-html40" ss:Type="String"><B>Согласователи</B></ss:Data></Cell>
       </Row>
     <% @incedents.each do |incedent| %>
       <Row>
@@ -47,8 +48,9 @@
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.created_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.updated_at.strftime('%d.%m.%Y %H:%M') %></Data></Cell>
         <Cell ss:StyleID="s01"><Data ss:Type="String"><%= incedent.initiator.realname %></Data></Cell>
-        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.worker ? incedent.worker.realname : '') %></Data></Cell>
-        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.observer ? incedent.observer.realname : '') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.has_workers? ? incedent.workers.all.collect(&:realname).join(", ") : '') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.has_reviewers? ? incedent.observers.all.collect(&:realname).join(", ") : '') %></Data></Cell>
+        <Cell ss:StyleID="s01"><Data ss:Type="String"><%= (incedent.has_reviewers? ? incedent.reviewers.all.collect(&:realname).join(", ") : '') %></Data></Cell>
       </Row>
     <% end %>
     </Table>
