@@ -42,6 +42,24 @@ class UsersController < ApplicationController
   def first_login
   end
 
+  # GET /users/1/reset
+  def reset
+    @user = User.find(params[:id])
+
+    @user.password = '123456'
+    @user.config.clear
+
+    respond_to do |format|
+      if @user.save
+        UserMailer.user_reseted(@user).deliver
+
+        format.html { redirect_to :users, notice: 'Настройки пользователя успешно сброшены.' }
+      else
+        format.html { render action: 'new' }
+      end
+    end
+  end
+
   # POST /users
   def create
     @user = User.new(params[:user])

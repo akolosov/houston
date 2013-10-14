@@ -67,6 +67,7 @@ Houston::Application.routes.draw do
   match 'users/:id/password' => 'users#update_password', as: :update_password
   match 'users/:id/settings' => 'users#user_settings', as: :user_settings
   match 'users/:id/setup' => 'users#setup', as: :user_setup
+  match 'users/:id/reset' => 'users#reset', as: :reset_user
   match 'users/by_division/:division_id' => 'users#index', as: :users_by_division
 
   match 'service/:id/add' => 'services#new', as: :add_child_service

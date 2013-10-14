@@ -28,6 +28,7 @@
             = link_to(glyph(:remove)+' Деактивировать', deactivate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :deactivate, user)
           - else
             = link_to(glyph(:ok)+' Активировать', activate_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :activate, user)
+          = link_to(glyph(:remove_circle)+' Сбросить', reset_user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-warning') unless (user == current_user) && (can? :reset, user)
           = link_to(glyph(:trash)+' Удалить', user_path(user), data: { confirm: 'Вы уверены?' }, method: :delete, class: 'btn btn-mini btn-danger') unless (user == current_user) && (can? :destroy, user)
 = link_to glyph(:plus)+' Новый пользователь', new_user_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, User
 %br
