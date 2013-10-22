@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.14'
+gem 'rails', '3.2.15'
 
 gem 'bcrypt-ruby', require: 'bcrypt'
 
@@ -27,8 +27,6 @@ gem 'twitter-bootstrap-rails'
 gem 'rb-readline', '~> 0.4.2'
 
 gem 'simple_form'
-
-gem 'has_scope'
 
 gem 'haml-rails'
 

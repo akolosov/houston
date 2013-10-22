@@ -13,6 +13,16 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def user_reseted(user)
+    @user = user
+
+    mail(to: user.email, subject: "Настройки учетной записи сброшены")
+
+    if (user.jabber)
+      send_jabber_message(user.jabber, "Настройки учетной записи сброшены", (render 'user_mailer/user_reseted', locals: { user: user }, formats: [:text]))
+    end
+  end
+
   def user_deleted(user)
     @user = user
 

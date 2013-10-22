@@ -209,5 +209,12 @@ module ApplicationHelper
     end
   end
 
+  def has_services? divisions = {}
+    divisions.each do |division|
+      return true unless division.services.empty?
+    end
+
+    return false
+  end
 end
 

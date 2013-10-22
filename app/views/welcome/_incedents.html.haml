@@ -1,8 +1,5 @@
 %h3 Текущие жалобы
 
-.apple_pagination
-  =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
-
 %table.table.table-very-condensed.table-bordered.table-hover.table-sorted#incedents_table
   %thead
     %tr
@@ -43,7 +40,7 @@
 .apple_pagination
   =will_paginate @incedents, previous_label: '←', next_label: '→', remote: true
 
-- if @divisions.empty?
+- unless has_services? @divisions
   = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
 :coffeescript
