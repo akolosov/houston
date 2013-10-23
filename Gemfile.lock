@@ -43,7 +43,13 @@ GEM
     callsite (0.0.11)
     cancan (1.6.10)
     cancan-sugar (0.1.2)
+    chosen-rails (1.0.1)
+      coffee-rails (>= 3.2)
+      compass-rails (>= 1.0)
+      railties (>= 3.0)
+      sass-rails (>= 3.2)
     chronic (0.10.2)
+    chunky_png (1.2.9)
     coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -53,6 +59,12 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.7)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    compass-rails (1.0.3)
+      compass (>= 0.12.2, < 0.14)
     debug_inspector (0.0.2)
     erb2haml (0.1.5)
       html2haml
@@ -60,6 +72,7 @@ GEM
     execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    fssm (0.2.10)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -213,6 +226,7 @@ DEPENDENCIES
   binding_of_caller
   cancan
   cancan-sugar
+  chosen-rails
   coffee-rails
   erb2haml
   haml-rails

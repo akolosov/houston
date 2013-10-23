@@ -116,10 +116,10 @@ class User < ActiveRecord::Base
   protected
 
   def default_config
-    self.config.table_count = 20 if self.config.table_count.empty?
-    self.config.tree_count = 20 if self.config.tree_count.empty?
-    self.config.list_count = 5 if self.config.list_count.empty?
-    self.config.refresh_interval = 180 if self.config.refresh_interval.empty?
+    self.config.table_count = 20 unless self.config.table_count
+    self.config.tree_count = 20 unless self.config.tree_count
+    self.config.list_count = 5 unless self.config.list_count
+    self.config.refresh_interval = 180 unless self.config.refresh_interval
     self.config.time_zone = Houston::Application.config.time_zone if self.config.time_zone.empty?
   end
 end

@@ -13,6 +13,8 @@
 #= require mousetrap
 #= require markitup
 #= require twitter/bootstrap
+#= require chosen-jquery
+#= require scaffold
 #= require sortable_tree/initializer
 #= require expandable_tree/restorable
 #= require expandable_tree/hashchange
@@ -37,4 +39,3 @@ $ ->
   $("#filter a").bind "click", ->
     $.get @href, null, null, "script"
     false
-
