@@ -9,10 +9,10 @@
           .container-fluid
             .row-fluid
               .span12
-                = f.association :type, label: 'Тип', input_html: { class: 'form-input' }
+                = f.association :type, label: 'Тип', input_html: { class: 'form-input chosen-select', data: { placeholder: 'Выберите из списка' } }
             .row-fluid
               .span12
-                = f.association :priority, label: 'Приоритет', input_html: { class: 'form-input' }
+                = f.association :priority, label: 'Приоритет', input_html: { class: 'form-input chosen-select', data: { placeholder: 'Выберите из списка' } }
             .row-fluid
               .span12
                 = f.input :all_around_day, label: 'Круглосуточный', input_html: { class: 'form-input' }

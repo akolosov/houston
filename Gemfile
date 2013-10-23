@@ -38,6 +38,8 @@ gem 'markitup-rails', '0.2.2'
 
 gem 'mousetrap-rails'
 
+gem 'chosen-rails'
+
 gem 'xmpp4r'
 
 gem 'unicorn'

@@ -8,33 +8,34 @@
           = f.input :service_class_id, as: :hidden
           = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
           = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'incedent_markdown'  }
+          = f.association :tags, label: 'Метки', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
         .span4
           - if current_user.has_role? :admin
             .control-group.select.optional.service_parent
               %label.select.optional.control-label Верхний уровень
               .controls
-                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
-            = f.association :operator, include_blank: false, label: 'Оператор', input_html: { class: 'form-input' }
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
-            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'form-input' }
-            = f.association :observers, include_blank: false, label: 'Наблюдатель', input_html: { multiple: true, class: 'form-input' }
-            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'form-input' }
-            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
-            = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'form-input' }
+                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'chosen-select form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
+            = f.association :operator, include_blank: false, label: 'Оператор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :observers, include_blank: false, label: 'Наблюдатель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
           - elsif current_user.has_role? :manager
             .control-group.select.optional.service_parent
               %label.select.optional.control-label Верхний уровень
               .controls
-                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
-            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'form-input' }
-            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'form-input' }
-            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
+                = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'chosen-select form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id", data: { placeholder: 'Выберите из списка' }
+            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :operator_id, as: :hidden
             = f.input :status_id, as: :hidden
           - elsif current_user.has_role_in? [:executor, :operator]
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'form-input' }
-            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'form-input' }
+            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
             = f.input :status_id, as: :hidden
@@ -45,15 +46,12 @@
             = f.input :status_id, as: :hidden
             = f.input :server_id, as: :hidden
 
-          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
-          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'form-input' } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
+          = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
+          = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
           - if @incedent.persisted?
             = f.input :finish_at, as: :datetime, label: 'Срок исполнения', input_html: { class: 'form-input', readonly: true, value: @incedent.finish_at.strftime('%d.%m.%Y %H:00') }
           - else
             = f.input :finish_at, as: :hidden
-      .row-fluid
-        .span12
-          = f.association :tags, as: :check_boxes, label: 'Метки', input_html: { class: 'form-input' }
       .row-fluid
         .span12
           #attaches

@@ -8,7 +8,7 @@
     = f.input :address, label: 'IP-адрес/DNS-имя', input_html: { class: 'form-input' }
     = f.input :port, label: 'TCP/UDP порт', input_html: { class: 'form-input' }
     = f.input :username, label: 'Имя пользователя', input_html: { class: 'form-input' }
-    = f.association :categories, as: :check_boxes, label: 'Категории', input_html: { class: 'form-input' }
+    = f.association :categories, label: 'Категории', input_html: { multiple: true, class: 'form-input chosen-select', data: { placeholder: 'Выберите из списка' } }
     #attaches
       - if @server.persisted?
         = render partial: 'attaches', locals: { incedent: @incedent, f: f }

@@ -15,7 +15,7 @@
             .control-group.select.optional.service_parent
               %label.select.optional.control-label Верхний уровень
               .controls
-                = select_tag :service_parent_id, nested_options(@services, selected: @service.parent, title: :name), include_blank: true, class: 'form-input nested_options', name: "service[parent_id]", id: "service_parent_id"
+                = select_tag :service_parent_id, nested_options(@services, selected: @service.parent, title: :name), include_blank: true, class: 'form-input nested_options chosen-select', data: { placeholder: 'Выберите из списка' }, name: "service[parent_id]", id: "service_parent_id"
             - if @service.division.nil?
               = f.association :division, include_blank: false, label: 'Подразделение', input_html: { class: 'form-input' }
             - else
