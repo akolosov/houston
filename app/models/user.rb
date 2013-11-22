@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   store_configurable
   rolify
 
-  before_save :default_config
+  before_create :default_config
 
   attr_accessible :username, :email, :password, :password_confirmation, :realname, :jabber, :role_ids, :division, :division_id
 
@@ -116,10 +116,10 @@ class User < ActiveRecord::Base
   protected
 
   def default_config
-    self.config.table_count = 20 unless self.config.table_count
-    self.config.tree_count = 20 unless self.config.tree_count
-    self.config.list_count = 5 unless self.config.list_count
-    self.config.refresh_interval = 180 unless self.config.refresh_interval
-    self.config.time_zone = Houston::Application.config.time_zone if self.config.time_zone.empty?
+    self.config.table_count = 20
+    self.config.tree_count = 20
+    self.config.list_count = 5
+    self.config.refresh_interval = 180
+    self.config.time_zone = Houston::Application.config.time_zone
   end
 end
