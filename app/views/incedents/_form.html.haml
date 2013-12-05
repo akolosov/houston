@@ -8,7 +8,7 @@
           = f.input :service_class_id, as: :hidden
           = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
           = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'incedent_markdown'  }
-          = f.association :tags, label: 'Метки', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+          = f.association :tags, label: 'Метки', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
         .span4
           - if current_user.has_role? :admin
             .control-group.select.optional.service_parent
