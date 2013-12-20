@@ -42,4 +42,4 @@
   .form-actions
     .btn-group.pull-right.top-5
       = make_archive_download_url(params[:type_id], params[:priority_id], params[:tag_id], params[:user_id], params[:server_id])
-      = link_to glyph(:remove)+' Отменить фильтры', incedents_archive_path, class: 'btn btn-mini'
+      = link_to glyph(:remove)+' Отменить', incedents_archive_path, class: 'btn btn-mini'

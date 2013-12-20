@@ -50,4 +50,4 @@
   .form-actions
     .btn-group.pull-right.top-5
       = make_download_url(params[:status_id], params[:type_id], params[:priority_id], params[:tag_id], params[:user_id], params[:server_id])
-      = link_to glyph(:remove)+' Отменить фильтры', incedents_path, remote: true, class: 'btn btn-mini'
+      = link_to glyph(:remove)+' Отменить', incedents_path, remote: true, class: 'btn btn-mini'
