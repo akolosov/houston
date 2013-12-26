@@ -15,11 +15,11 @@
               %label.select.optional.control-label Верхний уровень
               .controls
                 = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'chosen-select form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id"
-            = f.association :operator, include_blank: false, label: 'Оператор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
-            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
-            = f.association :observers, include_blank: false, label: 'Наблюдатель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
-            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :operator, collection: User.active, include_blank: false, label: 'Оператор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :workers, collection: User.active, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :observers, collection: User.active, include_blank: false, label: 'Наблюдатель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
+            = f.association :reviewers, collection: User.active, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
             = f.association :status, include_blank: false, label: 'Статус', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
           - elsif current_user.has_role? :manager
@@ -27,14 +27,14 @@
               %label.select.optional.control-label Верхний уровень
               .controls
                 = select_tag :incedent_parent_id, nested_options(@incedents, selected: @incedent.parent, title: :name), include_blank: true, class: 'chosen-select form-input nested_options', name: "incedent[parent_id]", id: "incedent_parent_id", data: { placeholder: 'Выберите из списка' }
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
-            = f.association :workers, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
-            = f.association :reviewers, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :workers, collection: User.active, include_blank: false, label: 'Исполнитель', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :reviewers, collection: User.active, include_blank: false, label: 'Согласователь', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :operator_id, as: :hidden
             = f.input :status_id, as: :hidden
           - elsif current_user.has_role_in? [:executor, :operator]
-            = f.association :initiator, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
