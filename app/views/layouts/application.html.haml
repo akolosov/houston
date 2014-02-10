@@ -36,77 +36,71 @@
           .span12
             = render partial: 'common/flashes'
             = yield
-      / /.row-fluid
-    / /.fluid-container
-    / Footer
     = render partial: 'common/footer'
   :coffeescript
     $("body").tooltip selector: "*[data-rel=tooltip]"
 
     $(document).ready ->
-      topmenu = $.cookie("topmenu")
-      if topmenu?
-        $("#sidemenu").toggle()
-        window.toggle_menu()
-      else
-        $("#sidemenu").toggle()
+      window.set_menu()
 
-    window.toggle_menu = ->
-      $("#sidemenu").toggle()
-      $("#topmenu").toggle()
-      if $("#content").hasClass("span12")
-        $("#content").removeClass "span12"
-        $("#content").addClass "span10"
-        $("#content").css("width", "")
-        $.removeCookie('topmenu')
-      else
+    window.check_content_width = (topmenu) ->
+      if topmenu?
         $("#content").removeClass "span10"
         $("#content").addClass "span12"
         $("#content").css("width", "95%")
-        $.cookie('topmenu', 'true', { expires: 30 })
+      else
+        $("#content").removeClass "span12"
+        $("#content").addClass "span10"
+        $("#content").css("width", "")
 
+    window.set_menu = ->
+      topmenu = $.cookie("topmenu")
+      if topmenu?
+        $("#sidemenu").hide()
+        $("#topmenu").show()
+      else
+        $("#topmenu").hide()
+        $("#sidemenu").show()
+      window.check_content_width(topmenu)
+
+    window.toggle_menu = ->
+      topmenu = $.cookie("topmenu")
+      if topmenu?
+        $("#topmenu").hide()
+        $("#sidemenu").show()
+        $.removeCookie('topmenu')
+      else
+        $("#sidemenu").hide()
+        $("#topmenu").show()
+        $.cookie('topmenu', 'true', { expires: 30 })
+      window.check_content_width($.cookie("topmenu"))
+
+    window.set_default_handlers = (mode) ->
+      $('.chosen-select').chosen
+        allow_single_deselect: true
+        no_results_text: 'Ничего не найдено для'
+        width: '100%'
+
+      $("#incedents_table").tablesorter({sortList:[[1,1],[5,0],[0,1]]}) if mode == 'table'
+
+      $(".popup").each ->
+        $(this).prependTo($('#incedents')) if mode == 'tree'
+
+      $(".pagination a").each ->
+        $(this).attr "data-remote", true
+
+      $(".pagination a").bind "click", ->
+        $(".pagination").html "Загрузка страницы..."
+        $.get @href, null, null, "script"
+        false
 
     window.toggle_view_mode = (mode) ->
       $.cookie('viewmode', mode, { expires: 30 })
       $("#content").load "#{request.fullpath} #incedents", () ->
         mode = $.cookie("viewmode")
-
-        $('.chosen-select').chosen
-          allow_single_deselect: true
-          no_results_text: 'Ничего не найдено для'
-          width: '100%'
-
-        $("#incedents_table").tablesorter({sortList:[[1,1],[5,0],[0,1]]}) if mode == 'table'
-
-        $(".popup").each ->
-          $(this).prependTo($('#incedents')) if mode == 'tree'
-
-        $(".pagination a").each ->
-          $(this).attr "data-remote", true
-
-        $(".pagination a").bind "click", ->
-          $(".pagination").html "Загрузка страницы..."
-          $.get @href, null, null, "script"
-          false
+        window.set_default_handlers(mode)
 
     window.toggle_filter = (url) ->
       $("#content").load url+" #incedents", () ->
         mode = $.cookie("viewmode")
-
-        $('.chosen-select').chosen
-          allow_single_deselect: true
-          no_results_text: 'Ничего не найдено для'
-          width: '100%'
-
-        $("#incedents_table").tablesorter({sortList:[[1,1],[5,0],[0,1]]}) if mode == 'table'
-
-        $(".popup").each ->
-          $(this).prependTo($('#incedents')) if mode == 'tree'
-
-        $(".pagination a").each ->
-          $(this).attr "data-remote", true
-
-        $(".pagination a").bind "click", ->
-          $(".pagination").html "Загрузка страницы..."
-          $.get @href, null, null, "script"
-          false
+        window.set_default_handlers(mode)
