@@ -44,13 +44,14 @@
   = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
 :coffeescript
+  $(document).ready ->
+    window.set_menu()
+
   $ ->
     $("#incedents_table").tablesorter({sortList:[[1,1],[5,0],[0,1]]})
 
     $(".pagination a").each ->
       $(this).attr "data-remote", true
-
-    window.set_menu()
 
     $(".pagination a").bind "click", ->
       $(".pagination").html "Загрузка страницы..."
