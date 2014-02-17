@@ -47,7 +47,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     @user.password = '123456'
-    @user.config.clear
+    @user.first_login = true
+    @user.default_config
 
     respond_to do |format|
       if @user.save
