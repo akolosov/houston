@@ -195,11 +195,13 @@ class IncedentsController < ApplicationController
 
         IncedentAction.create(incedent: @incedent, status_id: @incedent.status, worker: @incedent.initiator).save
 
-        @incedent.played! if params[:incedent][:worker_ids]
+        if params[:incedent][:worker_ids]
+          @incedent.played!
 
-        params[:incedent][:worker_ids].each do |worker_id|
-          @incedent.delete_observer User.find(worker_id) unless worker_id == ''
-          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
+          params[:incedent][:worker_ids].each do |worker_id|
+            @incedent.delete_observer User.find(worker_id) unless worker_id == ''
+            IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
+          end
         end
 
         IncedentMailer.incedent_created(@incedent).deliver
@@ -228,13 +230,14 @@ class IncedentsController < ApplicationController
       if @incedent.update_attributes(params[:incedent])
 
         unless @incedent.is_solved?
-          @incedent.played! if params[:incedent][:worker_ids]
+          if params[:incedent][:worker_ids]
+            @incedent.played!
 
-          params[:incedent][:worker_ids].each do |worker_id|
-            @incedent.delete_observer User.find(worker_id) unless worker_id == ''
-            IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
+            params[:incedent][:worker_ids].each do |worker_id|
+              @incedent.delete_observer User.find(worker_id) unless worker_id == ''
+              IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save unless worker_id == ''
+            end
           end
-
 
           IncedentMailer.incedent_changed(@incedent).deliver
         end
@@ -357,12 +360,14 @@ class IncedentsController < ApplicationController
     if !params[:incedent][:work_reason].empty? and !params[:incedent][:worker_ids].empty?
       @incedent = Incedent.find(params[:id])
 
-      params[:incedent][:worker_ids].each do |worker_id|
-        unless worker_id == ''
-          @incedent.add_worker User.find(worker_id)
-          @incedent.played! User.find(worker_id)
-          @incedent.delete_observer User.find(worker_id)
-          IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save
+      if params[:incedent][:worker_ids]
+        params[:incedent][:worker_ids].each do |worker_id|
+          unless worker_id == ''
+            @incedent.add_worker User.find(worker_id)
+            @incedent.played! User.find(worker_id)
+            @incedent.delete_observer User.find(worker_id)
+            IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id User.find(worker_id)), worker: User.find(worker_id)).save
+          end
         end
       end
 
