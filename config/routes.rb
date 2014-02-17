@@ -54,7 +54,7 @@ Houston::Application.routes.draw do
 
   resources :welcome
 
-  resources :users
+  resources :users, except: :show
 
   resources :user_sessions
 
