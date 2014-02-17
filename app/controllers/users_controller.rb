@@ -48,7 +48,12 @@ class UsersController < ApplicationController
 
     @user.password = '123456'
     @user.first_login = true
-    @user.default_config
+
+    @user.config.table_count = 20
+    @user.config.tree_count = 20
+    @user.config.list_count = 5
+    @user.config.refresh_interval = 180
+    @user.config.time_zone = Houston::Application.config.time_zone
 
     respond_to do |format|
       if @user.save
