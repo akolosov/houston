@@ -35,7 +35,8 @@ def build_test_tree klass = Service, count = 5, division = nil
   end
 end
 
-Role.create([ { name: 'admin' }, { name: 'manager' }, { name: 'executor' }, { name: 'operator' }, { name: 'client' } ], without_protection: true)
+Role.create([ { name: 'admin', description: 'Администратор' }, { name: 'manager', description: 'Менеджер' }, { name: 'executor', description: 'Испольнитель' },
+              { name: 'operator', description: 'Оператор' }, { name: 'client', description: 'Клиент' }, { name: 'user', description: 'Пользователь' } ], without_protection: true)
 
 Status.create([ { name: 'Новый' }, { name: 'В работе' }, { name: 'Приостановлен' }, { name: 'Остановлен' }, { name: 'Отклонен' }, { name: 'Решен' }, { name: 'Закрыт' }, { name: 'Ждет подтверждения' } ])
 

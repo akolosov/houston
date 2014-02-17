@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009073352) do
+ActiveRecord::Schema.define(:version => 20140217082334) do
 
   create_table "attaches", :force => true do |t|
     t.string   "name"
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(:version => 20131009073352) do
     t.string   "resource_type"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.text     "description"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
