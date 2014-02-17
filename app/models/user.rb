@@ -113,6 +113,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  protected
+
   def default_config
     self.config.table_count = 20
     self.config.tree_count = 20
