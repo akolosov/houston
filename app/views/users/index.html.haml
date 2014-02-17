@@ -15,7 +15,7 @@
       %td= user.username+' ('+user.email+')'
       %td= user.jabber
       %td= user.created_at.to_date
-      %td= user.roles.first.name.titleize unless user.roles.first.nil?
+      %td= user.roles.first.description unless user.roles.first.nil?
       %td
         .btn-group
           - if current_user.has_role? :admin
