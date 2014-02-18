@@ -81,7 +81,9 @@ class Incedent < ActiveRecord::Base
 
   scope :by_reviewer, lambda { |user| where("id in (select incedent_id from incedent_reviewers where user_id = ?)", user) unless user.nil? }
 
-  scope :by_initiator_worker_reviewer, lambda { |user| where("initiator_id = ? or id in (select incedent_id from incedent_workers where user_id = ?) or id in (select incedent_id from incedent_reviewers where user_id = ?)", user, user, user) unless user.nil? }
+  scope :by_initiator_worker_reviewer, lambda { |user| where("(initiator_id = ?) or (id in (select incedent_id from incedent_workers where user_id = ?)) or (id in (select incedent_id from incedent_reviewers where user_id = ?))", user, user, user) unless user.nil? }
+
+  scope :by_operator_initiator_worker_reviewer, lambda { |user| where("(operator_id = ?) or (initiator_id = ?) or (id in (select incedent_id from incedent_workers where user_id = ?)) or (id in (select incedent_id from incedent_reviewers where user_id = ?))", user, user, user, user) unless user.nil? }
 
   scope :by_type, lambda { |type| where("type_id = ?", type) unless type.nil? }
 
