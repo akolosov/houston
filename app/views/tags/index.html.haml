@@ -1,20 +1,25 @@
 %h3 Метки
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Name
-    %th.span2
-
-  - @tags.each do |tag|
+%table.table.table-striped.table-bordered.table-condensed.table-sorted#tags_table
+  %thead
     %tr
-      %td
-        = tag.name
-        = link_to(' (Проблем: '+tag.problems.count.to_s+')', problems_by_tag_path(tag))
-        = link_to(' (Жалоб в работе: '+tag.incedents.solved(false).count.to_s+')', incedents_by_tag_path(tag))
-        = link_to(' (Жалоб в архиве: '+tag.incedents.solved(true).count.to_s+')', incedents_archive_by_tag_path(tag))
-      %td
-        .btn-group
-          = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), class: 'btn btn-mini' if can? :manage, tag
-          = link_to glyph(:trash)+' Удалить', tag, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, tag
+      %th Имя
+      %th Ссылки
+      %th.span2
+  %tbody
+    - @tags.each do |tag|
+      %tr
+        %td
+          = tag.name
+        %td
+          = link_to(' (Проблем: '+tag.problems.count.to_s+')', problems_by_tag_path(tag))
+          = link_to(' (Жалоб в работе: '+tag.incedents.solved(false).count.to_s+')', incedents_by_tag_path(tag))
+          = link_to(' (Жалоб в архиве: '+tag.incedents.solved(true).count.to_s+')', incedents_archive_by_tag_path(tag))
+        %td
+          .btn-group
+            = link_to glyph(:pencil)+' Изменить', edit_tag_path(tag), class: 'btn btn-mini' if can? :manage, tag
+            = link_to glyph(:trash)+' Удалить', tag, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, tag
 = link_to glyph(:plus)+' Новая метка', new_tag_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, Tag
 %br
-%br
+:coffeescript
+  $ ->
+    $("#tags_table").tablesorter({sortList: [[0,1]], headers: { 2: {sorter: false}}})
