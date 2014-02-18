@@ -3,7 +3,7 @@
     %h5= glyph(:filter)+" Фильтр для жалоб"
   .form-inputs
     .container-fluid
-      - if current_user.has_role? :admin
+      - if current_user.has_role? :admin or current_user.has_role? :manager or current_user.has_role? :executor
         .row-fluid
           .span12
             %small По пользователю:
