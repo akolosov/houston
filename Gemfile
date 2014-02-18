@@ -24,8 +24,6 @@ gem 'jquery-ui-rails'
 
 gem 'twitter-bootstrap-rails'
 
-gem 'rb-readline', '~> 0.4.2'
-
 gem 'simple_form'
 
 gem 'haml-rails'
@@ -67,6 +65,7 @@ group :assets do
 end
 
 group :development, :test do
+  gem 'pry-rails'
   gem 'erb2haml'
   gem 'meta_request'
   gem 'better_errors'

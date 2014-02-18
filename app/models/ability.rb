@@ -44,9 +44,9 @@ class Ability
       can :create, ServerAttach
       can [:update, :destroy], Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :update, :replay], Incedent, initiator_id: user.id
-      can [:reject, :replay, :pause, :stop, :archive, :comment, :close], Incedent, incedent_workers: { id: user.worked_incedent_ids }
-      can [:unwatch, :observe, :comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
-      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
+      can [:reject, :replay, :pause, :stop, :archive, :comment, :close], Incedent, incedent_workers: { user_id: user.id }
+      can [:unwatch, :observe, :comment, :archive], Incedent, incedent_observers: { user_id: user.id }
+      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { user_id: user.id }
     end
 
     permissions_for user, as: :executor do
@@ -84,9 +84,9 @@ class Ability
       can :create, ServerAttach
       can :update, Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :replay, :update], Incedent, initiator_id: user.id
-      can [:comment, :archive, :close, :reject, :replay, :stop, :pause], Incedent, incedent_workers: { id: user.worked_incedent_ids }
-      can [:comment, :archive], Incedent, incedent_observers: { id: user.observed_incedent_ids }
-      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
+      can [:comment, :archive, :close, :reject, :replay, :stop, :pause], Incedent, incedent_workers: { user_id: user.id }
+      can [:comment, :archive], Incedent, incedent_observers: { user_id: user.id }
+      can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { user_id: user.id }
     end
 
     permissions_for user, as: [:operator, :client] do
@@ -112,9 +112,13 @@ class Ability
       can :create, DocumentAttach
       can [:update, :read], Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :replay, :play, :update, :read], Incedent, initiator_id: user.id
-      can [:comment, :archive, :close, :reject, :replay, :stop, :pause, :play, :read], Incedent, incedent_workers: { id: user.worked_incedent_ids }
-      can [:comment, :archive, :read], Incedent, incedent_observers: { id: user.observed_incedent_ids }
-      can [:review, :onreview, :reject, :comment], Incedent, incedent_reviewers: { id: user.reviewed_incedent_ids }
+      can [:comment, :archive, :close, :reject, :replay, :stop, :pause, :play], Incedent, incedent_workers: { user_id: user.id }
+      can [:comment, :archive], Incedent, incedent_observers: { user_id: user.id }
+      can [:review, :onreview, :reject, :comment], Incedent, incedent_reviewers: { user_id: user.id }
+
+      can :read, Incedent, [ 'incedents.id in (select incedent_id from incedent_workers where user_id = ?)', user.id ] { |incedent| true }
+      can :read, Incedent, [ 'incedents.id in (select incedent_id from incedent_observers where user_id = ?)', user.id ] { |incedent| true }
+      can :read, Incedent, [ 'incedents.id in (select incedent_id from incedent_reviewers where user_id = ?)', user.id ] { |incedent| true }
     end
   end
 end

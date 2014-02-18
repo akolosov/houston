@@ -113,6 +113,7 @@ GEM
       callsite
       rack-contrib
       railties
+    method_source (0.8.2)
     mime-types (1.25.1)
     mousetrap-rails (1.4.6)
     multi_json (1.8.4)
@@ -127,6 +128,12 @@ GEM
       rack (~> 1.2)
     pg (0.17.1)
     polyglot (0.3.3)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -153,7 +160,6 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.12.0)
     rake (10.1.1)
-    rb-readline (0.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.1.0)
@@ -170,6 +176,7 @@ GEM
     simple_form (2.1.1)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
+    slop (3.4.7)
     sorcery (0.8.5)
       bcrypt-ruby (>= 3.0)
       oauth (~> 0.4.4)
@@ -237,9 +244,9 @@ DEPENDENCIES
   meta_request
   mousetrap-rails
   pg
+  pry-rails
   rack (= 1.4.5)
   rails (= 3.2.16)
-  rb-readline (~> 0.4.2)
   redcarpet
   rolify
   sass-rails

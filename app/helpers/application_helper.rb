@@ -197,7 +197,7 @@ module ApplicationHelper
         by_status(params[:status_id]).
         by_type(params[:type_id]).
         by_priority(params[:priority_id]).
-        by_initiator_worker_reviewer(params[:user_id]).
+        by_operator_initiator_worker_reviewer(params[:user_id]).
         by_server(params[:server_id])
   end
 
