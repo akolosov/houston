@@ -1,6 +1,6 @@
 .apple_pagination
   =will_paginate @audits, previous_label: '←', next_label: '→', remote: true
-%table.table.table-striped.table-bordered.table-condensed
+%table.table.table-striped.table-bordered.table-condensed.table-sorted#audits_table
   %thead
     %tr
       %th Пользователь
@@ -24,6 +24,8 @@
 
 :coffeescript
   $ ->
+    $("#audits_table").tablesorter({sortList: [[5,1]]})
+
     $(".pagination a").each ->
       $(this).attr "data-remote", true
 

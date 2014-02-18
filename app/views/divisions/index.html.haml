@@ -1,19 +1,22 @@
 %h3 Подразделения
-%table.table.table-striped.table-bordered.table-condensed
-  %tr
-    %th Имя
-    %th Описание
-    %th.span2
-
-  - @divisions.each do |division|
+%table.table.table-striped.table-bordered.table-condensed.table-sorted#divisions_table
+  %thead
     %tr
-      %td= division.name
-      %td= division.description
-      %td
-        .btn-group
-          = link_to glyph(:hdd)+' Пользователи ('+division.users.count.to_s+')', users_by_division_path(division), class: 'btn btn-mini' if can? :read, User
-          = link_to glyph(:pencil)+' Изменить', edit_division_path(division), class: 'btn btn-mini' if can? :manage, division
-          = link_to glyph(:trash)+' Удалить', division, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, division
+      %th Имя
+      %th Описание
+      %th.span2
+  %tbody
+    - @divisions.each do |division|
+      %tr
+        %td= division.name
+        %td= division.description
+        %td
+          .btn-group
+            = link_to glyph(:hdd)+' Пользователи ('+division.users.count.to_s+')', users_by_division_path(division), class: 'btn btn-mini' if can? :read, User
+            = link_to glyph(:pencil)+' Изменить', edit_division_path(division), class: 'btn btn-mini' if can? :manage, division
+            = link_to glyph(:trash)+' Удалить', division, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, division
 = link_to glyph(:plus)+' Новое подразделение', new_division_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :manage, Division
 %br
-%br
+:coffeescript
+  $ ->
+    $("#divisions_table").tablesorter({sortList: [[0,1]], headers: { 2: {sorter: false}}})
