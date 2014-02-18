@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.password = '123456'
-    @user.add_role :user
+    @user.add_role :client
 
     respond_to do |format|
       if @user.save
