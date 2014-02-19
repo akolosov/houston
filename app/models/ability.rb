@@ -35,6 +35,7 @@ class Ability
       can :add, Incedent
       can :create, Incedent
       can :watch, Incedent
+      can :work, Incedent
       can :play, Incedent
       can :read, Incedent
       can :create, Attach

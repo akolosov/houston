@@ -258,6 +258,12 @@ class Incedent < ActiveRecord::Base
      end
   end
 
+  def delete_observers
+     self.incedent_observers.each do |observer|
+        observer.destroy
+     end
+  end
+
   def add_observer user
     IncedentObserver.create(incedent: self, observer: user).save
   end
@@ -268,6 +274,12 @@ class Incedent < ActiveRecord::Base
     end
   end
 
+  def delete_workers
+    self.incedent_workers.each do |worker|
+      worker.destroy
+    end
+  end
+
   def add_worker user, status = 3
     IncedentWorker.create(incedent: self, worker: user, status_id: status).save
   end
@@ -275,6 +287,12 @@ class Incedent < ActiveRecord::Base
   def delete_reviewer user
     self.incedent_reviewers.each do |reviewer|
       reviewer.destroy if (reviewer.reviewer == user)
+    end
+  end
+
+  def delete_reviewers
+    self.incedent_reviewers.each do |reviewer|
+      reviewer.destroy
     end
   end
 
@@ -398,8 +416,8 @@ class Incedent < ActiveRecord::Base
   def set_finish_at_to_all
     if self.has_workers?
       self.incedent_workers.each do |worker|
-        worker.finish_at = self.finish_at
-        worker.save
+        worker.finish_at = self.finish_at unless worker.destroyed?
+        worker.save unless worker.destroyed?
       end
     end
   end
