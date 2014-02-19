@@ -101,10 +101,11 @@ class User < ActiveRecord::Base
     where("active = ?", false)
   end
 
-  def has_role_in? roles
+  def has_roles? roles = []
     roles.each do |role|
       true if self.has_role? role
     end
+    false
   end
 
   def self.set_default_config
