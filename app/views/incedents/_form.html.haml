@@ -4,12 +4,12 @@
   .form-inputs
     .container-fluid
       .row-fluid
-        .span8
+        .span8#main_form
           = f.input :service_class_id, as: :hidden
           = f.input :name, label: 'Имя', input_html: { class: 'form-input' }
           = f.input :description, label: 'Описание', input_html: { class: 'form-input', id: 'incedent_markdown'  }
           = f.association :tags, label: 'Метки', input_html: { multiple: true, class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' } }
-        .span4
+        .span4#options_form
           - if current_user.has_role? :admin
             .control-group.select.optional.service_parent
               %label.select.optional.control-label Верхний уровень
@@ -33,11 +33,14 @@
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :operator_id, as: :hidden
             = f.input :status_id, as: :hidden
-          - elsif current_user.has_role_in? [:executor, :operator]
+          - elsif current_user.has_roles? [:executor, :operator]
             = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :parent_id, as: :hidden
             = f.input :operator_id, as: :hidden
+            = f.input :parent_id, as: :hidden
+            = f.input :priority_id, as: :hidden
+            = f.input :type_id, as: :hidden
             = f.input :status_id, as: :hidden
           - elsif current_user.has_role? :client
             = f.input :parent_id, as: :hidden
@@ -45,6 +48,14 @@
             = f.input :initiator_id, as: :hidden
             = f.input :status_id, as: :hidden
             = f.input :server_id, as: :hidden
+            = f.input :priority_id, as: :hidden
+            = f.input :type_id, as: :hidden
+            :coffeescript
+              $("#options_form").removeClass "span4"
+              $("#options_form").css("width", "0%")
+              $("#main_form").removeClass "span8"
+              $("#main_form").addClass "span12"
+              $("#main_form").css("width", "98%")
 
           = f.association :priority, include_blank: false, label: 'Приоритет', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))
           = f.association :type, include_blank: false, label: 'Тип', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  } if (((@incedent.service_class.nil?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)))

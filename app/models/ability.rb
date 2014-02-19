@@ -78,6 +78,7 @@ class Ability
       can :create, Incedent
       can :play, Incedent
       can :read, Incedent
+      can :watch, Incedent
       can :create, Attach
       can :create, CommentAttach
       can :create, IncedentAttach
@@ -85,7 +86,7 @@ class Ability
       can :create, ServerAttach
       can :update, Incedent, operator_id: user.id
       can [:comment, :archive, :solve, :close, :replay, :update], Incedent, initiator_id: user.id
-      can [:comment, :archive, :close, :reject, :replay, :stop, :pause], Incedent, incedent_workers: { user_id: user.id }
+      can [:comment, :archive, :close, :reject, :replay, :stop, :pause, :work], Incedent, incedent_workers: { user_id: user.id }
       can [:comment, :archive], Incedent, incedent_observers: { user_id: user.id }
       can [:review, :onreview, :comment, :reject], Incedent, incedent_reviewers: { user_id: user.id }
     end

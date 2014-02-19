@@ -4,7 +4,7 @@
     = link_to glyph(:eye_open)+(title ? ' Наблюдать' : ''), watch_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Стать наблюдателем' if can? :watch, incedent
   - elsif (incedent.has_observer? current_user)
     = link_to glyph(:eye_close)+(title ? ' Игнорировать' : ''), unwatch_incedent_path(incedent), class: 'btn btn-mini', data: { rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Перестать быть наблюдателем' if can? :unwatch, incedent
-  - if ((!incedent.has_workers?) or (current_user.has_role? :admin) or (current_user.has_role? :manager)) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and (can? :work, incedent)
+  - if ((!incedent.has_workers?) or (current_user.has_role? :admin) or (current_user.has_role? :manager) or (current_user.has_role? :executor)) and (!incedent.is_closed? current_user) and (!incedent.is_need_review? current_user) and (can? :work, incedent)
     %a.btn.btn-mini{ data: { toggle: 'modal', rel: 'tooltip', placement: 'bottom', delay: '10' }, title: 'Передать жалобу исполнителям', href: "#incedent-work-#{incedent.id}"}
       = glyph(:share)+(title ? ' Передать' : '')
     = render partial: 'work', locals: { incedent: incedent }
