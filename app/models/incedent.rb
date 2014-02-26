@@ -127,7 +127,7 @@ class Incedent < ActiveRecord::Base
       return self.has_workers?
     else
       self.incedent_workers.each do |worker|
-        return true if (worker.worker == user)
+        return true if (worker.worker.id == user.id)
       end
     end
     return false
@@ -138,7 +138,7 @@ class Incedent < ActiveRecord::Base
       return self.has_observers?
     else
       self.incedent_observers.each do |observer|
-        return true if (observer.observer == user)
+        return true if (observer.observer.id == user.id)
       end
     end
     return false
@@ -149,7 +149,7 @@ class Incedent < ActiveRecord::Base
       return self.has_reviewers?
     else
       self.incedent_reviewers.each do |reviewer|
-        return true if (reviewer.reviewer == user)
+        return true if (reviewer.reviewer.id == user.id)
       end
     end
     return false
@@ -158,7 +158,7 @@ class Incedent < ActiveRecord::Base
   def has_reviewed? user = nil
     unless user.nil?
       self.incedent_reviewers.each do |reviewer|
-        return true if (reviewer.reviewer == user) and (!reviewer.reviewed_at.nil?)
+        return true if (reviewer.reviewer.id == user.id) and (!reviewer.reviewed_at.nil?)
       end
     end
     return false
@@ -191,7 +191,7 @@ class Incedent < ActiveRecord::Base
   def is_overdated_now? user = nil
     unless user.nil?
       self.incedent_workers.each do |worker|
-        return (worker.finish_at < get_datetime(DateTime.now, 0)) if (worker.worker == user)
+        return (worker.finish_at < get_datetime(DateTime.now, 0)) if (worker.worker.id == user.id)
       end
     end
     return (self.finish_at < get_datetime(DateTime.now, 0))
@@ -200,7 +200,7 @@ class Incedent < ActiveRecord::Base
   def is_overdated_soon? user = nil
     unless user.nil?
       self.incedent_workers.each do |worker|
-        return ((worker.finish_at >= get_datetime(DateTime.now, 4)) && (worker.finish_at <= get_datetime(DateTime.now, 6))) if (worker.worker == user)
+        return ((worker.finish_at >= get_datetime(DateTime.now, 4)) && (worker.finish_at <= get_datetime(DateTime.now, 6))) if (worker.worker.id == user.id)
       end
     end
     return ((self.finish_at >= get_datetime(DateTime.now, 4)) && (self.finish_at <= get_datetime(DateTime.now, 6)))
@@ -389,7 +389,7 @@ class Incedent < ActiveRecord::Base
     unless user.nil?
       if self.has_worker? user
         self.incedent_workers.each do |worker|
-          if (worker.worker == user)
+          if (worker.worker.id == user.id)
             worker.status_id = status
             worker.save
           end
@@ -425,7 +425,7 @@ class Incedent < ActiveRecord::Base
   def get_status status, user = nil
     self.incedent_workers.each do |worker|
       unless user.nil?
-        return (worker.status_id == status) if (worker.worker == user)
+        return (worker.status_id == status) if (worker.worker.id == user.id)
       else
         return false if (worker.status_id != status)
       end
@@ -436,7 +436,7 @@ class Incedent < ActiveRecord::Base
   def get_status_id user = nil
     self.incedent_workers.each do |worker|
       unless user.nil?
-        return worker.status_id if (worker.worker == user)
+        return worker.status_id if (worker.worker.id == user.id)
       end
     end
     return self.status_id
@@ -445,7 +445,7 @@ class Incedent < ActiveRecord::Base
   def get_status_name user = nil
     self.incedent_workers.each do |worker|
       unless user.nil?
-        return worker.status.name if (worker.worker == user)
+        return worker.status.name if (worker.worker.id == user.id)
       end
     end
     return self.status.name
