@@ -117,7 +117,7 @@ class Incedent < ActiveRecord::Base
   end
 
   def default_values
-    self.initiator_id ||= 1
+    self.initiator_id ||= current_user
     self.status_id ||= Houston::Application.config.incedent_created 
     self.operator_id ||= self.initiator_id
     self.finish_at ||= get_datetime(DateTime.now, 8)
