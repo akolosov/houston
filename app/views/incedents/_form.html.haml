@@ -33,7 +33,16 @@
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :operator_id, as: :hidden
             = f.input :status_id, as: :hidden
-          - elsif current_user.has_roles? [:executor, :operator]
+          - elsif current_user.has_role? :executor
+            = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
+            = f.input :parent_id, as: :hidden
+            = f.input :operator_id, as: :hidden
+            = f.input :parent_id, as: :hidden
+            = f.input :priority_id, as: :hidden
+            = f.input :type_id, as: :hidden
+            = f.input :status_id, as: :hidden
+          - elsif current_user.has_role? :operator
             = f.association :initiator, collection: User.active, include_blank: false, label: 'Инициатор', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.association :server, include_blank: true, label: 'Оборудование', input_html: { class: 'chosen-select form-input', data: { placeholder: 'Выберите из списка' }  }
             = f.input :parent_id, as: :hidden
