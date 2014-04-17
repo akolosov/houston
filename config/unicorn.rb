@@ -29,7 +29,7 @@ listen '/tmp/unicorn_houston.sock', backlog: 64
 # listen 3000, tcp_nopush: true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
-timeout 120
+timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
 pid '/var/lib/nginx/www/houston/tmp/unicorn.pid'
