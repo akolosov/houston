@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        UserMailer.user_reseted(@user).deliver
+        UserMailer.delay({ run_at: 1.minutes.from_now }).user_reseted(@user) 
 
         format.html { redirect_to :users, notice: 'Настройки пользователя успешно сброшены.' }
       else
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        UserMailer.user_created(@user).deliver
+        UserMailer.delay({ run_at: 1.minutes.from_now }).user_created(@user) 
 
         format.html { redirect_to :users, notice: 'Пользователь успешно создан.' }
       else
@@ -134,10 +134,9 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
 
-    UserMailer.user_deleted(@user).deliver
+    UserMailer.delay({ run_at: 1.minutes.from_now }).user_deleted(@user) 
 
     @user.destroy
-
 
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно удален.' }
@@ -150,7 +149,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.activate!
 
-    UserMailer.user_activated(@user).deliver
+    UserMailer.delay({ run_at: 1.minutes.from_now }).user_activated(@user) 
 
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно активирован.' }
@@ -163,7 +162,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.deactivate!
 
-    UserMailer.user_deactivated(@user).deliver
+    UserMailer.delay({ run_at: 1.minutes.from_now }).user_deactivated(@user) 
 
     respond_to do |format|
       format.html { redirect_to :users, notice: 'Пользователь успешно деактивирован.' }

@@ -141,7 +141,7 @@ class IncedentsController < ApplicationController
           end
         end
 
-        IncedentMailer.incedent_commented(@incedent_comment).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_commented(@incedent_comment)
 
         format.html { redirect_to @incedent_comment.incedent, notice: 'Коментарий успешно добавлен.' }
       else
@@ -168,7 +168,7 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status_id: @incedent.status, worker: @incedent.initiator).save
 
-        IncedentMailer.incedent_created(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_created(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
       else
@@ -204,7 +204,7 @@ class IncedentsController < ApplicationController
           end
         end
 
-        IncedentMailer.incedent_created(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_created(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно создана.' }
       else
@@ -239,7 +239,7 @@ class IncedentsController < ApplicationController
             end
           end
 
-          IncedentMailer.incedent_changed(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_changed(@incedent) 
         end
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно обновлена.' }
@@ -312,7 +312,7 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-        IncedentMailer.incedent_played(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_played(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно принята в работу.' }
       else
@@ -341,7 +341,7 @@ class IncedentsController < ApplicationController
 
       respond_to do |format|
         if @incedent.save
-          IncedentMailer.incedent_replayed(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_replayed(@incedent) 
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно возобновлена.' }
         else
@@ -378,7 +378,7 @@ class IncedentsController < ApplicationController
 
       respond_to do |format|
         if @incedent.save
-          IncedentMailer.incedent_worked(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_worked(@incedent) 
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно передана в работу.' }
         else
@@ -405,7 +405,7 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-        IncedentMailer.incedent_paused(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_paused(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно приостановлена.' }
       else
@@ -427,7 +427,7 @@ class IncedentsController < ApplicationController
       if @incedent.save
         IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-        IncedentMailer.incedent_stoped(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_stoped(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно остановлена.' }
       else
@@ -452,7 +452,7 @@ class IncedentsController < ApplicationController
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-          IncedentMailer.incedent_rejected(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_rejected(@incedent) 
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно отклонена.' }
         else
@@ -479,7 +479,7 @@ class IncedentsController < ApplicationController
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-          IncedentMailer.incedent_reviewed(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_reviewed(@incedent) 
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно согласована.' }
         else
@@ -505,7 +505,7 @@ class IncedentsController < ApplicationController
 
     respond_to do |format|
       if @incedent.save
-        IncedentMailer.incedent_solved(@incedent).deliver
+        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_solved(@incedent) 
 
         format.html { redirect_to :incedents, notice: 'Жалоба успешно решена.' }
       else
@@ -530,7 +530,7 @@ class IncedentsController < ApplicationController
         if @incedent.save
           IncedentAction.create(incedent: @incedent, status_id: (@incedent.get_status_id @current_user), worker: @current_user).save
 
-          IncedentMailer.incedent_closed(@incedent).deliver
+          IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedent_closed(@incedent) 
 
           format.html { redirect_to :incedents, notice: 'Жалоба успешно закрыта.' }
         else

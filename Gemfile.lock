@@ -68,7 +68,13 @@ GEM
     compass-rails (1.1.7)
       compass (>= 0.12.2)
       sprockets (<= 2.11.0)
+    daemons (1.1.9)
     debug_inspector (0.0.2)
+    delayed_job (4.0.1)
+      activesupport (>= 3.0, < 4.2)
+    delayed_job_active_record (4.0.1)
+      activerecord (>= 3.0, < 4.2)
+      delayed_job (>= 3.0, < 4.1)
     erb2haml (0.1.5)
       html2haml
     erubis (2.7.0)
@@ -238,6 +244,9 @@ DEPENDENCIES
   cancan-sugar
   chosen-rails
   coffee-rails
+  daemons
+  delayed_job
+  delayed_job_active_record
   erb2haml
   haml-rails
   jquery-rails
