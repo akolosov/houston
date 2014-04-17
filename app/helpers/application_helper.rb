@@ -156,7 +156,7 @@ module ApplicationHelper
   end
 
   def send_jabber_message(to, subject, text)
-    Jabber::debug = true if Rails.env.development?
+    Jabber::debug = true # if Rails.env.development?
 
     def reconnect(cl)
       cl.connect
