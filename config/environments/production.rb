@@ -48,9 +48,6 @@ Houston::Application.configure do
   # Precompile additional assets (application.js.coffee, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( jquery.js jquery_ujs.js )
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
-
   # Enable threaded mode
   # config.threadsafe!
 
@@ -66,7 +63,7 @@ Houston::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # ActionMailer settings
-  config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_deliveries = false
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
