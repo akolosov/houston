@@ -469,7 +469,7 @@ class Incedent < ActiveRecord::Base
     User.active.each do |user|
       @incedents = Incedent.solved(false).by_worker(user)
       unless @incedents.empty?
-        IncedentMailer.delay({ run_at: 1.minutes.from_now }).incedents_in_progress(@incedents, user)
+        IncedentMailer.incedents_in_progress(@incedents, user).deliver
       end
     end
   end
