@@ -15,8 +15,6 @@ class User < ActiveRecord::Base
 
   has_many :documents, dependent: :destroy
 
-  before_destroy { |record| Document.update_all "user_id = 1", "user_id = #{record.id}" }
-
   has_many :created_incedents, class_name: 'Incedent', dependent: :destroy, foreign_key: 'operator_id'
 
   before_destroy { |record| Incedent.update_all "operator_id = 1", "operator_id = #{record.id}" }
