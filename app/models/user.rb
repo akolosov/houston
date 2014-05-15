@@ -33,8 +33,6 @@ class User < ActiveRecord::Base
 
   has_many :reviewed_incedents, class_name: 'IncedentReviewer', dependent: :destroy
 
-  before_destroy { |record| Incedent.update_all "user_id = 1", "user_id = #{record.id}" }
-
   has_many :incedent_actions, dependent: :destroy, foreign_key: 'worker_id'
 
   before_destroy { |record| IncedentAction.update_all "worker_id = 1", "worker_id = #{record.id}" }
