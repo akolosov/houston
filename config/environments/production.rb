@@ -67,13 +67,14 @@ Houston::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:               'smtp.taxinonstop.ru',
+    address:               'smtp.yandex.ru',
     port:                  25,
     domain:                'taxinonstop.ru',
     user_name:             'houston@taxinonstop.ru',
     password:              'zd3hVeT3',
     enable_starttls_auto:  false,
-    authentication:        'plain'
+    authentication:        'plain',
+    ssl: true
   }
   config.action_mailer.default_url_options = { host: 'houston.taxinonstop.ru' }
 
