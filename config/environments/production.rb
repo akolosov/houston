@@ -80,5 +80,5 @@ Houston::Application.configure do
 
   # XMPP
   config.JabberID = 'messenger@bitrix.taxiolimp.ru';
-  config.JabberPSWD = '123456';
+  config.JabberPSWD = 'Jx8Uraylbg';
 end
