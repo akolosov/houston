@@ -123,7 +123,7 @@
 
     - @audits.each do |audit|
       %tr
-        %td= audit.user.name
+        %td= audit.user.name if audit.user.present?
         %td= audit.auditable_type
         %td= audit.action
         %td= audit.audited_changes
