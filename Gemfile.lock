@@ -231,8 +231,10 @@ GEM
     workpattern (0.3.6)
     xmpp4r (0.5.6)
 
+
 PLATFORMS
   ruby
+
 
 DEPENDENCIES
   auditor
