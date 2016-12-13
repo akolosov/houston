@@ -9,7 +9,7 @@
       %th Имя
       %th Дата создания
       %th Срок исполнения
-      - if @divisions.empty?
+      - unless @divisions.present?
         %th Инициатор
         %th Исполнитель
 
@@ -29,7 +29,7 @@
           = incedent.created_at.strftime('%d.%m.%Y %H:%M')
         %td
           = incedent.finish_at.strftime('%d.%m.%Y %H:%M')
-        - if @divisions.empty?
+        - unless @divisions.present?
           %td
             - if incedent.has_initiator?
               = incedent.initiator.realname

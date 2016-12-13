@@ -6,13 +6,13 @@
 .form{ class: (((params[:action] != 'archive') and (!@incedent.is_solved?)) ? ((@incedent.is_overdated_review? @current_user) ? 'info' : ((@incedent.is_overdated_now? @current_user) ? 'error' : ((@incedent.is_overdated_soon? @current_user) ? 'warning' : ''))) : '') }
   .form-header
     .btn-group.pull-right.right5
-      - unless @incedent.incedent_actions.empty?
+      - if @incedent.incedent_actions.present?
         %a.btn.btn-mini#filter-button{onclick: '$(\'#history\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'История изменений'}
           = glyph(:tasks)+' История ('+@incedent.incedent_actions.count.to_s+')'
-      - unless @incedent.incedent_workers.empty?
+      - if @incedent.incedent_workers.present?
         %a.btn.btn-mini#filter-button{onclick: '$(\'#workers\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Список исполнителей'}
           = glyph(:tasks)+' Исполнители ('+@incedent.incedent_workers.count.to_s+')'
-      - unless @incedent.incedent_reviewers.empty?
+      - if @incedent.incedent_reviewers.present?
         %a.btn.btn-mini#filter-button{onclick: '$(\'#reviewers\').toggle(\'fast\');', data: { rel: 'tooltip', placement: 'bottom', delay: '200' }, title: 'Список согласователей'}
           = glyph(:tasks)+' Согласователи ('+@incedent.incedent_reviewers.count.to_s+')'
       = render partial: "controls", locals: { incedent: @incedent, title: true }
@@ -54,9 +54,9 @@
               %br
               = content_tag :strong, 'На согласовании: '
               = @incedent.reviewers.all.collect(&:realname).join(", ")
-    = render 'workers' unless @incedent.incedent_workers.empty?
-    = render 'reviewers' unless @incedent.incedent_reviewers.empty?
-    = render 'history' unless @incedent.incedent_actions.empty?
+    = render 'workers' if @incedent.incedent_workers.present?
+    = render 'reviewers' if @incedent.incedent_reviewers.present?
+    = render 'history' if @incedent.incedent_actions.present?
   .form-actions
     .pull-left
       = lbl @incedent.status.name
@@ -70,7 +70,7 @@
     - if @incedent.server
       .pull-right.top-5
         = link_to glyph(:hdd)+' '+@incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(@incedent.server) : incedents_by_server_path(@incedent.server)), class: 'label'
-  - if !@incedent.attaches.empty?
+  - if @incedent.attaches.present?
     .form-footer
       - @incedent.attaches.each do |attach|
         = link_to_attach_for_incedent(@incedent, attach)

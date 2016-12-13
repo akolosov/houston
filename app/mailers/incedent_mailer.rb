@@ -7,7 +7,7 @@ class IncedentMailer < ActionMailer::Base
   def incedent_created(incedent)
     @incedent = incedent
 
-    @emails = (User.users_by_role_id(1).all.empty? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : '')
+    @emails = (User.users_by_role_id(1).all.present? ? incedent.initiator.email : User.users_by_role_id(1).collect(&:email).join(", ")+", "+incedent.initiator.email )+(incedent.has_observers? ? ', '+incedent.observers.all.collect(&:email).join(", ") : '')
 
     mail(to: @emails, subject: "Жалоба №#{incedent.id} создана")
 

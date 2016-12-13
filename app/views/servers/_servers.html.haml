@@ -34,13 +34,13 @@
             %tr
               %td Имя пользователя
               %td= server.username
-    - if !server.categories.empty?
+    - if server.categories.present?
       .form-actions
         .pull-right.top-5
           - server.categories.each do |category|
             = link_to glyph(:magnet)+' '+category.name, servers_by_category_path(category), class: 'label'
 
-    - if !server.attaches.empty?
+    - if server.attaches.present?
       .form-footer
         - server.attaches.each do |attach|
           = link_to_attach_for_server(server, attach)

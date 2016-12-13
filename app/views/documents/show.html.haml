@@ -13,7 +13,7 @@
     .pull-right
       = 'Автор: '+@document.user.display_name
     %br
-  - if !@document.attaches.empty?
+  - if @document.attaches.present?
     .form-footer
       - @document.attaches.each do |attach|
         = link_to_attach_for_document(@document, attach)
