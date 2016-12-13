@@ -1,5 +1,5 @@
 - if @current_user.has_role? :admin or @current_user.has_role? :manager
-  - if !@servers.empty?
+  - if @servers.present?
     %h3 Список серверов
     %table.table.table-striped.table-bordered.table-condensed
       %tr
@@ -22,7 +22,7 @@
               = link_to glyph(:pencil)+' Изменить', edit_server_path(server), class: 'btn btn-mini' if can? :manage, server
               = link_to glyph(:fire)+' Проблемы ('+server.problems.count.to_s+')', problems_by_server_path(server), class: 'btn btn-mini' if can? :read, server
               = link_to glyph(:trash)+' Удалить', server, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-mini btn-danger' if can? :destroy, server
-  -if !@problems.empty?
+  -if @problems.present?
     %hr
     %h3 Известные проблемы
     %table.table.table-striped.table-bordered.table-condensed
@@ -39,7 +39,7 @@
               = link_to glyph(:pencil)+' Изменить', edit_problem_path(problem), class: 'btn btn-mini' if can? :manage, problem
               = link_to glyph(:trash)+' Удалить', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger' if can? :destroy, problem
               = link_to glyph(:tint)+' Решения ('+problem.solutions.count.to_s+')', solutions_by_problem_path(problem), class: 'btn btn-mini btn-success' if can? :read, problem
-  -if !@solutions.empty?
+  -if @solutions.present?
     %hr
     %h3 Известные решения
     %table.table.table-striped.table-bordered.table-condensed
@@ -50,7 +50,7 @@
         %tr
           %td= solution.name
           %td= markdown(solution.description)
-- if !@incedents.empty?
+- if @incedents.present?
   %hr
   %h3 Книга жалоб
   %table.table.table-striped.table-bordered.table-condensed
@@ -66,7 +66,7 @@
         %td= incedent.status.name
         %td= link_to glyph(:eye_open)+' Просмотр', incedent, class: 'btn btn-mini' if can? :read, incedent
 
-- if !@documents.empty?
+- if @documents.present?
   %hr
   %h3 Книга рецептов
   %table.table.table-striped.table-bordered.table-condensed
@@ -84,7 +84,7 @@
             = link_to glyph(:pencil)+' Изменить', edit_document_path(document), class: 'btn btn-mini' if can? :manage, document
             = link_to glyph(:trash)+' Удалить', document, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger' if can? :destroy, document
 
-- if @current_user.has_role? :admin and @attaches and !@attaches.empty?
+- if @current_user.has_role? :admin and @attaches and @attaches.present?
   %h1 Файлы
   %table.table.table-striped.table-bordered.table-condensed
     %thead
@@ -109,7 +109,7 @@
               = link_to_attach_source(attach)
               = link_to glyph(:download_alt)+' Скачать', url_to_attach(attach), class: 'btn btn-mini'
 
-- if @current_user.has_role? :admin and @audits and !@audits.empty?
+- if @current_user.has_role? :admin and @audits and @audits.present?
   %hr
   %h3 Журнал аудита
   %table.table.table-striped.table-bordered.table-condensed

@@ -1,5 +1,5 @@
 .sidebar-fixed.span2#sidebar
-  - if current_user.has_role? :admin
+  - if @current_user.has_role? :admin
     .sidebar#navbar0
       %ul.nav.nav-list.accordion-group
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр администрирования", "#colapse0",  data: { toggle: "collapse", parent: "#navbar0" }, class: "accordion-toggle collapsed"
@@ -14,7 +14,7 @@
             %li.nav-item= link_to glyph(:list)+' Журнал аудита', audit_path, data: { keybinding: 'a', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: A', class: (params[:controller] == 'audit' ? 'bold' : '') if current_user.has_role? :admin
             %li.nav-item= link_to glyph(:download_alt)+' Загрузки', attaches_path, data: { keybinding: 'f', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: F', class: (params[:controller] == 'attaches' ? 'bold' : '') if current_user.has_role? :admin
     %br
-  - if current_user.has_role? :admin or current_user.has_role? :manager or current_user.has_role? :executor
+  - if @current_user.has_role? :admin or @current_user.has_role? :manager or @current_user.has_role? :executor
     .sidebar#navbar1
       %ul.nav.nav-list.accordion-group
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Центр решения проблем", "#colapse1",  data: { toggle: "collapse", parent: "#navbar1" }, class: "accordion-toggle"
@@ -38,7 +38,7 @@
           %li.divider
           %li.nav-item= link_to glyph(:book)+' Книга рецептов', documents_path, data: { keybinding: 'b', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: B', class: (params[:controller] == 'documents' ? 'bold' : '')
   %br
-  - if current_user.has_role? :admin or current_user.has_role? :manager
+  - if @current_user.has_role? :admin or @current_user.has_role? :manager
     .sidebar#navbar3
       %ul.nav.nav-list.accordion-group
         %li.nav-header.accordion-heading= link_to glyph(:list)+" Метки для проблем", "#colapse3",  data: { toggle: "collapse", parent: "#navbar3" }, class: "accordion-toggle"

@@ -4,7 +4,7 @@
       .span6
         %h3 Выберите интересующий вас сервис
         - @divisions.each do |division|
-          - unless division.services.empty?
+          - if division.services.present?
             .alert.alert-success
               %a{ href: '#', onclick: "$('#service-tree-#{division.id}').toggle();"}
                 %h4= division.name

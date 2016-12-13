@@ -100,16 +100,16 @@ module ApplicationHelper
   end
 
   def url_to_attach(attach)
-    if !attach.incedents.empty? then
+    if attach.incedents.present? then
       url_to_attach_for_incedent(attach.incedents.first, attach)
     else
-      if !attach.comments.empty? then
+      if attach.comments.present? then
         url_to_attach_for_comment(attach.comments.first, attach)
       else
-        if !attach.documents.empty? then
+        if attach.documents.present? then
           url_to_attach_for_document(attach.documents.first, attach)
         else
-          if !attach.servers.empty? then
+          if attach.servers.present? then
             url_to_attach_for_server(attach.servers.first, attach)
           else
             '#'
@@ -120,17 +120,17 @@ module ApplicationHelper
   end
 
   def url_to_source(attach)
-    if !attach.incedents.empty? then
+    if attach.incedents.present? then
       attach.incedents.first
     else
-      if !attach.comments.empty? then
-        if !attach.comments.first.documents.empty? then
+      if attach.comments.present? then
+        if attach.comments.first.documents.present? then
           document_url(attach.comments.first.documents.first, anchor: attach.comments.first.id.to_s)
         else
-          if !attach.comments.first.incedents.empty? then
+          if attach.comments.first.incedents.present? then
             incedent_url(attach.comments.first.incedents.first, anchor: attach.comments.first.id.to_s)
           else
-            if !attach.servers.empty? then
+            if attach.servers.present? then
               server_url(attach.servers.first, anchor: attach.servers.first.id.to_s)
             else
               ''
@@ -138,10 +138,10 @@ module ApplicationHelper
           end
         end
       else
-        if !attach.documents.empty? then
+        if attach.documents.present? then
           attach.documents.first
         else
-          if !attach.servers.empty? then
+          if attach.servers.present? then
             attach.servers.first
           else
             ''
@@ -211,10 +211,9 @@ module ApplicationHelper
 
   def has_services? divisions = {}
     divisions.each do |division|
-      return true unless division.services.empty?
+      return true if division.services.present?
     end
 
     return false
   end
 end
-

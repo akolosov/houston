@@ -19,7 +19,7 @@
         .pull-right.right5
           = content_tag :strong, 'Дата публикации: '
           = comment.created_at.strftime('%d.%m.%Y в %H:%M')
-      - if !comment.attaches.empty?
+      - if comment.attaches.present?
         .form-footer
           - comment.attaches.each do |attach|
             = link_to_attach_for_comment(comment, attach)

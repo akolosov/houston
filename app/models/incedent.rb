@@ -104,7 +104,7 @@ class Incedent < ActiveRecord::Base
   end
 
   def have_childs?
-    !self.childs.empty?
+    self.childs.present?
   end
 
   def parents_count
@@ -118,7 +118,7 @@ class Incedent < ActiveRecord::Base
 
   def default_values
     self.initiator_id ||= current_user
-    self.status_id ||= Houston::Application.config.incedent_created 
+    self.status_id ||= Houston::Application.config.incedent_created
     self.operator_id ||= self.initiator_id
     self.finish_at ||= get_datetime(DateTime.now, 8)
   end
@@ -166,15 +166,15 @@ class Incedent < ActiveRecord::Base
   end
 
   def has_workers?
-    !self.workers.empty?
+    self.workers.present?
   end
 
   def has_observers?
-    !self.observers.empty?
+    self.observers.present?
   end
 
   def has_reviewers?
-    !self.reviewers.empty?
+    self.reviewers.present?
   end
 
   def has_operator?
@@ -468,7 +468,7 @@ class Incedent < ActiveRecord::Base
   def self.notify_workers
     User.active.each do |user|
       @incedents = Incedent.solved(false).by_worker(user)
-      unless @incedents.empty?
+      if @incedents.present?
         IncedentMailer.incedents_in_progress(@incedents, user).deliver
       end
     end

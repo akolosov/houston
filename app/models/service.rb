@@ -32,8 +32,8 @@ class Service < ActiveRecord::Base
   scope :by_division, lambda { |division| where("division_id = ?", division) unless division.nil? }
 
   def classes_by_default
-    if self.service_classes.empty?
-      if self.parent.nil?
+    unless self.service_classes.present?
+      unless self.parent.present?
         Type.all.each do |type|
           Priority.all.each do |prio|
             ServiceClass.create(priority_id: prio.id, type_id: type.id, service_id: self.id, autoclose: true,
@@ -60,7 +60,7 @@ class Service < ActiveRecord::Base
   end
 
   def have_childs?
-    !self.childs.empty?
+    self.childs.present?
   end
 
   def parents_count

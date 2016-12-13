@@ -66,7 +66,7 @@
             - if incedent.server
               .pull-right.top-5
                 = link_to glyph(:hdd)+' '+incedent.server.name, ((params[:action] == 'archive') ? incedents_archive_by_server_path(incedent.server) : incedents_by_server_path(incedent.server)), class: 'label'
-          - if !incedent.attaches.empty?
+          - if incedent.attaches.present?
             .form-footer
               - incedent.attaches.each do |attach|
                 = link_to_attach_for_incedent(incedent, attach)
@@ -85,7 +85,7 @@
 
 = link_to glyph(:plus)+' Новая жалоба', new_incedent_path, class: 'btn btn-mini', data: { keybinding: 'ins', rel: 'tooltip', placement: 'right', container: 'body', delay: '200' }, title: 'Горячая клавиша: Ins' if can? :create, Incedent
 
-- unless @incedents.empty?
+- if @incedents.present?
   :coffeescript
     $ ->
       $(".pagination a").each ->
