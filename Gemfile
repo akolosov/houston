@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.17'
+gem 'rails', '3.2.22.2'
 
 gem 'bcrypt-ruby', require: 'bcrypt'
 
@@ -18,11 +18,11 @@ gem 'rolify'
 
 gem 'auditor'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '3.1.0'
 
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '4.2.0'
 
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '2.2.8'
 
 gem 'simple_form'
 
@@ -76,4 +76,5 @@ group :development, :test do
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'test-unit'
 end
